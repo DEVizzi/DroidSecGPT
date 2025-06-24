@@ -1,0 +1,188 @@
+quark-engine (25.6.1-0kali1) kali-dev; urgency=medium
+
+  * Document Enhancement
+
+    - Optimize the Quark Script documents for CWE-328, CWE-338, and CWE-489. (#754, #756, and #757)
+
+ --  ChihHuan Tsai <jerry99.tasi@gmail.com>  Tue, 03 Jun 2025 20:00:00 +0800
+
+quark-engine (25.5.1-0kali1) kali-dev; urgency=medium
+
+  * Document Enhancement
+
+    - Optimize the Quark Script documents for CWE-117, CWE-295, CWE-319, and CWE-327. (#745, #747, #748, and #750)
+
+ --  ChihHuan Tsai <jerry99.tasi@gmail.com>  Tue, 06 May 2025 20:00:00 +0800
+ 
+quark-engine (25.4.1-0kali1) kali-dev; urgency=medium
+
+  * Document Enhancement
+
+    - Optimize the Quark Script documents for CWE-79, CWE-88, and CWE-89. (#738, #740, and #742)
+
+  * Performance Improvement
+
+    - Cache all_methods API results to optimize the performance of the Shuriken-based library. (#741)
+
+ --  ChihHuan Tsai <jerry99.tasi@gmail.com>  Tue, 01 Apr 2025 20:00:00 +0800
+
+quark-engine (25.3.1-0kali1) kali-dev; urgency=medium
+
+  * Document Enhancement
+  
+    - Optimize the Quark Script documents for CWE-23, CWE-73, and CWE-78. (#733, #735, and #734)
+
+ --  ChihHuan Tsai <jerry99.tasi@gmail.com>  Tue, 04 Mar 2025 20:00:00 +0800
+
+quark-engine (25.2.1-0kali1) kali-dev; urgency=medium
+  * New Feature
+
+    - Introduce a new optional core library based on Shuriken-Analyzer. The Shuriken-Analyzer project page is https://github.com/Shuriken-Group/Shuriken-Analyzer. (#697) 
+
+    To enable this core library, install Shuriken-Analyzer and run Quark with option --core-library shuriken.
+
+  * Document Enhancement
+
+    - Optimize the CWE-20 and CWE-22 documents. (#727, #730)
+
+ -- AnWei Kung <sasakikung@gmail.com>  Thu, 06 Feb 2025 17:00:00 +0800
+
+quark-engine (25.1.1-0kali1) kali-dev; urgency=medium
+
+  * Document Enhancement
+  
+    - Optimize the Quark Script documents for CWE-94, CWE-798, and CWE-921. (#724, #722, and #723) 
+
+ --  Zin Wong <chriswangxxxxx@gmail.com>  Tue, 01 Jan 2025 20:00:00 +0800
+
+quark-engine (24.12.1-0kali1) kali-dev; urgency=medium
+
+  * Document Enhancement
+  
+    - Optimize the Quark Script documents for CWE-295, CWE-312, and CWE-940. (#716, #717, and #711) 
+
+  * Dependency Update
+
+    - Update the minimum required Python version to 3.10. (#715)
+
+  * Bug Fix
+
+    - Fix a ModuleNotFoundError during the installation via PyPI. (#720)
+
+ --  Zin Wong <chriswangxxxxx@gmail.com>  Tue, 03 Dec 2024 20:00:00 +0800
+
+quark-engine (24.11.2-0kali1) kali-dev; urgency=medium
+
+  * Bug Fix
+
+    - Change syntax to solve syntax warning in Python 3.12. (#712)
+
+  * Dependency Update 
+
+    - Replace deprecated package in Python 3.12. (#712)
+
+ --  Zin Wong <chriswangxxxxx@gmail.com>  Fri, 15 Nov 2024 20:00:00 +0800
+
+quark-engine (24.11.1-0kali1) kali-dev; urgency=medium
+
+  * Document Enhancement
+
+    - Optimize the CWE-338, CWE-489 and CWE-532 documents. (#700, #702 and #704)
+
+ --  Zin Wong <chriswangxxxxx@gmail.com>  Wed, 06 Nov 2024 12:00:00 +0800
+
+quark-engine (24.10.1-0kali1) kali-dev; urgency=medium
+
+  * New Feature
+
+    - Add a Quark Agent showcase that can enhance Quark Reports. (#685)
+
+  * Document Enhancement
+
+    - Optimize the CWE-117 document. (#691)
+
+  * Requirement Update
+
+    - Update the minimum required Python version to 3.9. (#680)
+
+  * Bug Fixes
+
+    - Fix coding style issues in Quark Agent web interface. (#683)
+    - Fix incorrect outputs of the CWE-117, 798, and 921 showcases. (#689)
+
+ -- AnWei Kung <sasakikung@gmail.com>  Wed, 2 Oct 2024 17:00:00 +0800
+
+quark-engine (24.9.1-0kali1) kali-dev; urgency=medium
+
+  * New Feature:
+    - Introduce Quark Agent and its web interface, enabling users to perform analyses using natural language. (#670, #678)
+
+  * Document Enhancement:
+    - Optimize the CWE-88 document. (#677)
+
+ -- AnWei Kung <sasakikung@gmail.com>  Wed, 4 Sep 2024 17:00:00 +0800
+
+quark-engine (24.8.1-0kali1) kali-dev; urgency=medium
+
+  * New Feature:
+    - Introduce the new AI member, Quark Script Agent, along with two showcases. Check https://quark-engine.readthedocs.io/en/latest/quark_script_agent.html for the details. (#664, #667)
+
+  * Document Enhancement:
+    - Optimize the CWE-601 and CWE-925 documents. (#663, #662)
+
+  * Bug Fix
+    - Make the getParamValue API more accurate on parameter extraction. (#666)
+
+ -- AnWei Kung <sasakikung@gmail.com>  Wed, 7 Aug 2024 17:00:00 +0800
+
+quark-engine (24.7.1-0kali1) kali-dev; urgency=medium
+
+  * Document Updates:
+    - Optimize the documents of CWE-319, CWE-328, and CWE-502. (#654, #659, and #656)
+
+ -- AnWei Kung <sasakikung@gmail.com>  Wed, 3 Jul 2024 12:00:00 +0800
+
+quark-engine (24.6.1-0kali1) kali-dev; urgency=medium
+
+  * Document Updates:
+    - Optimize the documents of CWE-20, CWE-73, CWE-78, CWE-79, and CWE-798. (#642, #644, #649, #645, and #643)
+
+ -- AnWei Kung <sasakikung@gmail.com>  Wed, 5 Jun 2024 17:00:00 +0800
+
+quark-engine (24.5.1-0kali1) kali-dev; urgency=medium
+
+  * Document Updates:
+    - Optimize the documents of CWE-22, CWE-23, and CWE-327. (#633, #634, and #629)
+
+ -- AnWei Kung <sasakikung@gmail.com>  Thu, 2 May 2024 17:00:00 +0800
+
+quark-engine (24.4.1-0kali1) kali-dev; urgency=medium
+
+  * Document Updates:
+    - Optimize the documents of CWE-89, CWE-94, CWE-312, CWE-749, CWE-780, CWE-798, CWE-921, and CWE-926. (#612, #614, #617, #618, and #621)
+    - Update the release timing of Quark in the document. (#624)
+
+ -- AnWei Kung <sasakikung@gmail.com>  Wed, 4 Apr 2024 09:00:00 +0800
+
+quark-engine (24.2.1-0kali1) kali-dev; urgency=medium
+  
+  * New Documents:
+    - Add a detailed explanation for the method get_rule_classification_data. Check https://quark-engine.readthedocs.io/en/latest/quark_method_reference.html#get-rule-classification-data for the details. (#596)
+    - Introduce the Quark Core Library team and the Quark Script team. Check https://quark-engine.readthedocs.io/en/latest/organization.html for the details. (#601, #605)
+
+  * Bug Fix:
+    - Fix permission analysis in the radare2 core for APKs with UTF-8 encoding. (#602) 
+
+ --  Zin Wong <chriswangxxxxx@gmail.com>  Wed, 31 Jan 2024 20:00:00 +0800
+
+quark-engine (23.12.1-0kali1) kali-dev; urgency=medium
+
+  * Update to version 23.12.1
+
+ --  Zin Wong <chriswangxxxxx@gmail.com>  Wed, 10 Jan 2024 20:10:10 +0800
+
+quark-engine (21.4.3-0kali1) kali-dev; urgency=medium
+
+  * Initial release
+
+ -- JunWei Song <sungboss2004@gmail.com>  Wed, 7 Apr 2021 04:46:49 +0800

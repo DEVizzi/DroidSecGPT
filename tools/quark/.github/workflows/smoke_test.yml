@@ -1,0 +1,122 @@
+# This is the basic workflow of using quark-engine
+
+name: Smoke Test
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-13, windows-latest]
+        python-version: ['3.10', '3.11', '3.12']
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: pip
+        cache-dependency-path: setup.py
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+
+        # Install click <= 8.1.7 for CLI supports
+        python -m pip install "click<=8.1.7"
+   
+    - name: Install Shuriken-Analyzer for Linux
+      run: |
+        pip install git+https://github.com/Fare9/Shuriken-Analyzer.git@main#subdirectory=shuriken/bindings/Python/
+      if: matrix.os == 'ubuntu-latest'
+
+    - name: Install Shuriken-Analyzer for MacOS
+      run: |
+        pip install git+https://github.com/Fare9/Shuriken-Analyzer.git@main#subdirectory=shuriken/bindings/Python/
+      if: matrix.os == 'macos-13'
+
+    - name: Install MacPorts
+      uses: melusina-org/setup-macports@v1
+      if: matrix.os == 'macos-13'
+
+    - run: sudo apt-get -y install graphviz
+      if: matrix.os == 'ubuntu-latest'
+    - run: sudo port install graphviz
+      if: matrix.os == 'macos-13'
+    - run: choco install graphviz
+      if: matrix.os == 'windows-latest'
+
+    - run: python -m pip install cython numpy versioneer pybind11 matplotlib lxml 
+      if: matrix.os == 'macos-13'
+
+    - name: Install Quark-Engine
+      run: pip install .
+
+    # Download the latest rule set
+    - name: Download rule from https://github.com/quark-engine/quark-rules
+      run: freshquark
+
+    # Runs a set of commands using the quark-engine
+    - name: Run a multi-line script
+      run: |
+        quark --help
+        git clone https://github.com/quark-engine/apk-samples
+        quark -a apk-samples/malware-samples/14d9f1a92dd984d6040cc41ed06e273e.apk -s
+        quark -a apk-samples/malware-samples/14d9f1a92dd984d6040cc41ed06e273e.apk -d
+        quark -a apk-samples/malware-samples/14d9f1a92dd984d6040cc41ed06e273e.apk -s -g
+        quark -a apk-samples/malware-samples/14d9f1a92dd984d6040cc41ed06e273e.apk -d -g
+        quark -a apk-samples/malware-samples/14d9f1a92dd984d6040cc41ed06e273e.apk -s -c
+
+    - name: Check Accuracy
+      shell: bash
+      run: |
+        echo "Ahmyth_RESULT=$(quark -a apk-samples/malware-samples/Ahmyth.apk -s -t 100 | grep 100% | wc -l | awk '{print $1}')" >> $GITHUB_ENV
+        echo "a4db_RESULT=$(quark -a apk-samples/malware-samples/13667fe3b0ad496a0cd157f34b7e0c991d72a4db.apk -s -t 100 | grep 100% | wc -l | awk '{print $1}')" >> $GITHUB_ENV
+        echo "e273e_RESULT=$(quark -a apk-samples/malware-samples/14d9f1a92dd984d6040cc41ed06e273e.apk -s -t 100 | grep 100% | wc -l | awk '{print $1}')" >> $GITHUB_ENV
+
+    - name: Check Ahmyt Result
+      shell: bash
+      # This sample should have 16 behaviors with 100% confidence
+      run: |
+        if [ "${{ env.Ahmyth_RESULT }}" == "34" ]; then
+          exit 0
+        else
+          exit 1
+        fi
+
+    - name: Check 13667fe3b0ad496a0cd157f34b7e0c991d72a4db.apk Result
+      shell: bash
+      # This sample should have 11 behaviors with 100% confidence
+      run: |
+        if [ "${{ env.a4db_RESULT }}" == "14" ]; then
+          exit 0
+        else
+          exit 1
+        fi
+
+    - name: Check 14d9f1a92dd984d6040cc41ed06e273e.apk Result
+      shell: bash
+      # This sample should have 15 behaviors with 100% confidence
+      run: |
+        if [ "${{ env.e273e_RESULT }}" == "30" ]; then
+          exit 0
+        else
+          exit 1
+        fi

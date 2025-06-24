@@ -1,0 +1,33 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+black = "*"
+pytest = "*"
+sphinx = "*"
+sphinx-rtd-theme = "*"
+
+[packages]
+prettytable = "<=2.4.0"
+tqdm = "<=4.66.5"
+colorama = "<=0.4.4"
+quark-engine = {editable = true,path = "."}
+click = "<=8.1.7"
+androguard = "==3.4.0a1"
+graphviz = "<=0.18.2"
+requests = "<=2.32.3"
+plotly = "<=5.4.0"
+prompt-toolkit = "<=3.0.36"
+rzpipe = "<=0.1.2"
+frida-tools = "<=12.3.0"
+objection = "<=1.11.0"
+frida = "<=15.2.2"
+r2pipe = "==1.8.0"
+
+[requires]
+python_version = "3.10"
+
+[pipenv]
+allow_prereleases = true

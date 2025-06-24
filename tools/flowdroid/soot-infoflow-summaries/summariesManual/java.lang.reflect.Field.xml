@@ -1,0 +1,192 @@
+<?xml version="1.0" ?>
+<summary fileFormatVersion="101">
+	<methods>
+		<method id="java.lang.String toString()">
+			<flows>
+				<flow isAlias="false" typeChecking="false">
+					<from sourceSinkType="Field" />
+					<to sourceSinkType="Return" />
+				</flow>
+			</flows>
+		</method>
+		<method id="java.lang.String toGenericString()">
+			<flows>
+				<flow isAlias="false" typeChecking="false">
+					<from sourceSinkType="Field" />
+					<to sourceSinkType="Return" />
+				</flow>
+			</flows>
+		</method>
+		<method id="java.lang.Object get(java.lang.Object)">
+			<flows>
+				<flow isAlias="false" typeChecking="false">
+					<from sourceSinkType="Parameter" ParameterIndex="0" />
+					<to sourceSinkType="Return" />
+				</flow>
+			</flows>
+		</method>
+		<method id="boolean getBoolean(java.lang.Object)">
+			<flows>
+				<flow isAlias="false" typeChecking="false">
+					<from sourceSinkType="Parameter" ParameterIndex="0" />
+					<to sourceSinkType="Return" />
+				</flow>
+			</flows>
+		</method>
+		<method id="byte getByte(java.lang.Object)">
+			<flows>
+				<flow isAlias="false" typeChecking="false">
+					<from sourceSinkType="Parameter" ParameterIndex="0" />
+					<to sourceSinkType="Return" />
+				</flow>
+			</flows>
+		</method>
+		<method id="char getChar(java.lang.Object)">
+			<flows>
+				<flow isAlias="false" typeChecking="false">
+					<from sourceSinkType="Parameter" ParameterIndex="0" />
+					<to sourceSinkType="Return" />
+				</flow>
+			</flows>
+		</method>
+		<method id="short getShort(java.lang.Object)">
+			<flows>
+				<flow isAlias="false" typeChecking="false">
+					<from sourceSinkType="Parameter" ParameterIndex="0" />
+					<to sourceSinkType="Return" />
+				</flow>
+			</flows>
+		</method>
+		<method id="int getInt(java.lang.Object)">
+			<flows>
+				<flow isAlias="false" typeChecking="false">
+					<from sourceSinkType="Parameter" ParameterIndex="0" />
+					<to sourceSinkType="Return" />
+				</flow>
+			</flows>
+		</method>
+		<method id="long getLong(java.lang.Object)">
+			<flows>
+				<flow isAlias="false" typeChecking="false">
+					<from sourceSinkType="Parameter" ParameterIndex="0" />
+					<to sourceSinkType="Return" />
+				</flow>
+			</flows>
+		</method>
+		<method id="float getFloat(java.lang.Object)">
+			<flows>
+				<flow isAlias="false" typeChecking="false">
+					<from sourceSinkType="Parameter" ParameterIndex="0" />
+					<to sourceSinkType="Return" />
+				</flow>
+			</flows>
+		</method>
+		<method id="double getDouble(java.lang.Object)">
+			<flows>
+				<flow isAlias="false" typeChecking="false">
+					<from sourceSinkType="Parameter" ParameterIndex="0" />
+					<to sourceSinkType="Return" />
+				</flow>
+			</flows>
+		</method>
+		<method id="void set(java.lang.Object,java.lang.Object)">
+			<clears>
+				<clear sourceSinkType="Parameter" ParameterIndex="0" />
+			 </clears>
+			 <flows> 
+				<flow isAlias="false" typeChecking="false">
+					<from sourceSinkType="Parameter" ParameterIndex="1" />
+					<to sourceSinkType="Parameter" ParameterIndex="0" />
+				</flow>
+			</flows>
+		</method>
+		<method id="void setBoolean(java.lang.Object,boolean)">
+			<clears>
+				<clear sourceSinkType="Parameter" ParameterIndex="0" />
+			 </clears>
+			 <flows> 
+				<flow isAlias="false" typeChecking="false">
+					<from sourceSinkType="Parameter" ParameterIndex="1" />
+					<to sourceSinkType="Parameter" ParameterIndex="0" />
+				</flow>
+			</flows>
+		</method>
+		<method id="void setByte(java.lang.Object,byte)">
+			<clears>
+				<clear sourceSinkType="Parameter" ParameterIndex="0" />
+			 </clears>
+			 <flows> 
+				<flow isAlias="false" typeChecking="false">
+					<from sourceSinkType="Parameter" ParameterIndex="1" />
+					<to sourceSinkType="Parameter" ParameterIndex="0" />
+				</flow>
+			</flows>
+		</method>
+		<method id="void setChar(java.lang.Object,char)">
+			<clears>
+				<clear sourceSinkType="Parameter" ParameterIndex="0" />
+			 </clears>
+			 <flows> 
+				<flow isAlias="false" typeChecking="false">
+					<from sourceSinkType="Parameter" ParameterIndex="1" />
+					<to sourceSinkType="Parameter" ParameterIndex="0" />
+				</flow>
+			</flows>
+		</method>
+		<method id="void setShort(java.lang.Object,short)">
+			<clears>
+				<clear sourceSinkType="Parameter" ParameterIndex="0" />
+			 </clears>
+			 <flows> 
+				<flow isAlias="false" typeChecking="false">
+					<from sourceSinkType="Parameter" ParameterIndex="1" />
+					<to sourceSinkType="Parameter" ParameterIndex="0" />
+				</flow>
+			</flows>
+		</method>
+		<method id="void setInt(java.lang.Object,int)">
+			<clears>
+				<clear sourceSinkType="Parameter" ParameterIndex="0" />
+			 </clears>
+			 <flows> 
+				<flow isAlias="false" typeChecking="false">
+					<from sourceSinkType="Parameter" ParameterIndex="1" />
+					<to sourceSinkType="Parameter" ParameterIndex="0" />
+				</flow>
+			</flows>
+		</method>
+		<method id="void setLong(java.lang.Object,long)">
+			<clears>
+				<clear sourceSinkType="Parameter" ParameterIndex="0" />
+			 </clears>
+			 <flows> 
+				<flow isAlias="false" typeChecking="false">
+					<from sourceSinkType="Parameter" ParameterIndex="1" />
+					<to sourceSinkType="Parameter" ParameterIndex="0" />
+				</flow>
+			</flows>
+		</method>
+		<method id="void setFloat(java.lang.Object,float)">
+			<clears>
+				<clear sourceSinkType="Parameter" ParameterIndex="0" />
+			 </clears>
+			 <flows> 
+				<flow isAlias="false" typeChecking="false">
+					<from sourceSinkType="Parameter" ParameterIndex="1" />
+					<to sourceSinkType="Parameter" ParameterIndex="0" />
+				</flow>
+			</flows>
+		</method>
+		<method id="void setDouble(java.lang.Object,double)">
+			<clears>
+				<clear sourceSinkType="Parameter" ParameterIndex="0" />
+			 </clears>
+			 <flows> 
+				<flow isAlias="false" typeChecking="false">
+					<from sourceSinkType="Parameter" ParameterIndex="1" />
+					<to sourceSinkType="Parameter" ParameterIndex="0" />
+				</flow>
+			</flows>
+		</method>
+	</methods>
+</summary>

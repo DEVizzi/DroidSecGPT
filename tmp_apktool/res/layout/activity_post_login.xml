@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TableRow android:gravity="center" android:paddingLeft="5.0dip" android:paddingTop="50.0px" android:paddingRight="5.0dip" android:layout_width="fill_parent">
+        <Button android:textSize="30.0sp" android:textStyle="bold" android:textColor="@color/wallet_bright_foreground_holo_dark" android:id="@id/trf_button" android:background="@drawable/roundbutton" android:padding="20.0dip" android:text="Transfer" android:layout_weight="1.0" />
+    </TableRow>
+    <TableRow android:gravity="center" android:paddingLeft="5.0dip" android:paddingTop="20.0px" android:paddingRight="5.0dip" android:layout_width="fill_parent">
+        <Button android:textSize="30.0sp" android:textStyle="bold" android:textColor="@color/wallet_bright_foreground_holo_dark" android:id="@id/viewStatement_button" android:background="@drawable/roundbutton" android:padding="20.0dip" android:text="View Statement" android:layout_weight="1.0" />
+    </TableRow>
+    <TableRow android:gravity="center" android:paddingLeft="5.0dip" android:paddingTop="20.0px" android:paddingRight="5.0dip" android:layout_width="fill_parent">
+        <Button android:textSize="30.0sp" android:textStyle="bold" android:textColor="@color/wallet_bright_foreground_holo_dark" android:id="@id/button_ChangePasswd" android:background="@drawable/roundbutton" android:padding="20.0dip" android:text="Change Password" android:layout_weight="1.0" />
+    </TableRow>
+    <TableRow android:gravity="center" android:paddingLeft="5.0dip" android:paddingTop="20.0px" android:paddingRight="5.0dip" android:layout_width="fill_parent">
+        <TextView android:textSize="30.0sp" android:textStyle="bold" android:textColor="#ff000fff" android:gravity="center" android:id="@id/rootStatus" android:padding="20.0dip" android:text="Root Status" android:layout_weight="1.0" />
+    </TableRow>
+</TableLayout>

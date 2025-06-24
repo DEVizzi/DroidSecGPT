@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<xs:element name="sinkSources"> 
+	<xs:complexType> 
+	    <xs:sequence>
+	        <xs:element name="category" type="categoryType" minOccurs="1" maxOccurs="unbounded"/>
+	    </xs:sequence>
+    </xs:complexType>
+</xs:element>
+
+<!-- Help for describing the method for sinkSources -->
+<xs:complexType name="categoryType">
+	<xs:sequence>
+	    <xs:choice minOccurs="1" maxOccurs="unbounded">
+	        <xs:element name="method" type="methodType" />
+	        <xs:element name="field" type="fieldType" />
+	    </xs:choice>
+	</xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required" />
+    <xs:attribute name="description" type="xs:string" use="optional" />
+</xs:complexType>
+
+<xs:complexType name="methodType">
+	<xs:sequence>
+		<xs:choice minOccurs="1" maxOccurs="unbounded">
+			<xs:element name="base" type="apElement" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="return" type="apElement" minOccurs="0" maxOccurs="1" />
+			<xs:element name="param" type="apElementWithIndex" minOccurs="0" maxOccurs="unbounded" />
+		</xs:choice>
+		<xs:choice>
+			<xs:sequence>
+				<xs:element name="additionalFlowCondition" type="additionalFlowConditionType" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:choice>
+	</xs:sequence>
+	<xs:attribute name="signature" type="xs:string" use="required"/>
+	<xs:attribute name="callType" type="callType" use="optional" default="methodCall" />
+</xs:complexType>
+
+<xs:complexType name="fieldType">
+	<xs:sequence>
+		<xs:element name="accessPath" type="metaPath" minOccurs="0" maxOccurs="1"/>	
+	</xs:sequence>
+	<xs:attribute name="signature" type="xs:string" use="required" />
+	<xs:attribute name="description" type="xs:string" use="optional" />
+</xs:complexType>
+
+<xs:simpleType name="callType">
+	<xs:restriction base="xs:string">
+		<xs:enumeration value="methodCall" />
+		<xs:enumeration value="callback" />
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:complexType name="apElement">
+	<xs:sequence>
+		<xs:element name="accessPath" type="metaPath" maxOccurs="unbounded"/>
+	</xs:sequence>
+	<xs:attribute name="type" type="xs:string" use="optional" />
+	<xs:attribute name="description" type="xs:string" use="optional" />
+</xs:complexType>
+								
+<xs:complexType name="apElementWithIndex">
+    <xs:complexContent>
+		<xs:extension base="apElement">
+			<xs:attribute name="index" type="indexType" use="required"/>
+		</xs:extension>
+	</xs:complexContent>
+</xs:complexType>
+
+<xs:simpleType name="indexType">
+    <xs:restriction base="xs:int">
+	    <xs:minInclusive value="0"/>
+	    <xs:maxInclusive value="128" />
+    </xs:restriction>
+</xs:simpleType>
+
+<!-- Help type for discribing the accesspath for baseType, returnType and paramType -->
+<xs:complexType name="metaPath">
+    <xs:sequence>
+        <xs:element name="pathElement" type="pathElementType" minOccurs="0" maxOccurs="unbounded"/> 
+    </xs:sequence>
+    <xs:attribute name="isSource" type="xs:boolean" default="false"/>
+    <xs:attribute name="isSink" type="xs:boolean" default="false"/>
+    <xs:attribute name="description" type="xs:string" use="optional" />
+</xs:complexType>
+
+<xs:complexType name="pathElementType">
+    <xs:simpleContent>
+        <xs:extension base="xs:string">
+            <xs:attribute name="type" type="xs:string" use="required"/>
+            <xs:attribute name="field" type="xs:string" use="required"/>
+        </xs:extension>
+    </xs:simpleContent>
+</xs:complexType>
+
+<xs:complexType name="additionalFlowConditionType">
+	<xs:sequence>
+		<xs:choice minOccurs="1" maxOccurs="unbounded">
+			<xs:element name="signatureOnPath">
+				<xs:complexType>
+					<xs:attribute name="signature" type="xs:string" />
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="classNameOnPath">
+				<xs:complexType>
+					<xs:attribute name="className" type="xs:string" />
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+	</xs:sequence>
+</xs:complexType>
+
+
+</xs:schema>

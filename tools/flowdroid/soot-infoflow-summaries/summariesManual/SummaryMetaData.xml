@@ -1,0 +1,90 @@
+<?xml version="1.0" ?>
+<summaryMetaData fileFormatVersion="100">
+	<exclusiveModels>
+		<exclusiveModel type="package" name="ch.qos.logback" />
+		<exclusiveModel type="package" name="com.daimajia.slider.library" />
+		<exclusiveModel type="package" name="com.etsy.android.grid" />
+		<exclusiveModel type="package" name="com.flurry" />
+		<exclusiveModel type="package" name="it.sephiroth.android.library" />
+		
+		<!--
+			This breaks reflection support
+			<exclusiveModel type="package" name="java.lang.reflect" />
+		-->
+		
+		<exclusiveModel type="package" name="org.apache.commons.codec" />
+		<exclusiveModel type="package" name="org.apache.http" />
+		<exclusiveModel type="package" name="org.apache.logging.log4j" />
+		
+		<exclusiveModel type="package" name="org.json" />
+		<exclusiveModel type="package" name="org.slf4j" />
+		<exclusiveModel type="package" name="pl.droidsonroids.gif" />
+
+		<exclusiveModel type="class" name="java.lang.Enum" />
+		<exclusiveModel type="class" name="java.util.Currency" />
+<!--		<exclusiveModel type="class" name="java.util.Timer" />-->
+		<exclusiveModel type="class" name="java.text.SimpleDateFormat" />
+	</exclusiveModels>
+	<hierarchy>
+		<class
+			name="org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer$MvcMatchersAuthorizedUrl"
+			superClass="org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer$AuthorizedUrl" />
+
+		<!-- java.util -->
+		<class name="java.util.Comparator" isInterface="true" />
+
+		<class name="java.util.ArrayList$ListItr" superClass="java.util.ArrayList$Itr" />
+		<class name="java.util.ArrayList$Itr" superClass="java.lang.Object" />
+
+		<!-- java.util.function -->
+		<class name="java.util.function.BiConsumer" isInterface="true" />
+		<class name="java.util.function.BiFunction" isInterface="true" />
+		<class name="java.util.function.BinaryOperator" isInterface="true" />
+		<class name="java.util.function.BiPredicate" isInterface="true" />
+		<class name="java.util.function.BooleanSupplier" isInterface="true" />
+		<class name="java.util.function.Consumer" isInterface="true" />
+		<class name="java.util.function.DoubleBinaryOperator" isInterface="true" />
+		<class name="java.util.function.DoubleConsumer" isInterface="true" />
+		<class name="java.util.function.DoubleFunction" isInterface="true" />
+		<class name="java.util.function.DoublePredicate" isInterface="true" />
+		<class name="java.util.function.DoubleSupplier" isInterface="true" />
+		<class name="java.util.function.DoubleToIntFunction" isInterface="true" />
+		<class name="java.util.function.DoubleToLongFunction" isInterface="true" />
+		<class name="java.util.function.DoubleUnaryOperator" isInterface="true" />
+		<class name="java.util.function.Function" isInterface="true" />
+		<class name="java.util.function.IntBinaryOperator" isInterface="true" />
+		<class name="java.util.function.IntConsumer" isInterface="true" />
+		<class name="java.util.function.IntFunction" isInterface="true" />
+		<class name="java.util.function.IntPredicate" isInterface="true" />
+		<class name="java.util.function.IntSupplier" isInterface="true" />
+		<class name="java.util.function.IntToDoubleFunction" isInterface="true" />
+		<class name="java.util.function.IntToLongFunction" isInterface="true" />
+		<class name="java.util.function.IntUnaryOperator" isInterface="true" />
+		<class name="java.util.function.LongBinaryOperator" isInterface="true" />
+		<class name="java.util.function.LongConsumer" isInterface="true" />
+		<class name="java.util.function.LongFunction" isInterface="true" />
+		<class name="java.util.function.LongPredicate" isInterface="true" />
+		<class name="java.util.function.LongSupplier" isInterface="true" />
+		<class name="java.util.function.LongToDoubleFunction" isInterface="true" />
+		<class name="java.util.function.LongToIntFunction" isInterface="true" />
+		<class name="java.util.function.LongUnaryOperator" isInterface="true" />
+		<class name="java.util.function.ObjDoubleConsumer" isInterface="true" />
+		<class name="java.util.function.ObjIntConsumer" isInterface="true" />
+		<class name="java.util.function.ObjLongConsumer" isInterface="true" />
+		<class name="java.util.function.Predicate" isInterface="true" />
+		<class name="java.util.function.Supplier" isInterface="true" />
+		<class name="java.util.function.ToDoubleBiFunction" isInterface="true" />
+		<class name="java.util.function.ToDoubleFunction" isInterface="true" />
+		<class name="java.util.function.ToIntBiFunction" isInterface="true" />
+		<class name="java.util.function.ToIntFunction" isInterface="true" />
+		<class name="java.util.function.ToLongBiFunction" isInterface="true" />
+		<class name="java.util.function.ToLongFunction" isInterface="true" />
+		<class name="java.util.function.UnaryOperator" isInterface="true" />
+
+		<!-- java.util.stream -->
+		<class name="java.util.stream.Collector" isInterface="true" />
+		<class name="java.util.stream.DoubleStream" isInterface="true" />
+		<class name="java.util.stream.IntStream" isInterface="true" />
+		<class name="java.util.stream.LongStream" isInterface="true" />
+	</hierarchy>
+</summaryMetaData>

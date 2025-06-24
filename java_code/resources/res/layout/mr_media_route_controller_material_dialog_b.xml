@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <LinearLayout android:orientation="horizontal" android:id="@+id/title_bar" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <TextView android:textAppearance="?android:attr/textAppearanceMedium" android:textColor="?android:attr/textColorPrimary" android:ellipsize="end" android:gravity="center_vertical" android:id="@+id/route_name" android:layout_width="0dp" android:layout_height="72dp" android:layout_marginLeft="24dp" android:layout_marginRight="24dp" android:singleLine="true" android:layout_weight="1"/>
+        <ImageButton android:id="@+id/settings" android:background="?attr/selectableItemBackgroundBorderless" android:padding="12dp" android:visibility="gone" android:layout_width="48dp" android:layout_height="48dp" android:layout_marginTop="12dp" android:layout_marginRight="12dp" android:layout_marginBottom="12dp" android:src="?attr/mediaRouteSettingsDrawable" android:contentDescription="@string/mr_media_route_controller_settings_description"/>
+    </LinearLayout>
+    <FrameLayout android:id="@+id/media_route_control_frame" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <RelativeLayout android:id="@+id/default_control_frame" android:background="?attr/colorPrimary" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <ImageView android:id="@+id/art" android:layout_width="match_parent" android:layout_height="wrap_content" android:scaleType="centerCrop" android:adjustViewBounds="true" android:maxHeight="@dimen/mr_media_route_controller_art_max_height"/>
+            <ImageButton android:id="@+id/play_pause" android:background="?attr/selectableItemBackgroundBorderless" android:padding="12dp" android:layout_width="48dp" android:layout_height="48dp" android:layout_marginTop="8dp" android:layout_marginBottom="8dp" android:layout_below="@+id/art" android:layout_alignParentRight="true" android:contentDescription="@string/mr_media_route_controller_play"/>
+            <LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:id="@+id/text_wrapper" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="24dp" android:minHeight="64dp" android:layout_toLeftOf="@+id/play_pause" android:layout_below="@+id/art" android:layout_alignParentLeft="true">
+                <TextView android:textAppearance="?android:attr/textAppearanceSmall" android:textSize="16sp" android:textStyle="bold" android:textColor="?android:attr/textColorPrimary" android:id="@+id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true"/>
+                <TextView android:textAppearance="?android:attr/textAppearanceSmall" android:textSize="14sp" android:textColor="?android:attr/textColorPrimary" android:id="@+id/subtitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true"/>
+            </LinearLayout>
+        </RelativeLayout>
+    </FrameLayout>
+    <LinearLayout android:orientation="horizontal" android:id="@+id/buttons" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <Button android:gravity="center" android:id="@+id/disconnect" android:background="?attr/selectableItemBackgroundBorderless" android:visibility="gone" android:layout_width="0dp" android:layout_height="48dp" android:text="@string/mr_media_route_controller_disconnect" android:layout_weight="1"/>
+        <Button android:textColor="?attr/colorAccent" android:gravity="center" android:id="@+id/stop" android:background="?attr/selectableItemBackgroundBorderless" android:layout_width="0dp" android:layout_height="48dp" android:text="@string/mr_media_route_controller_stop" android:layout_weight="1"/>
+    </LinearLayout>
+</LinearLayout>

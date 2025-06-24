@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent">
+    <TableRow android:gravity="center" android:paddingLeft="5dp" android:paddingTop="50px" android:paddingRight="5dp" android:layout_width="match_parent">
+        <Button android:textSize="30sp" android:textStyle="bold" android:textColor="@color/wallet_bright_foreground_holo_dark" android:id="@+id/trf_button" android:background="@drawable/roundbutton" android:padding="20dp" android:text="Transfer" android:layout_weight="1"/>
+    </TableRow>
+    <TableRow android:gravity="center" android:paddingLeft="5dp" android:paddingTop="20px" android:paddingRight="5dp" android:layout_width="match_parent">
+        <Button android:textSize="30sp" android:textStyle="bold" android:textColor="@color/wallet_bright_foreground_holo_dark" android:id="@+id/viewStatement_button" android:background="@drawable/roundbutton" android:padding="20dp" android:text="View Statement" android:layout_weight="1"/>
+    </TableRow>
+    <TableRow android:gravity="center" android:paddingLeft="5dp" android:paddingTop="20px" android:paddingRight="5dp" android:layout_width="match_parent">
+        <Button android:textSize="30sp" android:textStyle="bold" android:textColor="@color/wallet_bright_foreground_holo_dark" android:id="@+id/button_ChangePasswd" android:background="@drawable/roundbutton" android:padding="20dp" android:text="Change Password" android:layout_weight="1"/>
+    </TableRow>
+    <TableRow android:gravity="center" android:paddingLeft="5dp" android:paddingTop="20px" android:paddingRight="5dp" android:layout_width="match_parent">
+        <TextView android:textSize="30sp" android:textStyle="bold" android:textColor="#ff000fff" android:gravity="center" android:id="@+id/rootStatus" android:padding="20dp" android:text="Root Status" android:layout_weight="1"/>
+    </TableRow>
+</TableLayout>

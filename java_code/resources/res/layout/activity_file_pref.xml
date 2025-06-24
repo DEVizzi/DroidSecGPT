@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent">
+    <TableRow android:layout_marginTop="30dp" android:layout_marginRight="5dp">
+        <TextView android:textSize="30sp" android:textColor="#000000" android:id="@+id/textview_serverip" android:padding="10dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="0dp" android:text="@string/server_ip"/>
+        <EditText android:textSize="20sp" android:textStyle="bold" android:textColor="#000000" android:id="@+id/edittext_serverip" android:background="@android:drawable/editbox_background" android:padding="10dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="0dp" android:layout_marginRight="5dp" android:text="10.0.2.2" android:layout_weight="1"/>
+    </TableRow>
+    <TableRow android:layout_marginTop="30dp" android:layout_marginRight="5dp">
+        <TextView android:textSize="30sp" android:textColor="#000000" android:id="@+id/textview_serverport" android:padding="10dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="0dp" android:text="@string/server_port"/>
+        <EditText android:textSize="20sp" android:textStyle="bold" android:textColor="#000000" android:id="@+id/edittext_serverport" android:background="@android:drawable/editbox_background" android:padding="10dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="0dp" android:layout_marginRight="5dp" android:text="8888" android:layout_weight="1"/>
+    </TableRow>
+    <TableRow android:gravity="center" android:paddingLeft="5dp" android:paddingTop="50px" android:paddingRight="5dp" android:layout_width="match_parent">
+        <Button android:textSize="30sp" android:textStyle="bold" android:textColor="@color/wallet_bright_foreground_holo_dark" android:id="@+id/submitPref_button" android:background="@drawable/roundbutton" android:padding="20dp" android:text="Submit" android:layout_weight="1"/>
+    </TableRow>
+</TableLayout>

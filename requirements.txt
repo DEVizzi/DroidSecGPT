@@ -1,0 +1,28 @@
+# Core dependencies
+requests>=2.31.0
+python-dotenv>=1.0.1
+
+# Gemini/LLM support (if using OpenAI or Gemini APIs, adjust as needed)
+#openai>=1.14.3  # or google-generativeai if you're using Gemini
+# Gemini LLM integration
+google-generativeai>=0.3.2
+
+# Static code analysis tools
+androguard>=3.4.0.1
+quark-engine>=23.7.1
+
+# APK decompilation support
+apkutils>=1.0.2
+pyaxmlparser>=0.3.24
+
+# For subprocess-based tasks & reporting (no install needed, part of stdlib)
+# subprocess
+# os
+# time
+
+# If you plan to render reports as markdown/html (optional)
+markdown2>=2.4.12
+
+# For MobSF server environment (optional, only needed if running MobSF from source)
+django>=4.2.7
+waitress>=2.1.2
