@@ -80,6 +80,10 @@ You’ll be prompted to choose:
 3. Malware Analysis
 4. Flowdroid Analysis
 5. Yara Malware Analysis
+6. Quark Analysis (coming soon)
+7. MobSF reports (coming soon)
+8. APKid Malware Analysis (coming soon)
+9. SSDEEP & TLSH Comparison (coming soon) 
 ```
 
 Choose a mode, then provide the APK to scan.
@@ -93,6 +97,27 @@ Custom YARA rules match:
 - Smali backdoors and obfuscation strings
 - ELF `.so` injection, shell usage, privilege escalation patterns
 - Encrypted C2 strings, native root exploits
+- 🧠 YARA Rules in Use:
+ - Android_DexClassLoader_Load
+ - Android_SystemLoadLibrary
+ - Android_Base64_AES_CBC
+ - Android_Root_Su_Binary
+ - Android_Emulator_Detection
+ - Android_Debugger_Detection
+ - Android_Hardcoded_Command
+ - Dendroid_OR_RAT_Signature
+ - HackingTeam_Android_RAT
+ - Malware_Suspicious_Packer
+ - Android_Joker_Malware
+ - Android_Anubis_Banking_Trojan
+ - Android_DroidJack_RAT
+ - Android_Dendroid_RAT
+ - Android_HummingBad_Rootkit
+ - Android_Obfuscation_ShortNames
+ - Android_EncryptedStrings_Used
+ - Android_DynamicCode_Loading
+ - Android_AntiEmulator_Java
+ - Android_AntiDebug_Native
 
 View/edit in: `tools/yara_rules/android_malware_rules.yar`
 
