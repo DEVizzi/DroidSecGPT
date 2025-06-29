@@ -139,15 +139,13 @@ You can toggle Gemini per module.
 ## 📄 Example Report Snippet
 
 ```markdown
-## 🔎 YARA Scan Results
-- File: java_code/sources/com/app/MainActivity.java
-  - Matched Rules: Android_WebView_JS_Enabled
+![image](https://github.com/user-attachments/assets/0a707fc1-7459-4749-8d56-51d187355f0c)
+![image](https://github.com/user-attachments/assets/2e1c6db2-903a-4feb-9be0-e84500295104)
+![image](https://github.com/user-attachments/assets/ca14a490-90e4-415c-80f3-2fd89ca85cfb)
+![image](https://github.com/user-attachments/assets/f0d5c920-fc3a-4fbc-9f53-a5fcb0785cc4)
+![image](https://github.com/user-attachments/assets/5412983c-aeae-41cc-a56a-b59ed5ad9fc7)
+![image](https://github.com/user-attachments/assets/a14a51e1-43be-4473-bd56-abc15f69be99)
 
-## 🤖 Gemini Review
-Vulnerability: WebView with JavaScript Enabled  
-Severity: HIGH  
-Description: This allows XSS via untrusted content...  
-Mitigation: Disable JS or restrict content loading...  
 ```
 
 ---
