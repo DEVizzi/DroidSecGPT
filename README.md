@@ -59,14 +59,17 @@ pip install -r requirements.txt
 ### 2. 🧪 Run the Toolkit
 
 ```bash
-python main.py
+python main.py SampleAPK.apk
 ```
 
 You’ll be prompted to choose:
 
 ```
-1) Pentest Analysis
-2) Malware Analysis
+1. Complete Comprehensive Scan
+2. Pentest Analysis
+3. Malware Analysis
+4. Flowdroid Analysis
+5. Yara Malware Analysis
 ```
 
 Choose a mode, then provide the APK to scan.
@@ -145,3 +148,71 @@ GitHub: https://github.com/DEVizzi/DroidSecGPT
 ## 🏷️ Tags
 
 `android-security` · `malware-analysis` · `yara` · `gemini` · `smali` · `static-analysis` · `apk` · `reverse-engineering` · `ai-malware-detection`
+
+---
+
+## 🖥️ Example Run (Windows)
+
+```bash
+Microsoft Windows [Version 10.0.22631.5472]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\IzazUlHaque\OneDrive - Black Duck Software\Desktop>cd DroidSecGPT
+
+C:\Users\IzazUlHaque\OneDrive - Black Duck Software\Desktop\DroidSecGPT>python main.py InsecureBankv2.apk
+
+== Select Analysis Type ==
+1. Complete Comprehensive Scan
+2. Pentest Analysis
+3. Malware Analysis
+4. Flowdroid Analysis
+5. Yara Malware Analysis
+Enter choice (1 or 2): 1
+
+[+] Selected: Pentest Analysis (Code, FlowDroid, Yara)
+[+] Decompiling APK using apktool...
+[+] APK decompiled to: tmp_apktool
+[+] Extracting manifest info using Androguard...
+[+] Sending manifest info to Gemini 1.5 Flash...
+[*] Cleaning existing java_code directory...
+[+] Decompiling code using JADX...
+[+] Java source extracted to: java_code
+[+] Scanning Java/Smali code for patterns (security)...
+[DEBUG] Scanning file: java_code\sources\com\example\SomeClass.java
+...
+[DEBUG] Total suspicious findings: 693
+[+] Sending code-level issues to Gemini for analysis...
+[*] Running FlowDroid...
+[FlowDroid] STDOUT:
+...
+[main] INFO soot.jimple.infoflow.android.SetupApplication - Found 0 leaks
+
+[*] Running YARA scan...
+
+🧠 YARA Rules in Use:
+ - Android_DexClassLoader_Load
+ - Android_SystemLoadLibrary
+ - Android_Base64_AES_CBC
+ - Android_Root_Su_Binary
+ - Android_Emulator_Detection
+ - Android_Debugger_Detection
+ - Android_Hardcoded_Command
+ - Dendroid_OR_RAT_Signature
+ - HackingTeam_Android_RAT
+ - Malware_Suspicious_Packer
+ - Android_Joker_Malware
+ - Android_Anubis_Banking_Trojan
+ - Android_DroidJack_RAT
+ - Android_Dendroid_RAT
+ - Android_HummingBad_Rootkit
+ - Android_Obfuscation_ShortNames
+ - Android_EncryptedStrings_Used
+ - Android_DynamicCode_Loading
+ - Android_AntiEmulator_Java
+ - Android_AntiDebug_Native
+
+[*] Scanning for native libraries (.so)...
+
+[✓] Report saved to reports\InsecureBankv2_report.md
+```
+
