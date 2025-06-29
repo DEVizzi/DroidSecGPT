@@ -86,6 +86,50 @@ This analysis is based solely on the manifest information.  A complete security 
 ### Code Analysis Findings
 __________________________________
 
+1. Vulnerability Type: Insecure WebView (Java)
+Total Occurrences: 1
+
+Example 1:
+File: java_code\sources\jakhar\aseem\diva\InputValidation2URISchemeActivity.java
+Code Snippet:
+```
+setJavaScriptEnabled(true)
+```
+Vulnerability: Name:** Insecure WebView
+Severity: ** High
+Description: **
+
+The code snippet `setJavaScriptEnabled(true)` within an Android WebView represents a significant security risk.  WebViews are essentially embedded web browsers within an Android application. Enabling JavaScript without proper security measures allows malicious websites loaded within the WebView to execute arbitrary JavaScript code in the context of the app. This grants attackers broad access to the app's resources and potentially the entire device.  Attackers could exploit this to:
+
+* **Steal sensitive data:** Access and exfiltrate user data like credentials, personal information, or location data stored within the app or accessible through the app's permissions.
+* **Execute arbitrary code:** Inject and execute malicious code on the device, potentially installing malware, gaining root access, or taking control of the device.
+* **Cross-Site Scripting (XSS):**  Even if the app itself is well-secured, a malicious website loaded in the WebView could leverage XSS vulnerabilities to inject and execute scripts in the context of the WebView, potentially compromising the app.
+* **Session Hijacking:** Steal session cookies and other authentication tokens, allowing attackers to impersonate the user.
+
+The risk is exacerbated if the WebView loads untrusted content, such as content from arbitrary URLs or user-supplied input without proper sanitization.
+
+**Mitigation Strategy:**
+
+Several mitigation strategies are crucial to address this high-severity vulnerability:
+
+1. **Avoid enabling JavaScript if unnecessary:**  If the app doesn't require JavaScript functionality within the WebView, disable it entirely using `setJavaScriptEnabled(false)`. This is the most effective mitigation.
+
+2. **Restrict WebView access:**  If JavaScript is absolutely necessary, implement strict controls on the WebView's capabilities:
+
+    * **Whitelist allowed URLs:** Use a whitelist to only allow loading content from trusted domains.  Avoid using wildcards (*) excessively.
+    * **Implement Content Security Policy (CSP):**  Define a robust CSP header to restrict the resources the WebView can access, preventing the loading of scripts from untrusted sources.  This should be configured both through the WebView's settings and possibly in the web server configuration for served content.
+    * **Use a dedicated browser instead of a WebView:**  For sensitive operations involving web content, consider launching a trusted, up-to-date browser application instead of relying on an embedded WebView.
+    * **Regularly update the WebView component:**  Keep the WebView component and the underlying Android system updated to benefit from the latest security patches.
+
+3. **Input sanitization:**  If user-supplied input is used to construct URLs loaded in the WebView, strictly sanitize the input to prevent injection attacks.  Use appropriate encoding and validation techniques to ensure that no malicious code is inadvertently executed.
+
+4. **Secure coding practices:**  Implement secure coding practices to prevent other vulnerabilities that can be exploited in conjunction with an insecure WebView, such as improper data handling, insecure storage of sensitive data, and lack of input validation.
+
+5. **Regular security testing:**  Perform regular security testing, including penetration testing, to identify and address potential vulnerabilities in the app, including weaknesses related to the WebView.
+
+By implementing these strategies, developers can significantly reduce the risk associated with an insecure WebView and protect their users from potential attacks.  Simply enabling `setJavaScriptEnabled(true)` without implementing comprehensive security measures is highly discouraged and creates a serious vulnerability.
+Mitigation Strategy: **
+
 1. Vulnerability Type: Verbose Logging (Java)
 Total Occurrences: 373 (showing 5 examples)
 
@@ -297,49 +341,6 @@ Mitigation Strategy: **
 
 ------------------------------------------------------------
 
-4. Vulnerability Type: Insecure WebView (Java)
-Total Occurrences: 1
-
-Example 1:
-File: java_code\sources\jakhar\aseem\diva\InputValidation2URISchemeActivity.java
-Code Snippet:
-```
-setJavaScriptEnabled(true)
-```
-Vulnerability: Name:** Insecure WebView
-Severity: ** High
-Description: **
-
-The code snippet `setJavaScriptEnabled(true)` within an Android WebView represents a significant security risk.  WebViews are essentially embedded web browsers within an Android application. Enabling JavaScript without proper security measures allows malicious websites loaded within the WebView to execute arbitrary JavaScript code in the context of the app. This grants attackers broad access to the app's resources and potentially the entire device.  Attackers could exploit this to:
-
-* **Steal sensitive data:** Access and exfiltrate user data like credentials, personal information, or location data stored within the app or accessible through the app's permissions.
-* **Execute arbitrary code:** Inject and execute malicious code on the device, potentially installing malware, gaining root access, or taking control of the device.
-* **Cross-Site Scripting (XSS):**  Even if the app itself is well-secured, a malicious website loaded in the WebView could leverage XSS vulnerabilities to inject and execute scripts in the context of the WebView, potentially compromising the app.
-* **Session Hijacking:** Steal session cookies and other authentication tokens, allowing attackers to impersonate the user.
-
-The risk is exacerbated if the WebView loads untrusted content, such as content from arbitrary URLs or user-supplied input without proper sanitization.
-
-**Mitigation Strategy:**
-
-Several mitigation strategies are crucial to address this high-severity vulnerability:
-
-1. **Avoid enabling JavaScript if unnecessary:**  If the app doesn't require JavaScript functionality within the WebView, disable it entirely using `setJavaScriptEnabled(false)`. This is the most effective mitigation.
-
-2. **Restrict WebView access:**  If JavaScript is absolutely necessary, implement strict controls on the WebView's capabilities:
-
-    * **Whitelist allowed URLs:** Use a whitelist to only allow loading content from trusted domains.  Avoid using wildcards (*) excessively.
-    * **Implement Content Security Policy (CSP):**  Define a robust CSP header to restrict the resources the WebView can access, preventing the loading of scripts from untrusted sources.  This should be configured both through the WebView's settings and possibly in the web server configuration for served content.
-    * **Use a dedicated browser instead of a WebView:**  For sensitive operations involving web content, consider launching a trusted, up-to-date browser application instead of relying on an embedded WebView.
-    * **Regularly update the WebView component:**  Keep the WebView component and the underlying Android system updated to benefit from the latest security patches.
-
-3. **Input sanitization:**  If user-supplied input is used to construct URLs loaded in the WebView, strictly sanitize the input to prevent injection attacks.  Use appropriate encoding and validation techniques to ensure that no malicious code is inadvertently executed.
-
-4. **Secure coding practices:**  Implement secure coding practices to prevent other vulnerabilities that can be exploited in conjunction with an insecure WebView, such as improper data handling, insecure storage of sensitive data, and lack of input validation.
-
-5. **Regular security testing:**  Perform regular security testing, including penetration testing, to identify and address potential vulnerabilities in the app, including weaknesses related to the WebView.
-
-By implementing these strategies, developers can significantly reduce the risk associated with an insecure WebView and protect their users from potential attacks.  Simply enabling `setJavaScriptEnabled(true)` without implementing comprehensive security measures is highly discouraged and creates a serious vulnerability.
-Mitigation Strategy: **
 
 ------------------------------------------------------------
 
