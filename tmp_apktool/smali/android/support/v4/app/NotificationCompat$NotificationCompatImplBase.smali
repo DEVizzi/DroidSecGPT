@@ -22,7 +22,7 @@
     .locals 0
 
     .prologue
-    .line 473
+    .line 475
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -36,10 +36,10 @@
     .param p2, "extender"    # Landroid/support/v4/app/NotificationCompat$BuilderExtender;
 
     .prologue
-    .line 476
+    .line 478
     iget-object v0, p1, Landroid/support/v4/app/NotificationCompat$Builder;->mNotification:Landroid/app/Notification;
 
-    .line 477
+    .line 479
     .local v0, "result":Landroid/app/Notification;
     iget-object v1, p1, Landroid/support/v4/app/NotificationCompat$Builder;->mContext:Landroid/content/Context;
 
@@ -51,19 +51,19 @@
 
     invoke-virtual {v0, v1, v2, v3, v4}, Landroid/app/Notification;->setLatestEventInfo(Landroid/content/Context;Ljava/lang/CharSequence;Ljava/lang/CharSequence;Landroid/app/PendingIntent;)V
 
-    .line 480
+    .line 482
     iget v1, p1, Landroid/support/v4/app/NotificationCompat$Builder;->mPriority:I
 
     if-lez v1, :cond_0
 
-    .line 481
+    .line 483
     iget v1, v0, Landroid/app/Notification;->flags:I
 
     or-int/lit16 v1, v1, 0x80
 
     iput v1, v0, Landroid/app/Notification;->flags:I
 
-    .line 483
+    .line 485
     :cond_0
     return-object v0
 .end method
@@ -74,7 +74,7 @@
     .param p2, "actionIndex"    # I
 
     .prologue
-    .line 498
+    .line 500
     const/4 v0, 0x0
 
     return-object v0
@@ -85,7 +85,7 @@
     .param p1, "n"    # Landroid/app/Notification;
 
     .prologue
-    .line 493
+    .line 495
     const/4 v0, 0x0
 
     return v0
@@ -105,7 +105,7 @@
     .end annotation
 
     .prologue
-    .line 504
+    .line 506
     .local p1, "parcelables":Ljava/util/ArrayList;, "Ljava/util/ArrayList<Landroid/os/Parcelable;>;"
     const/4 v0, 0x0
 
@@ -117,7 +117,7 @@
     .param p1, "uc"    # Landroid/support/v4/app/NotificationCompatBase$UnreadConversation;
 
     .prologue
-    .line 539
+    .line 541
     const/4 v0, 0x0
 
     return-object v0
@@ -128,7 +128,7 @@
     .param p1, "n"    # Landroid/app/Notification;
 
     .prologue
-    .line 514
+    .line 516
     const/4 v0, 0x0
 
     return-object v0
@@ -139,7 +139,7 @@
     .param p1, "n"    # Landroid/app/Notification;
 
     .prologue
-    .line 488
+    .line 490
     const/4 v0, 0x0
 
     return-object v0
@@ -150,7 +150,7 @@
     .param p1, "n"    # Landroid/app/Notification;
 
     .prologue
-    .line 524
+    .line 526
     const/4 v0, 0x0
 
     return-object v0
@@ -161,7 +161,7 @@
     .param p1, "n"    # Landroid/app/Notification;
 
     .prologue
-    .line 519
+    .line 521
     const/4 v0, 0x0
 
     return v0
@@ -183,7 +183,7 @@
     .end annotation
 
     .prologue
-    .line 509
+    .line 511
     const/4 v0, 0x0
 
     return-object v0
@@ -194,7 +194,7 @@
     .param p1, "n"    # Landroid/app/Notification;
 
     .prologue
-    .line 534
+    .line 536
     const/4 v0, 0x0
 
     return-object v0
@@ -207,7 +207,7 @@
     .param p3, "remoteInputFactory"    # Landroid/support/v4/app/RemoteInputCompatBase$RemoteInput$Factory;
 
     .prologue
-    .line 546
+    .line 548
     const/4 v0, 0x0
 
     return-object v0
@@ -218,7 +218,7 @@
     .param p1, "n"    # Landroid/app/Notification;
 
     .prologue
-    .line 529
+    .line 531
     const/4 v0, 0x0
 
     return v0

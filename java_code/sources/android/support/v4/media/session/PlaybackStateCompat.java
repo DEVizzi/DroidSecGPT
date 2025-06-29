@@ -8,6 +8,8 @@ import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.media.session.PlaybackStateCompatApi21;
 import android.text.TextUtils;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 /* loaded from: classes.dex */
@@ -17,6 +19,7 @@ public final class PlaybackStateCompat implements Parcelable {
     public static final long ACTION_PLAY = 4;
     public static final long ACTION_PLAY_FROM_MEDIA_ID = 1024;
     public static final long ACTION_PLAY_FROM_SEARCH = 2048;
+    public static final long ACTION_PLAY_FROM_URI = 8192;
     public static final long ACTION_PLAY_PAUSE = 512;
     public static final long ACTION_REWIND = 8;
     public static final long ACTION_SEEK_TO = 256;
@@ -62,6 +65,16 @@ public final class PlaybackStateCompat implements Parcelable {
     private final int mState;
     private Object mStateObj;
     private final long mUpdateTime;
+
+    @Retention(RetentionPolicy.SOURCE)
+    /* loaded from: classes.dex */
+    public @interface Actions {
+    }
+
+    @Retention(RetentionPolicy.SOURCE)
+    /* loaded from: classes.dex */
+    public @interface State {
+    }
 
     private PlaybackStateCompat(int state, long position, long bufferedPosition, float rate, long actions, CharSequence errorMessage, long updateTime, List<CustomAction> customActions, long activeItemId, Bundle extras) {
         this.mState = state;

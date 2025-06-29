@@ -80,70 +80,6 @@
     return-void
 .end method
 
-.method private getActionModeWrapper(Landroid/support/v7/view/ActionMode;)Landroid/view/ActionMode;
-    .locals 4
-    .param p1, "mode"    # Landroid/support/v7/view/ActionMode;
-
-    .prologue
-    .line 192
-    const/4 v1, 0x0
-
-    .local v1, "i":I
-    iget-object v3, p0, Landroid/support/v7/internal/view/SupportActionModeWrapper$CallbackWrapper;->mActionModes:Ljava/util/ArrayList;
-
-    invoke-virtual {v3}, Ljava/util/ArrayList;->size()I
-
-    move-result v0
-
-    .local v0, "count":I
-    :goto_0
-    if-ge v1, v0, :cond_1
-
-    .line 193
-    iget-object v3, p0, Landroid/support/v7/internal/view/SupportActionModeWrapper$CallbackWrapper;->mActionModes:Ljava/util/ArrayList;
-
-    invoke-virtual {v3, v1}, Ljava/util/ArrayList;->get(I)Ljava/lang/Object;
-
-    move-result-object v2
-
-    check-cast v2, Landroid/support/v7/internal/view/SupportActionModeWrapper;
-
-    .line 194
-    .local v2, "wrapper":Landroid/support/v7/internal/view/SupportActionModeWrapper;
-    if-eqz v2, :cond_0
-
-    iget-object v3, v2, Landroid/support/v7/internal/view/SupportActionModeWrapper;->mWrappedObject:Landroid/support/v7/view/ActionMode;
-
-    if-ne v3, p1, :cond_0
-
-    .line 204
-    :goto_1
-    return-object v2
-
-    .line 192
-    :cond_0
-    add-int/lit8 v1, v1, 0x1
-
-    goto :goto_0
-
-    .line 202
-    .end local v2    # "wrapper":Landroid/support/v7/internal/view/SupportActionModeWrapper;
-    :cond_1
-    new-instance v2, Landroid/support/v7/internal/view/SupportActionModeWrapper;
-
-    iget-object v3, p0, Landroid/support/v7/internal/view/SupportActionModeWrapper$CallbackWrapper;->mContext:Landroid/content/Context;
-
-    invoke-direct {v2, v3, p1}, Landroid/support/v7/internal/view/SupportActionModeWrapper;-><init>(Landroid/content/Context;Landroid/support/v7/view/ActionMode;)V
-
-    .line 203
-    .restart local v2    # "wrapper":Landroid/support/v7/internal/view/SupportActionModeWrapper;
-    iget-object v3, p0, Landroid/support/v7/internal/view/SupportActionModeWrapper$CallbackWrapper;->mActionModes:Ljava/util/ArrayList;
-
-    invoke-virtual {v3, v2}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
-
-    goto :goto_1
-.end method
-
 .method private getMenuWrapper(Landroid/view/Menu;)Landroid/view/Menu;
     .locals 3
     .param p1, "menu"    # Landroid/view/Menu;
@@ -185,18 +121,68 @@
 
 
 # virtual methods
-.method public addActionModeWrapper(Landroid/support/v7/internal/view/SupportActionModeWrapper;)V
-    .locals 1
-    .param p1, "wrapper"    # Landroid/support/v7/internal/view/SupportActionModeWrapper;
+.method public getActionModeWrapper(Landroid/support/v7/view/ActionMode;)Landroid/view/ActionMode;
+    .locals 4
+    .param p1, "mode"    # Landroid/support/v7/view/ActionMode;
 
     .prologue
-    .line 187
-    iget-object v0, p0, Landroid/support/v7/internal/view/SupportActionModeWrapper$CallbackWrapper;->mActionModes:Ljava/util/ArrayList;
+    .line 188
+    const/4 v1, 0x0
 
-    invoke-virtual {v0, p1}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
+    .local v1, "i":I
+    iget-object v3, p0, Landroid/support/v7/internal/view/SupportActionModeWrapper$CallbackWrapper;->mActionModes:Ljava/util/ArrayList;
+
+    invoke-virtual {v3}, Ljava/util/ArrayList;->size()I
+
+    move-result v0
+
+    .local v0, "count":I
+    :goto_0
+    if-ge v1, v0, :cond_1
+
+    .line 189
+    iget-object v3, p0, Landroid/support/v7/internal/view/SupportActionModeWrapper$CallbackWrapper;->mActionModes:Ljava/util/ArrayList;
+
+    invoke-virtual {v3, v1}, Ljava/util/ArrayList;->get(I)Ljava/lang/Object;
+
+    move-result-object v2
+
+    check-cast v2, Landroid/support/v7/internal/view/SupportActionModeWrapper;
+
+    .line 190
+    .local v2, "wrapper":Landroid/support/v7/internal/view/SupportActionModeWrapper;
+    if-eqz v2, :cond_0
+
+    iget-object v3, v2, Landroid/support/v7/internal/view/SupportActionModeWrapper;->mWrappedObject:Landroid/support/v7/view/ActionMode;
+
+    if-ne v3, p1, :cond_0
+
+    .line 200
+    :goto_1
+    return-object v2
 
     .line 188
-    return-void
+    :cond_0
+    add-int/lit8 v1, v1, 0x1
+
+    goto :goto_0
+
+    .line 198
+    .end local v2    # "wrapper":Landroid/support/v7/internal/view/SupportActionModeWrapper;
+    :cond_1
+    new-instance v2, Landroid/support/v7/internal/view/SupportActionModeWrapper;
+
+    iget-object v3, p0, Landroid/support/v7/internal/view/SupportActionModeWrapper$CallbackWrapper;->mContext:Landroid/content/Context;
+
+    invoke-direct {v2, v3, p1}, Landroid/support/v7/internal/view/SupportActionModeWrapper;-><init>(Landroid/content/Context;Landroid/support/v7/view/ActionMode;)V
+
+    .line 199
+    .restart local v2    # "wrapper":Landroid/support/v7/internal/view/SupportActionModeWrapper;
+    iget-object v3, p0, Landroid/support/v7/internal/view/SupportActionModeWrapper$CallbackWrapper;->mActionModes:Ljava/util/ArrayList;
+
+    invoke-virtual {v3, v2}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
+
+    goto :goto_1
 .end method
 
 .method public onActionItemClicked(Landroid/support/v7/view/ActionMode;Landroid/view/MenuItem;)Z
@@ -208,7 +194,7 @@
     .line 168
     iget-object v0, p0, Landroid/support/v7/internal/view/SupportActionModeWrapper$CallbackWrapper;->mWrappedCallback:Landroid/view/ActionMode$Callback;
 
-    invoke-direct {p0, p1}, Landroid/support/v7/internal/view/SupportActionModeWrapper$CallbackWrapper;->getActionModeWrapper(Landroid/support/v7/view/ActionMode;)Landroid/view/ActionMode;
+    invoke-virtual {p0, p1}, Landroid/support/v7/internal/view/SupportActionModeWrapper$CallbackWrapper;->getActionModeWrapper(Landroid/support/v7/view/ActionMode;)Landroid/view/ActionMode;
 
     move-result-object v1
 
@@ -237,7 +223,7 @@
     .line 155
     iget-object v0, p0, Landroid/support/v7/internal/view/SupportActionModeWrapper$CallbackWrapper;->mWrappedCallback:Landroid/view/ActionMode$Callback;
 
-    invoke-direct {p0, p1}, Landroid/support/v7/internal/view/SupportActionModeWrapper$CallbackWrapper;->getActionModeWrapper(Landroid/support/v7/view/ActionMode;)Landroid/view/ActionMode;
+    invoke-virtual {p0, p1}, Landroid/support/v7/internal/view/SupportActionModeWrapper$CallbackWrapper;->getActionModeWrapper(Landroid/support/v7/view/ActionMode;)Landroid/view/ActionMode;
 
     move-result-object v1
 
@@ -260,7 +246,7 @@
     .line 174
     iget-object v0, p0, Landroid/support/v7/internal/view/SupportActionModeWrapper$CallbackWrapper;->mWrappedCallback:Landroid/view/ActionMode$Callback;
 
-    invoke-direct {p0, p1}, Landroid/support/v7/internal/view/SupportActionModeWrapper$CallbackWrapper;->getActionModeWrapper(Landroid/support/v7/view/ActionMode;)Landroid/view/ActionMode;
+    invoke-virtual {p0, p1}, Landroid/support/v7/internal/view/SupportActionModeWrapper$CallbackWrapper;->getActionModeWrapper(Landroid/support/v7/view/ActionMode;)Landroid/view/ActionMode;
 
     move-result-object v1
 
@@ -279,7 +265,7 @@
     .line 161
     iget-object v0, p0, Landroid/support/v7/internal/view/SupportActionModeWrapper$CallbackWrapper;->mWrappedCallback:Landroid/view/ActionMode$Callback;
 
-    invoke-direct {p0, p1}, Landroid/support/v7/internal/view/SupportActionModeWrapper$CallbackWrapper;->getActionModeWrapper(Landroid/support/v7/view/ActionMode;)Landroid/view/ActionMode;
+    invoke-virtual {p0, p1}, Landroid/support/v7/internal/view/SupportActionModeWrapper$CallbackWrapper;->getActionModeWrapper(Landroid/support/v7/view/ActionMode;)Landroid/view/ActionMode;
 
     move-result-object v1
 

@@ -11,9 +11,8 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import com.google.android.gms.drive.DriveFile;
 /* loaded from: classes.dex */
-class TransportMediatorJellybeanMR2 implements RemoteControlClient.OnGetPlaybackPositionListener, RemoteControlClient.OnPlaybackPositionUpdateListener {
+class TransportMediatorJellybeanMR2 {
     boolean mAudioFocused;
     final AudioManager mAudioManager;
     final Context mContext;
@@ -63,6 +62,18 @@ class TransportMediatorJellybeanMR2 implements RemoteControlClient.OnGetPlayback
             TransportMediatorJellybeanMR2.this.mTransportCallback.handleAudioFocusChange(focusChange);
         }
     };
+    final RemoteControlClient.OnGetPlaybackPositionListener mGetPlaybackPositionListener = new RemoteControlClient.OnGetPlaybackPositionListener() { // from class: android.support.v4.media.TransportMediatorJellybeanMR2.5
+        @Override // android.media.RemoteControlClient.OnGetPlaybackPositionListener
+        public long onGetPlaybackPosition() {
+            return TransportMediatorJellybeanMR2.this.mTransportCallback.getPlaybackPosition();
+        }
+    };
+    final RemoteControlClient.OnPlaybackPositionUpdateListener mPlaybackPositionUpdateListener = new RemoteControlClient.OnPlaybackPositionUpdateListener() { // from class: android.support.v4.media.TransportMediatorJellybeanMR2.6
+        @Override // android.media.RemoteControlClient.OnPlaybackPositionUpdateListener
+        public void onPlaybackPositionUpdate(long newPositionMs) {
+            TransportMediatorJellybeanMR2.this.mTransportCallback.playbackPositionUpdate(newPositionMs);
+        }
+    };
     int mPlayState = 0;
 
     public TransportMediatorJellybeanMR2(Context context, AudioManager audioManager, View view, TransportMediatorCallback transportCallback) {
@@ -91,10 +102,10 @@ class TransportMediatorJellybeanMR2 implements RemoteControlClient.OnGetPlayback
 
     void windowAttached() {
         this.mContext.registerReceiver(this.mMediaButtonReceiver, this.mReceiverFilter);
-        this.mPendingIntent = PendingIntent.getBroadcast(this.mContext, 0, this.mIntent, DriveFile.MODE_READ_ONLY);
+        this.mPendingIntent = PendingIntent.getBroadcast(this.mContext, 0, this.mIntent, 268435456);
         this.mRemoteControl = new RemoteControlClient(this.mPendingIntent);
-        this.mRemoteControl.setOnGetPlaybackPositionListener(this);
-        this.mRemoteControl.setPlaybackPositionUpdateListener(this);
+        this.mRemoteControl.setOnGetPlaybackPositionListener(this.mGetPlaybackPositionListener);
+        this.mRemoteControl.setPlaybackPositionUpdateListener(this.mPlaybackPositionUpdateListener);
     }
 
     void gainFocus() {
@@ -123,16 +134,6 @@ class TransportMediatorJellybeanMR2 implements RemoteControlClient.OnGetPlayback
         if (this.mFocused) {
             takeAudioFocus();
         }
-    }
-
-    @Override // android.media.RemoteControlClient.OnGetPlaybackPositionListener
-    public long onGetPlaybackPosition() {
-        return this.mTransportCallback.getPlaybackPosition();
-    }
-
-    @Override // android.media.RemoteControlClient.OnPlaybackPositionUpdateListener
-    public void onPlaybackPositionUpdate(long newPositionMs) {
-        this.mTransportCallback.playbackPositionUpdate(newPositionMs);
     }
 
     public void refreshState(boolean playing, long position, int transportControls) {

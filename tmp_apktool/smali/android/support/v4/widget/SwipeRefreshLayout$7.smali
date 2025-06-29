@@ -23,7 +23,7 @@
     .locals 0
 
     .prologue
-    .line 898
+    .line 1081
     iput-object p1, p0, Landroid/support/v4/widget/SwipeRefreshLayout$7;->this$0:Landroid/support/v4/widget/SwipeRefreshLayout;
 
     invoke-direct {p0}, Landroid/view/animation/Animation;-><init>()V
@@ -39,11 +39,11 @@
     .param p2, "t"    # Landroid/view/animation/Transformation;
 
     .prologue
-    .line 901
+    .line 1084
     iget-object v0, p0, Landroid/support/v4/widget/SwipeRefreshLayout$7;->this$0:Landroid/support/v4/widget/SwipeRefreshLayout;
 
     invoke-static {v0, p1}, Landroid/support/v4/widget/SwipeRefreshLayout;->access$1300(Landroid/support/v4/widget/SwipeRefreshLayout;F)V
 
-    .line 902
+    .line 1085
     return-void
 .end method

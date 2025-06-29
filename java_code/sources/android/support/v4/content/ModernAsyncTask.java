@@ -1,6 +1,7 @@
 package android.support.v4.content;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
 import android.util.Log;
@@ -25,6 +26,7 @@ abstract class ModernAsyncTask<Params, Progress, Result> {
     private static final int MAXIMUM_POOL_SIZE = 128;
     private static final int MESSAGE_POST_PROGRESS = 2;
     private static final int MESSAGE_POST_RESULT = 1;
+    private static InternalHandler sHandler;
     private static final ThreadFactory sThreadFactory = new ThreadFactory() { // from class: android.support.v4.content.ModernAsyncTask.1
         private final AtomicInteger mCount = new AtomicInteger(1);
 
@@ -35,7 +37,6 @@ abstract class ModernAsyncTask<Params, Progress, Result> {
     };
     private static final BlockingQueue<Runnable> sPoolWorkQueue = new LinkedBlockingQueue(10);
     public static final Executor THREAD_POOL_EXECUTOR = new ThreadPoolExecutor(5, 128, 1, TimeUnit.SECONDS, sPoolWorkQueue, sThreadFactory);
-    private static final InternalHandler sHandler = new InternalHandler();
     private static volatile Executor sDefaultExecutor = THREAD_POOL_EXECUTOR;
     private volatile Status mStatus = Status.PENDING;
     private final AtomicBoolean mTaskInvoked = new AtomicBoolean();
@@ -58,9 +59,9 @@ abstract class ModernAsyncTask<Params, Progress, Result> {
             } catch (CancellationException e2) {
                 ModernAsyncTask.this.postResultIfNotInvoked(null);
             } catch (ExecutionException e3) {
-                throw new RuntimeException("An error occured while executing doInBackground()", e3.getCause());
+                throw new RuntimeException("An error occurred while executing doInBackground()", e3.getCause());
             } catch (Throwable t) {
-                throw new RuntimeException("An error occured while executing doInBackground()", t);
+                throw new RuntimeException("An error occurred while executing doInBackground()", t);
             }
         }
     };
@@ -74,8 +75,15 @@ abstract class ModernAsyncTask<Params, Progress, Result> {
 
     protected abstract Result doInBackground(Params... paramsArr);
 
-    public static void init() {
-        sHandler.getLooper();
+    private static Handler getHandler() {
+        InternalHandler internalHandler;
+        synchronized (ModernAsyncTask.class) {
+            if (sHandler == null) {
+                sHandler = new InternalHandler();
+            }
+            internalHandler = sHandler;
+        }
+        return internalHandler;
     }
 
     public static void setDefaultExecutor(Executor exec) {
@@ -92,7 +100,7 @@ abstract class ModernAsyncTask<Params, Progress, Result> {
 
     /* JADX INFO: Access modifiers changed from: private */
     public Result postResult(Result result) {
-        Message message = sHandler.obtainMessage(1, new AsyncTaskResult(this, result));
+        Message message = getHandler().obtainMessage(1, new AsyncTaskResult(this, result));
         message.sendToTarget();
         return result;
     }
@@ -159,7 +167,7 @@ abstract class ModernAsyncTask<Params, Progress, Result> {
 
     protected final void publishProgress(Progress... values) {
         if (!isCancelled()) {
-            sHandler.obtainMessage(2, new AsyncTaskResult(this, values)).sendToTarget();
+            getHandler().obtainMessage(2, new AsyncTaskResult(this, values)).sendToTarget();
         }
     }
 
@@ -176,7 +184,8 @@ abstract class ModernAsyncTask<Params, Progress, Result> {
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
     public static class InternalHandler extends Handler {
-        private InternalHandler() {
+        public InternalHandler() {
+            super(Looper.getMainLooper());
         }
 
         @Override // android.os.Handler

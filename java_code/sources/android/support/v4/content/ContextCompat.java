@@ -3,10 +3,13 @@ package android.support.v4.content;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Process;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import java.io.File;
 /* loaded from: classes.dex */
@@ -98,6 +101,23 @@ public class ContextCompat {
     public static final Drawable getDrawable(Context context, int id) {
         int version = Build.VERSION.SDK_INT;
         return version >= 21 ? ContextCompatApi21.getDrawable(context, id) : context.getResources().getDrawable(id);
+    }
+
+    public static final ColorStateList getColorStateList(Context context, int id) {
+        int version = Build.VERSION.SDK_INT;
+        return version >= 23 ? ContextCompatApi23.getColorStateList(context, id) : context.getResources().getColorStateList(id);
+    }
+
+    public static final int getColor(Context context, int id) {
+        int version = Build.VERSION.SDK_INT;
+        return version >= 23 ? ContextCompatApi23.getColor(context, id) : context.getResources().getColor(id);
+    }
+
+    public static int checkSelfPermission(@NonNull Context context, @NonNull String permission) {
+        if (permission == null) {
+            throw new IllegalArgumentException("permission is null");
+        }
+        return context.checkPermission(permission, Process.myPid(), Process.myUid());
     }
 
     public final File getNoBackupFilesDir(Context context) {

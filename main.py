@@ -3,12 +3,14 @@ import subprocess
 import sys
 import shutil
 import json
+import zipfile
 from pathlib import Path
 import tempfile
 import re
 from tools.androguard.androguard_wrapper import extract_manifest_info
 from llm.gemini_runner import analyze_manifest_with_gemini, analyze_code_snippets_with_gemini
 from analysis.code_analyzer import scan_java_code
+from analysis.yara_runner import load_yara_rules, run_yara_on_directory
 
 from analysis.mobsf_runner import run_mobsf
 from analysis.quark_runner import run_quark
@@ -18,6 +20,19 @@ from analysis.flowdroid_runner import run_flowdroid
 APKTOOL_PATH = str(Path("tools/apktool/apktool.bat").resolve())
 JADX_PATH = str(Path("tools/jadx/jadx.bat").resolve())
 JAVA_CODE_DIR = str(Path("java_code").resolve())
+SO_EXTRACT_DIR = "native_libs"
+
+def extract_so_files(apk_path, output_dir):
+    os.makedirs(output_dir, exist_ok=True)
+    extracted_files = []
+    with zipfile.ZipFile(apk_path, 'r') as zip_ref:
+        for file in zip_ref.namelist():
+            if file.startswith("lib/") and file.endswith(".so"):
+                so_path = Path(output_dir) / Path(file).name
+                with open(so_path, "wb") as f:
+                    f.write(zip_ref.read(file))
+                extracted_files.append(str(so_path))
+    return extracted_files
 
 def decompile_apk(apk_path: str, output_dir: str):
     print(f"[+] Decompiling APK using apktool...")
@@ -52,7 +67,7 @@ def decompile_java(apk_path: str, output_dir: str):
         sys.exit(1)
     print(f"[+] Java source extracted to: {output_dir}")
 
-def run_analysis(apk_path: str, selected_tools):
+def run_analysis(apk_path: str, selected_tools, pattern_set="security"):
     output_dir = "java_code"
     used_existing_java_code = False
     used_existing_apktool = False
@@ -75,8 +90,8 @@ def run_analysis(apk_path: str, selected_tools):
             decompile_java(apk_path, output_dir)
             used_existing_java_code = True
 
-        print("[+] Scanning Java/Smali code for known insecure patterns...")
-        findings = scan_java_code(output_dir)
+        print(f"[+] Scanning Java/Smali code for patterns ({pattern_set})...")
+        findings = scan_java_code(output_dir, pattern_set=pattern_set)
 
         print("[+] Sending code-level issues to Gemini for analysis...")
         code_report = analyze_code_snippets_with_gemini(findings)
@@ -86,7 +101,7 @@ def run_analysis(apk_path: str, selected_tools):
         full_report += "## 📄 Gemini Analysis Skipped\nUser did not select Gemini analysis.\n"
 
     # --- TOOL 2: Quark ---
-    if "3" in selected_tools:
+    if "2" in selected_tools:
         try:
             print("[*] Running Quark-Engine...")
             full_report += "\n\n" + run_quark(apk_path)
@@ -96,7 +111,7 @@ def run_analysis(apk_path: str, selected_tools):
         full_report += "\n\n## ⚠ Quark-Engine Skipped\nUser did not select Quark-Engine."
 
     # --- TOOL 3: FlowDroid ---
-    if "2" in selected_tools:
+    if "3" in selected_tools:
         try:
             print("[*] Running FlowDroid...")
             flowdroid_report, flowdroid_leaks = run_flowdroid(apk_path)
@@ -214,6 +229,76 @@ Is this vulnerable? If so, explain the risk and suggest remediations."""
         full_report += "\n\n## ⚠ FlowDroid Skipped\nUser did not select FlowDroid."
 
     
+    # --- TOOL 4: YARA ---
+    if "4" in selected_tools:
+        yara_rules_path = "tools/yara_rules/android_malware_rules.yar"
+        if Path(yara_rules_path).exists():
+            try:
+                print("[*] Running YARA scan...")
+                yara_rules = load_yara_rules(yara_rules_path)
+                yara_matches = run_yara_on_directory(yara_rules, output_dir)
+                if yara_matches:
+                    full_report += "\n\n## 🔎 YARA Scan Results\n"
+                    for match in yara_matches:
+                        full_report += f"- **File**: `{match['file']}`\n  - **Matched Rules**: {', '.join(match['matches'])}\n"
+                        try:
+                            with open(match['file'], 'r', encoding='utf-8', errors='ignore') as f:
+                                file_content = f.read()
+
+                            gemini_result = analyze_code_snippets_with_gemini([
+                                {
+                                    "file": match['file'],
+                                    "issue": ', '.join(match['matches']),
+                                    "snippet": file_content[:8000]  # limit for Gemini prompt
+                                }
+                            ])
+
+                            full_report += f"\n### 🤖 Gemini Malware Review\n{gemini_result}\n"
+
+                        except Exception as e:
+                            full_report += f"\n❌ Gemini analysis failed for `{match['file']}`: {e}\n"
+                else:
+                    full_report += "\n\n## ✅ YARA Scan: No matches found"
+            except Exception as e:
+                full_report += f"\n\n## ❌ YARA Scan Failed\nError: {str(e)}"
+        else:
+            full_report += "\n\n## ⚠ YARA Scan Skipped\nNo rules file found at `yara_rules/`."
+
+    # --- TOOL 5: Native Binary Analysis (.so) ---
+    print("\n[*] Scanning for native libraries (.so)...")
+    so_files = extract_so_files(apk_path, SO_EXTRACT_DIR)
+
+    if so_files:
+        print(f"[!] Found {len(so_files)} native libraries:")
+        for so in so_files:
+            print(" -", so)
+
+        choice = input("⚠️  Do you want to analyze these .so files for vulnerabilities with Gemini? (y/n): ").strip().lower()
+        if choice == "y":
+            from llm.gemini_runner import analyze_native_so_with_gemini  # make sure this exists
+
+            seen = set()
+            for so_file in so_files:
+                name = Path(so_file).name
+                if name in seen:
+                    continue
+                seen.add(name)
+
+                print(f"\n[*] Running Gemini on {so_file} ...")
+                try:
+                    strings_path = os.path.join("tools", "strings.exe")
+                    strings_out = subprocess.check_output([strings_path, so_file], text=True, errors='ignore')
+                    result = analyze_native_so_with_gemini(so_file, strings_out[:8000])
+                    full_report += f"\n\n## 🔬 Native Binary Analysis - {name}\n{result}\n"
+                except FileNotFoundError:
+                    full_report += f"\n\n## ❌ Native Analysis Failed: 'tools/strings.exe' not found.\n"
+                except Exception as e:
+                    full_report += f"\n\n## ❌ Failed Native Analysis for {so_file}: {e}\n"
+        elif so_files:
+            full_report += "\n\n## ⚠ Native Analysis Skipped by User\n"
+    else:
+        full_report += "\n\n## ✅ No Native Libraries Found in APK\n"
+
     # 5. Save
     report_path = Path("reports") / f"{Path(apk_path).stem}_report.md"
     Path("reports").mkdir(exist_ok=True)
@@ -221,6 +306,7 @@ Is this vulnerable? If so, explain the risk and suggest remediations."""
         f.write(full_report)
 
     print(f"\n[✓] Report saved to {report_path}")
+
 
 
 if __name__ == "__main__":
@@ -233,11 +319,37 @@ if __name__ == "__main__":
         print(f"[-] File not found: {apk_file}")
         sys.exit(1)
 
-    print("\nSelect tools to run (comma-separated):")
-    print("1. Gemini Static Analysis")
-    print("2. FlowDroid")
-    #print("3. Quark-Engine")
-    #print("4. MobSF (coming soon)")
-    selected_tools = input("Enter choices (e.g., 1,2): ").split(",")
+    print("\n== Select Analysis Type ==")
+    print("1. Complete Comprehensive Scan")
+    print("2. Pentest Analysis")
+    print("3. Malware Analysis")
+    print("4. Flowdroid Analysis")
+    print("5. Yara Malware Analysis")
+    
+    analysis_choice = input("Enter choice (1 or 2): ").strip()
 
-    run_analysis(apk_file, selected_tools)
+    if analysis_choice == "1":
+        selected_tools = ["1", "3", "4",]  # Code + FlowDroid + Yara
+        pattern_set = "security"
+        print("\n[+] Selected: Pentest Analysis (Code, FlowDroid, Yara)")
+    elif analysis_choice == "2":
+        selected_tools = ["1", "3"]  # Code + Flowdroid
+        pattern_set = "security"
+        print("\n[+] Selected: Malware Analysis (Code, Flowdroid)")
+    elif analysis_choice == "3":
+        selected_tools = ["1","4"]  # Code + Yara
+        pattern_set = "malware"
+        print("\n[+] Selected: Malware Analysis (Code, Yara)")
+    elif analysis_choice == "4":
+        selected_tools = ["3"]  # Flowdrid
+        pattern_set = "security"
+        print("\n[+] Selected: Malware Analysis (Flowdroid)")
+    elif analysis_choice == "5":
+        selected_tools = ["4"]  # Yara
+        pattern_set = "malware"
+        print("\n[+] Selected: Malware Analysis (Yara)")    
+    else:
+        print("[-] Invalid choice. Exiting.")
+        sys.exit(1)
+
+    run_analysis(apk_file, selected_tools, pattern_set)

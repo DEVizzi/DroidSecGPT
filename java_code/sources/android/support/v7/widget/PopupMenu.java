@@ -51,6 +51,14 @@ public class PopupMenu implements MenuBuilder.Callback, MenuPresenter.Callback {
         this.mPopup.setCallback(this);
     }
 
+    public void setGravity(int gravity) {
+        this.mPopup.setGravity(gravity);
+    }
+
+    public int getGravity() {
+        return this.mPopup.getGravity();
+    }
+
     public View.OnTouchListener getDragToOpenListener() {
         if (this.mDragListener == null) {
             this.mDragListener = new ListPopupWindow.ForwardingListener(this.mAnchor) { // from class: android.support.v7.widget.PopupMenu.1

@@ -15,6 +15,12 @@
 
 
 # virtual methods
+.method public abstract getMaxLines(Landroid/widget/TextView;)I
+.end method
+
+.method public abstract getMinLines(Landroid/widget/TextView;)I
+.end method
+
 .method public abstract setCompoundDrawablesRelative(Landroid/widget/TextView;Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;)V
     .param p1    # Landroid/widget/TextView;
         .annotation build Landroid/support/annotation/NonNull;

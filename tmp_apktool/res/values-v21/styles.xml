@@ -8,7 +8,6 @@
     <style name="Base.Theme.AppCompat.Light.Dialog" parent="@style/Base.V21.Theme.AppCompat.Light.Dialog" />
     <style name="Base.Widget.AppCompat.ProgressBar" parent="@android:style/Widget.Material.ProgressBar" />
     <style name="Base.Widget.AppCompat.ProgressBar.Horizontal" parent="@android:style/Widget.Material.ProgressBar.Horizontal" />
-    <style name="Base.Widget.AppCompat.Spinner" parent="@android:style/Widget.Material.Spinner" />
     <style name="Platform.AppCompat" parent="@android:style/Theme.Material">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBar">false</item>
@@ -21,8 +20,19 @@
         <item name="android:buttonBarStyle">?buttonBarStyle</item>
         <item name="android:buttonBarButtonStyle">?buttonBarButtonStyle</item>
     </style>
-    <style name="Base.Widget.AppCompat.AutoCompleteTextView" parent="@android:style/Widget.Material.AutoCompleteTextView" />
+    <style name="Base.Widget.AppCompat.AutoCompleteTextView" parent="@android:style/Widget.Material.AutoCompleteTextView">
+        <item name="android:background">?editTextBackground</item>
+    </style>
+    <style name="Base.Widget.AppCompat.EditText" parent="@android:style/Widget.Material.EditText">
+        <item name="android:background">?editTextBackground</item>
+    </style>
     <style name="Base.TextAppearance.AppCompat.Button" parent="@android:style/TextAppearance.Material.Button" />
+    <style name="AppTheme.NoActionBar" parent="@style/AppTheme">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
     <style name="Base.TextAppearance.AppCompat" parent="@android:style/TextAppearance.Material" />
     <style name="Base.TextAppearance.AppCompat.Body1" parent="@android:style/TextAppearance.Material.Body1" />
     <style name="Base.TextAppearance.AppCompat.Body2" parent="@android:style/TextAppearance.Material.Body2" />
@@ -49,6 +59,7 @@
     <style name="Base.TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse" parent="@android:style/TextAppearance.Material.Widget.ActionBar.Title.Inverse" />
     <style name="Base.TextAppearance.AppCompat.Widget.ActionMode.Subtitle" parent="@android:style/TextAppearance.Material.Widget.ActionMode.Subtitle" />
     <style name="Base.TextAppearance.AppCompat.Widget.ActionMode.Title" parent="@android:style/TextAppearance.Material.Widget.ActionMode.Title" />
+    <style name="Base.TextAppearance.AppCompat.Widget.Button" parent="@android:style/TextAppearance.Material.Widget.Button" />
     <style name="Base.TextAppearance.AppCompat.Widget.PopupMenu.Large" parent="@android:style/TextAppearance.Material.Widget.PopupMenu.Large" />
     <style name="Base.TextAppearance.AppCompat.Widget.PopupMenu.Small" parent="@android:style/TextAppearance.Material.Widget.PopupMenu.Small" />
     <style name="Base.TextAppearance.AppCompat.Widget.Switch" parent="@android:style/TextAppearance.Material.Button" />
@@ -72,6 +83,7 @@
     <style name="Base.Widget.AppCompat.CompoundButton.CheckBox" parent="@android:style/Widget.Material.CompoundButton.CheckBox" />
     <style name="Base.Widget.AppCompat.CompoundButton.RadioButton" parent="@android:style/Widget.Material.CompoundButton.RadioButton" />
     <style name="Base.Widget.AppCompat.DropDownItem.Spinner" parent="@android:style/Widget.Material.DropDownItem.Spinner" />
+    <style name="Base.Widget.AppCompat.ImageButton" parent="@android:style/Widget.Material.ImageButton" />
     <style name="Base.Widget.AppCompat.Light.ActionBar.TabText" parent="@android:style/Widget.Material.Light.ActionBar.TabText" />
     <style name="Base.Widget.AppCompat.Light.ActionBar.TabText.Inverse" parent="@android:style/Widget.Material.Light.ActionBar.TabText" />
     <style name="Base.Widget.AppCompat.Light.ActionBar.TabView" parent="@android:style/Widget.Material.Light.ActionBar.TabView" />
@@ -90,15 +102,11 @@
         <item name="android:overlapAnchor">true</item>
     </style>
     <style name="Base.Widget.AppCompat.RatingBar" parent="@android:style/Widget.Material.RatingBar" />
-    <style name="Base.Widget.AppCompat.Spinner.DropDown.ActionBar" parent="@android:style/Widget.Material.Spinner">
-        <item name="spinnerMode">dropdown</item>
-        <item name="popupPromptView">@layout/abc_simple_dropdown_hint</item>
-        <item name="disableChildrenWhenDisabled">true</item>
-    </style>
-    <style name="Base.Widget.AppCompat.Spinner.Underlined" parent="@android:style/Widget.Material.Spinner.Underlined" />
+    <style name="Base.Widget.AppCompat.SeekBar" parent="@android:style/Widget.Material.SeekBar" />
+    <style name="Base.Widget.AppCompat.Spinner" parent="@android:style/Widget.Material.Spinner" />
     <style name="Base.Widget.AppCompat.TextView.SpinnerItem" parent="@android:style/Widget.Material.TextView.SpinnerItem" />
     <style name="Base.Widget.AppCompat.Toolbar.Button.Navigation" parent="@android:style/Widget.Material.Toolbar.Button.Navigation" />
-    <style name="Platform.ThemeOverlay.AppCompat.Dark" parent="">
+    <style name="Platform.ThemeOverlay.AppCompat" parent="">
         <item name="android:colorControlNormal">?colorControlNormal</item>
         <item name="android:colorControlActivated">?colorControlActivated</item>
         <item name="android:colorButtonNormal">?colorButtonNormal</item>
@@ -107,15 +115,8 @@
         <item name="android:colorPrimaryDark">?colorPrimaryDark</item>
         <item name="android:colorAccent">?colorAccent</item>
     </style>
-    <style name="Platform.ThemeOverlay.AppCompat.Light" parent="">
-        <item name="android:colorControlNormal">?colorControlNormal</item>
-        <item name="android:colorControlActivated">?colorControlActivated</item>
-        <item name="android:colorButtonNormal">?colorButtonNormal</item>
-        <item name="android:colorControlHighlight">?colorControlHighlight</item>
-        <item name="android:colorPrimary">?colorPrimary</item>
-        <item name="android:colorPrimaryDark">?colorPrimaryDark</item>
-        <item name="android:colorAccent">?colorAccent</item>
-    </style>
+    <style name="Platform.ThemeOverlay.AppCompat.Dark" parent="@style/Platform.ThemeOverlay.AppCompat" />
+    <style name="Platform.ThemeOverlay.AppCompat.Light" parent="@style/Platform.ThemeOverlay.AppCompat" />
     <style name="Base.V21.Theme.AppCompat" parent="@style/Base.V7.Theme.AppCompat">
         <item name="android:colorControlNormal">?colorControlNormal</item>
         <item name="android:colorControlActivated">?colorControlActivated</item>
@@ -127,12 +128,11 @@
         <item name="actionOverflowButtonStyle">?android:actionOverflowButtonStyle</item>
         <item name="actionBarSize">?android:actionBarSize</item>
         <item name="actionBarDivider">?android:actionBarDivider</item>
-        <item name="actionBarItemBackground">?android:actionBarItemBackground</item>
+        <item name="actionBarItemBackground">@drawable/abc_action_bar_item_background_material</item>
         <item name="actionMenuTextAppearance">?android:actionMenuTextAppearance</item>
         <item name="actionMenuTextColor">?android:actionMenuTextColor</item>
         <item name="actionModeBackground">?android:actionModeBackground</item>
         <item name="actionModeCloseDrawable">?android:actionModeCloseDrawable</item>
-        <item name="actionModeShareDrawable">?android:actionModeShareDrawable</item>
         <item name="textAppearanceLargePopupMenu">?android:textAppearanceLargePopupMenu</item>
         <item name="textAppearanceSmallPopupMenu">?android:textAppearanceSmallPopupMenu</item>
         <item name="homeAsUpIndicator">?android:homeAsUpIndicator</item>
@@ -146,12 +146,10 @@
         <item name="editTextBackground">?android:editTextBackground</item>
         <item name="listPreferredItemHeightSmall">?android:listPreferredItemHeightSmall</item>
         <item name="listChoiceBackgroundIndicator">?android:listChoiceBackgroundIndicator</item>
-        <item name="autoCompleteTextViewStyle">?android:autoCompleteTextViewStyle</item>
         <item name="buttonStyle">?android:buttonStyle</item>
         <item name="buttonStyleSmall">?android:buttonStyleSmall</item>
         <item name="checkboxStyle">?android:checkboxStyle</item>
         <item name="checkedTextViewStyle">?android:checkedTextViewStyle</item>
-        <item name="editTextStyle">?android:editTextStyle</item>
         <item name="radioButtonStyle">?android:radioButtonStyle</item>
         <item name="ratingBarStyle">?android:ratingBarStyle</item>
         <item name="spinnerStyle">?android:spinnerStyle</item>
@@ -170,12 +168,11 @@
         <item name="actionOverflowButtonStyle">?android:actionOverflowButtonStyle</item>
         <item name="actionBarSize">?android:actionBarSize</item>
         <item name="actionBarDivider">?android:actionBarDivider</item>
-        <item name="actionBarItemBackground">?android:actionBarItemBackground</item>
+        <item name="actionBarItemBackground">@drawable/abc_action_bar_item_background_material</item>
         <item name="actionMenuTextAppearance">?android:actionMenuTextAppearance</item>
         <item name="actionMenuTextColor">?android:actionMenuTextColor</item>
         <item name="actionModeBackground">?android:actionModeBackground</item>
         <item name="actionModeCloseDrawable">?android:actionModeCloseDrawable</item>
-        <item name="actionModeShareDrawable">?android:actionModeShareDrawable</item>
         <item name="textAppearanceLargePopupMenu">?android:textAppearanceLargePopupMenu</item>
         <item name="textAppearanceSmallPopupMenu">?android:textAppearanceSmallPopupMenu</item>
         <item name="homeAsUpIndicator">?android:homeAsUpIndicator</item>
@@ -189,12 +186,10 @@
         <item name="editTextBackground">?android:editTextBackground</item>
         <item name="listPreferredItemHeightSmall">?android:listPreferredItemHeightSmall</item>
         <item name="listChoiceBackgroundIndicator">?android:listChoiceBackgroundIndicator</item>
-        <item name="autoCompleteTextViewStyle">?android:autoCompleteTextViewStyle</item>
         <item name="buttonStyle">?android:buttonStyle</item>
         <item name="buttonStyleSmall">?android:buttonStyleSmall</item>
         <item name="checkboxStyle">?android:checkboxStyle</item>
         <item name="checkedTextViewStyle">?android:checkedTextViewStyle</item>
-        <item name="editTextStyle">?android:editTextStyle</item>
         <item name="radioButtonStyle">?android:radioButtonStyle</item>
         <item name="ratingBarStyle">?android:ratingBarStyle</item>
         <item name="spinnerStyle">?android:spinnerStyle</item>

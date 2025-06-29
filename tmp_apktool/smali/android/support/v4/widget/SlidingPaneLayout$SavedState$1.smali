@@ -32,7 +32,7 @@
     .locals 0
 
     .prologue
-    .line 1465
+    .line 1468
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -45,7 +45,7 @@
     .param p1, "in"    # Landroid/os/Parcel;
 
     .prologue
-    .line 1467
+    .line 1470
     new-instance v0, Landroid/support/v4/widget/SlidingPaneLayout$SavedState;
 
     const/4 v1, 0x0
@@ -60,7 +60,7 @@
     .param p1, "x0"    # Landroid/os/Parcel;
 
     .prologue
-    .line 1465
+    .line 1468
     invoke-virtual {p0, p1}, Landroid/support/v4/widget/SlidingPaneLayout$SavedState$1;->createFromParcel(Landroid/os/Parcel;)Landroid/support/v4/widget/SlidingPaneLayout$SavedState;
 
     move-result-object v0
@@ -73,7 +73,7 @@
     .param p1, "size"    # I
 
     .prologue
-    .line 1471
+    .line 1474
     new-array v0, p1, [Landroid/support/v4/widget/SlidingPaneLayout$SavedState;
 
     return-object v0
@@ -84,7 +84,7 @@
     .param p1, "x0"    # I
 
     .prologue
-    .line 1465
+    .line 1468
     invoke-virtual {p0, p1}, Landroid/support/v4/widget/SlidingPaneLayout$SavedState$1;->newArray(I)[Landroid/support/v4/widget/SlidingPaneLayout$SavedState;
 
     move-result-object v0

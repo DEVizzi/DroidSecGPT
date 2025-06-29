@@ -32,7 +32,7 @@
     .locals 0
 
     .prologue
-    .line 1868
+    .line 1936
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -45,7 +45,7 @@
     .param p1, "source"    # Landroid/os/Parcel;
 
     .prologue
-    .line 1872
+    .line 1939
     new-instance v0, Landroid/support/v7/widget/Toolbar$SavedState;
 
     invoke-direct {v0, p1}, Landroid/support/v7/widget/Toolbar$SavedState;-><init>(Landroid/os/Parcel;)V
@@ -58,7 +58,7 @@
     .param p1, "x0"    # Landroid/os/Parcel;
 
     .prologue
-    .line 1868
+    .line 1936
     invoke-virtual {p0, p1}, Landroid/support/v7/widget/Toolbar$SavedState$1;->createFromParcel(Landroid/os/Parcel;)Landroid/support/v7/widget/Toolbar$SavedState;
 
     move-result-object v0
@@ -71,7 +71,7 @@
     .param p1, "size"    # I
 
     .prologue
-    .line 1877
+    .line 1944
     new-array v0, p1, [Landroid/support/v7/widget/Toolbar$SavedState;
 
     return-object v0
@@ -82,7 +82,7 @@
     .param p1, "x0"    # I
 
     .prologue
-    .line 1868
+    .line 1936
     invoke-virtual {p0, p1}, Landroid/support/v7/widget/Toolbar$SavedState$1;->newArray(I)[Landroid/support/v7/widget/Toolbar$SavedState;
 
     move-result-object v0

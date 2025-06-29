@@ -9,7 +9,7 @@ import android.media.RemoteControlClient;
 import android.os.Bundle;
 import android.os.ResultReceiver;
 /* loaded from: classes.dex */
-public class MediaSessionCompatApi14 {
+class MediaSessionCompatApi14 {
     private static final long ACTION_FAST_FORWARD = 64;
     private static final long ACTION_PAUSE = 2;
     private static final long ACTION_PLAY = 4;
@@ -48,7 +48,7 @@ public class MediaSessionCompatApi14 {
     static final int STATE_STOPPED = 1;
 
     /* loaded from: classes.dex */
-    public interface Callback {
+    interface Callback {
         void onCommand(String str, Bundle bundle, ResultReceiver resultReceiver);
 
         void onFastForward();
@@ -70,6 +70,9 @@ public class MediaSessionCompatApi14 {
         void onSkipToPrevious();
 
         void onStop();
+    }
+
+    MediaSessionCompatApi14() {
     }
 
     public static Object createRemoteControlClient(PendingIntent mbIntent) {

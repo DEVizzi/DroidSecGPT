@@ -3,10 +3,13 @@ package android.support.v4.view;
 import android.content.res.ColorStateList;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.FloatRange;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
 import android.support.v4.view.accessibility.AccessibilityNodeProviderCompat;
@@ -15,6 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.accessibility.AccessibilityEvent;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.WeakHashMap;
@@ -46,7 +51,18 @@ public class ViewCompat {
     public static final int SCROLL_AXIS_HORIZONTAL = 1;
     public static final int SCROLL_AXIS_NONE = 0;
     public static final int SCROLL_AXIS_VERTICAL = 2;
+    public static final int SCROLL_INDICATOR_BOTTOM = 2;
+    public static final int SCROLL_INDICATOR_END = 32;
+    public static final int SCROLL_INDICATOR_LEFT = 4;
+    public static final int SCROLL_INDICATOR_RIGHT = 8;
+    public static final int SCROLL_INDICATOR_START = 16;
+    public static final int SCROLL_INDICATOR_TOP = 1;
     private static final String TAG = "ViewCompat";
+
+    @Retention(RetentionPolicy.SOURCE)
+    /* loaded from: classes.dex */
+    public @interface ScrollIndicators {
+    }
 
     /* loaded from: classes.dex */
     interface ViewCompatImpl {
@@ -81,6 +97,8 @@ public class ViewCompat {
         ColorStateList getBackgroundTintList(View view);
 
         PorterDuff.Mode getBackgroundTintMode(View view);
+
+        Rect getClipBounds(View view);
 
         float getElevation(View view);
 
@@ -126,6 +144,8 @@ public class ViewCompat {
 
         float getScaleY(View view);
 
+        int getScrollIndicators(View view);
+
         String getTransitionName(View view);
 
         float getTranslationX(View view);
@@ -145,6 +165,10 @@ public class ViewCompat {
         boolean hasAccessibilityDelegate(View view);
 
         boolean hasNestedScrollingParent(View view);
+
+        boolean hasOnClickListeners(View view);
+
+        boolean hasOverlappingRendering(View view);
 
         boolean hasTransientState(View view);
 
@@ -198,6 +222,8 @@ public class ViewCompat {
 
         void setChildrenDrawingOrderEnabled(ViewGroup viewGroup, boolean z);
 
+        void setClipBounds(View view, Rect rect);
+
         void setElevation(View view, float f);
 
         void setFitsSystemWindows(View view, boolean z);
@@ -237,6 +263,10 @@ public class ViewCompat {
         void setScaleX(View view, float f);
 
         void setScaleY(View view, float f);
+
+        void setScrollIndicators(View view, int i);
+
+        void setScrollIndicators(View view, int i, int i2);
 
         void setTransitionName(View view, String str);
 
@@ -487,6 +517,11 @@ public class ViewCompat {
             view.onFinishTemporaryDetach();
         }
 
+        @Override // android.support.v4.view.ViewCompat.ViewCompatImpl
+        public boolean hasOverlappingRendering(View view) {
+            return true;
+        }
+
         private void bindTempDetach() {
             try {
                 this.mDispatchStartTemporaryDetach = View.class.getDeclaredMethod("dispatchStartTemporaryDetach", new Class[0]);
@@ -649,6 +684,15 @@ public class ViewCompat {
         @Override // android.support.v4.view.ViewCompat.ViewCompatImpl
         public float getTranslationZ(View view) {
             return 0.0f;
+        }
+
+        @Override // android.support.v4.view.ViewCompat.ViewCompatImpl
+        public void setClipBounds(View view, Rect clipBounds) {
+        }
+
+        @Override // android.support.v4.view.ViewCompat.ViewCompatImpl
+        public Rect getClipBounds(View view) {
+            return null;
         }
 
         @Override // android.support.v4.view.ViewCompat.ViewCompatImpl
@@ -821,6 +865,24 @@ public class ViewCompat {
         @Override // android.support.v4.view.ViewCompat.ViewCompatImpl
         public boolean isAttachedToWindow(View view) {
             return ViewCompatBase.isAttachedToWindow(view);
+        }
+
+        @Override // android.support.v4.view.ViewCompat.ViewCompatImpl
+        public boolean hasOnClickListeners(View view) {
+            return false;
+        }
+
+        @Override // android.support.v4.view.ViewCompat.ViewCompatImpl
+        public int getScrollIndicators(View view) {
+            return 0;
+        }
+
+        @Override // android.support.v4.view.ViewCompat.ViewCompatImpl
+        public void setScrollIndicators(View view, int indicators) {
+        }
+
+        @Override // android.support.v4.view.ViewCompat.ViewCompatImpl
+        public void setScrollIndicators(View view, int indicators, int mask) {
         }
     }
 
@@ -1124,7 +1186,18 @@ public class ViewCompat {
     }
 
     /* loaded from: classes.dex */
-    static class JBViewCompatImpl extends ICSViewCompatImpl {
+    static class ICSMr1ViewCompatImpl extends ICSViewCompatImpl {
+        ICSMr1ViewCompatImpl() {
+        }
+
+        @Override // android.support.v4.view.ViewCompat.BaseViewCompatImpl, android.support.v4.view.ViewCompat.ViewCompatImpl
+        public boolean hasOnClickListeners(View view) {
+            return ViewCompatICSMr1.hasOnClickListeners(view);
+        }
+    }
+
+    /* loaded from: classes.dex */
+    static class JBViewCompatImpl extends ICSMr1ViewCompatImpl {
         JBViewCompatImpl() {
         }
 
@@ -1209,6 +1282,11 @@ public class ViewCompat {
         public boolean getFitsSystemWindows(View view) {
             return ViewCompatJB.getFitsSystemWindows(view);
         }
+
+        @Override // android.support.v4.view.ViewCompat.BaseViewCompatImpl, android.support.v4.view.ViewCompat.ViewCompatImpl
+        public boolean hasOverlappingRendering(View view) {
+            return ViewCompatJB.hasOverlappingRendering(view);
+        }
     }
 
     /* loaded from: classes.dex */
@@ -1268,7 +1346,23 @@ public class ViewCompat {
     }
 
     /* loaded from: classes.dex */
-    static class KitKatViewCompatImpl extends JbMr1ViewCompatImpl {
+    static class JbMr2ViewCompatImpl extends JbMr1ViewCompatImpl {
+        JbMr2ViewCompatImpl() {
+        }
+
+        @Override // android.support.v4.view.ViewCompat.BaseViewCompatImpl, android.support.v4.view.ViewCompat.ViewCompatImpl
+        public void setClipBounds(View view, Rect clipBounds) {
+            ViewCompatJellybeanMr2.setClipBounds(view, clipBounds);
+        }
+
+        @Override // android.support.v4.view.ViewCompat.BaseViewCompatImpl, android.support.v4.view.ViewCompat.ViewCompatImpl
+        public Rect getClipBounds(View view) {
+            return ViewCompatJellybeanMr2.getClipBounds(view);
+        }
+    }
+
+    /* loaded from: classes.dex */
+    static class KitKatViewCompatImpl extends JbMr2ViewCompatImpl {
         KitKatViewCompatImpl() {
         }
 
@@ -1429,9 +1523,32 @@ public class ViewCompat {
         }
     }
 
+    /* loaded from: classes.dex */
+    static class MarshmallowViewCompatImpl extends LollipopViewCompatImpl {
+        MarshmallowViewCompatImpl() {
+        }
+
+        @Override // android.support.v4.view.ViewCompat.BaseViewCompatImpl, android.support.v4.view.ViewCompat.ViewCompatImpl
+        public void setScrollIndicators(View view, int indicators) {
+            ViewCompatMarshmallow.setScrollIndicators(view, indicators);
+        }
+
+        @Override // android.support.v4.view.ViewCompat.BaseViewCompatImpl, android.support.v4.view.ViewCompat.ViewCompatImpl
+        public void setScrollIndicators(View view, int indicators, int mask) {
+            ViewCompatMarshmallow.setScrollIndicators(view, indicators, mask);
+        }
+
+        @Override // android.support.v4.view.ViewCompat.BaseViewCompatImpl, android.support.v4.view.ViewCompat.ViewCompatImpl
+        public int getScrollIndicators(View view) {
+            return ViewCompatMarshmallow.getScrollIndicators(view);
+        }
+    }
+
     static {
         int version = Build.VERSION.SDK_INT;
-        if (version >= 21) {
+        if (version >= 23) {
+            IMPL = new MarshmallowViewCompatImpl();
+        } else if (version >= 21) {
             IMPL = new LollipopViewCompatImpl();
         } else if (version >= 19) {
             IMPL = new KitKatViewCompatImpl();
@@ -1439,6 +1556,8 @@ public class ViewCompat {
             IMPL = new JbMr1ViewCompatImpl();
         } else if (version >= 16) {
             IMPL = new JBViewCompatImpl();
+        } else if (version >= 15) {
+            IMPL = new ICSMr1ViewCompatImpl();
         } else if (version >= 14) {
             IMPL = new ICSViewCompatImpl();
         } else if (version >= 11) {
@@ -1644,7 +1763,7 @@ public class ViewCompat {
         IMPL.setTranslationY(view, value);
     }
 
-    public static void setAlpha(View view, float value) {
+    public static void setAlpha(View view, @FloatRange(from = 0.0d, to = 1.0d) float value) {
         IMPL.setAlpha(view, value);
     }
 
@@ -1689,7 +1808,7 @@ public class ViewCompat {
     }
 
     public static void setPivotY(View view, float value) {
-        IMPL.setPivotX(view, value);
+        IMPL.setPivotY(view, value);
     }
 
     public static float getRotation(View view) {
@@ -1788,6 +1907,10 @@ public class ViewCompat {
         IMPL.setActivated(view, activated);
     }
 
+    public static boolean hasOverlappingRendering(View view) {
+        return IMPL.hasOverlappingRendering(view);
+    }
+
     public static boolean isPaddingRelative(View view) {
         return IMPL.isPaddingRelative(view);
     }
@@ -1866,7 +1989,31 @@ public class ViewCompat {
         }
     }
 
+    public static void setClipBounds(View view, Rect clipBounds) {
+        IMPL.setClipBounds(view, clipBounds);
+    }
+
+    public static Rect getClipBounds(View view) {
+        return IMPL.getClipBounds(view);
+    }
+
     public static boolean isAttachedToWindow(View view) {
         return IMPL.isAttachedToWindow(view);
+    }
+
+    public static boolean hasOnClickListeners(View view) {
+        return IMPL.hasOnClickListeners(view);
+    }
+
+    public static void setScrollIndicators(@NonNull View view, int indicators) {
+        IMPL.setScrollIndicators(view, indicators);
+    }
+
+    public static void setScrollIndicators(@NonNull View view, int indicators, int mask) {
+        IMPL.setScrollIndicators(view, indicators, mask);
+    }
+
+    public static int getScrollIndicators(@NonNull View view) {
+        return IMPL.getScrollIndicators(view);
     }
 }

@@ -1,6 +1,9 @@
 .class Landroid/support/v7/widget/SwitchCompat$1;
-.super Landroid/view/animation/Animation;
+.super Ljava/lang/Object;
 .source "SwitchCompat.java"
+
+# interfaces
+.implements Landroid/view/animation/Animation$AnimationListener;
 
 
 # annotations
@@ -17,49 +20,84 @@
 # instance fields
 .field final synthetic this$0:Landroid/support/v7/widget/SwitchCompat;
 
-.field final synthetic val$diff:F
-
-.field final synthetic val$startPosition:F
+.field final synthetic val$newCheckedState:Z
 
 
 # direct methods
-.method constructor <init>(Landroid/support/v7/widget/SwitchCompat;FF)V
+.method constructor <init>(Landroid/support/v7/widget/SwitchCompat;Z)V
     .locals 0
 
     .prologue
-    .line 755
+    .line 759
     iput-object p1, p0, Landroid/support/v7/widget/SwitchCompat$1;->this$0:Landroid/support/v7/widget/SwitchCompat;
 
-    iput p2, p0, Landroid/support/v7/widget/SwitchCompat$1;->val$startPosition:F
+    iput-boolean p2, p0, Landroid/support/v7/widget/SwitchCompat$1;->val$newCheckedState:Z
 
-    iput p3, p0, Landroid/support/v7/widget/SwitchCompat$1;->val$diff:F
-
-    invoke-direct {p0}, Landroid/view/animation/Animation;-><init>()V
+    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
 .end method
 
 
 # virtual methods
-.method protected applyTransformation(FLandroid/view/animation/Transformation;)V
-    .locals 3
-    .param p1, "interpolatedTime"    # F
-    .param p2, "t"    # Landroid/view/animation/Transformation;
+.method public onAnimationEnd(Landroid/view/animation/Animation;)V
+    .locals 2
+    .param p1, "animation"    # Landroid/view/animation/Animation;
 
     .prologue
-    .line 758
+    .line 765
     iget-object v0, p0, Landroid/support/v7/widget/SwitchCompat$1;->this$0:Landroid/support/v7/widget/SwitchCompat;
 
-    iget v1, p0, Landroid/support/v7/widget/SwitchCompat$1;->val$startPosition:F
+    invoke-static {v0}, Landroid/support/v7/widget/SwitchCompat;->access$100(Landroid/support/v7/widget/SwitchCompat;)Landroid/support/v7/widget/SwitchCompat$ThumbAnimation;
 
-    iget v2, p0, Landroid/support/v7/widget/SwitchCompat$1;->val$diff:F
+    move-result-object v0
 
-    mul-float/2addr v2, p1
+    if-ne v0, p1, :cond_0
 
-    add-float/2addr v1, v2
+    .line 767
+    iget-object v1, p0, Landroid/support/v7/widget/SwitchCompat$1;->this$0:Landroid/support/v7/widget/SwitchCompat;
 
-    invoke-static {v0, v1}, Landroid/support/v7/widget/SwitchCompat;->access$000(Landroid/support/v7/widget/SwitchCompat;F)V
+    iget-boolean v0, p0, Landroid/support/v7/widget/SwitchCompat$1;->val$newCheckedState:Z
 
-    .line 759
+    if-eqz v0, :cond_1
+
+    const/high16 v0, 0x3f800000    # 1.0f
+
+    :goto_0
+    invoke-static {v1, v0}, Landroid/support/v7/widget/SwitchCompat;->access$200(Landroid/support/v7/widget/SwitchCompat;F)V
+
+    .line 768
+    iget-object v0, p0, Landroid/support/v7/widget/SwitchCompat$1;->this$0:Landroid/support/v7/widget/SwitchCompat;
+
+    const/4 v1, 0x0
+
+    invoke-static {v0, v1}, Landroid/support/v7/widget/SwitchCompat;->access$102(Landroid/support/v7/widget/SwitchCompat;Landroid/support/v7/widget/SwitchCompat$ThumbAnimation;)Landroid/support/v7/widget/SwitchCompat$ThumbAnimation;
+
+    .line 770
+    :cond_0
+    return-void
+
+    .line 767
+    :cond_1
+    const/4 v0, 0x0
+
+    goto :goto_0
+.end method
+
+.method public onAnimationRepeat(Landroid/view/animation/Animation;)V
+    .locals 0
+    .param p1, "animation"    # Landroid/view/animation/Animation;
+
+    .prologue
+    .line 773
+    return-void
+.end method
+
+.method public onAnimationStart(Landroid/view/animation/Animation;)V
+    .locals 0
+    .param p1, "animation"    # Landroid/view/animation/Animation;
+
+    .prologue
+    .line 761
     return-void
 .end method

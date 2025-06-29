@@ -19,10 +19,10 @@
     .locals 0
 
     .prologue
-    .line 566
+    .line 568
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 567
+    .line 569
     return-void
 .end method
 
@@ -41,6 +41,9 @@
 .end method
 
 .method public abstract playFromSearch(Ljava/lang/String;Landroid/os/Bundle;)V
+.end method
+
+.method public abstract playFromUri(Landroid/net/Uri;Landroid/os/Bundle;)V
 .end method
 
 .method public abstract rewind()V

@@ -63,6 +63,9 @@
 .method public abstract getBackgroundTintMode(Landroid/view/View;)Landroid/graphics/PorterDuff$Mode;
 .end method
 
+.method public abstract getClipBounds(Landroid/view/View;)Landroid/graphics/Rect;
+.end method
+
 .method public abstract getElevation(Landroid/view/View;)F
 .end method
 
@@ -129,6 +132,9 @@
 .method public abstract getScaleY(Landroid/view/View;)F
 .end method
 
+.method public abstract getScrollIndicators(Landroid/view/View;)I
+.end method
+
 .method public abstract getTransitionName(Landroid/view/View;)Ljava/lang/String;
 .end method
 
@@ -157,6 +163,12 @@
 .end method
 
 .method public abstract hasNestedScrollingParent(Landroid/view/View;)Z
+.end method
+
+.method public abstract hasOnClickListeners(Landroid/view/View;)Z
+.end method
+
+.method public abstract hasOverlappingRendering(Landroid/view/View;)Z
 .end method
 
 .method public abstract hasTransientState(Landroid/view/View;)Z
@@ -241,6 +253,9 @@
 .method public abstract setChildrenDrawingOrderEnabled(Landroid/view/ViewGroup;Z)V
 .end method
 
+.method public abstract setClipBounds(Landroid/view/View;Landroid/graphics/Rect;)V
+.end method
+
 .method public abstract setElevation(Landroid/view/View;F)V
 .end method
 
@@ -299,6 +314,12 @@
 .end method
 
 .method public abstract setScaleY(Landroid/view/View;F)V
+.end method
+
+.method public abstract setScrollIndicators(Landroid/view/View;I)V
+.end method
+
+.method public abstract setScrollIndicators(Landroid/view/View;II)V
 .end method
 
 .method public abstract setTransitionName(Landroid/view/View;Ljava/lang/String;)V

@@ -1,6 +1,7 @@
 package android.support.v4.media.session;
 
 import android.app.PendingIntent;
+import android.net.Uri;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -54,6 +55,8 @@ public interface IMediaSession extends IInterface {
 
     void playFromSearch(String str, Bundle bundle) throws RemoteException;
 
+    void playFromUri(Uri uri, Bundle bundle) throws RemoteException;
+
     void previous() throws RemoteException;
 
     void rate(RatingCompat ratingCompat) throws RemoteException;
@@ -82,35 +85,36 @@ public interface IMediaSession extends IInterface {
     public static abstract class Stub extends Binder implements IMediaSession {
         private static final String DESCRIPTOR = "android.support.v4.media.session.IMediaSession";
         static final int TRANSACTION_adjustVolume = 11;
-        static final int TRANSACTION_fastForward = 21;
-        static final int TRANSACTION_getExtras = 30;
+        static final int TRANSACTION_fastForward = 22;
+        static final int TRANSACTION_getExtras = 31;
         static final int TRANSACTION_getFlags = 9;
         static final int TRANSACTION_getLaunchPendingIntent = 8;
-        static final int TRANSACTION_getMetadata = 26;
+        static final int TRANSACTION_getMetadata = 27;
         static final int TRANSACTION_getPackageName = 6;
-        static final int TRANSACTION_getPlaybackState = 27;
-        static final int TRANSACTION_getQueue = 28;
-        static final int TRANSACTION_getQueueTitle = 29;
-        static final int TRANSACTION_getRatingType = 31;
+        static final int TRANSACTION_getPlaybackState = 28;
+        static final int TRANSACTION_getQueue = 29;
+        static final int TRANSACTION_getQueueTitle = 30;
+        static final int TRANSACTION_getRatingType = 32;
         static final int TRANSACTION_getTag = 7;
         static final int TRANSACTION_getVolumeAttributes = 10;
         static final int TRANSACTION_isTransportControlEnabled = 5;
-        static final int TRANSACTION_next = 19;
-        static final int TRANSACTION_pause = 17;
+        static final int TRANSACTION_next = 20;
+        static final int TRANSACTION_pause = 18;
         static final int TRANSACTION_play = 13;
         static final int TRANSACTION_playFromMediaId = 14;
         static final int TRANSACTION_playFromSearch = 15;
-        static final int TRANSACTION_previous = 20;
-        static final int TRANSACTION_rate = 24;
+        static final int TRANSACTION_playFromUri = 16;
+        static final int TRANSACTION_previous = 21;
+        static final int TRANSACTION_rate = 25;
         static final int TRANSACTION_registerCallbackListener = 3;
-        static final int TRANSACTION_rewind = 22;
-        static final int TRANSACTION_seekTo = 23;
+        static final int TRANSACTION_rewind = 23;
+        static final int TRANSACTION_seekTo = 24;
         static final int TRANSACTION_sendCommand = 1;
-        static final int TRANSACTION_sendCustomAction = 25;
+        static final int TRANSACTION_sendCustomAction = 26;
         static final int TRANSACTION_sendMediaButton = 2;
         static final int TRANSACTION_setVolumeTo = 12;
-        static final int TRANSACTION_skipToQueueItem = 16;
-        static final int TRANSACTION_stop = 18;
+        static final int TRANSACTION_skipToQueueItem = 17;
+        static final int TRANSACTION_stop = 19;
         static final int TRANSACTION_unregisterCallbackListener = 4;
 
         public Stub() {
@@ -137,49 +141,51 @@ public interface IMediaSession extends IInterface {
         public boolean onTransact(int code, Parcel data, Parcel reply, int flags) throws RemoteException {
             Bundle _arg1;
             RatingCompat _arg0;
+            Uri _arg02;
             Bundle _arg12;
             Bundle _arg13;
-            KeyEvent _arg02;
             Bundle _arg14;
+            KeyEvent _arg03;
+            Bundle _arg15;
             MediaSessionCompat.ResultReceiverWrapper _arg2;
             switch (code) {
                 case 1:
                     data.enforceInterface(DESCRIPTOR);
-                    String _arg03 = data.readString();
+                    String _arg04 = data.readString();
                     if (data.readInt() != 0) {
-                        _arg14 = (Bundle) Bundle.CREATOR.createFromParcel(data);
+                        _arg15 = (Bundle) Bundle.CREATOR.createFromParcel(data);
                     } else {
-                        _arg14 = null;
+                        _arg15 = null;
                     }
                     if (data.readInt() != 0) {
                         _arg2 = MediaSessionCompat.ResultReceiverWrapper.CREATOR.createFromParcel(data);
                     } else {
                         _arg2 = null;
                     }
-                    sendCommand(_arg03, _arg14, _arg2);
+                    sendCommand(_arg04, _arg15, _arg2);
                     reply.writeNoException();
                     return true;
                 case 2:
                     data.enforceInterface(DESCRIPTOR);
                     if (data.readInt() != 0) {
-                        _arg02 = (KeyEvent) KeyEvent.CREATOR.createFromParcel(data);
+                        _arg03 = (KeyEvent) KeyEvent.CREATOR.createFromParcel(data);
                     } else {
-                        _arg02 = null;
+                        _arg03 = null;
                     }
-                    boolean _result = sendMediaButton(_arg02);
+                    boolean _result = sendMediaButton(_arg03);
                     reply.writeNoException();
                     reply.writeInt(_result ? 1 : 0);
                     return true;
                 case 3:
                     data.enforceInterface(DESCRIPTOR);
-                    IMediaControllerCallback _arg04 = IMediaControllerCallback.Stub.asInterface(data.readStrongBinder());
-                    registerCallbackListener(_arg04);
+                    IMediaControllerCallback _arg05 = IMediaControllerCallback.Stub.asInterface(data.readStrongBinder());
+                    registerCallbackListener(_arg05);
                     reply.writeNoException();
                     return true;
                 case 4:
                     data.enforceInterface(DESCRIPTOR);
-                    IMediaControllerCallback _arg05 = IMediaControllerCallback.Stub.asInterface(data.readStrongBinder());
-                    unregisterCallbackListener(_arg05);
+                    IMediaControllerCallback _arg06 = IMediaControllerCallback.Stub.asInterface(data.readStrongBinder());
+                    unregisterCallbackListener(_arg06);
                     reply.writeNoException();
                     return true;
                 case 5:
@@ -230,18 +236,18 @@ public interface IMediaSession extends IInterface {
                     return true;
                 case 11:
                     data.enforceInterface(DESCRIPTOR);
-                    int _arg06 = data.readInt();
-                    int _arg15 = data.readInt();
+                    int _arg07 = data.readInt();
+                    int _arg16 = data.readInt();
                     String _arg22 = data.readString();
-                    adjustVolume(_arg06, _arg15, _arg22);
+                    adjustVolume(_arg07, _arg16, _arg22);
                     reply.writeNoException();
                     return true;
                 case 12:
                     data.enforceInterface(DESCRIPTOR);
-                    int _arg07 = data.readInt();
-                    int _arg16 = data.readInt();
+                    int _arg08 = data.readInt();
+                    int _arg17 = data.readInt();
                     String _arg23 = data.readString();
-                    setVolumeTo(_arg07, _arg16, _arg23);
+                    setVolumeTo(_arg08, _arg17, _arg23);
                     reply.writeNoException();
                     return true;
                 case 13:
@@ -251,69 +257,84 @@ public interface IMediaSession extends IInterface {
                     return true;
                 case 14:
                     data.enforceInterface(DESCRIPTOR);
-                    String _arg08 = data.readString();
+                    String _arg09 = data.readString();
+                    if (data.readInt() != 0) {
+                        _arg14 = (Bundle) Bundle.CREATOR.createFromParcel(data);
+                    } else {
+                        _arg14 = null;
+                    }
+                    playFromMediaId(_arg09, _arg14);
+                    reply.writeNoException();
+                    return true;
+                case 15:
+                    data.enforceInterface(DESCRIPTOR);
+                    String _arg010 = data.readString();
                     if (data.readInt() != 0) {
                         _arg13 = (Bundle) Bundle.CREATOR.createFromParcel(data);
                     } else {
                         _arg13 = null;
                     }
-                    playFromMediaId(_arg08, _arg13);
+                    playFromSearch(_arg010, _arg13);
                     reply.writeNoException();
                     return true;
-                case 15:
+                case 16:
                     data.enforceInterface(DESCRIPTOR);
-                    String _arg09 = data.readString();
+                    if (data.readInt() != 0) {
+                        _arg02 = (Uri) Uri.CREATOR.createFromParcel(data);
+                    } else {
+                        _arg02 = null;
+                    }
                     if (data.readInt() != 0) {
                         _arg12 = (Bundle) Bundle.CREATOR.createFromParcel(data);
                     } else {
                         _arg12 = null;
                     }
-                    playFromSearch(_arg09, _arg12);
-                    reply.writeNoException();
-                    return true;
-                case 16:
-                    data.enforceInterface(DESCRIPTOR);
-                    long _arg010 = data.readLong();
-                    skipToQueueItem(_arg010);
+                    playFromUri(_arg02, _arg12);
                     reply.writeNoException();
                     return true;
                 case 17:
                     data.enforceInterface(DESCRIPTOR);
-                    pause();
+                    long _arg011 = data.readLong();
+                    skipToQueueItem(_arg011);
                     reply.writeNoException();
                     return true;
                 case 18:
                     data.enforceInterface(DESCRIPTOR);
-                    stop();
+                    pause();
                     reply.writeNoException();
                     return true;
                 case 19:
                     data.enforceInterface(DESCRIPTOR);
-                    next();
+                    stop();
                     reply.writeNoException();
                     return true;
                 case 20:
                     data.enforceInterface(DESCRIPTOR);
-                    previous();
+                    next();
                     reply.writeNoException();
                     return true;
                 case 21:
                     data.enforceInterface(DESCRIPTOR);
-                    fastForward();
+                    previous();
                     reply.writeNoException();
                     return true;
                 case 22:
                     data.enforceInterface(DESCRIPTOR);
-                    rewind();
+                    fastForward();
                     reply.writeNoException();
                     return true;
                 case 23:
                     data.enforceInterface(DESCRIPTOR);
-                    long _arg011 = data.readLong();
-                    seekTo(_arg011);
+                    rewind();
                     reply.writeNoException();
                     return true;
                 case 24:
+                    data.enforceInterface(DESCRIPTOR);
+                    long _arg012 = data.readLong();
+                    seekTo(_arg012);
+                    reply.writeNoException();
+                    return true;
+                case 25:
                     data.enforceInterface(DESCRIPTOR);
                     if (data.readInt() != 0) {
                         _arg0 = RatingCompat.CREATOR.createFromParcel(data);
@@ -323,18 +344,18 @@ public interface IMediaSession extends IInterface {
                     rate(_arg0);
                     reply.writeNoException();
                     return true;
-                case 25:
+                case 26:
                     data.enforceInterface(DESCRIPTOR);
-                    String _arg012 = data.readString();
+                    String _arg013 = data.readString();
                     if (data.readInt() != 0) {
                         _arg1 = (Bundle) Bundle.CREATOR.createFromParcel(data);
                     } else {
                         _arg1 = null;
                     }
-                    sendCustomAction(_arg012, _arg1);
+                    sendCustomAction(_arg013, _arg1);
                     reply.writeNoException();
                     return true;
-                case 26:
+                case 27:
                     data.enforceInterface(DESCRIPTOR);
                     MediaMetadataCompat _result8 = getMetadata();
                     reply.writeNoException();
@@ -345,7 +366,7 @@ public interface IMediaSession extends IInterface {
                     }
                     reply.writeInt(0);
                     return true;
-                case 27:
+                case 28:
                     data.enforceInterface(DESCRIPTOR);
                     PlaybackStateCompat _result9 = getPlaybackState();
                     reply.writeNoException();
@@ -356,13 +377,13 @@ public interface IMediaSession extends IInterface {
                     }
                     reply.writeInt(0);
                     return true;
-                case 28:
+                case 29:
                     data.enforceInterface(DESCRIPTOR);
                     List<MediaSessionCompat.QueueItem> _result10 = getQueue();
                     reply.writeNoException();
                     reply.writeTypedList(_result10);
                     return true;
-                case 29:
+                case 30:
                     data.enforceInterface(DESCRIPTOR);
                     CharSequence _result11 = getQueueTitle();
                     reply.writeNoException();
@@ -373,7 +394,7 @@ public interface IMediaSession extends IInterface {
                     }
                     reply.writeInt(0);
                     return true;
-                case 30:
+                case 31:
                     data.enforceInterface(DESCRIPTOR);
                     Bundle _result12 = getExtras();
                     reply.writeNoException();
@@ -384,7 +405,7 @@ public interface IMediaSession extends IInterface {
                     }
                     reply.writeInt(0);
                     return true;
-                case 31:
+                case 32:
                     data.enforceInterface(DESCRIPTOR);
                     int _result13 = getRatingType();
                     reply.writeNoException();
@@ -398,8 +419,9 @@ public interface IMediaSession extends IInterface {
             }
         }
 
+        /* JADX INFO: Access modifiers changed from: private */
         /* loaded from: classes.dex */
-        private static class Proxy implements IMediaSession {
+        public static class Proxy implements IMediaSession {
             private IBinder mRemote;
 
             Proxy(IBinder remote) {
@@ -691,13 +713,39 @@ public interface IMediaSession extends IInterface {
             }
 
             @Override // android.support.v4.media.session.IMediaSession
+            public void playFromUri(Uri uri, Bundle extras) throws RemoteException {
+                Parcel _data = Parcel.obtain();
+                Parcel _reply = Parcel.obtain();
+                try {
+                    _data.writeInterfaceToken(Stub.DESCRIPTOR);
+                    if (uri != null) {
+                        _data.writeInt(1);
+                        uri.writeToParcel(_data, 0);
+                    } else {
+                        _data.writeInt(0);
+                    }
+                    if (extras != null) {
+                        _data.writeInt(1);
+                        extras.writeToParcel(_data, 0);
+                    } else {
+                        _data.writeInt(0);
+                    }
+                    this.mRemote.transact(16, _data, _reply, 0);
+                    _reply.readException();
+                } finally {
+                    _reply.recycle();
+                    _data.recycle();
+                }
+            }
+
+            @Override // android.support.v4.media.session.IMediaSession
             public void skipToQueueItem(long id) throws RemoteException {
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
                     _data.writeLong(id);
-                    this.mRemote.transact(16, _data, _reply, 0);
+                    this.mRemote.transact(17, _data, _reply, 0);
                     _reply.readException();
                 } finally {
                     _reply.recycle();
@@ -711,7 +759,7 @@ public interface IMediaSession extends IInterface {
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    this.mRemote.transact(17, _data, _reply, 0);
+                    this.mRemote.transact(18, _data, _reply, 0);
                     _reply.readException();
                 } finally {
                     _reply.recycle();
@@ -725,7 +773,7 @@ public interface IMediaSession extends IInterface {
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    this.mRemote.transact(18, _data, _reply, 0);
+                    this.mRemote.transact(19, _data, _reply, 0);
                     _reply.readException();
                 } finally {
                     _reply.recycle();
@@ -739,7 +787,7 @@ public interface IMediaSession extends IInterface {
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    this.mRemote.transact(19, _data, _reply, 0);
+                    this.mRemote.transact(20, _data, _reply, 0);
                     _reply.readException();
                 } finally {
                     _reply.recycle();
@@ -753,7 +801,7 @@ public interface IMediaSession extends IInterface {
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    this.mRemote.transact(20, _data, _reply, 0);
+                    this.mRemote.transact(21, _data, _reply, 0);
                     _reply.readException();
                 } finally {
                     _reply.recycle();
@@ -767,7 +815,7 @@ public interface IMediaSession extends IInterface {
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    this.mRemote.transact(21, _data, _reply, 0);
+                    this.mRemote.transact(22, _data, _reply, 0);
                     _reply.readException();
                 } finally {
                     _reply.recycle();
@@ -781,7 +829,7 @@ public interface IMediaSession extends IInterface {
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    this.mRemote.transact(22, _data, _reply, 0);
+                    this.mRemote.transact(23, _data, _reply, 0);
                     _reply.readException();
                 } finally {
                     _reply.recycle();
@@ -796,7 +844,7 @@ public interface IMediaSession extends IInterface {
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
                     _data.writeLong(pos);
-                    this.mRemote.transact(23, _data, _reply, 0);
+                    this.mRemote.transact(24, _data, _reply, 0);
                     _reply.readException();
                 } finally {
                     _reply.recycle();
@@ -816,7 +864,7 @@ public interface IMediaSession extends IInterface {
                     } else {
                         _data.writeInt(0);
                     }
-                    this.mRemote.transact(24, _data, _reply, 0);
+                    this.mRemote.transact(25, _data, _reply, 0);
                     _reply.readException();
                 } finally {
                     _reply.recycle();
@@ -837,7 +885,7 @@ public interface IMediaSession extends IInterface {
                     } else {
                         _data.writeInt(0);
                     }
-                    this.mRemote.transact(25, _data, _reply, 0);
+                    this.mRemote.transact(26, _data, _reply, 0);
                     _reply.readException();
                 } finally {
                     _reply.recycle();
@@ -852,7 +900,7 @@ public interface IMediaSession extends IInterface {
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    this.mRemote.transact(26, _data, _reply, 0);
+                    this.mRemote.transact(27, _data, _reply, 0);
                     _reply.readException();
                     if (_reply.readInt() != 0) {
                         _result = MediaMetadataCompat.CREATOR.createFromParcel(_reply);
@@ -873,7 +921,7 @@ public interface IMediaSession extends IInterface {
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    this.mRemote.transact(27, _data, _reply, 0);
+                    this.mRemote.transact(28, _data, _reply, 0);
                     _reply.readException();
                     if (_reply.readInt() != 0) {
                         _result = PlaybackStateCompat.CREATOR.createFromParcel(_reply);
@@ -893,7 +941,7 @@ public interface IMediaSession extends IInterface {
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    this.mRemote.transact(28, _data, _reply, 0);
+                    this.mRemote.transact(29, _data, _reply, 0);
                     _reply.readException();
                     List<MediaSessionCompat.QueueItem> _result = _reply.createTypedArrayList(MediaSessionCompat.QueueItem.CREATOR);
                     return _result;
@@ -910,7 +958,7 @@ public interface IMediaSession extends IInterface {
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    this.mRemote.transact(29, _data, _reply, 0);
+                    this.mRemote.transact(30, _data, _reply, 0);
                     _reply.readException();
                     if (_reply.readInt() != 0) {
                         _result = (CharSequence) TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(_reply);
@@ -931,7 +979,7 @@ public interface IMediaSession extends IInterface {
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    this.mRemote.transact(30, _data, _reply, 0);
+                    this.mRemote.transact(31, _data, _reply, 0);
                     _reply.readException();
                     if (_reply.readInt() != 0) {
                         _result = (Bundle) Bundle.CREATOR.createFromParcel(_reply);
@@ -951,7 +999,7 @@ public interface IMediaSession extends IInterface {
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    this.mRemote.transact(31, _data, _reply, 0);
+                    this.mRemote.transact(32, _data, _reply, 0);
                     _reply.readException();
                     int _result = _reply.readInt();
                     return _result;

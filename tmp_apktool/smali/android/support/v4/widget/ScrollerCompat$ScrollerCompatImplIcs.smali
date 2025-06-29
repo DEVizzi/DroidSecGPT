@@ -19,7 +19,7 @@
     .locals 0
 
     .prologue
-    .line 238
+    .line 253
     invoke-direct {p0}, Landroid/support/v4/widget/ScrollerCompat$ScrollerCompatImplGingerbread;-><init>()V
 
     return-void
@@ -32,7 +32,7 @@
     .param p1, "scroller"    # Ljava/lang/Object;
 
     .prologue
-    .line 241
+    .line 256
     invoke-static {p1}, Landroid/support/v4/widget/ScrollerCompatIcs;->getCurrVelocity(Ljava/lang/Object;)F
 
     move-result v0

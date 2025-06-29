@@ -9,7 +9,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import com.google.android.gms.location.places.Place;
 /* loaded from: classes.dex */
 public class MenuDialogHelper implements DialogInterface.OnKeyListener, DialogInterface.OnClickListener, DialogInterface.OnDismissListener, MenuPresenter.Callback {
     private AlertDialog mDialog;
@@ -38,7 +37,7 @@ public class MenuDialogHelper implements DialogInterface.OnKeyListener, DialogIn
         this.mDialog = builder.create();
         this.mDialog.setOnDismissListener(this);
         WindowManager.LayoutParams lp = this.mDialog.getWindow().getAttributes();
-        lp.type = Place.TYPE_ADMINISTRATIVE_AREA_LEVEL_3;
+        lp.type = 1003;
         if (windowToken != null) {
             lp.token = windowToken;
         }

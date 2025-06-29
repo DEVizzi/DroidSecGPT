@@ -19,7 +19,7 @@
     .locals 0
 
     .prologue
-    .line 575
+    .line 577
     invoke-direct {p0}, Landroid/support/v4/app/NotificationCompat$NotificationCompatImplBase;-><init>()V
 
     return-void
@@ -33,7 +33,7 @@
     .param p2, "extender"    # Landroid/support/v4/app/NotificationCompat$BuilderExtender;
 
     .prologue
-    .line 578
+    .line 580
     new-instance v2, Landroid/support/v4/app/NotificationCompatIceCreamSandwich$Builder;
 
     move-object/from16 v0, p1
@@ -90,7 +90,7 @@
 
     invoke-direct/range {v2 .. v15}, Landroid/support/v4/app/NotificationCompatIceCreamSandwich$Builder;-><init>(Landroid/content/Context;Landroid/app/Notification;Ljava/lang/CharSequence;Ljava/lang/CharSequence;Ljava/lang/CharSequence;Landroid/widget/RemoteViews;ILandroid/app/PendingIntent;Landroid/app/PendingIntent;Landroid/graphics/Bitmap;IIZ)V
 
-    .line 583
+    .line 585
     .local v2, "builder":Landroid/support/v4/app/NotificationCompatIceCreamSandwich$Builder;
     move-object/from16 v0, p2
 

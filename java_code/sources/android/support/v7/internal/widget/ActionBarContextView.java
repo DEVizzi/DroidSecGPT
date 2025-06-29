@@ -1,40 +1,28 @@
 package android.support.v7.internal.widget;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorCompat;
-import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.support.v7.appcompat.R;
-import android.support.v7.internal.view.ViewPropertyAnimatorCompatSet;
 import android.support.v7.internal.view.menu.MenuBuilder;
-import android.support.v7.internal.widget.ActivityChooserView;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.ActionMenuPresenter;
 import android.support.v7.widget.ActionMenuView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 /* loaded from: classes.dex */
-public class ActionBarContextView extends AbsActionBarView implements ViewPropertyAnimatorListener {
-    private static final int ANIMATE_IDLE = 0;
-    private static final int ANIMATE_IN = 1;
-    private static final int ANIMATE_OUT = 2;
+public class ActionBarContextView extends AbsActionBarView {
     private static final String TAG = "ActionBarContextView";
-    private boolean mAnimateInOnLayout;
-    private int mAnimationMode;
     private View mClose;
     private int mCloseItemLayout;
-    private ViewPropertyAnimatorCompatSet mCurrentAnimation;
     private View mCustomView;
-    private Drawable mSplitBackground;
     private CharSequence mSubtitle;
     private int mSubtitleStyleRes;
     private TextView mSubtitleView;
@@ -79,19 +67,29 @@ public class ActionBarContextView extends AbsActionBarView implements ViewProper
         return super.isOverflowReserved();
     }
 
+    @Override // android.support.v7.internal.widget.AbsActionBarView, android.view.View
+    public /* bridge */ /* synthetic */ boolean onHoverEvent(MotionEvent x0) {
+        return super.onHoverEvent(x0);
+    }
+
+    @Override // android.support.v7.internal.widget.AbsActionBarView, android.view.View
+    public /* bridge */ /* synthetic */ boolean onTouchEvent(MotionEvent x0) {
+        return super.onTouchEvent(x0);
+    }
+
     @Override // android.support.v7.internal.widget.AbsActionBarView
     public /* bridge */ /* synthetic */ void postShowOverflowMenu() {
         super.postShowOverflowMenu();
     }
 
-    @Override // android.support.v7.internal.widget.AbsActionBarView
-    public /* bridge */ /* synthetic */ void setSplitView(ViewGroup x0) {
-        super.setSplitView(x0);
+    @Override // android.support.v7.internal.widget.AbsActionBarView, android.view.View
+    public /* bridge */ /* synthetic */ void setVisibility(int x0) {
+        super.setVisibility(x0);
     }
 
     @Override // android.support.v7.internal.widget.AbsActionBarView
-    public /* bridge */ /* synthetic */ void setSplitWhenNarrow(boolean x0) {
-        super.setSplitWhenNarrow(x0);
+    public /* bridge */ /* synthetic */ ViewPropertyAnimatorCompat setupAnimatorToVisibility(int x0, long x1) {
+        return super.setupAnimatorToVisibility(x0, x1);
     }
 
     public ActionBarContextView(Context context) {
@@ -109,7 +107,6 @@ public class ActionBarContextView extends AbsActionBarView implements ViewProper
         this.mTitleStyleRes = a.getResourceId(R.styleable.ActionMode_titleTextStyle, 0);
         this.mSubtitleStyleRes = a.getResourceId(R.styleable.ActionMode_subtitleTextStyle, 0);
         this.mContentHeight = a.getLayoutDimension(R.styleable.ActionMode_height, 0);
-        this.mSplitBackground = a.getDrawable(R.styleable.ActionMode_backgroundSplit);
         this.mCloseItemLayout = a.getResourceId(R.styleable.ActionMode_closeItemLayout, R.layout.abc_action_mode_close_item_material);
         a.recycle();
     }
@@ -124,37 +121,6 @@ public class ActionBarContextView extends AbsActionBarView implements ViewProper
     }
 
     @Override // android.support.v7.internal.widget.AbsActionBarView
-    public void setSplitToolbar(boolean split) {
-        if (this.mSplitActionBar != split) {
-            if (this.mActionMenuPresenter != null) {
-                ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(-2, -1);
-                if (!split) {
-                    this.mMenuView = (ActionMenuView) this.mActionMenuPresenter.getMenuView(this);
-                    this.mMenuView.setBackgroundDrawable(null);
-                    ViewGroup oldParent = (ViewGroup) this.mMenuView.getParent();
-                    if (oldParent != null) {
-                        oldParent.removeView(this.mMenuView);
-                    }
-                    addView(this.mMenuView, layoutParams);
-                } else {
-                    this.mActionMenuPresenter.setWidthLimit(getContext().getResources().getDisplayMetrics().widthPixels, true);
-                    this.mActionMenuPresenter.setItemLimit(ActivityChooserView.ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED);
-                    layoutParams.width = -1;
-                    layoutParams.height = this.mContentHeight;
-                    this.mMenuView = (ActionMenuView) this.mActionMenuPresenter.getMenuView(this);
-                    this.mMenuView.setBackgroundDrawable(this.mSplitBackground);
-                    ViewGroup oldParent2 = (ViewGroup) this.mMenuView.getParent();
-                    if (oldParent2 != null) {
-                        oldParent2.removeView(this.mMenuView);
-                    }
-                    this.mSplitView.addView(this.mMenuView, layoutParams);
-                }
-            }
-            super.setSplitToolbar(split);
-        }
-    }
-
-    @Override // android.support.v7.internal.widget.AbsActionBarView
     public void setContentHeight(int height) {
         this.mContentHeight = height;
     }
@@ -164,7 +130,7 @@ public class ActionBarContextView extends AbsActionBarView implements ViewProper
             removeView(this.mCustomView);
         }
         this.mCustomView = view;
-        if (this.mTitleLayout != null) {
+        if (view != null && this.mTitleLayout != null) {
             removeView(this.mTitleLayout);
             this.mTitleLayout = null;
         }
@@ -244,54 +210,22 @@ public class ActionBarContextView extends AbsActionBarView implements ViewProper
         this.mActionMenuPresenter = new ActionMenuPresenter(getContext());
         this.mActionMenuPresenter.setReserveOverflow(true);
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(-2, -1);
-        if (!this.mSplitActionBar) {
-            menu.addMenuPresenter(this.mActionMenuPresenter, this.mPopupContext);
-            this.mMenuView = (ActionMenuView) this.mActionMenuPresenter.getMenuView(this);
-            this.mMenuView.setBackgroundDrawable(null);
-            addView(this.mMenuView, layoutParams);
-        } else {
-            this.mActionMenuPresenter.setWidthLimit(getContext().getResources().getDisplayMetrics().widthPixels, true);
-            this.mActionMenuPresenter.setItemLimit(ActivityChooserView.ActivityChooserViewAdapter.MAX_ACTIVITY_COUNT_UNLIMITED);
-            layoutParams.width = -1;
-            layoutParams.height = this.mContentHeight;
-            menu.addMenuPresenter(this.mActionMenuPresenter, this.mPopupContext);
-            this.mMenuView = (ActionMenuView) this.mActionMenuPresenter.getMenuView(this);
-            this.mMenuView.setBackgroundDrawable(this.mSplitBackground);
-            this.mSplitView.addView(this.mMenuView, layoutParams);
-        }
-        this.mAnimateInOnLayout = true;
+        menu.addMenuPresenter(this.mActionMenuPresenter, this.mPopupContext);
+        this.mMenuView = (ActionMenuView) this.mActionMenuPresenter.getMenuView(this);
+        this.mMenuView.setBackgroundDrawable(null);
+        addView(this.mMenuView, layoutParams);
     }
 
     public void closeMode() {
-        if (this.mAnimationMode != 2) {
-            if (this.mClose == null) {
-                killMode();
-                return;
-            }
-            finishAnimation();
-            this.mAnimationMode = 2;
-            this.mCurrentAnimation = makeOutAnimation();
-            this.mCurrentAnimation.start();
-        }
-    }
-
-    private void finishAnimation() {
-        ViewPropertyAnimatorCompatSet a = this.mCurrentAnimation;
-        if (a != null) {
-            this.mCurrentAnimation = null;
-            a.cancel();
+        if (this.mClose == null) {
+            killMode();
         }
     }
 
     public void killMode() {
-        finishAnimation();
         removeAllViews();
-        if (this.mSplitView != null) {
-            this.mSplitView.removeView(this.mMenuView);
-        }
         this.mCustomView = null;
         this.mMenuView = null;
-        this.mAnimateInOnLayout = false;
     }
 
     @Override // android.support.v7.internal.widget.AbsActionBarView
@@ -390,53 +324,6 @@ public class ActionBarContextView extends AbsActionBarView implements ViewProper
         setMeasuredDimension(contentWidth, maxHeight);
     }
 
-    private ViewPropertyAnimatorCompatSet makeInAnimation() {
-        int count;
-        ViewCompat.setTranslationX(this.mClose, (-this.mClose.getWidth()) - ((ViewGroup.MarginLayoutParams) this.mClose.getLayoutParams()).leftMargin);
-        ViewPropertyAnimatorCompat buttonAnimator = ViewCompat.animate(this.mClose).translationX(0.0f);
-        buttonAnimator.setDuration(200L);
-        buttonAnimator.setListener(this);
-        buttonAnimator.setInterpolator(new DecelerateInterpolator());
-        ViewPropertyAnimatorCompatSet set = new ViewPropertyAnimatorCompatSet();
-        set.play(buttonAnimator);
-        if (this.mMenuView != null && (count = this.mMenuView.getChildCount()) > 0) {
-            int i = count - 1;
-            int j = 0;
-            while (i >= 0) {
-                View child = this.mMenuView.getChildAt(i);
-                ViewCompat.setScaleY(child, 0.0f);
-                ViewPropertyAnimatorCompat a = ViewCompat.animate(child).scaleY(1.0f);
-                a.setDuration(300L);
-                set.play(a);
-                i--;
-                j++;
-            }
-        }
-        return set;
-    }
-
-    private ViewPropertyAnimatorCompatSet makeOutAnimation() {
-        ViewPropertyAnimatorCompat buttonAnimator = ViewCompat.animate(this.mClose).translationX((-this.mClose.getWidth()) - ((ViewGroup.MarginLayoutParams) this.mClose.getLayoutParams()).leftMargin);
-        buttonAnimator.setDuration(200L);
-        buttonAnimator.setListener(this);
-        buttonAnimator.setInterpolator(new DecelerateInterpolator());
-        ViewPropertyAnimatorCompatSet set = new ViewPropertyAnimatorCompatSet();
-        set.play(buttonAnimator);
-        if (this.mMenuView != null) {
-            int count = this.mMenuView.getChildCount();
-            if (count > 0) {
-                for (int i = 0; i < 0; i++) {
-                    View child = this.mMenuView.getChildAt(i);
-                    ViewCompat.setScaleY(child, 1.0f);
-                    ViewPropertyAnimatorCompat a = ViewCompat.animate(child).scaleY(0.0f);
-                    a.setDuration(300L);
-                    set.play(a);
-                }
-            }
-        }
-        return set;
-    }
-
     @Override // android.view.ViewGroup, android.view.View
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         boolean isLayoutRtl = ViewUtils.isLayoutRtl(this);
@@ -449,12 +336,6 @@ public class ActionBarContextView extends AbsActionBarView implements ViewProper
             int endMargin = isLayoutRtl ? lp.leftMargin : lp.rightMargin;
             int x2 = next(x, startMargin, isLayoutRtl);
             x = next(x2 + positionChild(this.mClose, x2, y, contentHeight, isLayoutRtl), endMargin, isLayoutRtl);
-            if (this.mAnimateInOnLayout) {
-                this.mAnimationMode = 1;
-                this.mCurrentAnimation = makeInAnimation();
-                this.mCurrentAnimation.start();
-                this.mAnimateInOnLayout = false;
-            }
         }
         if (this.mTitleLayout != null && this.mCustomView == null && this.mTitleLayout.getVisibility() != 8) {
             x += positionChild(this.mTitleLayout, x, y, contentHeight, isLayoutRtl);
@@ -466,22 +347,6 @@ public class ActionBarContextView extends AbsActionBarView implements ViewProper
         if (this.mMenuView != null) {
             int positionChild2 = x3 + positionChild(this.mMenuView, x3, y, contentHeight, !isLayoutRtl);
         }
-    }
-
-    @Override // android.support.v4.view.ViewPropertyAnimatorListener
-    public void onAnimationStart(View view) {
-    }
-
-    @Override // android.support.v4.view.ViewPropertyAnimatorListener
-    public void onAnimationEnd(View view) {
-        if (this.mAnimationMode == 2) {
-            killMode();
-        }
-        this.mAnimationMode = 0;
-    }
-
-    @Override // android.support.v4.view.ViewPropertyAnimatorListener
-    public void onAnimationCancel(View view) {
     }
 
     @Override // android.view.ViewGroup

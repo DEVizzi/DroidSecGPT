@@ -10,7 +10,6 @@ import android.database.DataSetObserver;
 import android.graphics.drawable.Drawable;
 import android.support.v4.view.ActionProvider;
 import android.support.v4.view.ViewCompat;
-import android.support.v4.view.accessibility.AccessibilityEventCompat;
 import android.support.v7.appcompat.R;
 import android.support.v7.internal.widget.ActivityChooserModel;
 import android.support.v7.widget.LinearLayoutCompat;
@@ -338,7 +337,7 @@ public class ActivityChooserView extends ViewGroup implements ActivityChooserMod
                         }
                         Intent launchIntent = ActivityChooserView.this.mAdapter.getDataModel().chooseActivity(position);
                         if (launchIntent != null) {
-                            launchIntent.addFlags(AccessibilityEventCompat.TYPE_GESTURE_DETECTION_END);
+                            launchIntent.addFlags(524288);
                             ActivityChooserView.this.getContext().startActivity(launchIntent);
                             return;
                         }
@@ -372,7 +371,7 @@ public class ActivityChooserView extends ViewGroup implements ActivityChooserMod
             int index = ActivityChooserView.this.mAdapter.getDataModel().getActivityIndex(defaultActivity);
             Intent launchIntent = ActivityChooserView.this.mAdapter.getDataModel().chooseActivity(index);
             if (launchIntent != null) {
-                launchIntent.addFlags(AccessibilityEventCompat.TYPE_GESTURE_DETECTION_END);
+                launchIntent.addFlags(524288);
                 ActivityChooserView.this.getContext().startActivity(launchIntent);
             }
         }

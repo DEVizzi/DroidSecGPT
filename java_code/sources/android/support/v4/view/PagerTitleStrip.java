@@ -5,6 +5,8 @@ import android.content.res.TypedArray;
 import android.database.DataSetObserver;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.ColorInt;
+import android.support.annotation.FloatRange;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -146,14 +148,14 @@ public class PagerTitleStrip extends ViewGroup implements ViewPager.Decor {
         return this.mScaledTextSpacing;
     }
 
-    public void setNonPrimaryAlpha(float alpha) {
+    public void setNonPrimaryAlpha(@FloatRange(from = 0.0d, to = 1.0d) float alpha) {
         this.mNonPrimaryAlpha = ((int) (255.0f * alpha)) & 255;
         int transparentColor = (this.mNonPrimaryAlpha << 24) | (this.mTextColor & ViewCompat.MEASURED_SIZE_MASK);
         this.mPrevText.setTextColor(transparentColor);
         this.mNextText.setTextColor(transparentColor);
     }
 
-    public void setTextColor(int color) {
+    public void setTextColor(@ColorInt int color) {
         this.mTextColor = color;
         this.mCurrText.setTextColor(color);
         int transparentColor = (this.mNonPrimaryAlpha << 24) | (this.mTextColor & ViewCompat.MEASURED_SIZE_MASK);
@@ -213,9 +215,11 @@ public class PagerTitleStrip extends ViewGroup implements ViewPager.Decor {
         }
         this.mNextText.setText(text2);
         int width = (getWidth() - getPaddingLeft()) - getPaddingRight();
+        int maxWidth = Math.max(0, (int) (width * 0.8f));
+        int childWidthSpec = View.MeasureSpec.makeMeasureSpec(maxWidth, Integer.MIN_VALUE);
         int childHeight = (getHeight() - getPaddingTop()) - getPaddingBottom();
-        int childWidthSpec = View.MeasureSpec.makeMeasureSpec((int) (width * 0.8f), Integer.MIN_VALUE);
-        int childHeightSpec = View.MeasureSpec.makeMeasureSpec(childHeight, Integer.MIN_VALUE);
+        int maxHeight = Math.max(0, childHeight);
+        int childHeightSpec = View.MeasureSpec.makeMeasureSpec(maxHeight, Integer.MIN_VALUE);
         this.mPrevText.measure(childWidthSpec, childHeightSpec);
         this.mCurrText.measure(childWidthSpec, childHeightSpec);
         this.mNextText.measure(childWidthSpec, childHeightSpec);
@@ -324,27 +328,30 @@ public class PagerTitleStrip extends ViewGroup implements ViewPager.Decor {
 
     @Override // android.view.View
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int height;
         int widthMode = View.MeasureSpec.getMode(widthMeasureSpec);
-        int heightMode = View.MeasureSpec.getMode(heightMeasureSpec);
-        int widthSize = View.MeasureSpec.getSize(widthMeasureSpec);
-        int heightSize = View.MeasureSpec.getSize(heightMeasureSpec);
         if (widthMode != 1073741824) {
             throw new IllegalStateException("Must measure with an exact width");
         }
-        int minHeight = getMinHeight();
-        int padding = getPaddingTop() + getPaddingBottom();
-        int childHeight = heightSize - padding;
-        int childWidthSpec = View.MeasureSpec.makeMeasureSpec((int) (widthSize * 0.8f), Integer.MIN_VALUE);
-        int childHeightSpec = View.MeasureSpec.makeMeasureSpec(childHeight, Integer.MIN_VALUE);
+        int heightPadding = getPaddingTop() + getPaddingBottom();
+        int childHeightSpec = getChildMeasureSpec(heightMeasureSpec, heightPadding, -2);
+        int widthSize = View.MeasureSpec.getSize(widthMeasureSpec);
+        int widthPadding = (int) (widthSize * 0.2f);
+        int childWidthSpec = getChildMeasureSpec(widthMeasureSpec, widthPadding, -2);
         this.mPrevText.measure(childWidthSpec, childHeightSpec);
         this.mCurrText.measure(childWidthSpec, childHeightSpec);
         this.mNextText.measure(childWidthSpec, childHeightSpec);
+        int heightMode = View.MeasureSpec.getMode(heightMeasureSpec);
         if (heightMode == 1073741824) {
-            setMeasuredDimension(widthSize, heightSize);
-            return;
+            height = View.MeasureSpec.getSize(heightMeasureSpec);
+        } else {
+            int textHeight = this.mCurrText.getMeasuredHeight();
+            int minHeight = getMinHeight();
+            height = Math.max(minHeight, textHeight + heightPadding);
         }
-        int textHeight = this.mCurrText.getMeasuredHeight();
-        setMeasuredDimension(widthSize, Math.max(minHeight, textHeight + padding));
+        int childState = ViewCompat.getMeasuredState(this.mCurrText);
+        int measuredHeight = ViewCompat.resolveSizeAndState(height, heightMeasureSpec, childState << 16);
+        setMeasuredDimension(widthSize, measuredHeight);
     }
 
     @Override // android.view.ViewGroup, android.view.View

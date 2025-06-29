@@ -27,13 +27,13 @@
     .param p1, "activity"    # Landroid/app/Activity;
 
     .prologue
-    .line 668
+    .line 659
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 669
+    .line 660
     iput-object p1, p0, Landroid/support/v7/app/ActionBarDrawerToggle$DummyDelegate;->mActivity:Landroid/app/Activity;
 
-    .line 670
+    .line 661
     return-void
 .end method
 
@@ -43,7 +43,7 @@
     .locals 1
 
     .prologue
-    .line 689
+    .line 680
     iget-object v0, p0, Landroid/support/v7/app/ActionBarDrawerToggle$DummyDelegate;->mActivity:Landroid/app/Activity;
 
     return-object v0
@@ -53,7 +53,7 @@
     .locals 1
 
     .prologue
-    .line 684
+    .line 675
     const/4 v0, 0x0
 
     return-object v0
@@ -63,7 +63,7 @@
     .locals 1
 
     .prologue
-    .line 694
+    .line 685
     const/4 v0, 0x1
 
     return v0
@@ -77,7 +77,7 @@
     .end param
 
     .prologue
-    .line 680
+    .line 671
     return-void
 .end method
 
@@ -90,6 +90,6 @@
     .end param
 
     .prologue
-    .line 675
+    .line 666
     return-void
 .end method

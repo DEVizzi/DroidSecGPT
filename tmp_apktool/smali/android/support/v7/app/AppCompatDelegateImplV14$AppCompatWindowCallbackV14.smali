@@ -44,7 +44,7 @@
     .line 57
     iget-object v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV14$AppCompatWindowCallbackV14;->this$0:Landroid/support/v7/app/AppCompatDelegateImplV14;
 
-    invoke-static {v0}, Landroid/support/v7/app/AppCompatDelegateImplV14;->access$000(Landroid/support/v7/app/AppCompatDelegateImplV14;)Z
+    invoke-virtual {v0}, Landroid/support/v7/app/AppCompatDelegateImplV14;->isHandleNativeActionModesEnabled()Z
 
     move-result v0
 
@@ -68,51 +68,42 @@
 .end method
 
 .method final startAsSupportActionMode(Landroid/view/ActionMode$Callback;)Landroid/view/ActionMode;
-    .locals 4
+    .locals 3
     .param p1, "callback"    # Landroid/view/ActionMode$Callback;
 
     .prologue
     .line 70
     new-instance v0, Landroid/support/v7/internal/view/SupportActionModeWrapper$CallbackWrapper;
 
-    iget-object v3, p0, Landroid/support/v7/app/AppCompatDelegateImplV14$AppCompatWindowCallbackV14;->this$0:Landroid/support/v7/app/AppCompatDelegateImplV14;
+    iget-object v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV14$AppCompatWindowCallbackV14;->this$0:Landroid/support/v7/app/AppCompatDelegateImplV14;
 
-    iget-object v3, v3, Landroid/support/v7/app/AppCompatDelegateImplV14;->mContext:Landroid/content/Context;
+    iget-object v2, v2, Landroid/support/v7/app/AppCompatDelegateImplV14;->mContext:Landroid/content/Context;
 
-    invoke-direct {v0, v3, p1}, Landroid/support/v7/internal/view/SupportActionModeWrapper$CallbackWrapper;-><init>(Landroid/content/Context;Landroid/view/ActionMode$Callback;)V
+    invoke-direct {v0, v2, p1}, Landroid/support/v7/internal/view/SupportActionModeWrapper$CallbackWrapper;-><init>(Landroid/content/Context;Landroid/view/ActionMode$Callback;)V
 
     .line 74
     .local v0, "callbackWrapper":Landroid/support/v7/internal/view/SupportActionModeWrapper$CallbackWrapper;
-    iget-object v3, p0, Landroid/support/v7/app/AppCompatDelegateImplV14$AppCompatWindowCallbackV14;->this$0:Landroid/support/v7/app/AppCompatDelegateImplV14;
+    iget-object v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV14$AppCompatWindowCallbackV14;->this$0:Landroid/support/v7/app/AppCompatDelegateImplV14;
 
-    invoke-virtual {v3, v0}, Landroid/support/v7/app/AppCompatDelegateImplV14;->startSupportActionMode(Landroid/support/v7/view/ActionMode$Callback;)Landroid/support/v7/view/ActionMode;
+    invoke-virtual {v2, v0}, Landroid/support/v7/app/AppCompatDelegateImplV14;->startSupportActionMode(Landroid/support/v7/view/ActionMode$Callback;)Landroid/support/v7/view/ActionMode;
+
+    move-result-object v1
+
+    .line 77
+    .local v1, "supportActionMode":Landroid/support/v7/view/ActionMode;
+    if-eqz v1, :cond_0
+
+    .line 79
+    invoke-virtual {v0, v1}, Landroid/support/v7/internal/view/SupportActionModeWrapper$CallbackWrapper;->getActionModeWrapper(Landroid/support/v7/view/ActionMode;)Landroid/view/ActionMode;
 
     move-result-object v2
 
-    .line 77
-    .local v2, "supportActionMode":Landroid/support/v7/view/ActionMode;
-    if-eqz v2, :cond_0
-
-    .line 79
-    new-instance v1, Landroid/support/v7/internal/view/SupportActionModeWrapper;
-
-    iget-object v3, p0, Landroid/support/v7/app/AppCompatDelegateImplV14$AppCompatWindowCallbackV14;->this$0:Landroid/support/v7/app/AppCompatDelegateImplV14;
-
-    iget-object v3, v3, Landroid/support/v7/app/AppCompatDelegateImplV14;->mContext:Landroid/content/Context;
-
-    invoke-direct {v1, v3, v2}, Landroid/support/v7/internal/view/SupportActionModeWrapper;-><init>(Landroid/content/Context;Landroid/support/v7/view/ActionMode;)V
-
-    .line 82
-    .local v1, "newActionMode":Landroid/support/v7/internal/view/SupportActionModeWrapper;
-    invoke-virtual {v0, v1}, Landroid/support/v7/internal/view/SupportActionModeWrapper$CallbackWrapper;->addActionModeWrapper(Landroid/support/v7/internal/view/SupportActionModeWrapper;)V
-
-    .line 85
-    .end local v1    # "newActionMode":Landroid/support/v7/internal/view/SupportActionModeWrapper;
+    .line 81
     :goto_0
-    return-object v1
+    return-object v2
 
     :cond_0
-    const/4 v1, 0x0
+    const/4 v2, 0x0
 
     goto :goto_0
 .end method

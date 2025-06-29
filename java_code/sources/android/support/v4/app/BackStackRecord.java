@@ -235,12 +235,12 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
 
     @Override // android.support.v4.app.FragmentManager.BackStackEntry
     public CharSequence getBreadCrumbTitle() {
-        return this.mBreadCrumbTitleRes != 0 ? this.mManager.mActivity.getText(this.mBreadCrumbTitleRes) : this.mBreadCrumbTitleText;
+        return this.mBreadCrumbTitleRes != 0 ? this.mManager.mHost.getContext().getText(this.mBreadCrumbTitleRes) : this.mBreadCrumbTitleText;
     }
 
     @Override // android.support.v4.app.FragmentManager.BackStackEntry
     public CharSequence getBreadCrumbShortTitle() {
-        return this.mBreadCrumbShortTitleRes != 0 ? this.mManager.mActivity.getText(this.mBreadCrumbShortTitleRes) : this.mBreadCrumbShortTitleText;
+        return this.mBreadCrumbShortTitleRes != 0 ? this.mManager.mHost.getContext().getText(this.mBreadCrumbShortTitleRes) : this.mBreadCrumbShortTitleText;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -538,13 +538,14 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
                     break;
                 case 2:
                     Fragment f2 = op.fragment;
+                    int containerId = f2.mContainerId;
                     if (this.mManager.mAdded != null) {
                         for (int i = 0; i < this.mManager.mAdded.size(); i++) {
                             Fragment old = this.mManager.mAdded.get(i);
                             if (FragmentManagerImpl.DEBUG) {
                                 Log.v(TAG, "OP_REPLACE: adding=" + f2 + " old=" + old);
                             }
-                            if (f2 == null || old.mContainerId == f2.mContainerId) {
+                            if (old.mContainerId == containerId) {
                                 if (old == f2) {
                                     f2 = null;
                                     op.fragment = null;
@@ -622,7 +623,7 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
     }
 
     private void calculateFragments(SparseArray<Fragment> firstOutFragments, SparseArray<Fragment> lastInFragments) {
-        if (this.mManager.mContainer.hasView()) {
+        if (this.mManager.mContainer.onHasView()) {
             for (Op op = this.mHead; op != null; op = op.next) {
                 switch (op.cmd) {
                     case 1:
@@ -665,7 +666,7 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
     }
 
     public void calculateBackFragments(SparseArray<Fragment> firstOutFragments, SparseArray<Fragment> lastInFragments) {
-        if (this.mManager.mContainer.hasView()) {
+        if (this.mManager.mContainer.onHasView()) {
             for (Op op = this.mHead; op != null; op = op.next) {
                 switch (op.cmd) {
                     case 1:
@@ -803,7 +804,7 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
 
     private TransitionState beginTransition(SparseArray<Fragment> firstOutFragments, SparseArray<Fragment> lastInFragments, boolean isBack) {
         TransitionState state = new TransitionState();
-        state.nonExistentView = new View(this.mManager.mActivity);
+        state.nonExistentView = new View(this.mManager.mHost.getContext());
         boolean anyTransitionStarted = false;
         for (int i = 0; i < firstOutFragments.size(); i++) {
             if (configureTransitions(firstOutFragments.keyAt(i), state, isBack, firstOutFragments, lastInFragments)) {
@@ -840,7 +841,7 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
         if (inFragment == null || outFragment == null) {
             return null;
         }
-        return FragmentTransitionCompat21.cloneTransition(isBack ? outFragment.getSharedElementReturnTransition() : inFragment.getSharedElementEnterTransition());
+        return FragmentTransitionCompat21.wrapSharedElementTransition(isBack ? outFragment.getSharedElementReturnTransition() : inFragment.getSharedElementEnterTransition());
     }
 
     private static Object captureExitingViews(Object exitTransition, Fragment outFragment, ArrayList<View> exitingViews, ArrayMap<String, View> namedViews, View nonExistentView) {
@@ -875,7 +876,7 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
     }
 
     private boolean configureTransitions(int containerId, TransitionState state, boolean isBack, SparseArray<Fragment> firstOutFragments, SparseArray<Fragment> lastInFragments) {
-        ViewGroup sceneRoot = (ViewGroup) this.mManager.mContainer.findViewById(containerId);
+        ViewGroup sceneRoot = (ViewGroup) this.mManager.mContainer.onFindViewById(containerId);
         if (sceneRoot == null) {
             return false;
         }
@@ -884,21 +885,25 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
         Object enterTransition = getEnterTransition(inFragment, isBack);
         Object sharedElementTransition = getSharedElementTransition(inFragment, outFragment, isBack);
         Object exitTransition = getExitTransition(outFragment, isBack);
-        if (enterTransition == null && sharedElementTransition == null && exitTransition == null) {
-            return false;
-        }
         ArrayMap<String, View> namedViews = null;
         ArrayList<View> sharedElementTargets = new ArrayList<>();
         if (sharedElementTransition != null) {
             namedViews = remapSharedElements(state, outFragment, isBack);
-            sharedElementTargets.add(state.nonExistentView);
-            sharedElementTargets.addAll(namedViews.values());
-            SharedElementCallback callback = isBack ? outFragment.mEnterTransitionCallback : inFragment.mEnterTransitionCallback;
-            if (callback != null) {
-                ArrayList<String> names = new ArrayList<>(namedViews.keySet());
-                ArrayList<View> views = new ArrayList<>(namedViews.values());
-                callback.onSharedElementStart(names, views, null);
+            if (namedViews.isEmpty()) {
+                sharedElementTransition = null;
+                namedViews = null;
+            } else {
+                SharedElementCallback callback = isBack ? outFragment.mEnterTransitionCallback : inFragment.mEnterTransitionCallback;
+                if (callback != null) {
+                    ArrayList<String> names = new ArrayList<>(namedViews.keySet());
+                    ArrayList<View> views = new ArrayList<>(namedViews.values());
+                    callback.onSharedElementStart(names, views, null);
+                }
+                prepareSharedElementTransition(state, sceneRoot, sharedElementTransition, inFragment, outFragment, isBack, sharedElementTargets);
             }
+        }
+        if (enterTransition == null && sharedElementTransition == null && exitTransition == null) {
+            return false;
         }
         ArrayList<View> exitingViews = new ArrayList<>();
         Object exitTransition2 = captureExitingViews(exitTransition, outFragment, exitingViews, namedViews, state.nonExistentView);
@@ -919,15 +924,15 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
                 return inFragment.getView();
             }
         };
-        if (sharedElementTransition != null) {
-            prepareSharedElementTransition(state, sceneRoot, sharedElementTransition, inFragment, outFragment, isBack, sharedElementTargets);
-        }
         ArrayList<View> enteringViews = new ArrayList<>();
         ArrayMap<String, View> renamedViews = new ArrayMap<>();
-        boolean allowOverlap = isBack ? inFragment.getAllowReturnTransitionOverlap() : inFragment.getAllowEnterTransitionOverlap();
+        boolean allowOverlap = true;
+        if (inFragment != null) {
+            allowOverlap = isBack ? inFragment.getAllowReturnTransitionOverlap() : inFragment.getAllowEnterTransitionOverlap();
+        }
         Object transition = FragmentTransitionCompat21.mergeTransitions(enterTransition, exitTransition2, sharedElementTransition, allowOverlap);
         if (transition != null) {
-            FragmentTransitionCompat21.addTransitionTargets(enterTransition, sharedElementTransition, sceneRoot, viewRetriever, state.nonExistentView, state.enteringEpicenterView, state.nameOverrides, enteringViews, renamedViews, sharedElementTargets);
+            FragmentTransitionCompat21.addTransitionTargets(enterTransition, sharedElementTransition, sceneRoot, viewRetriever, state.nonExistentView, state.enteringEpicenterView, state.nameOverrides, enteringViews, namedViews, renamedViews, sharedElementTargets);
             excludeHiddenFragmentsAfterEnter(sceneRoot, state, containerId, transition);
             FragmentTransitionCompat21.excludeTarget(transition, state.nonExistentView, true);
             excludeHiddenFragments(state, containerId, transition);
@@ -946,9 +951,7 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
                     FragmentTransitionCompat21.removeTargets(sharedElementTransition, sharedElementTargets);
                     sharedElementTargets.clear();
                     ArrayMap<String, View> namedViews = BackStackRecord.this.mapSharedElementsIn(state, isBack, inFragment);
-                    sharedElementTargets.add(state.nonExistentView);
-                    sharedElementTargets.addAll(namedViews.values());
-                    FragmentTransitionCompat21.addTargets(sharedElementTransition, sharedElementTargets);
+                    FragmentTransitionCompat21.setSharedElementTargets(sharedElementTransition, state.nonExistentView, namedViews, sharedElementTargets);
                     BackStackRecord.this.setEpicenterIn(namedViews, state);
                     BackStackRecord.this.callSharedElementEnd(state, inFragment, outFragment, isBack, namedViews);
                     return true;
@@ -1054,7 +1057,7 @@ public final class BackStackRecord extends FragmentTransaction implements Fragme
     }
 
     private static void setNameOverride(ArrayMap<String, String> overrides, String source, String target) {
-        if (source != null && target != null && !source.equals(target)) {
+        if (source != null && target != null) {
             for (int index = 0; index < overrides.size(); index++) {
                 if (source.equals(overrides.valueAt(index))) {
                     overrides.setValueAt(index, target);

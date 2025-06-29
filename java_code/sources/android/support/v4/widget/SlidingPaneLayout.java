@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.v4.view.AccessibilityDelegateCompat;
 import android.support.v4.view.MotionEventCompat;
@@ -131,18 +132,20 @@ public class SlidingPaneLayout extends ViewGroup {
         return this.mParallaxBy;
     }
 
-    public void setSliderFadeColor(int color) {
+    public void setSliderFadeColor(@ColorInt int color) {
         this.mSliderFadeColor = color;
     }
 
+    @ColorInt
     public int getSliderFadeColor() {
         return this.mSliderFadeColor;
     }
 
-    public void setCoveredFadeColor(int color) {
+    public void setCoveredFadeColor(@ColorInt int color) {
         this.mCoveredFadeColor = color;
     }
 
+    @ColorInt
     public int getCoveredFadeColor() {
         return this.mCoveredFadeColor;
     }

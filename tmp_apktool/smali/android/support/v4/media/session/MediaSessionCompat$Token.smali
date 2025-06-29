@@ -39,7 +39,7 @@
     .locals 1
 
     .prologue
-    .line 713
+    .line 786
     new-instance v0, Landroid/support/v4/media/session/MediaSessionCompat$Token$1;
 
     invoke-direct {v0}, Landroid/support/v4/media/session/MediaSessionCompat$Token$1;-><init>()V
@@ -54,13 +54,13 @@
     .param p1, "inner"    # Ljava/lang/Object;
 
     .prologue
-    .line 664
+    .line 737
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 665
+    .line 738
     iput-object p1, p0, Landroid/support/v4/media/session/MediaSessionCompat$Token;->mInner:Ljava/lang/Object;
 
-    .line 666
+    .line 739
     return-void
 .end method
 
@@ -69,7 +69,7 @@
     .param p0, "token"    # Ljava/lang/Object;
 
     .prologue
-    .line 680
+    .line 753
     if-eqz p0, :cond_0
 
     sget v0, Landroid/os/Build$VERSION;->SDK_INT:I
@@ -78,11 +78,11 @@
 
     if-ge v0, v1, :cond_1
 
-    .line 681
+    .line 754
     :cond_0
     const/4 v0, 0x0
 
-    .line 683
+    .line 756
     :goto_0
     return-object v0
 
@@ -104,7 +104,7 @@
     .locals 1
 
     .prologue
-    .line 688
+    .line 761
     const/4 v0, 0x0
 
     return v0
@@ -114,7 +114,7 @@
     .locals 1
 
     .prologue
-    .line 710
+    .line 783
     iget-object v0, p0, Landroid/support/v4/media/session/MediaSessionCompat$Token;->mInner:Ljava/lang/Object;
 
     return-object v0
@@ -126,25 +126,25 @@
     .param p2, "flags"    # I
 
     .prologue
-    .line 693
+    .line 766
     sget v0, Landroid/os/Build$VERSION;->SDK_INT:I
 
     const/16 v1, 0x15
 
     if-lt v0, v1, :cond_0
 
-    .line 694
+    .line 767
     iget-object v0, p0, Landroid/support/v4/media/session/MediaSessionCompat$Token;->mInner:Ljava/lang/Object;
 
     check-cast v0, Landroid/os/Parcelable;
 
     invoke-virtual {p1, v0, p2}, Landroid/os/Parcel;->writeParcelable(Landroid/os/Parcelable;I)V
 
-    .line 698
+    .line 771
     :goto_0
     return-void
 
-    .line 696
+    .line 769
     :cond_0
     iget-object v0, p0, Landroid/support/v4/media/session/MediaSessionCompat$Token;->mInner:Ljava/lang/Object;
 

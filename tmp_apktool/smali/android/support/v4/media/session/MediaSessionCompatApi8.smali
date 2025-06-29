@@ -1,10 +1,10 @@
-.class public Landroid/support/v4/media/session/MediaSessionCompatApi8;
+.class Landroid/support/v4/media/session/MediaSessionCompatApi8;
 .super Ljava/lang/Object;
 .source "MediaSessionCompatApi8.java"
 
 
 # direct methods
-.method public constructor <init>()V
+.method constructor <init>()V
     .locals 0
 
     .prologue

@@ -9,6 +9,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.util.DebugUtils;
@@ -34,7 +35,6 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
     static final int RESUMED = 5;
     static final int STARTED = 4;
     static final int STOPPED = 3;
-    FragmentActivity mActivity;
     boolean mAdded;
     Boolean mAllowEnterTransitionOverlap;
     Boolean mAllowReturnTransitionOverlap;
@@ -53,6 +53,7 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
     boolean mFromLayout;
     boolean mHasMenu;
     boolean mHidden;
+    FragmentHostCallback mHost;
     boolean mInLayout;
     View mInnerView;
     LoaderManagerImpl mLoaderManager;
@@ -63,6 +64,7 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
     boolean mRestored;
     boolean mResumed;
     boolean mRetainInstance;
+    boolean mRetainLoader;
     boolean mRetaining;
     Bundle mSavedFragmentState;
     SparseArray<Parcelable> mSavedViewState;
@@ -269,15 +271,32 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
         return this.mTargetRequestCode;
     }
 
+    public Context getContext() {
+        if (this.mHost == null) {
+            return null;
+        }
+        return this.mHost.getContext();
+    }
+
     public final FragmentActivity getActivity() {
-        return this.mActivity;
+        if (this.mHost == null) {
+            return null;
+        }
+        return (FragmentActivity) this.mHost.getActivity();
+    }
+
+    public final Object getHost() {
+        if (this.mHost == null) {
+            return null;
+        }
+        return this.mHost.onGetHost();
     }
 
     public final Resources getResources() {
-        if (this.mActivity == null) {
+        if (this.mHost == null) {
             throw new IllegalStateException("Fragment " + this + " not attached to Activity");
         }
-        return this.mActivity.getResources();
+        return this.mHost.getContext().getResources();
     }
 
     public final CharSequence getText(@StringRes int resId) {
@@ -317,7 +336,7 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
     }
 
     public final boolean isAdded() {
-        return this.mActivity != null && this.mAdded;
+        return this.mHost != null && this.mAdded;
     }
 
     public final boolean isDetached() {
@@ -370,7 +389,7 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
         if (this.mHasMenu != hasMenu) {
             this.mHasMenu = hasMenu;
             if (isAdded() && !isHidden()) {
-                this.mActivity.supportInvalidateOptionsMenu();
+                this.mHost.onSupportInvalidateOptionsMenu();
             }
         }
     }
@@ -379,7 +398,7 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
         if (this.mMenuVisible != menuVisible) {
             this.mMenuVisible = menuVisible;
             if (this.mHasMenu && isAdded() && !isHidden()) {
-                this.mActivity.supportInvalidateOptionsMenu();
+                this.mHost.onSupportInvalidateOptionsMenu();
             }
         }
     }
@@ -400,42 +419,79 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
         if (this.mLoaderManager != null) {
             return this.mLoaderManager;
         }
-        if (this.mActivity == null) {
+        if (this.mHost == null) {
             throw new IllegalStateException("Fragment " + this + " not attached to Activity");
         }
         this.mCheckedForLoaderManager = true;
-        this.mLoaderManager = this.mActivity.getLoaderManager(this.mWho, this.mLoadersStarted, true);
+        this.mLoaderManager = this.mHost.getLoaderManager(this.mWho, this.mLoadersStarted, true);
         return this.mLoaderManager;
     }
 
     public void startActivity(Intent intent) {
-        if (this.mActivity == null) {
+        if (this.mHost == null) {
             throw new IllegalStateException("Fragment " + this + " not attached to Activity");
         }
-        this.mActivity.startActivityFromFragment(this, intent, -1);
+        this.mHost.onStartActivityFromFragment(this, intent, -1);
     }
 
     public void startActivityForResult(Intent intent, int requestCode) {
-        if (this.mActivity == null) {
+        if (this.mHost == null) {
             throw new IllegalStateException("Fragment " + this + " not attached to Activity");
         }
-        this.mActivity.startActivityFromFragment(this, intent, requestCode);
+        this.mHost.onStartActivityFromFragment(this, intent, requestCode);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
     }
 
+    public final void requestPermissions(@NonNull String[] permissions, int requestCode) {
+        if (this.mHost == null) {
+            throw new IllegalStateException("Fragment " + this + " not attached to Activity");
+        }
+        this.mHost.onRequestPermissionsFromFragment(this, permissions, requestCode);
+    }
+
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    }
+
+    public boolean shouldShowRequestPermissionRationale(@NonNull String permission) {
+        if (this.mHost != null) {
+            return this.mHost.onShouldShowRequestPermissionRationale(permission);
+        }
+        return false;
+    }
+
     public LayoutInflater getLayoutInflater(Bundle savedInstanceState) {
-        LayoutInflater result = this.mActivity.getLayoutInflater().cloneInContext(this.mActivity);
+        LayoutInflater result = this.mHost.onGetLayoutInflater();
         getChildFragmentManager();
         LayoutInflaterCompat.setFactory(result, this.mChildFragmentManager.getLayoutInflaterFactory());
         return result;
     }
 
+    public void onInflate(Context context, AttributeSet attrs, Bundle savedInstanceState) {
+        this.mCalled = true;
+        Activity hostActivity = this.mHost == null ? null : this.mHost.getActivity();
+        if (hostActivity != null) {
+            this.mCalled = false;
+            onInflate(hostActivity, attrs, savedInstanceState);
+        }
+    }
+
+    @Deprecated
     public void onInflate(Activity activity, AttributeSet attrs, Bundle savedInstanceState) {
         this.mCalled = true;
     }
 
+    public void onAttach(Context context) {
+        this.mCalled = true;
+        Activity hostActivity = this.mHost == null ? null : this.mHost.getActivity();
+        if (hostActivity != null) {
+            this.mCalled = false;
+            onAttach(hostActivity);
+        }
+    }
+
+    @Deprecated
     public void onAttach(Activity activity) {
         this.mCalled = true;
     }
@@ -475,7 +531,7 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
             this.mLoadersStarted = true;
             if (!this.mCheckedForLoaderManager) {
                 this.mCheckedForLoaderManager = true;
-                this.mLoaderManager = this.mActivity.getLoaderManager(this.mWho, this.mLoadersStarted, false);
+                this.mLoaderManager = this.mHost.getLoaderManager(this.mWho, this.mLoadersStarted, false);
             }
             if (this.mLoaderManager != null) {
                 this.mLoaderManager.doStart();
@@ -516,7 +572,7 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
         this.mCalled = true;
         if (!this.mCheckedForLoaderManager) {
             this.mCheckedForLoaderManager = true;
-            this.mLoaderManager = this.mActivity.getLoaderManager(this.mWho, this.mLoadersStarted, false);
+            this.mLoaderManager = this.mHost.getLoaderManager(this.mWho, this.mLoadersStarted, false);
         }
         if (this.mLoaderManager != null) {
             this.mLoaderManager.doDestroy();
@@ -536,7 +592,7 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
         this.mBackStackNesting = 0;
         this.mFragmentManager = null;
         this.mChildFragmentManager = null;
-        this.mActivity = null;
+        this.mHost = null;
         this.mFragmentId = 0;
         this.mContainerId = 0;
         this.mTag = null;
@@ -712,10 +768,10 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
             writer.print("mFragmentManager=");
             writer.println(this.mFragmentManager);
         }
-        if (this.mActivity != null) {
+        if (this.mHost != null) {
             writer.print(prefix);
-            writer.print("mActivity=");
-            writer.println(this.mActivity);
+            writer.print("mHost=");
+            writer.println(this.mHost);
         }
         if (this.mParentFragment != null) {
             writer.print(prefix);
@@ -797,10 +853,10 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
 
     void instantiateChildFragmentManager() {
         this.mChildFragmentManager = new FragmentManagerImpl();
-        this.mChildFragmentManager.attachActivity(this.mActivity, new FragmentContainer() { // from class: android.support.v4.app.Fragment.1
+        this.mChildFragmentManager.attachController(this.mHost, new FragmentContainer() { // from class: android.support.v4.app.Fragment.1
             @Override // android.support.v4.app.FragmentContainer
             @Nullable
-            public View findViewById(int id) {
+            public View onFindViewById(int id) {
                 if (Fragment.this.mView == null) {
                     throw new IllegalStateException("Fragment does not have a view");
                 }
@@ -808,7 +864,7 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
             }
 
             @Override // android.support.v4.app.FragmentContainer
-            public boolean hasView() {
+            public boolean onHasView() {
                 return Fragment.this.mView != null;
             }
         }, this);
@@ -1021,13 +1077,13 @@ public class Fragment implements ComponentCallbacks, View.OnCreateContextMenuLis
             this.mLoadersStarted = false;
             if (!this.mCheckedForLoaderManager) {
                 this.mCheckedForLoaderManager = true;
-                this.mLoaderManager = this.mActivity.getLoaderManager(this.mWho, this.mLoadersStarted, false);
+                this.mLoaderManager = this.mHost.getLoaderManager(this.mWho, this.mLoadersStarted, false);
             }
             if (this.mLoaderManager != null) {
-                if (!this.mActivity.mRetaining) {
-                    this.mLoaderManager.doStop();
-                } else {
+                if (this.mRetainLoader) {
                     this.mLoaderManager.doRetain();
+                } else {
+                    this.mLoaderManager.doStop();
                 }
             }
         }

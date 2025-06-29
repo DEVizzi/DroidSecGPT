@@ -249,7 +249,7 @@ class NotificationCompatJellybean {
             if (sActionsField == null) {
                 sActionClass = Class.forName("android.app.Notification$Action");
                 sActionIconField = sActionClass.getDeclaredField(KEY_ICON);
-                sActionTitleField = sActionClass.getDeclaredField("title");
+                sActionTitleField = sActionClass.getDeclaredField(KEY_TITLE);
                 sActionIntentField = sActionClass.getDeclaredField(KEY_ACTION_INTENT);
                 sActionsField = Notification.class.getDeclaredField("actions");
                 sActionsField.setAccessible(true);
@@ -276,7 +276,7 @@ class NotificationCompatJellybean {
     }
 
     private static NotificationCompatBase.Action getActionFromBundle(Bundle bundle, NotificationCompatBase.Action.Factory actionFactory, RemoteInputCompatBase.RemoteInput.Factory remoteInputFactory) {
-        return actionFactory.build(bundle.getInt(KEY_ICON), bundle.getCharSequence("title"), (PendingIntent) bundle.getParcelable(KEY_ACTION_INTENT), bundle.getBundle(KEY_EXTRAS), RemoteInputCompatJellybean.fromBundleArray(BundleUtil.getBundleArrayFromBundle(bundle, KEY_REMOTE_INPUTS), remoteInputFactory));
+        return actionFactory.build(bundle.getInt(KEY_ICON), bundle.getCharSequence(KEY_TITLE), (PendingIntent) bundle.getParcelable(KEY_ACTION_INTENT), bundle.getBundle(KEY_EXTRAS), RemoteInputCompatJellybean.fromBundleArray(BundleUtil.getBundleArrayFromBundle(bundle, KEY_REMOTE_INPUTS), remoteInputFactory));
     }
 
     public static ArrayList<Parcelable> getParcelableArrayListForActions(NotificationCompatBase.Action[] actions) {
@@ -293,7 +293,7 @@ class NotificationCompatJellybean {
     private static Bundle getBundleForAction(NotificationCompatBase.Action action) {
         Bundle bundle = new Bundle();
         bundle.putInt(KEY_ICON, action.getIcon());
-        bundle.putCharSequence("title", action.getTitle());
+        bundle.putCharSequence(KEY_TITLE, action.getTitle());
         bundle.putParcelable(KEY_ACTION_INTENT, action.getActionIntent());
         bundle.putBundle(KEY_EXTRAS, action.getExtras());
         bundle.putParcelableArray(KEY_REMOTE_INPUTS, RemoteInputCompatJellybean.toBundleArray(action.getRemoteInputs()));

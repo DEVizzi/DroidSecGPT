@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Matrix;
 import android.graphics.RectF;
+import android.media.session.MediaController;
 import android.os.Parcelable;
 import android.view.View;
 import java.util.List;
@@ -27,6 +28,10 @@ class ActivityCompat21 {
     }
 
     ActivityCompat21() {
+    }
+
+    public static void setMediaController(Activity activity, Object mediaControllerObj) {
+        activity.setMediaController((MediaController) mediaControllerObj);
     }
 
     public static void finishAfterTransition(Activity activity) {

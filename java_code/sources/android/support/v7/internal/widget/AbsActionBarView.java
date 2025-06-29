@@ -4,32 +4,29 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Build;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorCompat;
 import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.support.v7.appcompat.R;
-import android.support.v7.internal.view.ViewPropertyAnimatorCompatSet;
 import android.support.v7.widget.ActionMenuPresenter;
 import android.support.v7.widget.ActionMenuView;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.Interpolator;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class AbsActionBarView extends ViewGroup {
     private static final int FADE_DURATION = 200;
-    private static final Interpolator sAlphaInterpolator = new DecelerateInterpolator();
     protected ActionMenuPresenter mActionMenuPresenter;
     protected int mContentHeight;
+    private boolean mEatingHover;
+    private boolean mEatingTouch;
     protected ActionMenuView mMenuView;
     protected final Context mPopupContext;
-    protected boolean mSplitActionBar;
-    protected ViewGroup mSplitView;
-    protected boolean mSplitWhenNarrow;
     protected final VisibilityAnimListener mVisAnimListener;
     protected ViewPropertyAnimatorCompat mVisibilityAnim;
 
@@ -66,12 +63,40 @@ public abstract class AbsActionBarView extends ViewGroup {
         }
     }
 
-    public void setSplitToolbar(boolean split) {
-        this.mSplitActionBar = split;
+    @Override // android.view.View
+    public boolean onTouchEvent(MotionEvent ev) {
+        int action = MotionEventCompat.getActionMasked(ev);
+        if (action == 0) {
+            this.mEatingTouch = false;
+        }
+        if (!this.mEatingTouch) {
+            boolean handled = super.onTouchEvent(ev);
+            if (action == 0 && !handled) {
+                this.mEatingTouch = true;
+            }
+        }
+        if (action == 1 || action == 3) {
+            this.mEatingTouch = false;
+        }
+        return true;
     }
 
-    public void setSplitWhenNarrow(boolean splitWhenNarrow) {
-        this.mSplitWhenNarrow = splitWhenNarrow;
+    @Override // android.view.View
+    public boolean onHoverEvent(MotionEvent ev) {
+        int action = MotionEventCompat.getActionMasked(ev);
+        if (action == 9) {
+            this.mEatingHover = false;
+        }
+        if (!this.mEatingHover) {
+            boolean handled = super.onHoverEvent(ev);
+            if (action == 9 && !handled) {
+                this.mEatingHover = true;
+            }
+        }
+        if (action == 10 || action == 3) {
+            this.mEatingHover = false;
+        }
+        return true;
     }
 
     public void setContentHeight(int height) {
@@ -83,55 +108,42 @@ public abstract class AbsActionBarView extends ViewGroup {
         return this.mContentHeight;
     }
 
-    public void setSplitView(ViewGroup splitView) {
-        this.mSplitView = splitView;
-    }
-
     public int getAnimatedVisibility() {
         return this.mVisibilityAnim != null ? this.mVisAnimListener.mFinalVisibility : getVisibility();
     }
 
-    public void animateToVisibility(int visibility) {
+    public ViewPropertyAnimatorCompat setupAnimatorToVisibility(int visibility, long duration) {
         if (this.mVisibilityAnim != null) {
             this.mVisibilityAnim.cancel();
         }
         if (visibility == 0) {
             if (getVisibility() != 0) {
                 ViewCompat.setAlpha(this, 0.0f);
-                if (this.mSplitView != null && this.mMenuView != null) {
-                    ViewCompat.setAlpha(this.mMenuView, 0.0f);
-                }
             }
             ViewPropertyAnimatorCompat anim = ViewCompat.animate(this).alpha(1.0f);
-            anim.setDuration(200L);
-            anim.setInterpolator(sAlphaInterpolator);
-            if (this.mSplitView != null && this.mMenuView != null) {
-                ViewPropertyAnimatorCompatSet set = new ViewPropertyAnimatorCompatSet();
-                ViewPropertyAnimatorCompat splitAnim = ViewCompat.animate(this.mMenuView).alpha(1.0f);
-                splitAnim.setDuration(200L);
-                set.setListener(this.mVisAnimListener.withFinalVisibility(anim, visibility));
-                set.play(anim).play(splitAnim);
-                set.start();
-                return;
-            }
+            anim.setDuration(duration);
             anim.setListener(this.mVisAnimListener.withFinalVisibility(anim, visibility));
-            anim.start();
-            return;
+            return anim;
         }
         ViewPropertyAnimatorCompat anim2 = ViewCompat.animate(this).alpha(0.0f);
-        anim2.setDuration(200L);
-        anim2.setInterpolator(sAlphaInterpolator);
-        if (this.mSplitView != null && this.mMenuView != null) {
-            ViewPropertyAnimatorCompatSet set2 = new ViewPropertyAnimatorCompatSet();
-            ViewPropertyAnimatorCompat splitAnim2 = ViewCompat.animate(this.mMenuView).alpha(0.0f);
-            splitAnim2.setDuration(200L);
-            set2.setListener(this.mVisAnimListener.withFinalVisibility(anim2, visibility));
-            set2.play(anim2).play(splitAnim2);
-            set2.start();
-            return;
-        }
+        anim2.setDuration(duration);
         anim2.setListener(this.mVisAnimListener.withFinalVisibility(anim2, visibility));
-        anim2.start();
+        return anim2;
+    }
+
+    public void animateToVisibility(int visibility) {
+        ViewPropertyAnimatorCompat anim = setupAnimatorToVisibility(visibility, 200L);
+        anim.start();
+    }
+
+    @Override // android.view.View
+    public void setVisibility(int visibility) {
+        if (visibility != getVisibility()) {
+            if (this.mVisibilityAnim != null) {
+                this.mVisibilityAnim.cancel();
+            }
+            super.setVisibility(visibility);
+        }
     }
 
     public boolean showOverflowMenu() {
@@ -209,8 +221,9 @@ public abstract class AbsActionBarView extends ViewGroup {
         return reverse ? -childWidth : childWidth;
     }
 
+    /* JADX INFO: Access modifiers changed from: protected */
     /* loaded from: classes.dex */
-    protected class VisibilityAnimListener implements ViewPropertyAnimatorListener {
+    public class VisibilityAnimListener implements ViewPropertyAnimatorListener {
         private boolean mCanceled = false;
         int mFinalVisibility;
 
@@ -225,7 +238,7 @@ public abstract class AbsActionBarView extends ViewGroup {
 
         @Override // android.support.v4.view.ViewPropertyAnimatorListener
         public void onAnimationStart(View view) {
-            AbsActionBarView.this.setVisibility(0);
+            AbsActionBarView.super.setVisibility(0);
             this.mCanceled = false;
         }
 
@@ -233,10 +246,7 @@ public abstract class AbsActionBarView extends ViewGroup {
         public void onAnimationEnd(View view) {
             if (!this.mCanceled) {
                 AbsActionBarView.this.mVisibilityAnim = null;
-                AbsActionBarView.this.setVisibility(this.mFinalVisibility);
-                if (AbsActionBarView.this.mSplitView != null && AbsActionBarView.this.mMenuView != null) {
-                    AbsActionBarView.this.mMenuView.setVisibility(this.mFinalVisibility);
-                }
+                AbsActionBarView.super.setVisibility(this.mFinalVisibility);
             }
         }
 

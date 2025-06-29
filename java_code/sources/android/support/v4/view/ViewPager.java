@@ -12,10 +12,10 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.SystemClock;
+import android.support.annotation.CallSuper;
 import android.support.annotation.DrawableRes;
 import android.support.v4.os.ParcelableCompat;
 import android.support.v4.os.ParcelableCompatCreatorCallbacks;
-import android.support.v4.view.accessibility.AccessibilityEventCompat;
 import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
 import android.support.v4.view.accessibility.AccessibilityRecordCompat;
 import android.support.v4.widget.EdgeEffectCompat;
@@ -231,7 +231,7 @@ public class ViewPager extends ViewGroup {
 
     void initViewPager() {
         setWillNotDraw(false);
-        setDescendantFocusability(AccessibilityEventCompat.TYPE_GESTURE_DETECTION_START);
+        setDescendantFocusability(262144);
         setFocusable(true);
         Context context = getContext();
         this.mScroller = new Scroller(context, sInterpolator);
@@ -1254,6 +1254,7 @@ public class ViewPager extends ViewGroup {
         return true;
     }
 
+    @CallSuper
     protected void onPageScrolled(int position, float offset, int offsetPixels) {
         int childLeft;
         if (this.mDecorChildCount > 0) {
@@ -1410,13 +1411,7 @@ public class ViewPager extends ViewGroup {
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         int action = ev.getAction() & 255;
         if (action == 3 || action == 1) {
-            this.mIsBeingDragged = false;
-            this.mIsUnableToDrag = false;
-            this.mActivePointerId = -1;
-            if (this.mVelocityTracker != null) {
-                this.mVelocityTracker.recycle();
-                this.mVelocityTracker = null;
-            }
+            resetTouch();
             return false;
         }
         if (action != 0) {
@@ -1537,29 +1532,32 @@ public class ViewPager extends ViewGroup {
                     int totalDelta = (int) (x2 - this.mInitialMotionX);
                     int nextPage = determineTargetPage(currentPage, pageOffset, initialVelocity, totalDelta);
                     setCurrentItemInternal(nextPage, true, true, initialVelocity);
-                    this.mActivePointerId = -1;
-                    endDrag();
-                    needsInvalidate = this.mLeftEdge.onRelease() | this.mRightEdge.onRelease();
+                    needsInvalidate = resetTouch();
                     break;
                 }
                 break;
             case 2:
                 if (!this.mIsBeingDragged) {
                     int pointerIndex = MotionEventCompat.findPointerIndex(ev, this.mActivePointerId);
-                    float x3 = MotionEventCompat.getX(ev, pointerIndex);
-                    float xDiff = Math.abs(x3 - this.mLastMotionX);
-                    float y2 = MotionEventCompat.getY(ev, pointerIndex);
-                    float yDiff = Math.abs(y2 - this.mLastMotionY);
-                    if (xDiff > this.mTouchSlop && xDiff > yDiff) {
-                        this.mIsBeingDragged = true;
-                        requestParentDisallowInterceptTouchEvent(true);
-                        this.mLastMotionX = x3 - this.mInitialMotionX > 0.0f ? this.mInitialMotionX + this.mTouchSlop : this.mInitialMotionX - this.mTouchSlop;
-                        this.mLastMotionY = y2;
-                        setScrollState(1);
-                        setScrollingCacheEnabled(true);
-                        ViewParent parent = getParent();
-                        if (parent != null) {
-                            parent.requestDisallowInterceptTouchEvent(true);
+                    if (pointerIndex == -1) {
+                        needsInvalidate = resetTouch();
+                        break;
+                    } else {
+                        float x3 = MotionEventCompat.getX(ev, pointerIndex);
+                        float xDiff = Math.abs(x3 - this.mLastMotionX);
+                        float y2 = MotionEventCompat.getY(ev, pointerIndex);
+                        float yDiff = Math.abs(y2 - this.mLastMotionY);
+                        if (xDiff > this.mTouchSlop && xDiff > yDiff) {
+                            this.mIsBeingDragged = true;
+                            requestParentDisallowInterceptTouchEvent(true);
+                            this.mLastMotionX = x3 - this.mInitialMotionX > 0.0f ? this.mInitialMotionX + this.mTouchSlop : this.mInitialMotionX - this.mTouchSlop;
+                            this.mLastMotionY = y2;
+                            setScrollState(1);
+                            setScrollingCacheEnabled(true);
+                            ViewParent parent = getParent();
+                            if (parent != null) {
+                                parent.requestDisallowInterceptTouchEvent(true);
+                            }
                         }
                     }
                 }
@@ -1573,9 +1571,7 @@ public class ViewPager extends ViewGroup {
             case 3:
                 if (this.mIsBeingDragged) {
                     scrollToItem(this.mCurItem, true, 0, false);
-                    this.mActivePointerId = -1;
-                    endDrag();
-                    needsInvalidate = this.mLeftEdge.onRelease() | this.mRightEdge.onRelease();
+                    needsInvalidate = resetTouch();
                     break;
                 }
                 break;
@@ -1594,6 +1590,13 @@ public class ViewPager extends ViewGroup {
             ViewCompat.postInvalidateOnAnimation(this);
         }
         return true;
+    }
+
+    private boolean resetTouch() {
+        this.mActivePointerId = -1;
+        endDrag();
+        boolean needsInvalidate = this.mLeftEdge.onRelease() | this.mRightEdge.onRelease();
+        return needsInvalidate;
     }
 
     private void requestParentDisallowInterceptTouchEvent(boolean disallowIntercept) {

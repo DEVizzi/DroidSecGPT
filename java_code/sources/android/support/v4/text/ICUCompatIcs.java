@@ -3,6 +3,7 @@ package android.support.v4.text;
 import android.util.Log;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Locale;
 /* loaded from: classes.dex */
 class ICUCompatIcs {
     private static final String TAG = "ICUCompatIcs";
@@ -20,14 +21,24 @@ class ICUCompatIcs {
                 sAddLikelySubtagsMethod = clazz.getMethod("addLikelySubtags", String.class);
             }
         } catch (Exception e) {
+            sGetScriptMethod = null;
+            sAddLikelySubtagsMethod = null;
             Log.w(TAG, e);
         }
     }
 
-    public static String getScript(String locale) {
+    public static String maximizeAndGetScript(Locale locale) {
+        String localeWithSubtags = addLikelySubtags(locale);
+        if (localeWithSubtags != null) {
+            return getScript(localeWithSubtags);
+        }
+        return null;
+    }
+
+    private static String getScript(String localeStr) {
         try {
             if (sGetScriptMethod != null) {
-                Object[] args = {locale};
+                Object[] args = {localeStr};
                 return (String) sGetScriptMethod.invoke(null, args);
             }
         } catch (IllegalAccessException e) {
@@ -38,10 +49,11 @@ class ICUCompatIcs {
         return null;
     }
 
-    public static String addLikelySubtags(String locale) {
+    private static String addLikelySubtags(Locale locale) {
+        String localeStr = locale.toString();
         try {
             if (sAddLikelySubtagsMethod != null) {
-                Object[] args = {locale};
+                Object[] args = {localeStr};
                 return (String) sAddLikelySubtagsMethod.invoke(null, args);
             }
         } catch (IllegalAccessException e) {
@@ -49,6 +61,6 @@ class ICUCompatIcs {
         } catch (InvocationTargetException e2) {
             Log.w(TAG, e2);
         }
-        return locale;
+        return localeStr;
     }
 }

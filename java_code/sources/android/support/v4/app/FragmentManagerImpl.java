@@ -7,12 +7,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.support.annotation.CallSuper;
 import android.support.v4.app.BackStackRecord;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.util.DebugUtils;
 import android.support.v4.util.LogWriter;
 import android.support.v4.view.LayoutInflaterFactory;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
@@ -30,6 +32,7 @@ import android.view.animation.Interpolator;
 import android.view.animation.ScaleAnimation;
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -55,8 +58,8 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
     static final String TARGET_STATE_TAG = "android:target_state";
     static final String USER_VISIBLE_HINT_TAG = "android:user_visible_hint";
     static final String VIEW_STATE_TAG = "android:view_state";
+    static Field sAnimationListenerField;
     ArrayList<Fragment> mActive;
-    FragmentActivity mActivity;
     ArrayList<Fragment> mAdded;
     ArrayList<Integer> mAvailBackStackIndices;
     ArrayList<Integer> mAvailIndices;
@@ -64,10 +67,12 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
     ArrayList<FragmentManager.OnBackStackChangedListener> mBackStackChangeListeners;
     ArrayList<BackStackRecord> mBackStackIndices;
     FragmentContainer mContainer;
+    FragmentController mController;
     ArrayList<Fragment> mCreatedMenus;
     boolean mDestroyed;
     boolean mExecutingActions;
     boolean mHavePendingDeferredStart;
+    FragmentHostCallback mHost;
     boolean mNeedMenuInvalidate;
     String mNoTransactionsBecause;
     Fragment mParent;
@@ -86,10 +91,100 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
 
     static {
         HONEYCOMB = Build.VERSION.SDK_INT >= 11;
+        sAnimationListenerField = null;
         DECELERATE_QUINT = new DecelerateInterpolator(2.5f);
         DECELERATE_CUBIC = new DecelerateInterpolator(1.5f);
         ACCELERATE_QUINT = new AccelerateInterpolator(2.5f);
         ACCELERATE_CUBIC = new AccelerateInterpolator(1.5f);
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    /* compiled from: FragmentManager.java */
+    /* loaded from: classes.dex */
+    public static class AnimateOnHWLayerIfNeededListener implements Animation.AnimationListener {
+        private Animation.AnimationListener mOrignalListener;
+        private boolean mShouldRunOnHWLayer;
+        private View mView;
+
+        public AnimateOnHWLayerIfNeededListener(View v, Animation anim) {
+            this.mOrignalListener = null;
+            this.mShouldRunOnHWLayer = false;
+            this.mView = null;
+            if (v != null && anim != null) {
+                this.mView = v;
+            }
+        }
+
+        public AnimateOnHWLayerIfNeededListener(View v, Animation anim, Animation.AnimationListener listener) {
+            this.mOrignalListener = null;
+            this.mShouldRunOnHWLayer = false;
+            this.mView = null;
+            if (v != null && anim != null) {
+                this.mOrignalListener = listener;
+                this.mView = v;
+            }
+        }
+
+        @Override // android.view.animation.Animation.AnimationListener
+        @CallSuper
+        public void onAnimationStart(Animation animation) {
+            if (this.mView != null) {
+                this.mShouldRunOnHWLayer = FragmentManagerImpl.shouldRunOnHWLayer(this.mView, animation);
+                if (this.mShouldRunOnHWLayer) {
+                    this.mView.post(new Runnable() { // from class: android.support.v4.app.FragmentManagerImpl.AnimateOnHWLayerIfNeededListener.1
+                        @Override // java.lang.Runnable
+                        public void run() {
+                            ViewCompat.setLayerType(AnimateOnHWLayerIfNeededListener.this.mView, 2, null);
+                        }
+                    });
+                }
+            }
+            if (this.mOrignalListener != null) {
+                this.mOrignalListener.onAnimationStart(animation);
+            }
+        }
+
+        @Override // android.view.animation.Animation.AnimationListener
+        @CallSuper
+        public void onAnimationEnd(Animation animation) {
+            if (this.mView != null && this.mShouldRunOnHWLayer) {
+                this.mView.post(new Runnable() { // from class: android.support.v4.app.FragmentManagerImpl.AnimateOnHWLayerIfNeededListener.2
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        ViewCompat.setLayerType(AnimateOnHWLayerIfNeededListener.this.mView, 0, null);
+                    }
+                });
+            }
+            if (this.mOrignalListener != null) {
+                this.mOrignalListener.onAnimationEnd(animation);
+            }
+        }
+
+        @Override // android.view.animation.Animation.AnimationListener
+        public void onAnimationRepeat(Animation animation) {
+            if (this.mOrignalListener != null) {
+                this.mOrignalListener.onAnimationRepeat(animation);
+            }
+        }
+    }
+
+    static boolean modifiesAlpha(Animation anim) {
+        if (anim instanceof AlphaAnimation) {
+            return true;
+        }
+        if (anim instanceof AnimationSet) {
+            List<Animation> anims = ((AnimationSet) anim).getAnimations();
+            for (int i = 0; i < anims.size(); i++) {
+                if (anims.get(i) instanceof AlphaAnimation) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    static boolean shouldRunOnHWLayer(View v, Animation anim) {
+        return Build.VERSION.SDK_INT >= 19 && ViewCompat.getLayerType(v) == 0 && ViewCompat.hasOverlappingRendering(v) && modifiesAlpha(anim);
     }
 
     private void throwException(RuntimeException ex) {
@@ -97,9 +192,9 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         Log.e(TAG, "Activity state:");
         LogWriter logw = new LogWriter(TAG);
         PrintWriter pw = new PrintWriter(logw);
-        if (this.mActivity != null) {
+        if (this.mHost != null) {
             try {
-                this.mActivity.dump("  ", null, pw, new String[0]);
+                this.mHost.onDump("  ", null, pw, new String[0]);
             } catch (Exception e) {
                 Log.e(TAG, "Failed dumping state", e);
             }
@@ -128,7 +223,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         enqueueAction(new Runnable() { // from class: android.support.v4.app.FragmentManagerImpl.2
             @Override // java.lang.Runnable
             public void run() {
-                FragmentManagerImpl.this.popBackStackState(FragmentManagerImpl.this.mActivity.mHandler, null, -1, 0);
+                FragmentManagerImpl.this.popBackStackState(FragmentManagerImpl.this.mHost.getHandler(), null, -1, 0);
             }
         }, false);
     }
@@ -137,7 +232,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
     public boolean popBackStackImmediate() {
         checkStateLoss();
         executePendingTransactions();
-        return popBackStackState(this.mActivity.mHandler, null, -1, 0);
+        return popBackStackState(this.mHost.getHandler(), null, -1, 0);
     }
 
     @Override // android.support.v4.app.FragmentManager
@@ -145,7 +240,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         enqueueAction(new Runnable() { // from class: android.support.v4.app.FragmentManagerImpl.3
             @Override // java.lang.Runnable
             public void run() {
-                FragmentManagerImpl.this.popBackStackState(FragmentManagerImpl.this.mActivity.mHandler, name, -1, flags);
+                FragmentManagerImpl.this.popBackStackState(FragmentManagerImpl.this.mHost.getHandler(), name, -1, flags);
             }
         }, false);
     }
@@ -154,7 +249,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
     public boolean popBackStackImmediate(String name, int flags) {
         checkStateLoss();
         executePendingTransactions();
-        return popBackStackState(this.mActivity.mHandler, name, -1, flags);
+        return popBackStackState(this.mHost.getHandler(), name, -1, flags);
     }
 
     @Override // android.support.v4.app.FragmentManager
@@ -165,7 +260,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         enqueueAction(new Runnable() { // from class: android.support.v4.app.FragmentManagerImpl.4
             @Override // java.lang.Runnable
             public void run() {
-                FragmentManagerImpl.this.popBackStackState(FragmentManagerImpl.this.mActivity.mHandler, null, id, flags);
+                FragmentManagerImpl.this.popBackStackState(FragmentManagerImpl.this.mHost.getHandler(), null, id, flags);
             }
         }, false);
     }
@@ -177,7 +272,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         if (id < 0) {
             throw new IllegalArgumentException("Bad id: " + id);
         }
-        return popBackStackState(this.mActivity.mHandler, null, id, flags);
+        return popBackStackState(this.mHost.getHandler(), null, id, flags);
     }
 
     @Override // android.support.v4.app.FragmentManager
@@ -263,7 +358,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         if (this.mParent != null) {
             DebugUtils.buildShortClassTag(this.mParent, sb);
         } else {
-            DebugUtils.buildShortClassTag(this.mActivity, sb);
+            DebugUtils.buildShortClassTag(this.mHost, sb);
         }
         sb.append("}}");
         return sb.toString();
@@ -365,8 +460,8 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         writer.print(prefix);
         writer.println("FragmentManager misc state:");
         writer.print(prefix);
-        writer.print("  mActivity=");
-        writer.println(this.mActivity);
+        writer.print("  mHost=");
+        writer.println(this.mHost);
         writer.print(prefix);
         writer.print("  mContainer=");
         writer.println(this.mContainer);
@@ -424,24 +519,24 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         Animation anim;
         Animation animObj = fragment.onCreateAnimation(transit, enter, fragment.mNextAnim);
         if (animObj == null) {
-            if (fragment.mNextAnim == 0 || (anim = AnimationUtils.loadAnimation(this.mActivity, fragment.mNextAnim)) == null) {
+            if (fragment.mNextAnim == 0 || (anim = AnimationUtils.loadAnimation(this.mHost.getContext(), fragment.mNextAnim)) == null) {
                 if (transit != 0 && (styleIndex = transitToStyleIndex(transit, enter)) >= 0) {
                     switch (styleIndex) {
                         case 1:
-                            return makeOpenCloseAnimation(this.mActivity, 1.125f, 1.0f, 0.0f, 1.0f);
+                            return makeOpenCloseAnimation(this.mHost.getContext(), 1.125f, 1.0f, 0.0f, 1.0f);
                         case 2:
-                            return makeOpenCloseAnimation(this.mActivity, 1.0f, 0.975f, 1.0f, 0.0f);
+                            return makeOpenCloseAnimation(this.mHost.getContext(), 1.0f, 0.975f, 1.0f, 0.0f);
                         case 3:
-                            return makeOpenCloseAnimation(this.mActivity, 0.975f, 1.0f, 0.0f, 1.0f);
+                            return makeOpenCloseAnimation(this.mHost.getContext(), 0.975f, 1.0f, 0.0f, 1.0f);
                         case 4:
-                            return makeOpenCloseAnimation(this.mActivity, 1.0f, 1.075f, 1.0f, 0.0f);
+                            return makeOpenCloseAnimation(this.mHost.getContext(), 1.0f, 1.075f, 1.0f, 0.0f);
                         case 5:
-                            return makeFadeAnimation(this.mActivity, 0.0f, 1.0f);
+                            return makeFadeAnimation(this.mHost.getContext(), 0.0f, 1.0f);
                         case 6:
-                            return makeFadeAnimation(this.mActivity, 1.0f, 0.0f);
+                            return makeFadeAnimation(this.mHost.getContext(), 1.0f, 0.0f);
                         default:
-                            if (transitionStyle == 0 && this.mActivity.getWindow() != null) {
-                                transitionStyle = this.mActivity.getWindow().getAttributes().windowAnimations;
+                            if (transitionStyle == 0 && this.mHost.onHasWindowAnimations()) {
+                                transitionStyle = this.mHost.onGetWindowAnimations();
                             }
                             return transitionStyle == 0 ? null : null;
                     }
@@ -464,17 +559,47 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
-    /* JADX WARN: Removed duplicated region for block: B:127:0x0288  */
-    /* JADX WARN: Removed duplicated region for block: B:143:0x02c9  */
-    /* JADX WARN: Removed duplicated region for block: B:149:0x02eb  */
-    /* JADX WARN: Removed duplicated region for block: B:155:0x030d  */
+    private void setHWLayerAnimListenerIfAlpha(View v, Animation anim) {
+        if (v != null && anim != null && shouldRunOnHWLayer(v, anim)) {
+            Animation.AnimationListener originalListener = null;
+            try {
+                if (sAnimationListenerField == null) {
+                    sAnimationListenerField = Animation.class.getDeclaredField("mListener");
+                    sAnimationListenerField.setAccessible(true);
+                }
+                originalListener = (Animation.AnimationListener) sAnimationListenerField.get(anim);
+            } catch (IllegalAccessException e) {
+                Log.e(TAG, "Cannot access Animation's mListener field", e);
+            } catch (NoSuchFieldException e2) {
+                Log.e(TAG, "No field with the name mListener is found in Animation class", e2);
+            }
+            anim.setAnimationListener(new AnimateOnHWLayerIfNeededListener(v, anim, originalListener));
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: package-private */
+    public void setRetainLoader(boolean retain) {
+        if (this.mActive != null) {
+            for (int i = 0; i < this.mActive.size(); i++) {
+                Fragment f = this.mActive.get(i);
+                if (f != null) {
+                    f.mRetainLoader = retain;
+                }
+            }
+        }
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:127:0x0297  */
+    /* JADX WARN: Removed duplicated region for block: B:143:0x02d8  */
+    /* JADX WARN: Removed duplicated region for block: B:149:0x02fa  */
+    /* JADX WARN: Removed duplicated region for block: B:155:0x031c  */
     /*
         Code decompiled incorrectly, please refer to instructions dump.
         To view partially-correct add '--show-bad-code' argument
     */
-    void moveToState(final android.support.v4.app.Fragment r11, int r12, int r13, int r14, boolean r15) {
+    void moveToState(final android.support.v4.app.Fragment r12, int r13, int r14, int r15, boolean r16) {
         /*
-            Method dump skipped, instructions count: 1022
+            Method dump skipped, instructions count: 1040
             To view this dump add '--comments-level debug' option
         */
         throw new UnsupportedOperationException("Method not decompiled: android.support.v4.app.FragmentManagerImpl.moveToState(android.support.v4.app.Fragment, int, int, int, boolean):void");
@@ -490,8 +615,8 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
 
     /* JADX INFO: Access modifiers changed from: package-private */
     public void moveToState(int newState, int transit, int transitStyle, boolean always) {
-        if (this.mActivity == null && newState != 0) {
-            throw new IllegalStateException("No activity");
+        if (this.mHost == null && newState != 0) {
+            throw new IllegalStateException("No host");
         }
         if (always || this.mCurState != newState) {
             this.mCurState = newState;
@@ -509,8 +634,8 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
                 if (!loadersRunning) {
                     startPendingDeferredFragments();
                 }
-                if (this.mNeedMenuInvalidate && this.mActivity != null && this.mCurState == 5) {
-                    this.mActivity.supportInvalidateOptionsMenu();
+                if (this.mNeedMenuInvalidate && this.mHost != null && this.mCurState == 5) {
+                    this.mHost.onSupportInvalidateOptionsMenu();
                     this.mNeedMenuInvalidate = false;
                 }
             }
@@ -557,7 +682,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
                 this.mAvailIndices = new ArrayList<>();
             }
             this.mAvailIndices.add(Integer.valueOf(f.mIndex));
-            this.mActivity.invalidateSupportFragment(f.mWho);
+            this.mHost.inactivateFragment(f.mWho);
             f.initState();
         }
     }
@@ -613,6 +738,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
             if (fragment.mView != null) {
                 Animation anim = loadAnimation(fragment, transition, false, transitionStyle);
                 if (anim != null) {
+                    setHWLayerAnimListenerIfAlpha(fragment.mView, anim);
                     fragment.mView.startAnimation(anim);
                 }
                 fragment.mView.setVisibility(8);
@@ -633,6 +759,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
             if (fragment.mView != null) {
                 Animation anim = loadAnimation(fragment, transition, true, transitionStyle);
                 if (anim != null) {
+                    setHWLayerAnimListenerIfAlpha(fragment.mView, anim);
                     fragment.mView.startAnimation(anim);
                 }
                 fragment.mView.setVisibility(0);
@@ -761,7 +888,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
             checkStateLoss();
         }
         synchronized (this) {
-            if (this.mDestroyed || this.mActivity == null) {
+            if (this.mDestroyed || this.mHost == null) {
                 throw new IllegalStateException("Activity has been destroyed");
             }
             if (this.mPendingActions == null) {
@@ -769,8 +896,8 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
             }
             this.mPendingActions.add(action);
             if (this.mPendingActions.size() == 1) {
-                this.mActivity.mHandler.removeCallbacks(this.mExecCommit);
-                this.mActivity.mHandler.post(this.mExecCommit);
+                this.mHost.getHandler().removeCallbacks(this.mExecCommit);
+                this.mHost.getHandler().post(this.mExecCommit);
             }
         }
     }
@@ -841,14 +968,14 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
-    /* JADX WARN: Code restructure failed: missing block: B:35:0x0081, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x0085, code lost:
         r8.mExecutingActions = true;
         r2 = 0;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:36:0x0085, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:36:0x0089, code lost:
         if (r2 >= r4) goto L26;
      */
-    /* JADX WARN: Code restructure failed: missing block: B:37:0x0087, code lost:
+    /* JADX WARN: Code restructure failed: missing block: B:37:0x008b, code lost:
         r8.mTmpActions[r2].run();
         r8.mTmpActions[r2] = null;
         r2 = r2 + 1;
@@ -869,72 +996,72 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
             throw r5
         Ld:
             android.os.Looper r5 = android.os.Looper.myLooper()
-            android.support.v4.app.FragmentActivity r6 = r8.mActivity
-            android.os.Handler r6 = r6.mHandler
+            android.support.v4.app.FragmentHostCallback r6 = r8.mHost
+            android.os.Handler r6 = r6.getHandler()
             android.os.Looper r6 = r6.getLooper()
-            if (r5 == r6) goto L23
+            if (r5 == r6) goto L25
             java.lang.IllegalStateException r5 = new java.lang.IllegalStateException
             java.lang.String r6 = "Must be called from main thread of process"
             r5.<init>(r6)
             throw r5
-        L23:
+        L25:
             r0 = 0
-        L24:
+        L26:
             monitor-enter(r8)
-            java.util.ArrayList<java.lang.Runnable> r5 = r8.mPendingActions     // Catch: java.lang.Throwable -> L96
-            if (r5 == 0) goto L31
-            java.util.ArrayList<java.lang.Runnable> r5 = r8.mPendingActions     // Catch: java.lang.Throwable -> L96
-            int r5 = r5.size()     // Catch: java.lang.Throwable -> L96
-            if (r5 != 0) goto L58
-        L31:
-            monitor-exit(r8)     // Catch: java.lang.Throwable -> L96
+            java.util.ArrayList<java.lang.Runnable> r5 = r8.mPendingActions     // Catch: java.lang.Throwable -> L9a
+            if (r5 == 0) goto L33
+            java.util.ArrayList<java.lang.Runnable> r5 = r8.mPendingActions     // Catch: java.lang.Throwable -> L9a
+            int r5 = r5.size()     // Catch: java.lang.Throwable -> L9a
+            if (r5 != 0) goto L5a
+        L33:
+            monitor-exit(r8)     // Catch: java.lang.Throwable -> L9a
             boolean r5 = r8.mHavePendingDeferredStart
-            if (r5 == 0) goto La4
+            if (r5 == 0) goto La8
             r3 = 0
             r2 = 0
-        L38:
+        L3a:
             java.util.ArrayList<android.support.v4.app.Fragment> r5 = r8.mActive
             int r5 = r5.size()
-            if (r2 >= r5) goto L9d
+            if (r2 >= r5) goto La1
             java.util.ArrayList<android.support.v4.app.Fragment> r5 = r8.mActive
             java.lang.Object r1 = r5.get(r2)
             android.support.v4.app.Fragment r1 = (android.support.v4.app.Fragment) r1
-            if (r1 == 0) goto L55
+            if (r1 == 0) goto L57
             android.support.v4.app.LoaderManagerImpl r5 = r1.mLoaderManager
-            if (r5 == 0) goto L55
+            if (r5 == 0) goto L57
             android.support.v4.app.LoaderManagerImpl r5 = r1.mLoaderManager
             boolean r5 = r5.hasRunningLoaders()
             r3 = r3 | r5
-        L55:
+        L57:
             int r2 = r2 + 1
-            goto L38
-        L58:
-            java.util.ArrayList<java.lang.Runnable> r5 = r8.mPendingActions     // Catch: java.lang.Throwable -> L96
-            int r4 = r5.size()     // Catch: java.lang.Throwable -> L96
-            java.lang.Runnable[] r5 = r8.mTmpActions     // Catch: java.lang.Throwable -> L96
-            if (r5 == 0) goto L67
-            java.lang.Runnable[] r5 = r8.mTmpActions     // Catch: java.lang.Throwable -> L96
-            int r5 = r5.length     // Catch: java.lang.Throwable -> L96
-            if (r5 >= r4) goto L6b
-        L67:
-            java.lang.Runnable[] r5 = new java.lang.Runnable[r4]     // Catch: java.lang.Throwable -> L96
-            r8.mTmpActions = r5     // Catch: java.lang.Throwable -> L96
-        L6b:
-            java.util.ArrayList<java.lang.Runnable> r5 = r8.mPendingActions     // Catch: java.lang.Throwable -> L96
-            java.lang.Runnable[] r6 = r8.mTmpActions     // Catch: java.lang.Throwable -> L96
-            r5.toArray(r6)     // Catch: java.lang.Throwable -> L96
-            java.util.ArrayList<java.lang.Runnable> r5 = r8.mPendingActions     // Catch: java.lang.Throwable -> L96
-            r5.clear()     // Catch: java.lang.Throwable -> L96
-            android.support.v4.app.FragmentActivity r5 = r8.mActivity     // Catch: java.lang.Throwable -> L96
-            android.os.Handler r5 = r5.mHandler     // Catch: java.lang.Throwable -> L96
-            java.lang.Runnable r6 = r8.mExecCommit     // Catch: java.lang.Throwable -> L96
-            r5.removeCallbacks(r6)     // Catch: java.lang.Throwable -> L96
-            monitor-exit(r8)     // Catch: java.lang.Throwable -> L96
+            goto L3a
+        L5a:
+            java.util.ArrayList<java.lang.Runnable> r5 = r8.mPendingActions     // Catch: java.lang.Throwable -> L9a
+            int r4 = r5.size()     // Catch: java.lang.Throwable -> L9a
+            java.lang.Runnable[] r5 = r8.mTmpActions     // Catch: java.lang.Throwable -> L9a
+            if (r5 == 0) goto L69
+            java.lang.Runnable[] r5 = r8.mTmpActions     // Catch: java.lang.Throwable -> L9a
+            int r5 = r5.length     // Catch: java.lang.Throwable -> L9a
+            if (r5 >= r4) goto L6d
+        L69:
+            java.lang.Runnable[] r5 = new java.lang.Runnable[r4]     // Catch: java.lang.Throwable -> L9a
+            r8.mTmpActions = r5     // Catch: java.lang.Throwable -> L9a
+        L6d:
+            java.util.ArrayList<java.lang.Runnable> r5 = r8.mPendingActions     // Catch: java.lang.Throwable -> L9a
+            java.lang.Runnable[] r6 = r8.mTmpActions     // Catch: java.lang.Throwable -> L9a
+            r5.toArray(r6)     // Catch: java.lang.Throwable -> L9a
+            java.util.ArrayList<java.lang.Runnable> r5 = r8.mPendingActions     // Catch: java.lang.Throwable -> L9a
+            r5.clear()     // Catch: java.lang.Throwable -> L9a
+            android.support.v4.app.FragmentHostCallback r5 = r8.mHost     // Catch: java.lang.Throwable -> L9a
+            android.os.Handler r5 = r5.getHandler()     // Catch: java.lang.Throwable -> L9a
+            java.lang.Runnable r6 = r8.mExecCommit     // Catch: java.lang.Throwable -> L9a
+            r5.removeCallbacks(r6)     // Catch: java.lang.Throwable -> L9a
+            monitor-exit(r8)     // Catch: java.lang.Throwable -> L9a
             r5 = 1
             r8.mExecutingActions = r5
             r2 = 0
-        L85:
-            if (r2 >= r4) goto L99
+        L89:
+            if (r2 >= r4) goto L9d
             java.lang.Runnable[] r5 = r8.mTmpActions
             r5 = r5[r2]
             r5.run()
@@ -942,20 +1069,20 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
             r6 = 0
             r5[r2] = r6
             int r2 = r2 + 1
-            goto L85
-        L96:
+            goto L89
+        L9a:
             r5 = move-exception
-            monitor-exit(r8)     // Catch: java.lang.Throwable -> L96
+            monitor-exit(r8)     // Catch: java.lang.Throwable -> L9a
             throw r5
-        L99:
+        L9d:
             r8.mExecutingActions = r7
             r0 = 1
-            goto L24
-        L9d:
-            if (r3 != 0) goto La4
+            goto L26
+        La1:
+            if (r3 != 0) goto La8
             r8.mHavePendingDeferredStart = r7
             r8.startPendingDeferredFragments()
-        La4:
+        La8:
             return r0
         */
         throw new UnsupportedOperationException("Method not decompiled: android.support.v4.app.FragmentManagerImpl.execPendingActions():boolean");
@@ -1179,7 +1306,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         if (this.mBackStack != null && (N = this.mBackStack.size()) > 0) {
             backStack = new BackStackState[N];
             for (int i3 = 0; i3 < N; i3++) {
-                backStack[i3] = new BackStackState(this, this.mBackStack.get(i3));
+                backStack[i3] = new BackStackState(this.mBackStack.get(i3));
                 if (DEBUG) {
                     Log.v(TAG, "saveAllState: adding back stack #" + i3 + ": " + this.mBackStack.get(i3));
                 }
@@ -1193,7 +1320,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public void restoreAllState(Parcelable state, ArrayList<Fragment> nonConfig) {
+    public void restoreAllState(Parcelable state, List<Fragment> nonConfig) {
         if (state != null) {
             FragmentManagerState fms = (FragmentManagerState) state;
             if (fms.mActive != null) {
@@ -1211,7 +1338,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
                         f.mAdded = false;
                         f.mTarget = null;
                         if (fs.mSavedFragmentState != null) {
-                            fs.mSavedFragmentState.setClassLoader(this.mActivity.getClassLoader());
+                            fs.mSavedFragmentState.setClassLoader(this.mHost.getContext().getClassLoader());
                             f.mSavedViewState = fs.mSavedFragmentState.getSparseParcelableArray(VIEW_STATE_TAG);
                             f.mSavedFragmentState = fs.mSavedFragmentState;
                         }
@@ -1224,7 +1351,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
                 for (int i2 = 0; i2 < fms.mActive.length; i2++) {
                     FragmentState fs2 = fms.mActive[i2];
                     if (fs2 != null) {
-                        Fragment f2 = fs2.instantiate(this.mActivity, this.mParent);
+                        Fragment f2 = fs2.instantiate(this.mHost, this.mParent);
                         if (DEBUG) {
                             Log.v(TAG, "restoreAllState: active #" + i2 + ": " + f2);
                         }
@@ -1295,11 +1422,11 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         }
     }
 
-    public void attachActivity(FragmentActivity activity, FragmentContainer container, Fragment parent) {
-        if (this.mActivity != null) {
+    public void attachController(FragmentHostCallback host, FragmentContainer container, Fragment parent) {
+        if (this.mHost != null) {
             throw new IllegalStateException("Already attached");
         }
-        this.mActivity = activity;
+        this.mHost = host;
         this.mContainer = container;
         this.mParent = parent;
     }
@@ -1349,7 +1476,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
         this.mDestroyed = true;
         execPendingActions();
         moveToState(0, false);
-        this.mActivity = null;
+        this.mHost = null;
         this.mContainer = null;
         this.mParent = null;
     }
@@ -1488,7 +1615,7 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
             int id = a.getResourceId(1, -1);
             String tag = a.getString(2);
             a.recycle();
-            if (Fragment.isSupportFragmentClass(this.mActivity, fname)) {
+            if (Fragment.isSupportFragmentClass(this.mHost.getContext(), fname)) {
                 int containerId = parent != null ? parent.getId() : 0;
                 if (containerId == -1 && id == -1 && tag == null) {
                     throw new IllegalArgumentException(attrs.getPositionDescription() + ": Must specify unique android:id, android:tag, or have a parent with an id for " + fname);
@@ -1511,14 +1638,15 @@ public final class FragmentManagerImpl extends FragmentManager implements Layout
                     fragment.mTag = tag;
                     fragment.mInLayout = true;
                     fragment.mFragmentManager = this;
-                    fragment.onInflate(this.mActivity, attrs, fragment.mSavedFragmentState);
+                    fragment.mHost = this.mHost;
+                    fragment.onInflate(this.mHost.getContext(), attrs, fragment.mSavedFragmentState);
                     addFragment(fragment, true);
                 } else if (fragment.mInLayout) {
                     throw new IllegalArgumentException(attrs.getPositionDescription() + ": Duplicate id 0x" + Integer.toHexString(id) + ", tag " + tag + ", or parent id 0x" + Integer.toHexString(containerId) + " with another fragment for " + fname);
                 } else {
                     fragment.mInLayout = true;
                     if (!fragment.mRetaining) {
-                        fragment.onInflate(this.mActivity, attrs, fragment.mSavedFragmentState);
+                        fragment.onInflate(this.mHost.getContext(), attrs, fragment.mSavedFragmentState);
                     }
                 }
                 if (this.mCurState < 1 && fragment.mFromLayout) {

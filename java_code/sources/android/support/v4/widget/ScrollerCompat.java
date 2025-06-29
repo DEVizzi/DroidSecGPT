@@ -41,6 +41,8 @@ public class ScrollerCompat {
 
         void notifyVerticalEdgeReached(Object obj, int i, int i2, int i3);
 
+        boolean springBack(Object obj, int i, int i2, int i3, int i4, int i5, int i6);
+
         void startScroll(Object obj, int i, int i2, int i3, int i4);
 
         void startScroll(Object obj, int i, int i2, int i3, int i4, int i5);
@@ -129,6 +131,11 @@ public class ScrollerCompat {
         public int getFinalY(Object scroller) {
             return ((Scroller) scroller).getFinalY();
         }
+
+        @Override // android.support.v4.widget.ScrollerCompat.ScrollerCompatImpl
+        public boolean springBack(Object scroller, int startX, int startY, int minX, int maxX, int minY, int maxY) {
+            return false;
+        }
     }
 
     /* loaded from: classes.dex */
@@ -215,6 +222,11 @@ public class ScrollerCompat {
         public int getFinalY(Object scroller) {
             return ScrollerCompatGingerbread.getFinalY(scroller);
         }
+
+        @Override // android.support.v4.widget.ScrollerCompat.ScrollerCompatImpl
+        public boolean springBack(Object scroller, int startX, int startY, int minX, int maxX, int minY, int maxY) {
+            return ScrollerCompatGingerbread.springBack(scroller, startX, startY, minX, maxX, minY, maxY);
+        }
     }
 
     /* loaded from: classes.dex */
@@ -294,6 +306,10 @@ public class ScrollerCompat {
 
     public void fling(int startX, int startY, int velocityX, int velocityY, int minX, int maxX, int minY, int maxY, int overX, int overY) {
         this.mImpl.fling(this.mScroller, startX, startY, velocityX, velocityY, minX, maxX, minY, maxY, overX, overY);
+    }
+
+    public boolean springBack(int startX, int startY, int minX, int maxX, int minY, int maxY) {
+        return this.mImpl.springBack(this.mScroller, startX, startY, minX, maxX, minY, maxY);
     }
 
     public void abortAnimation() {

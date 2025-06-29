@@ -8,9 +8,10 @@ import android.os.Build;
 public class DrawableCompat {
     static final DrawableImpl IMPL;
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    public interface DrawableImpl {
+    interface DrawableImpl {
+        int getLayoutDirection(Drawable drawable);
+
         boolean isAutoMirrored(Drawable drawable);
 
         void jumpToCurrentState(Drawable drawable);
@@ -20,6 +21,8 @@ public class DrawableCompat {
         void setHotspot(Drawable drawable, float f, float f2);
 
         void setHotspotBounds(Drawable drawable, int i, int i2, int i3, int i4);
+
+        void setLayoutDirection(Drawable drawable, int i);
 
         void setTint(Drawable drawable, int i);
 
@@ -75,6 +78,15 @@ public class DrawableCompat {
         public Drawable wrap(Drawable drawable) {
             return DrawableCompatBase.wrapForTinting(drawable);
         }
+
+        @Override // android.support.v4.graphics.drawable.DrawableCompat.DrawableImpl
+        public void setLayoutDirection(Drawable drawable, int layoutDirection) {
+        }
+
+        @Override // android.support.v4.graphics.drawable.DrawableCompat.DrawableImpl
+        public int getLayoutDirection(Drawable drawable) {
+            return 0;
+        }
     }
 
     /* loaded from: classes.dex */
@@ -94,7 +106,27 @@ public class DrawableCompat {
     }
 
     /* loaded from: classes.dex */
-    static class KitKatDrawableImpl extends HoneycombDrawableImpl {
+    static class JellybeanMr1DrawableImpl extends HoneycombDrawableImpl {
+        JellybeanMr1DrawableImpl() {
+        }
+
+        @Override // android.support.v4.graphics.drawable.DrawableCompat.BaseDrawableImpl, android.support.v4.graphics.drawable.DrawableCompat.DrawableImpl
+        public void setLayoutDirection(Drawable drawable, int layoutDirection) {
+            DrawableCompatJellybeanMr1.setLayoutDirection(drawable, layoutDirection);
+        }
+
+        @Override // android.support.v4.graphics.drawable.DrawableCompat.BaseDrawableImpl, android.support.v4.graphics.drawable.DrawableCompat.DrawableImpl
+        public int getLayoutDirection(Drawable drawable) {
+            int dir = DrawableCompatJellybeanMr1.getLayoutDirection(drawable);
+            if (dir >= 0) {
+                return dir;
+            }
+            return 0;
+        }
+    }
+
+    /* loaded from: classes.dex */
+    static class KitKatDrawableImpl extends JellybeanMr1DrawableImpl {
         KitKatDrawableImpl() {
         }
 
@@ -161,14 +193,34 @@ public class DrawableCompat {
         }
     }
 
+    /* loaded from: classes.dex */
+    static class MDrawableImpl extends LollipopMr1DrawableImpl {
+        MDrawableImpl() {
+        }
+
+        @Override // android.support.v4.graphics.drawable.DrawableCompat.JellybeanMr1DrawableImpl, android.support.v4.graphics.drawable.DrawableCompat.BaseDrawableImpl, android.support.v4.graphics.drawable.DrawableCompat.DrawableImpl
+        public void setLayoutDirection(Drawable drawable, int layoutDirection) {
+            DrawableCompatApi23.setLayoutDirection(drawable, layoutDirection);
+        }
+
+        @Override // android.support.v4.graphics.drawable.DrawableCompat.JellybeanMr1DrawableImpl, android.support.v4.graphics.drawable.DrawableCompat.BaseDrawableImpl, android.support.v4.graphics.drawable.DrawableCompat.DrawableImpl
+        public int getLayoutDirection(Drawable drawable) {
+            return DrawableCompatApi23.getLayoutDirection(drawable);
+        }
+    }
+
     static {
         int version = Build.VERSION.SDK_INT;
-        if (version >= 22) {
+        if (version >= 23) {
+            IMPL = new MDrawableImpl();
+        } else if (version >= 22) {
             IMPL = new LollipopMr1DrawableImpl();
         } else if (version >= 21) {
             IMPL = new LollipopDrawableImpl();
         } else if (version >= 19) {
             IMPL = new KitKatDrawableImpl();
+        } else if (version >= 17) {
+            IMPL = new JellybeanMr1DrawableImpl();
         } else if (version >= 11) {
             IMPL = new HoneycombDrawableImpl();
         } else {
@@ -218,5 +270,13 @@ public class DrawableCompat {
             return (T) ((DrawableWrapper) drawable).getWrappedDrawable();
         }
         return drawable;
+    }
+
+    public static void setLayoutDirection(Drawable drawable, int layoutDirection) {
+        IMPL.setLayoutDirection(drawable, layoutDirection);
+    }
+
+    public static int getLayoutDirection(Drawable drawable) {
+        return IMPL.getLayoutDirection(drawable);
     }
 }

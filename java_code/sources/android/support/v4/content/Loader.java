@@ -11,11 +11,17 @@ public class Loader<D> {
     Context mContext;
     int mId;
     OnLoadCompleteListener<D> mListener;
+    OnLoadCanceledListener<D> mOnLoadCanceledListener;
     boolean mStarted = false;
     boolean mAbandoned = false;
     boolean mReset = true;
     boolean mContentChanged = false;
     boolean mProcessingChange = false;
+
+    /* loaded from: classes.dex */
+    public interface OnLoadCanceledListener<D> {
+        void onLoadCanceled(Loader<D> loader);
+    }
 
     /* loaded from: classes.dex */
     public interface OnLoadCompleteListener<D> {
@@ -49,6 +55,12 @@ public class Loader<D> {
         }
     }
 
+    public void deliverCancellation() {
+        if (this.mOnLoadCanceledListener != null) {
+            this.mOnLoadCanceledListener.onLoadCanceled(this);
+        }
+    }
+
     public Context getContext() {
         return this.mContext;
     }
@@ -75,6 +87,23 @@ public class Loader<D> {
         this.mListener = null;
     }
 
+    public void registerOnLoadCanceledListener(OnLoadCanceledListener<D> listener) {
+        if (this.mOnLoadCanceledListener != null) {
+            throw new IllegalStateException("There is already a listener registered");
+        }
+        this.mOnLoadCanceledListener = listener;
+    }
+
+    public void unregisterOnLoadCanceledListener(OnLoadCanceledListener<D> listener) {
+        if (this.mOnLoadCanceledListener == null) {
+            throw new IllegalStateException("No listener register");
+        }
+        if (this.mOnLoadCanceledListener != listener) {
+            throw new IllegalArgumentException("Attempting to unregister the wrong listener");
+        }
+        this.mOnLoadCanceledListener = null;
+    }
+
     public boolean isStarted() {
         return this.mStarted;
     }
@@ -94,8 +123,15 @@ public class Loader<D> {
         onStartLoading();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
-    public void onStartLoading() {
+    protected void onStartLoading() {
+    }
+
+    public boolean cancelLoad() {
+        return onCancelLoad();
+    }
+
+    protected boolean onCancelLoad() {
+        return false;
     }
 
     public void forceLoad() {

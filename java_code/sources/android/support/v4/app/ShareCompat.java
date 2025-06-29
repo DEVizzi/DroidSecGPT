@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.StringRes;
 import android.support.v4.content.IntentCompat;
-import android.support.v4.view.accessibility.AccessibilityEventCompat;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
@@ -163,7 +162,7 @@ public class ShareCompat {
             this.mActivity = launchingActivity;
             this.mIntent.putExtra(ShareCompat.EXTRA_CALLING_PACKAGE, launchingActivity.getPackageName());
             this.mIntent.putExtra(ShareCompat.EXTRA_CALLING_ACTIVITY, launchingActivity.getComponentName());
-            this.mIntent.addFlags(AccessibilityEventCompat.TYPE_GESTURE_DETECTION_END);
+            this.mIntent.addFlags(524288);
         }
 
         public Intent getIntent() {

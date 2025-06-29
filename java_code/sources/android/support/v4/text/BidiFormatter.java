@@ -123,6 +123,9 @@ public final class BidiFormatter {
     }
 
     public String unicodeWrap(String str, TextDirectionHeuristicCompat heuristic, boolean isolate) {
+        if (str == null) {
+            return null;
+        }
         boolean isRtl = heuristic.isRtl(str, 0, str.length());
         StringBuilder result = new StringBuilder();
         if (getStereoReset() && isolate) {

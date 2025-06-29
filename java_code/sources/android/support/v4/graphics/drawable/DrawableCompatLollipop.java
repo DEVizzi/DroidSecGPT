@@ -3,6 +3,7 @@ package android.support.v4.graphics.drawable;
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.DrawableContainer;
 import android.graphics.drawable.GradientDrawable;
 /* loaded from: classes.dex */
 class DrawableCompatLollipop {
@@ -42,7 +43,7 @@ class DrawableCompatLollipop {
     }
 
     public static Drawable wrapForTinting(Drawable drawable) {
-        if (drawable instanceof GradientDrawable) {
+        if ((drawable instanceof GradientDrawable) || (drawable instanceof DrawableContainer)) {
             return new DrawableWrapperLollipop(drawable);
         }
         return drawable;

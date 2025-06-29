@@ -32,7 +32,7 @@
     .locals 0
 
     .prologue
-    .line 1782
+    .line 1862
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -45,7 +45,7 @@
     .param p1, "in"    # Landroid/os/Parcel;
 
     .prologue
-    .line 1784
+    .line 1864
     new-instance v0, Landroid/support/v4/widget/NestedScrollView$SavedState;
 
     invoke-direct {v0, p1}, Landroid/support/v4/widget/NestedScrollView$SavedState;-><init>(Landroid/os/Parcel;)V
@@ -58,7 +58,7 @@
     .param p1, "x0"    # Landroid/os/Parcel;
 
     .prologue
-    .line 1782
+    .line 1862
     invoke-virtual {p0, p1}, Landroid/support/v4/widget/NestedScrollView$SavedState$1;->createFromParcel(Landroid/os/Parcel;)Landroid/support/v4/widget/NestedScrollView$SavedState;
 
     move-result-object v0
@@ -71,7 +71,7 @@
     .param p1, "size"    # I
 
     .prologue
-    .line 1788
+    .line 1868
     new-array v0, p1, [Landroid/support/v4/widget/NestedScrollView$SavedState;
 
     return-object v0
@@ -82,7 +82,7 @@
     .param p1, "x0"    # I
 
     .prologue
-    .line 1782
+    .line 1862
     invoke-virtual {p0, p1}, Landroid/support/v4/widget/NestedScrollView$SavedState$1;->newArray(I)[Landroid/support/v4/widget/NestedScrollView$SavedState;
 
     move-result-object v0

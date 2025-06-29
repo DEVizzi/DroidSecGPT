@@ -40,22 +40,22 @@
     .prologue
     const/4 v2, 0x0
 
-    .line 343
+    .line 345
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 341
+    .line 343
     const/4 v0, 0x0
 
     iput-boolean v0, p0, Landroid/support/v4/media/session/MediaControllerCompat$Callback;->mRegistered:Z
 
-    .line 344
+    .line 346
     sget v0, Landroid/os/Build$VERSION;->SDK_INT:I
 
     const/16 v1, 0x15
 
     if-lt v0, v1, :cond_0
 
-    .line 345
+    .line 347
     new-instance v0, Landroid/support/v4/media/session/MediaControllerCompat$Callback$StubApi21;
 
     invoke-direct {v0, p0, v2}, Landroid/support/v4/media/session/MediaControllerCompat$Callback$StubApi21;-><init>(Landroid/support/v4/media/session/MediaControllerCompat$Callback;Landroid/support/v4/media/session/MediaControllerCompat$1;)V
@@ -66,11 +66,11 @@
 
     iput-object v0, p0, Landroid/support/v4/media/session/MediaControllerCompat$Callback;->mCallbackObj:Ljava/lang/Object;
 
-    .line 349
+    .line 351
     :goto_0
     return-void
 
-    .line 347
+    .line 349
     :cond_0
     new-instance v0, Landroid/support/v4/media/session/MediaControllerCompat$Callback$StubCompat;
 
@@ -86,7 +86,7 @@
     .param p0, "x0"    # Landroid/support/v4/media/session/MediaControllerCompat$Callback;
 
     .prologue
-    .line 337
+    .line 339
     iget-object v0, p0, Landroid/support/v4/media/session/MediaControllerCompat$Callback;->mHandler:Landroid/support/v4/media/session/MediaControllerCompat$Callback$MessageHandler;
 
     return-object v0
@@ -97,7 +97,7 @@
     .param p0, "x0"    # Landroid/support/v4/media/session/MediaControllerCompat$Callback;
 
     .prologue
-    .line 337
+    .line 339
     iget-boolean v0, p0, Landroid/support/v4/media/session/MediaControllerCompat$Callback;->mRegistered:Z
 
     return v0
@@ -109,7 +109,7 @@
     .param p1, "x1"    # Z
 
     .prologue
-    .line 337
+    .line 339
     iput-boolean p1, p0, Landroid/support/v4/media/session/MediaControllerCompat$Callback;->mRegistered:Z
 
     return p1
@@ -120,7 +120,7 @@
     .param p0, "x0"    # Landroid/support/v4/media/session/MediaControllerCompat$Callback;
 
     .prologue
-    .line 337
+    .line 339
     iget-object v0, p0, Landroid/support/v4/media/session/MediaControllerCompat$Callback;->mCallbackObj:Ljava/lang/Object;
 
     return-object v0
@@ -132,7 +132,7 @@
     .param p1, "x1"    # Landroid/os/Handler;
 
     .prologue
-    .line 337
+    .line 339
     invoke-direct {p0, p1}, Landroid/support/v4/media/session/MediaControllerCompat$Callback;->setHandler(Landroid/os/Handler;)V
 
     return-void
@@ -143,7 +143,7 @@
     .param p1, "handler"    # Landroid/os/Handler;
 
     .prologue
-    .line 433
+    .line 435
     new-instance v0, Landroid/support/v4/media/session/MediaControllerCompat$Callback$MessageHandler;
 
     invoke-virtual {p1}, Landroid/os/Handler;->getLooper()Landroid/os/Looper;
@@ -154,7 +154,7 @@
 
     iput-object v0, p0, Landroid/support/v4/media/session/MediaControllerCompat$Callback;->mHandler:Landroid/support/v4/media/session/MediaControllerCompat$Callback$MessageHandler;
 
-    .line 434
+    .line 436
     return-void
 .end method
 
@@ -164,10 +164,10 @@
     .locals 0
 
     .prologue
-    .line 426
+    .line 428
     invoke-virtual {p0}, Landroid/support/v4/media/session/MediaControllerCompat$Callback;->onSessionDestroyed()V
 
-    .line 427
+    .line 429
     return-void
 .end method
 
@@ -176,7 +176,7 @@
     .param p1, "info"    # Landroid/support/v4/media/session/MediaControllerCompat$PlaybackInfo;
 
     .prologue
-    .line 422
+    .line 424
     return-void
 .end method
 
@@ -185,7 +185,7 @@
     .param p1, "extras"    # Landroid/os/Bundle;
 
     .prologue
-    .line 414
+    .line 416
     return-void
 .end method
 
@@ -194,7 +194,7 @@
     .param p1, "metadata"    # Landroid/support/v4/media/MediaMetadataCompat;
 
     .prologue
-    .line 384
+    .line 386
     return-void
 .end method
 
@@ -203,7 +203,7 @@
     .param p1, "state"    # Landroid/support/v4/media/session/PlaybackStateCompat;
 
     .prologue
-    .line 375
+    .line 377
     return-void
 .end method
 
@@ -220,7 +220,7 @@
     .end annotation
 
     .prologue
-    .line 395
+    .line 397
     .local p1, "queue":Ljava/util/List;, "Ljava/util/List<Landroid/support/v4/media/session/MediaSessionCompat$QueueItem;>;"
     return-void
 .end method
@@ -230,7 +230,7 @@
     .param p1, "title"    # Ljava/lang/CharSequence;
 
     .prologue
-    .line 405
+    .line 407
     return-void
 .end method
 
@@ -238,7 +238,7 @@
     .locals 0
 
     .prologue
-    .line 356
+    .line 358
     return-void
 .end method
 
@@ -248,6 +248,6 @@
     .param p2, "extras"    # Landroid/os/Bundle;
 
     .prologue
-    .line 367
+    .line 369
     return-void
 .end method

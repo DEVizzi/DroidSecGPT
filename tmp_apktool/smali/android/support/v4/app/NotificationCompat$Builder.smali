@@ -104,41 +104,41 @@
     .prologue
     const/4 v4, 0x0
 
-    .line 933
+    .line 935
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 896
+    .line 898
     const/4 v0, 0x1
 
     iput-boolean v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mShowWhen:Z
 
-    .line 910
+    .line 912
     new-instance v0, Ljava/util/ArrayList;
 
     invoke-direct {v0}, Ljava/util/ArrayList;-><init>()V
 
     iput-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mActions:Ljava/util/ArrayList;
 
-    .line 911
+    .line 913
     iput-boolean v4, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mLocalOnly:Z
 
-    .line 914
+    .line 916
     iput v4, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mColor:I
 
-    .line 915
+    .line 917
     iput v4, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mVisibility:I
 
-    .line 919
+    .line 921
     new-instance v0, Landroid/app/Notification;
 
     invoke-direct {v0}, Landroid/app/Notification;-><init>()V
 
     iput-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mNotification:Landroid/app/Notification;
 
-    .line 934
+    .line 936
     iput-object p1, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mContext:Landroid/content/Context;
 
-    .line 937
+    .line 939
     iget-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mNotification:Landroid/app/Notification;
 
     invoke-static {}, Ljava/lang/System;->currentTimeMillis()J
@@ -147,24 +147,24 @@
 
     iput-wide v2, v0, Landroid/app/Notification;->when:J
 
-    .line 938
+    .line 940
     iget-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mNotification:Landroid/app/Notification;
 
     const/4 v1, -0x1
 
     iput v1, v0, Landroid/app/Notification;->audioStreamType:I
 
-    .line 939
+    .line 941
     iput v4, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mPriority:I
 
-    .line 940
+    .line 942
     new-instance v0, Ljava/util/ArrayList;
 
     invoke-direct {v0}, Ljava/util/ArrayList;-><init>()V
 
     iput-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mPeople:Ljava/util/ArrayList;
 
-    .line 941
+    .line 943
     return-void
 .end method
 
@@ -175,15 +175,15 @@
     .prologue
     const/16 v1, 0x1400
 
-    .line 1570
+    .line 1572
     if-nez p0, :cond_1
 
-    .line 1574
+    .line 1576
     :cond_0
     :goto_0
     return-object p0
 
-    .line 1571
+    .line 1573
     :cond_1
     invoke-interface {p0}, Ljava/lang/CharSequence;->length()I
 
@@ -191,7 +191,7 @@
 
     if-le v0, v1, :cond_0
 
-    .line 1572
+    .line 1574
     const/4 v0, 0x0
 
     invoke-interface {p0, v0, v1}, Ljava/lang/CharSequence;->subSequence(II)Ljava/lang/CharSequence;
@@ -207,10 +207,10 @@
     .param p2, "value"    # Z
 
     .prologue
-    .line 1289
+    .line 1291
     if-eqz p2, :cond_0
 
-    .line 1290
+    .line 1292
     iget-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mNotification:Landroid/app/Notification;
 
     iget v1, v0, Landroid/app/Notification;->flags:I
@@ -219,11 +219,11 @@
 
     iput v1, v0, Landroid/app/Notification;->flags:I
 
-    .line 1294
+    .line 1296
     :goto_0
     return-void
 
-    .line 1292
+    .line 1294
     :cond_0
     iget-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mNotification:Landroid/app/Notification;
 
@@ -247,7 +247,7 @@
     .param p3, "intent"    # Landroid/app/PendingIntent;
 
     .prologue
-    .line 1459
+    .line 1461
     iget-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mActions:Ljava/util/ArrayList;
 
     new-instance v1, Landroid/support/v4/app/NotificationCompat$Action;
@@ -256,7 +256,7 @@
 
     invoke-virtual {v0, v1}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
 
-    .line 1460
+    .line 1462
     return-object p0
 .end method
 
@@ -265,12 +265,12 @@
     .param p1, "action"    # Landroid/support/v4/app/NotificationCompat$Action;
 
     .prologue
-    .line 1478
+    .line 1480
     iget-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mActions:Ljava/util/ArrayList;
 
     invoke-virtual {v0, p1}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
 
-    .line 1479
+    .line 1481
     return-object p0
 .end method
 
@@ -279,27 +279,27 @@
     .param p1, "extras"    # Landroid/os/Bundle;
 
     .prologue
-    .line 1398
+    .line 1400
     if-eqz p1, :cond_0
 
-    .line 1399
+    .line 1401
     iget-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mExtras:Landroid/os/Bundle;
 
     if-nez v0, :cond_1
 
-    .line 1400
+    .line 1402
     new-instance v0, Landroid/os/Bundle;
 
     invoke-direct {v0, p1}, Landroid/os/Bundle;-><init>(Landroid/os/Bundle;)V
 
     iput-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mExtras:Landroid/os/Bundle;
 
-    .line 1405
+    .line 1407
     :cond_0
     :goto_0
     return-object p0
 
-    .line 1402
+    .line 1404
     :cond_1
     iget-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mExtras:Landroid/os/Bundle;
 
@@ -313,12 +313,12 @@
     .param p1, "uri"    # Ljava/lang/String;
 
     .prologue
-    .line 1341
+    .line 1343
     iget-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mPeople:Ljava/util/ArrayList;
 
     invoke-virtual {v0, p1}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
 
-    .line 1342
+    .line 1344
     return-object p0
 .end method
 
@@ -326,7 +326,7 @@
     .locals 2
 
     .prologue
-    .line 1559
+    .line 1561
     invoke-static {}, Landroid/support/v4/app/NotificationCompat;->access$200()Landroid/support/v4/app/NotificationCompat$NotificationCompatImpl;
 
     move-result-object v0
@@ -347,10 +347,10 @@
     .param p1, "extender"    # Landroid/support/v4/app/NotificationCompat$Extender;
 
     .prologue
-    .line 1542
+    .line 1544
     invoke-interface {p1, p0}, Landroid/support/v4/app/NotificationCompat$Extender;->extend(Landroid/support/v4/app/NotificationCompat$Builder;)Landroid/support/v4/app/NotificationCompat$Builder;
 
-    .line 1543
+    .line 1545
     return-object p0
 .end method
 
@@ -358,7 +358,7 @@
     .locals 1
 
     .prologue
-    .line 1566
+    .line 1568
     new-instance v0, Landroid/support/v4/app/NotificationCompat$BuilderExtender;
 
     invoke-direct {v0}, Landroid/support/v4/app/NotificationCompat$BuilderExtender;-><init>()V
@@ -370,19 +370,19 @@
     .locals 1
 
     .prologue
-    .line 1436
+    .line 1438
     iget-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mExtras:Landroid/os/Bundle;
 
     if-nez v0, :cond_0
 
-    .line 1437
+    .line 1439
     new-instance v0, Landroid/os/Bundle;
 
     invoke-direct {v0}, Landroid/os/Bundle;-><init>()V
 
     iput-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mExtras:Landroid/os/Bundle;
 
-    .line 1439
+    .line 1441
     :cond_0
     iget-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mExtras:Landroid/os/Bundle;
 
@@ -395,7 +395,7 @@
     .end annotation
 
     .prologue
-    .line 1551
+    .line 1553
     invoke-virtual {p0}, Landroid/support/v4/app/NotificationCompat$Builder;->build()Landroid/app/Notification;
 
     move-result-object v0
@@ -408,12 +408,12 @@
     .param p1, "autoCancel"    # Z
 
     .prologue
-    .line 1243
+    .line 1245
     const/16 v0, 0x10
 
     invoke-direct {p0, v0, p1}, Landroid/support/v4/app/NotificationCompat$Builder;->setFlag(IZ)V
 
-    .line 1244
+    .line 1246
     return-object p0
 .end method
 
@@ -422,22 +422,25 @@
     .param p1, "category"    # Ljava/lang/String;
 
     .prologue
-    .line 1266
+    .line 1268
     iput-object p1, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mCategory:Ljava/lang/String;
 
-    .line 1267
+    .line 1269
     return-object p0
 .end method
 
 .method public setColor(I)Landroid/support/v4/app/NotificationCompat$Builder;
     .locals 0
     .param p1, "argb"    # I
+        .annotation build Landroid/support/annotation/ColorInt;
+        .end annotation
+    .end param
 
     .prologue
-    .line 1508
+    .line 1510
     iput p1, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mColor:I
 
-    .line 1509
+    .line 1511
     return-object p0
 .end method
 
@@ -446,12 +449,12 @@
     .param p1, "views"    # Landroid/widget/RemoteViews;
 
     .prologue
-    .line 1068
+    .line 1070
     iget-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mNotification:Landroid/app/Notification;
 
     iput-object p1, v0, Landroid/app/Notification;->contentView:Landroid/widget/RemoteViews;
 
-    .line 1069
+    .line 1071
     return-object p0
 .end method
 
@@ -460,14 +463,14 @@
     .param p1, "info"    # Ljava/lang/CharSequence;
 
     .prologue
-    .line 1049
+    .line 1051
     invoke-static {p1}, Landroid/support/v4/app/NotificationCompat$Builder;->limitCharSequenceLength(Ljava/lang/CharSequence;)Ljava/lang/CharSequence;
 
     move-result-object v0
 
     iput-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mContentInfo:Ljava/lang/CharSequence;
 
-    .line 1050
+    .line 1052
     return-object p0
 .end method
 
@@ -476,10 +479,10 @@
     .param p1, "intent"    # Landroid/app/PendingIntent;
 
     .prologue
-    .line 1081
+    .line 1083
     iput-object p1, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mContentIntent:Landroid/app/PendingIntent;
 
-    .line 1082
+    .line 1084
     return-object p0
 .end method
 
@@ -488,14 +491,14 @@
     .param p1, "text"    # Ljava/lang/CharSequence;
 
     .prologue
-    .line 1017
+    .line 1019
     invoke-static {p1}, Landroid/support/v4/app/NotificationCompat$Builder;->limitCharSequenceLength(Ljava/lang/CharSequence;)Ljava/lang/CharSequence;
 
     move-result-object v0
 
     iput-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mContentText:Ljava/lang/CharSequence;
 
-    .line 1018
+    .line 1020
     return-object p0
 .end method
 
@@ -504,14 +507,14 @@
     .param p1, "title"    # Ljava/lang/CharSequence;
 
     .prologue
-    .line 1009
+    .line 1011
     invoke-static {p1}, Landroid/support/v4/app/NotificationCompat$Builder;->limitCharSequenceLength(Ljava/lang/CharSequence;)Ljava/lang/CharSequence;
 
     move-result-object v0
 
     iput-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mContentTitle:Ljava/lang/CharSequence;
 
-    .line 1010
+    .line 1012
     return-object p0
 .end method
 
@@ -520,17 +523,17 @@
     .param p1, "defaults"    # I
 
     .prologue
-    .line 1281
+    .line 1283
     iget-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mNotification:Landroid/app/Notification;
 
     iput p1, v0, Landroid/app/Notification;->defaults:I
 
-    .line 1282
+    .line 1284
     and-int/lit8 v0, p1, 0x4
 
     if-eqz v0, :cond_0
 
-    .line 1283
+    .line 1285
     iget-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mNotification:Landroid/app/Notification;
 
     iget v1, v0, Landroid/app/Notification;->flags:I
@@ -539,7 +542,7 @@
 
     iput v1, v0, Landroid/app/Notification;->flags:I
 
-    .line 1285
+    .line 1287
     :cond_0
     return-object p0
 .end method
@@ -549,12 +552,12 @@
     .param p1, "intent"    # Landroid/app/PendingIntent;
 
     .prologue
-    .line 1093
+    .line 1095
     iget-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mNotification:Landroid/app/Notification;
 
     iput-object p1, v0, Landroid/app/Notification;->deleteIntent:Landroid/app/PendingIntent;
 
-    .line 1094
+    .line 1096
     return-object p0
 .end method
 
@@ -563,10 +566,10 @@
     .param p1, "extras"    # Landroid/os/Bundle;
 
     .prologue
-    .line 1421
+    .line 1423
     iput-object p1, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mExtras:Landroid/os/Bundle;
 
-    .line 1422
+    .line 1424
     return-object p0
 .end method
 
@@ -576,15 +579,15 @@
     .param p2, "highPriority"    # Z
 
     .prologue
-    .line 1116
+    .line 1118
     iput-object p1, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mFullScreenIntent:Landroid/app/PendingIntent;
 
-    .line 1117
+    .line 1119
     const/16 v0, 0x80
 
     invoke-direct {p0, v0, p2}, Landroid/support/v4/app/NotificationCompat$Builder;->setFlag(IZ)V
 
-    .line 1118
+    .line 1120
     return-object p0
 .end method
 
@@ -593,10 +596,10 @@
     .param p1, "groupKey"    # Ljava/lang/String;
 
     .prologue
-    .line 1357
+    .line 1359
     iput-object p1, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mGroupKey:Ljava/lang/String;
 
-    .line 1358
+    .line 1360
     return-object p0
 .end method
 
@@ -605,10 +608,10 @@
     .param p1, "isGroupSummary"    # Z
 
     .prologue
-    .line 1369
+    .line 1371
     iput-boolean p1, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mGroupSummary:Z
 
-    .line 1370
+    .line 1372
     return-object p0
 .end method
 
@@ -617,16 +620,19 @@
     .param p1, "icon"    # Landroid/graphics/Bitmap;
 
     .prologue
-    .line 1145
+    .line 1147
     iput-object p1, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mLargeIcon:Landroid/graphics/Bitmap;
 
-    .line 1146
+    .line 1148
     return-object p0
 .end method
 
 .method public setLights(III)Landroid/support/v4/app/NotificationCompat$Builder;
     .locals 5
     .param p1, "argb"    # I
+        .annotation build Landroid/support/annotation/ColorInt;
+        .end annotation
+    .end param
     .param p2, "onMs"    # I
     .param p3, "offMs"    # I
 
@@ -635,22 +641,22 @@
 
     const/4 v2, 0x0
 
-    .line 1202
+    .line 1204
     iget-object v3, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mNotification:Landroid/app/Notification;
 
     iput p1, v3, Landroid/app/Notification;->ledARGB:I
 
-    .line 1203
+    .line 1205
     iget-object v3, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mNotification:Landroid/app/Notification;
 
     iput p2, v3, Landroid/app/Notification;->ledOnMS:I
 
-    .line 1204
+    .line 1206
     iget-object v3, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mNotification:Landroid/app/Notification;
 
     iput p3, v3, Landroid/app/Notification;->ledOffMS:I
 
-    .line 1205
+    .line 1207
     iget-object v3, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mNotification:Landroid/app/Notification;
 
     iget v3, v3, Landroid/app/Notification;->ledOnMS:I
@@ -665,7 +671,7 @@
 
     move v0, v1
 
-    .line 1206
+    .line 1208
     .local v0, "showLights":Z
     :goto_0
     iget-object v3, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mNotification:Landroid/app/Notification;
@@ -683,21 +689,21 @@
 
     iput v1, v3, Landroid/app/Notification;->flags:I
 
-    .line 1208
+    .line 1210
     return-object p0
 
     .end local v0    # "showLights":Z
     :cond_0
     move v0, v2
 
-    .line 1205
+    .line 1207
     goto :goto_0
 
     .restart local v0    # "showLights":Z
     :cond_1
     move v1, v2
 
-    .line 1206
+    .line 1208
     goto :goto_1
 .end method
 
@@ -706,10 +712,10 @@
     .param p1, "b"    # Z
 
     .prologue
-    .line 1254
+    .line 1256
     iput-boolean p1, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mLocalOnly:Z
 
-    .line 1255
+    .line 1257
     return-object p0
 .end method
 
@@ -718,10 +724,10 @@
     .param p1, "number"    # I
 
     .prologue
-    .line 1041
+    .line 1043
     iput p1, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mNumber:I
 
-    .line 1042
+    .line 1044
     return-object p0
 .end method
 
@@ -730,12 +736,12 @@
     .param p1, "ongoing"    # Z
 
     .prologue
-    .line 1223
+    .line 1225
     const/4 v0, 0x2
 
     invoke-direct {p0, v0, p1}, Landroid/support/v4/app/NotificationCompat$Builder;->setFlag(IZ)V
 
-    .line 1224
+    .line 1226
     return-object p0
 .end method
 
@@ -744,12 +750,12 @@
     .param p1, "onlyAlertOnce"    # Z
 
     .prologue
-    .line 1232
+    .line 1234
     const/16 v0, 0x8
 
     invoke-direct {p0, v0, p1}, Landroid/support/v4/app/NotificationCompat$Builder;->setFlag(IZ)V
 
-    .line 1233
+    .line 1235
     return-object p0
 .end method
 
@@ -758,10 +764,10 @@
     .param p1, "pri"    # I
 
     .prologue
-    .line 1314
+    .line 1316
     iput p1, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mPriority:I
 
-    .line 1315
+    .line 1317
     return-object p0
 .end method
 
@@ -772,16 +778,16 @@
     .param p3, "indeterminate"    # Z
 
     .prologue
-    .line 1058
+    .line 1060
     iput p1, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mProgressMax:I
 
-    .line 1059
+    .line 1061
     iput p2, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mProgress:I
 
-    .line 1060
+    .line 1062
     iput-boolean p3, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mProgressIndeterminate:Z
 
-    .line 1061
+    .line 1063
     return-object p0
 .end method
 
@@ -790,10 +796,10 @@
     .param p1, "n"    # Landroid/app/Notification;
 
     .prologue
-    .line 1533
+    .line 1535
     iput-object p1, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mPublicVersion:Landroid/app/Notification;
 
-    .line 1534
+    .line 1536
     return-object p0
 .end method
 
@@ -802,10 +808,10 @@
     .param p1, "show"    # Z
 
     .prologue
-    .line 957
+    .line 959
     iput-boolean p1, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mShowWhen:Z
 
-    .line 958
+    .line 960
     return-object p0
 .end method
 
@@ -814,12 +820,12 @@
     .param p1, "icon"    # I
 
     .prologue
-    .line 985
+    .line 987
     iget-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mNotification:Landroid/app/Notification;
 
     iput p1, v0, Landroid/app/Notification;->icon:I
 
-    .line 986
+    .line 988
     return-object p0
 .end method
 
@@ -829,17 +835,17 @@
     .param p2, "level"    # I
 
     .prologue
-    .line 1000
+    .line 1002
     iget-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mNotification:Landroid/app/Notification;
 
     iput p1, v0, Landroid/app/Notification;->icon:I
 
-    .line 1001
+    .line 1003
     iget-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mNotification:Landroid/app/Notification;
 
     iput p2, v0, Landroid/app/Notification;->iconLevel:I
 
-    .line 1002
+    .line 1004
     return-object p0
 .end method
 
@@ -848,10 +854,10 @@
     .param p1, "sortKey"    # Ljava/lang/String;
 
     .prologue
-    .line 1386
+    .line 1388
     iput-object p1, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mSortKey:Ljava/lang/String;
 
-    .line 1387
+    .line 1389
     return-object p0
 .end method
 
@@ -860,19 +866,19 @@
     .param p1, "sound"    # Landroid/net/Uri;
 
     .prologue
-    .line 1158
+    .line 1160
     iget-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mNotification:Landroid/app/Notification;
 
     iput-object p1, v0, Landroid/app/Notification;->sound:Landroid/net/Uri;
 
-    .line 1159
+    .line 1161
     iget-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mNotification:Landroid/app/Notification;
 
     const/4 v1, -0x1
 
     iput v1, v0, Landroid/app/Notification;->audioStreamType:I
 
-    .line 1160
+    .line 1162
     return-object p0
 .end method
 
@@ -882,17 +888,17 @@
     .param p2, "streamType"    # I
 
     .prologue
-    .line 1175
+    .line 1177
     iget-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mNotification:Landroid/app/Notification;
 
     iput-object p1, v0, Landroid/app/Notification;->sound:Landroid/net/Uri;
 
-    .line 1176
+    .line 1178
     iget-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mNotification:Landroid/app/Notification;
 
     iput p2, v0, Landroid/app/Notification;->audioStreamType:I
 
-    .line 1177
+    .line 1179
     return-object p0
 .end method
 
@@ -901,25 +907,25 @@
     .param p1, "style"    # Landroid/support/v4/app/NotificationCompat$Style;
 
     .prologue
-    .line 1491
+    .line 1493
     iget-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mStyle:Landroid/support/v4/app/NotificationCompat$Style;
 
     if-eq v0, p1, :cond_0
 
-    .line 1492
+    .line 1494
     iput-object p1, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mStyle:Landroid/support/v4/app/NotificationCompat$Style;
 
-    .line 1493
+    .line 1495
     iget-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mStyle:Landroid/support/v4/app/NotificationCompat$Style;
 
     if-eqz v0, :cond_0
 
-    .line 1494
+    .line 1496
     iget-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mStyle:Landroid/support/v4/app/NotificationCompat$Style;
 
     invoke-virtual {v0, p0}, Landroid/support/v4/app/NotificationCompat$Style;->setBuilder(Landroid/support/v4/app/NotificationCompat$Builder;)V
 
-    .line 1497
+    .line 1499
     :cond_0
     return-object p0
 .end method
@@ -929,14 +935,14 @@
     .param p1, "text"    # Ljava/lang/CharSequence;
 
     .prologue
-    .line 1031
+    .line 1033
     invoke-static {p1}, Landroid/support/v4/app/NotificationCompat$Builder;->limitCharSequenceLength(Ljava/lang/CharSequence;)Ljava/lang/CharSequence;
 
     move-result-object v0
 
     iput-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mSubText:Ljava/lang/CharSequence;
 
-    .line 1032
+    .line 1034
     return-object p0
 .end method
 
@@ -945,7 +951,7 @@
     .param p1, "tickerText"    # Ljava/lang/CharSequence;
 
     .prologue
-    .line 1126
+    .line 1128
     iget-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mNotification:Landroid/app/Notification;
 
     invoke-static {p1}, Landroid/support/v4/app/NotificationCompat$Builder;->limitCharSequenceLength(Ljava/lang/CharSequence;)Ljava/lang/CharSequence;
@@ -954,7 +960,7 @@
 
     iput-object v1, v0, Landroid/app/Notification;->tickerText:Ljava/lang/CharSequence;
 
-    .line 1127
+    .line 1129
     return-object p0
 .end method
 
@@ -964,7 +970,7 @@
     .param p2, "views"    # Landroid/widget/RemoteViews;
 
     .prologue
-    .line 1136
+    .line 1138
     iget-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mNotification:Landroid/app/Notification;
 
     invoke-static {p1}, Landroid/support/v4/app/NotificationCompat$Builder;->limitCharSequenceLength(Ljava/lang/CharSequence;)Ljava/lang/CharSequence;
@@ -973,10 +979,10 @@
 
     iput-object v1, v0, Landroid/app/Notification;->tickerText:Ljava/lang/CharSequence;
 
-    .line 1137
+    .line 1139
     iput-object p2, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mTickerView:Landroid/widget/RemoteViews;
 
-    .line 1138
+    .line 1140
     return-object p0
 .end method
 
@@ -985,10 +991,10 @@
     .param p1, "b"    # Z
 
     .prologue
-    .line 973
+    .line 975
     iput-boolean p1, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mUseChronometer:Z
 
-    .line 974
+    .line 976
     return-object p0
 .end method
 
@@ -997,12 +1003,12 @@
     .param p1, "pattern"    # [J
 
     .prologue
-    .line 1192
+    .line 1194
     iget-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mNotification:Landroid/app/Notification;
 
     iput-object p1, v0, Landroid/app/Notification;->vibrate:[J
 
-    .line 1193
+    .line 1195
     return-object p0
 .end method
 
@@ -1011,10 +1017,10 @@
     .param p1, "visibility"    # I
 
     .prologue
-    .line 1520
+    .line 1522
     iput p1, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mVisibility:I
 
-    .line 1521
+    .line 1523
     return-object p0
 .end method
 
@@ -1023,11 +1029,11 @@
     .param p1, "when"    # J
 
     .prologue
-    .line 948
+    .line 950
     iget-object v0, p0, Landroid/support/v4/app/NotificationCompat$Builder;->mNotification:Landroid/app/Notification;
 
     iput-wide p1, v0, Landroid/app/Notification;->when:J
 
-    .line 949
+    .line 951
     return-object p0
 .end method

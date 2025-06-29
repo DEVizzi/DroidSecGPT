@@ -15,6 +15,9 @@
 
 
 # virtual methods
+.method public abstract getLayoutDirection(Landroid/graphics/drawable/Drawable;)I
+.end method
+
 .method public abstract isAutoMirrored(Landroid/graphics/drawable/Drawable;)Z
 .end method
 
@@ -28,6 +31,9 @@
 .end method
 
 .method public abstract setHotspotBounds(Landroid/graphics/drawable/Drawable;IIII)V
+.end method
+
+.method public abstract setLayoutDirection(Landroid/graphics/drawable/Drawable;I)V
 .end method
 
 .method public abstract setTint(Landroid/graphics/drawable/Drawable;I)V

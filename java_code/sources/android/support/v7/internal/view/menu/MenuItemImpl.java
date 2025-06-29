@@ -224,7 +224,6 @@ public final class MenuItemImpl implements SupportMenuItem {
         return this.mSubMenu != null;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     public void setSubMenu(SubMenuBuilder subMenu) {
         this.mSubMenu = subMenu;
         subMenu.setHeaderTitle(getTitle());
@@ -379,7 +378,10 @@ public final class MenuItemImpl implements SupportMenuItem {
     }
 
     public String toString() {
-        return this.mTitle.toString();
+        if (this.mTitle != null) {
+            return this.mTitle.toString();
+        }
+        return null;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -487,7 +489,7 @@ public final class MenuItemImpl implements SupportMenuItem {
     @Override // android.support.v4.internal.view.SupportMenuItem
     public SupportMenuItem setSupportActionProvider(ActionProvider actionProvider) {
         if (this.mActionProvider != null) {
-            this.mActionProvider.setVisibilityListener(null);
+            this.mActionProvider.reset();
         }
         this.mActionView = null;
         this.mActionProvider = actionProvider;

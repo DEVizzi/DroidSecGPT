@@ -3,175 +3,135 @@
 .source "TextUtilsCompat.java"
 
 
+# annotations
+.annotation system Ldalvik/annotation/MemberClasses;
+    value = {
+        Landroid/support/v4/text/TextUtilsCompat$1;,
+        Landroid/support/v4/text/TextUtilsCompat$TextUtilsCompatJellybeanMr1Impl;,
+        Landroid/support/v4/text/TextUtilsCompat$TextUtilsCompatImpl;
+    }
+.end annotation
+
+
 # static fields
 .field private static ARAB_SCRIPT_SUBTAG:Ljava/lang/String;
 
 .field private static HEBR_SCRIPT_SUBTAG:Ljava/lang/String;
+
+.field private static final IMPL:Landroid/support/v4/text/TextUtilsCompat$TextUtilsCompatImpl;
 
 .field public static final ROOT:Ljava/util/Locale;
 
 
 # direct methods
 .method static constructor <clinit>()V
-    .locals 3
+    .locals 4
 
     .prologue
-    .line 114
-    new-instance v0, Ljava/util/Locale;
+    const/4 v2, 0x0
 
-    const-string v1, ""
+    .line 114
+    sget v0, Landroid/os/Build$VERSION;->SDK_INT:I
+
+    .line 115
+    .local v0, "version":I
+    const/16 v1, 0x11
+
+    if-lt v0, v1, :cond_0
+
+    .line 116
+    new-instance v1, Landroid/support/v4/text/TextUtilsCompat$TextUtilsCompatJellybeanMr1Impl;
+
+    invoke-direct {v1, v2}, Landroid/support/v4/text/TextUtilsCompat$TextUtilsCompatJellybeanMr1Impl;-><init>(Landroid/support/v4/text/TextUtilsCompat$1;)V
+
+    sput-object v1, Landroid/support/v4/text/TextUtilsCompat;->IMPL:Landroid/support/v4/text/TextUtilsCompat$TextUtilsCompatImpl;
+
+    .line 146
+    :goto_0
+    new-instance v1, Ljava/util/Locale;
 
     const-string v2, ""
 
-    invoke-direct {v0, v1, v2}, Ljava/util/Locale;-><init>(Ljava/lang/String;Ljava/lang/String;)V
+    const-string v3, ""
 
-    sput-object v0, Landroid/support/v4/text/TextUtilsCompat;->ROOT:Ljava/util/Locale;
+    invoke-direct {v1, v2, v3}, Ljava/util/Locale;-><init>(Ljava/lang/String;Ljava/lang/String;)V
 
-    .line 116
-    const-string v0, "Arab"
+    sput-object v1, Landroid/support/v4/text/TextUtilsCompat;->ROOT:Ljava/util/Locale;
 
-    sput-object v0, Landroid/support/v4/text/TextUtilsCompat;->ARAB_SCRIPT_SUBTAG:Ljava/lang/String;
+    .line 148
+    const-string v1, "Arab"
 
-    .line 117
-    const-string v0, "Hebr"
+    sput-object v1, Landroid/support/v4/text/TextUtilsCompat;->ARAB_SCRIPT_SUBTAG:Ljava/lang/String;
 
-    sput-object v0, Landroid/support/v4/text/TextUtilsCompat;->HEBR_SCRIPT_SUBTAG:Ljava/lang/String;
+    .line 149
+    const-string v1, "Hebr"
+
+    sput-object v1, Landroid/support/v4/text/TextUtilsCompat;->HEBR_SCRIPT_SUBTAG:Ljava/lang/String;
 
     return-void
+
+    .line 118
+    :cond_0
+    new-instance v1, Landroid/support/v4/text/TextUtilsCompat$TextUtilsCompatImpl;
+
+    invoke-direct {v1, v2}, Landroid/support/v4/text/TextUtilsCompat$TextUtilsCompatImpl;-><init>(Landroid/support/v4/text/TextUtilsCompat$1;)V
+
+    sput-object v1, Landroid/support/v4/text/TextUtilsCompat;->IMPL:Landroid/support/v4/text/TextUtilsCompat$TextUtilsCompatImpl;
+
+    goto :goto_0
 .end method
 
 .method public constructor <init>()V
     .locals 0
 
     .prologue
-    .line 25
+    .line 26
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
+    .line 100
     return-void
 .end method
 
-.method private static getLayoutDirectionFromFirstChar(Ljava/util/Locale;)I
-    .locals 2
-    .param p0, "locale"    # Ljava/util/Locale;
+.method static synthetic access$000()Ljava/lang/String;
+    .locals 1
 
     .prologue
-    const/4 v0, 0x0
+    .line 26
+    sget-object v0, Landroid/support/v4/text/TextUtilsCompat;->ARAB_SCRIPT_SUBTAG:Ljava/lang/String;
 
-    .line 103
-    invoke-virtual {p0, p0}, Ljava/util/Locale;->getDisplayName(Ljava/util/Locale;)Ljava/lang/String;
+    return-object v0
+.end method
 
-    move-result-object v1
+.method static synthetic access$100()Ljava/lang/String;
+    .locals 1
 
-    invoke-virtual {v1, v0}, Ljava/lang/String;->charAt(I)C
+    .prologue
+    .line 26
+    sget-object v0, Landroid/support/v4/text/TextUtilsCompat;->HEBR_SCRIPT_SUBTAG:Ljava/lang/String;
 
-    move-result v1
-
-    invoke-static {v1}, Ljava/lang/Character;->getDirectionality(C)B
-
-    move-result v1
-
-    packed-switch v1, :pswitch_data_0
-
-    .line 110
-    :goto_0
-    return v0
-
-    .line 106
-    :pswitch_0
-    const/4 v0, 0x1
-
-    goto :goto_0
-
-    .line 103
-    nop
-
-    :pswitch_data_0
-    .packed-switch 0x1
-        :pswitch_0
-        :pswitch_0
-    .end packed-switch
+    return-object v0
 .end method
 
 .method public static getLayoutDirectionFromLocale(Ljava/util/Locale;)I
-    .locals 2
+    .locals 1
     .param p0, "locale"    # Ljava/util/Locale;
         .annotation build Landroid/support/annotation/Nullable;
         .end annotation
     .end param
 
     .prologue
-    .line 76
-    if-eqz p0, :cond_2
+    .line 143
+    sget-object v0, Landroid/support/v4/text/TextUtilsCompat;->IMPL:Landroid/support/v4/text/TextUtilsCompat$TextUtilsCompatImpl;
 
-    sget-object v1, Landroid/support/v4/text/TextUtilsCompat;->ROOT:Ljava/util/Locale;
+    invoke-virtual {v0, p0}, Landroid/support/v4/text/TextUtilsCompat$TextUtilsCompatImpl;->getLayoutDirectionFromLocale(Ljava/util/Locale;)I
 
-    invoke-virtual {p0, v1}, Ljava/util/Locale;->equals(Ljava/lang/Object;)Z
+    move-result v0
 
-    move-result v1
-
-    if-nez v1, :cond_2
-
-    .line 77
-    invoke-virtual {p0}, Ljava/util/Locale;->toString()Ljava/lang/String;
-
-    move-result-object v1
-
-    invoke-static {v1}, Landroid/support/v4/text/ICUCompat;->addLikelySubtags(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v1
-
-    invoke-static {v1}, Landroid/support/v4/text/ICUCompat;->getScript(Ljava/lang/String;)Ljava/lang/String;
-
-    move-result-object v0
-
-    .line 79
-    .local v0, "scriptSubtag":Ljava/lang/String;
-    if-nez v0, :cond_0
-
-    invoke-static {p0}, Landroid/support/v4/text/TextUtilsCompat;->getLayoutDirectionFromFirstChar(Ljava/util/Locale;)I
-
-    move-result v1
-
-    .line 87
-    .end local v0    # "scriptSubtag":Ljava/lang/String;
-    :goto_0
-    return v1
-
-    .line 81
-    .restart local v0    # "scriptSubtag":Ljava/lang/String;
-    :cond_0
-    sget-object v1, Landroid/support/v4/text/TextUtilsCompat;->ARAB_SCRIPT_SUBTAG:Ljava/lang/String;
-
-    invoke-virtual {v0, v1}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
-
-    move-result v1
-
-    if-nez v1, :cond_1
-
-    sget-object v1, Landroid/support/v4/text/TextUtilsCompat;->HEBR_SCRIPT_SUBTAG:Ljava/lang/String;
-
-    invoke-virtual {v0, v1}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
-
-    move-result v1
-
-    if-eqz v1, :cond_2
-
-    .line 83
-    :cond_1
-    const/4 v1, 0x1
-
-    goto :goto_0
-
-    .line 87
-    .end local v0    # "scriptSubtag":Ljava/lang/String;
-    :cond_2
-    const/4 v1, 0x0
-
-    goto :goto_0
+    return v0
 .end method
 
 .method public static htmlEncode(Ljava/lang/String;)Ljava/lang/String;
-    .locals 4
+    .locals 1
     .param p0, "s"    # Ljava/lang/String;
         .annotation build Landroid/support/annotation/NonNull;
         .end annotation
@@ -180,97 +140,12 @@
     .end annotation
 
     .prologue
-    .line 34
-    new-instance v2, Ljava/lang/StringBuilder;
+    .line 129
+    sget-object v0, Landroid/support/v4/text/TextUtilsCompat;->IMPL:Landroid/support/v4/text/TextUtilsCompat$TextUtilsCompatImpl;
 
-    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+    invoke-virtual {v0, p0}, Landroid/support/v4/text/TextUtilsCompat$TextUtilsCompatImpl;->htmlEncode(Ljava/lang/String;)Ljava/lang/String;
 
-    .line 36
-    .local v2, "sb":Ljava/lang/StringBuilder;
-    const/4 v1, 0x0
+    move-result-object v0
 
-    .local v1, "i":I
-    :goto_0
-    invoke-virtual {p0}, Ljava/lang/String;->length()I
-
-    move-result v3
-
-    if-ge v1, v3, :cond_0
-
-    .line 37
-    invoke-virtual {p0, v1}, Ljava/lang/String;->charAt(I)C
-
-    move-result v0
-
-    .line 38
-    .local v0, "c":C
-    sparse-switch v0, :sswitch_data_0
-
-    .line 59
-    invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(C)Ljava/lang/StringBuilder;
-
-    .line 36
-    :goto_1
-    add-int/lit8 v1, v1, 0x1
-
-    goto :goto_0
-
-    .line 40
-    :sswitch_0
-    const-string v3, "&lt;"
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    goto :goto_1
-
-    .line 43
-    :sswitch_1
-    const-string v3, "&gt;"
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    goto :goto_1
-
-    .line 46
-    :sswitch_2
-    const-string v3, "&amp;"
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    goto :goto_1
-
-    .line 53
-    :sswitch_3
-    const-string v3, "&#39;"
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    goto :goto_1
-
-    .line 56
-    :sswitch_4
-    const-string v3, "&quot;"
-
-    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
-
-    goto :goto_1
-
-    .line 62
-    .end local v0    # "c":C
-    :cond_0
-    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
-
-    move-result-object v3
-
-    return-object v3
-
-    .line 38
-    :sswitch_data_0
-    .sparse-switch
-        0x22 -> :sswitch_4
-        0x26 -> :sswitch_2
-        0x27 -> :sswitch_3
-        0x3c -> :sswitch_0
-        0x3e -> :sswitch_1
-    .end sparse-switch
+    return-object v0
 .end method

@@ -3,12 +3,12 @@
 .source "AppCompatDelegateImplV7.java"
 
 # interfaces
-.implements Ljava/lang/Runnable;
+.implements Landroid/support/v7/internal/widget/ContentFrameLayout$OnAttachListener;
 
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Landroid/support/v7/app/AppCompatDelegateImplV7;->startSupportActionModeFromWindow(Landroid/support/v7/view/ActionMode$Callback;)Landroid/support/v7/view/ActionMode;
+    value = Landroid/support/v7/app/AppCompatDelegateImplV7;->createSubDecor()Landroid/view/ViewGroup;
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -26,7 +26,7 @@
     .locals 0
 
     .prologue
-    .line 638
+    .line 466
     iput-object p1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7$4;->this$0:Landroid/support/v7/app/AppCompatDelegateImplV7;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -36,25 +36,23 @@
 
 
 # virtual methods
-.method public run()V
-    .locals 4
+.method public onAttachedFromWindow()V
+    .locals 0
 
     .prologue
-    const/4 v3, 0x0
+    .line 468
+    return-void
+.end method
 
-    .line 640
+.method public onDetachedFromWindow()V
+    .locals 1
+
+    .prologue
+    .line 472
     iget-object v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7$4;->this$0:Landroid/support/v7/app/AppCompatDelegateImplV7;
 
-    iget-object v0, v0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionModePopup:Landroid/widget/PopupWindow;
+    invoke-static {v0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->access$400(Landroid/support/v7/app/AppCompatDelegateImplV7;)V
 
-    iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7$4;->this$0:Landroid/support/v7/app/AppCompatDelegateImplV7;
-
-    iget-object v1, v1, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionModeView:Landroid/support/v7/internal/widget/ActionBarContextView;
-
-    const/16 v2, 0x37
-
-    invoke-virtual {v0, v1, v2, v3, v3}, Landroid/widget/PopupWindow;->showAtLocation(Landroid/view/View;III)V
-
-    .line 643
+    .line 473
     return-void
 .end method

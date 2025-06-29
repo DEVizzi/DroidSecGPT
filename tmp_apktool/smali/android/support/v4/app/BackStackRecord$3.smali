@@ -34,7 +34,7 @@
     .locals 0
 
     .prologue
-    .line 1362
+    .line 1360
     iput-object p1, p0, Landroid/support/v4/app/BackStackRecord$3;->this$0:Landroid/support/v4/app/BackStackRecord;
 
     iput-object p2, p0, Landroid/support/v4/app/BackStackRecord$3;->val$sceneRoot:Landroid/view/View;
@@ -56,7 +56,7 @@
     .locals 4
 
     .prologue
-    .line 1364
+    .line 1362
     iget-object v0, p0, Landroid/support/v4/app/BackStackRecord$3;->val$sceneRoot:Landroid/view/View;
 
     invoke-virtual {v0}, Landroid/view/View;->getViewTreeObserver()Landroid/view/ViewTreeObserver;
@@ -65,7 +65,7 @@
 
     invoke-virtual {v0, p0}, Landroid/view/ViewTreeObserver;->removeOnPreDrawListener(Landroid/view/ViewTreeObserver$OnPreDrawListener;)V
 
-    .line 1365
+    .line 1363
     iget-object v0, p0, Landroid/support/v4/app/BackStackRecord$3;->this$0:Landroid/support/v4/app/BackStackRecord;
 
     iget-object v1, p0, Landroid/support/v4/app/BackStackRecord$3;->val$state:Landroid/support/v4/app/BackStackRecord$TransitionState;
@@ -76,7 +76,7 @@
 
     invoke-static {v0, v1, v2, v3}, Landroid/support/v4/app/BackStackRecord;->access$300(Landroid/support/v4/app/BackStackRecord;Landroid/support/v4/app/BackStackRecord$TransitionState;ILjava/lang/Object;)V
 
-    .line 1366
+    .line 1364
     const/4 v0, 0x1
 
     return v0

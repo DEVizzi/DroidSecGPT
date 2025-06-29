@@ -19,7 +19,7 @@
     .locals 0
 
     .prologue
-    .line 756
+    .line 758
     invoke-direct {p0}, Landroid/support/v4/app/NotificationCompat$NotificationCompatImplApi20;-><init>()V
 
     return-void
@@ -33,7 +33,7 @@
     .param p2, "extender"    # Landroid/support/v4/app/NotificationCompat$BuilderExtender;
 
     .prologue
-    .line 759
+    .line 761
     new-instance v2, Landroid/support/v4/app/NotificationCompatApi21$Builder;
 
     move-object/from16 v0, p1
@@ -174,7 +174,7 @@
 
     invoke-direct/range {v2 .. v29}, Landroid/support/v4/app/NotificationCompatApi21$Builder;-><init>(Landroid/content/Context;Landroid/app/Notification;Ljava/lang/CharSequence;Ljava/lang/CharSequence;Ljava/lang/CharSequence;Landroid/widget/RemoteViews;ILandroid/app/PendingIntent;Landroid/app/PendingIntent;Landroid/graphics/Bitmap;IIZZZILjava/lang/CharSequence;ZLjava/lang/String;Ljava/util/ArrayList;Landroid/os/Bundle;IILandroid/app/Notification;Ljava/lang/String;ZLjava/lang/String;)V
 
-    .line 766
+    .line 768
     .local v2, "builder":Landroid/support/v4/app/NotificationCompatApi21$Builder;
     move-object/from16 v0, p1
 
@@ -182,14 +182,14 @@
 
     invoke-static {v2, v3}, Landroid/support/v4/app/NotificationCompat;->access$000(Landroid/support/v4/app/NotificationBuilderWithActions;Ljava/util/ArrayList;)V
 
-    .line 767
+    .line 769
     move-object/from16 v0, p1
 
     iget-object v3, v0, Landroid/support/v4/app/NotificationCompat$Builder;->mStyle:Landroid/support/v4/app/NotificationCompat$Style;
 
     invoke-static {v2, v3}, Landroid/support/v4/app/NotificationCompat;->access$100(Landroid/support/v4/app/NotificationBuilderWithBuilderAccessor;Landroid/support/v4/app/NotificationCompat$Style;)V
 
-    .line 768
+    .line 770
     move-object/from16 v0, p2
 
     move-object/from16 v1, p1
@@ -206,7 +206,7 @@
     .param p1, "uc"    # Landroid/support/v4/app/NotificationCompatBase$UnreadConversation;
 
     .prologue
-    .line 778
+    .line 780
     invoke-static {p1}, Landroid/support/v4/app/NotificationCompatApi21;->getBundleForUnreadConversation(Landroid/support/v4/app/NotificationCompatBase$UnreadConversation;)Landroid/os/Bundle;
 
     move-result-object v0
@@ -219,7 +219,7 @@
     .param p1, "notif"    # Landroid/app/Notification;
 
     .prologue
-    .line 773
+    .line 775
     invoke-static {p1}, Landroid/support/v4/app/NotificationCompatApi21;->getCategory(Landroid/app/Notification;)Ljava/lang/String;
 
     move-result-object v0
@@ -234,7 +234,7 @@
     .param p3, "remoteInputFactory"    # Landroid/support/v4/app/RemoteInputCompatBase$RemoteInput$Factory;
 
     .prologue
-    .line 785
+    .line 787
     invoke-static {p1, p2, p3}, Landroid/support/v4/app/NotificationCompatApi21;->getUnreadConversationFromBundle(Landroid/os/Bundle;Landroid/support/v4/app/NotificationCompatBase$UnreadConversation$Factory;Landroid/support/v4/app/RemoteInputCompatBase$RemoteInput$Factory;)Landroid/support/v4/app/NotificationCompatBase$UnreadConversation;
 
     move-result-object v0

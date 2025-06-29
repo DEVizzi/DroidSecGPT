@@ -19,13 +19,13 @@ class RemoteInputCompatJellybean {
     }
 
     static RemoteInputCompatBase.RemoteInput fromBundle(Bundle data, RemoteInputCompatBase.RemoteInput.Factory factory) {
-        return factory.build(data.getString(KEY_RESULT_KEY), data.getCharSequence("label"), data.getCharSequenceArray(KEY_CHOICES), data.getBoolean(KEY_ALLOW_FREE_FORM_INPUT), data.getBundle(KEY_EXTRAS));
+        return factory.build(data.getString(KEY_RESULT_KEY), data.getCharSequence(KEY_LABEL), data.getCharSequenceArray(KEY_CHOICES), data.getBoolean(KEY_ALLOW_FREE_FORM_INPUT), data.getBundle(KEY_EXTRAS));
     }
 
     static Bundle toBundle(RemoteInputCompatBase.RemoteInput remoteInput) {
         Bundle data = new Bundle();
         data.putString(KEY_RESULT_KEY, remoteInput.getResultKey());
-        data.putCharSequence("label", remoteInput.getLabel());
+        data.putCharSequence(KEY_LABEL, remoteInput.getLabel());
         data.putCharSequenceArray(KEY_CHOICES, remoteInput.getChoices());
         data.putBoolean(KEY_ALLOW_FREE_FORM_INPUT, remoteInput.getAllowFreeFormInput());
         data.putBundle(KEY_EXTRAS, remoteInput.getExtras());

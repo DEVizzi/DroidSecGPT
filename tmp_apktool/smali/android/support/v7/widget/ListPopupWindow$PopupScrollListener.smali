@@ -26,7 +26,7 @@
     .locals 0
 
     .prologue
-    .line 1751
+    .line 1818
     iput-object p1, p0, Landroid/support/v7/widget/ListPopupWindow$PopupScrollListener;->this$0:Landroid/support/v7/widget/ListPopupWindow;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -40,7 +40,7 @@
     .param p2, "x1"    # Landroid/support/v7/widget/ListPopupWindow$1;
 
     .prologue
-    .line 1751
+    .line 1818
     invoke-direct {p0, p1}, Landroid/support/v7/widget/ListPopupWindow$PopupScrollListener;-><init>(Landroid/support/v7/widget/ListPopupWindow;)V
 
     return-void
@@ -56,7 +56,7 @@
     .param p4, "totalItemCount"    # I
 
     .prologue
-    .line 1755
+    .line 1822
     return-void
 .end method
 
@@ -66,7 +66,7 @@
     .param p2, "scrollState"    # I
 
     .prologue
-    .line 1758
+    .line 1825
     const/4 v0, 0x1
 
     if-ne p2, v0, :cond_0
@@ -91,7 +91,7 @@
 
     if-eqz v0, :cond_0
 
-    .line 1760
+    .line 1827
     iget-object v0, p0, Landroid/support/v7/widget/ListPopupWindow$PopupScrollListener;->this$0:Landroid/support/v7/widget/ListPopupWindow;
 
     invoke-static {v0}, Landroid/support/v7/widget/ListPopupWindow;->access$1300(Landroid/support/v7/widget/ListPopupWindow;)Landroid/os/Handler;
@@ -106,7 +106,7 @@
 
     invoke-virtual {v0, v1}, Landroid/os/Handler;->removeCallbacks(Ljava/lang/Runnable;)V
 
-    .line 1761
+    .line 1828
     iget-object v0, p0, Landroid/support/v7/widget/ListPopupWindow$PopupScrollListener;->this$0:Landroid/support/v7/widget/ListPopupWindow;
 
     invoke-static {v0}, Landroid/support/v7/widget/ListPopupWindow;->access$1200(Landroid/support/v7/widget/ListPopupWindow;)Landroid/support/v7/widget/ListPopupWindow$ResizePopupRunnable;
@@ -115,7 +115,7 @@
 
     invoke-virtual {v0}, Landroid/support/v7/widget/ListPopupWindow$ResizePopupRunnable;->run()V
 
-    .line 1763
+    .line 1830
     :cond_0
     return-void
 .end method

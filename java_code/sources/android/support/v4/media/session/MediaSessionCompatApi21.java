@@ -20,7 +20,7 @@ import java.util.List;
 class MediaSessionCompatApi21 {
 
     /* loaded from: classes.dex */
-    public interface Callback {
+    interface Callback {
         void onCommand(String str, Bundle bundle, ResultReceiver resultReceiver);
 
         void onCustomAction(String str, Bundle bundle);
@@ -166,7 +166,7 @@ class MediaSessionCompatApi21 {
 
         @Override // android.media.session.MediaSession.Callback
         public boolean onMediaButtonEvent(Intent mediaButtonIntent) {
-            return this.mCallback.onMediaButtonEvent(mediaButtonIntent);
+            return this.mCallback.onMediaButtonEvent(mediaButtonIntent) || super.onMediaButtonEvent(mediaButtonIntent);
         }
 
         @Override // android.media.session.MediaSession.Callback

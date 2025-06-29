@@ -3,6 +3,7 @@ package android.support.v7.app;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -12,6 +13,7 @@ import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,11 +23,11 @@ public class AppCompatActivity extends FragmentActivity implements AppCompatCall
     private AppCompatDelegate mDelegate;
 
     /* JADX INFO: Access modifiers changed from: protected */
-    @Override // android.support.v4.app.FragmentActivity, android.app.Activity
+    @Override // android.support.v4.app.FragmentActivity, android.support.v4.app.BaseFragmentActivityDonut, android.app.Activity
     public void onCreate(@Nullable Bundle savedInstanceState) {
         getDelegate().installViewFactory();
-        super.onCreate(savedInstanceState);
         getDelegate().onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
     }
 
     @Override // android.app.Activity
@@ -74,16 +76,14 @@ public class AppCompatActivity extends FragmentActivity implements AppCompatCall
         getDelegate().onConfigurationChanged(newConfig);
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.support.v4.app.FragmentActivity, android.app.Activity
-    public void onStop() {
+    protected void onStop() {
         super.onStop();
         getDelegate().onStop();
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.support.v4.app.FragmentActivity, android.app.Activity
-    public void onPostResume() {
+    protected void onPostResume() {
         super.onPostResume();
         getDelegate().onPostResume();
     }
@@ -100,9 +100,8 @@ public class AppCompatActivity extends FragmentActivity implements AppCompatCall
         return false;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.support.v4.app.FragmentActivity, android.app.Activity
-    public void onDestroy() {
+    protected void onDestroy() {
         super.onDestroy();
         getDelegate().onDestroy();
     }
@@ -128,10 +127,12 @@ public class AppCompatActivity extends FragmentActivity implements AppCompatCall
     }
 
     @Override // android.support.v7.app.AppCompatCallback
+    @CallSuper
     public void onSupportActionModeStarted(ActionMode mode) {
     }
 
     @Override // android.support.v7.app.AppCompatCallback
+    @CallSuper
     public void onSupportActionModeFinished(ActionMode mode) {
     }
 
@@ -216,6 +217,16 @@ public class AppCompatActivity extends FragmentActivity implements AppCompatCall
     @Nullable
     public ActionBarDrawerToggle.Delegate getDrawerToggleDelegate() {
         return getDelegate().getDrawerToggleDelegate();
+    }
+
+    @Override // android.app.Activity, android.view.Window.Callback
+    public boolean onMenuOpened(int featureId, Menu menu) {
+        return super.onMenuOpened(featureId, menu);
+    }
+
+    @Override // android.support.v4.app.FragmentActivity, android.app.Activity, android.view.Window.Callback
+    public void onPanelClosed(int featureId, Menu menu) {
+        super.onPanelClosed(featureId, menu);
     }
 
     public AppCompatDelegate getDelegate() {

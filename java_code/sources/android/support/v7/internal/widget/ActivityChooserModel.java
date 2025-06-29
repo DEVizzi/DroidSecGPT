@@ -166,7 +166,7 @@ public class ActivityChooserModel extends DataSetObservable {
                     return null;
                 }
             }
-            HistoricalRecord historicalRecord = new HistoricalRecord(chosenName, System.currentTimeMillis(), 1.0f);
+            HistoricalRecord historicalRecord = new HistoricalRecord(chosenName, System.currentTimeMillis(), (float) DEFAULT_HISTORICAL_RECORD_WEIGHT);
             addHisoricalRecord(historicalRecord);
             return choiceIntent;
         }
@@ -197,7 +197,7 @@ public class ActivityChooserModel extends DataSetObservable {
             if (oldDefaultActivity != null) {
                 weight = (oldDefaultActivity.weight - newDefaultActivity.weight) + 5.0f;
             } else {
-                weight = 1.0f;
+                weight = DEFAULT_HISTORICAL_RECORD_WEIGHT;
             }
             ComponentName defaultName = new ComponentName(newDefaultActivity.resolveInfo.activityInfo.packageName, newDefaultActivity.resolveInfo.activityInfo.name);
             HistoricalRecord historicalRecord = new HistoricalRecord(defaultName, System.currentTimeMillis(), weight);
@@ -212,7 +212,7 @@ public class ActivityChooserModel extends DataSetObservable {
         if (this.mHistoricalRecordsChanged) {
             this.mHistoricalRecordsChanged = false;
             if (!TextUtils.isEmpty(this.mHistoryFileName)) {
-                AsyncTaskCompat.executeParallel(new PersistHistoryAsyncTask(), this.mHistoricalRecords, this.mHistoryFileName);
+                AsyncTaskCompat.executeParallel(new PersistHistoryAsyncTask(), new ArrayList(this.mHistoricalRecords), this.mHistoryFileName);
             }
         }
     }
@@ -414,7 +414,7 @@ public class ActivityChooserModel extends DataSetObservable {
     /* loaded from: classes.dex */
     private final class DefaultSorter implements ActivitySorter {
         private static final float WEIGHT_DECAY_COEFFICIENT = 0.95f;
-        private final Map<String, ActivityResolveInfo> mPackageNameToActivityMap;
+        private final Map<ComponentName, ActivityResolveInfo> mPackageNameToActivityMap;
 
         private DefaultSorter() {
             this.mPackageNameToActivityMap = new HashMap();
@@ -422,21 +422,21 @@ public class ActivityChooserModel extends DataSetObservable {
 
         @Override // android.support.v7.internal.widget.ActivityChooserModel.ActivitySorter
         public void sort(Intent intent, List<ActivityResolveInfo> activities, List<HistoricalRecord> historicalRecords) {
-            Map<String, ActivityResolveInfo> packageNameToActivityMap = this.mPackageNameToActivityMap;
-            packageNameToActivityMap.clear();
+            Map<ComponentName, ActivityResolveInfo> componentNameToActivityMap = this.mPackageNameToActivityMap;
+            componentNameToActivityMap.clear();
             int activityCount = activities.size();
             for (int i = 0; i < activityCount; i++) {
                 ActivityResolveInfo activity = activities.get(i);
                 activity.weight = 0.0f;
-                String packageName = activity.resolveInfo.activityInfo.packageName;
-                packageNameToActivityMap.put(packageName, activity);
+                ComponentName componentName = new ComponentName(activity.resolveInfo.activityInfo.packageName, activity.resolveInfo.activityInfo.name);
+                componentNameToActivityMap.put(componentName, activity);
             }
             int lastShareIndex = historicalRecords.size() - 1;
-            float nextRecordWeight = 1.0f;
+            float nextRecordWeight = ActivityChooserModel.DEFAULT_HISTORICAL_RECORD_WEIGHT;
             for (int i2 = lastShareIndex; i2 >= 0; i2--) {
                 HistoricalRecord historicalRecord = historicalRecords.get(i2);
-                String packageName2 = historicalRecord.activity.getPackageName();
-                ActivityResolveInfo activity2 = packageNameToActivityMap.get(packageName2);
+                ComponentName componentName2 = historicalRecord.activity;
+                ActivityResolveInfo activity2 = componentNameToActivityMap.get(componentName2);
                 if (activity2 != null) {
                     activity2.weight += historicalRecord.weight * nextRecordWeight;
                     nextRecordWeight *= WEIGHT_DECAY_COEFFICIENT;
@@ -453,7 +453,7 @@ public class ActivityChooserModel extends DataSetObservable {
                 FileInputStream fis2 = this.mContext.openFileInput(this.mHistoryFileName);
                 try {
                     XmlPullParser parser = Xml.newPullParser();
-                    parser.setInput(fis2, null);
+                    parser.setInput(fis2, "UTF-8");
                     for (int type = 0; type != 1 && type != 2; type = parser.next()) {
                     }
                     if (!TAG_HISTORICAL_RECORDS.equals(parser.getName())) {

@@ -8,6 +8,8 @@
 
 
 # instance fields
+.field private mTextHelper:Landroid/support/v7/widget/AppCompatTextHelper;
+
 .field private mTintManager:Landroid/support/v7/internal/widget/TintManager;
 
 
@@ -16,7 +18,7 @@
     .locals 3
 
     .prologue
-    .line 35
+    .line 34
     const/4 v0, 0x1
 
     new-array v0, v0, [I
@@ -74,11 +76,28 @@
     invoke-direct {p0, p1, p2, p3}, Landroid/widget/CheckedTextView;-><init>(Landroid/content/Context;Landroid/util/AttributeSet;I)V
 
     .line 52
+    invoke-static {p0}, Landroid/support/v7/widget/AppCompatTextHelper;->create(Landroid/widget/TextView;)Landroid/support/v7/widget/AppCompatTextHelper;
+
+    move-result-object v1
+
+    iput-object v1, p0, Landroid/support/v7/widget/AppCompatCheckedTextView;->mTextHelper:Landroid/support/v7/widget/AppCompatTextHelper;
+
+    .line 53
+    iget-object v1, p0, Landroid/support/v7/widget/AppCompatCheckedTextView;->mTextHelper:Landroid/support/v7/widget/AppCompatTextHelper;
+
+    invoke-virtual {v1, p2, p3}, Landroid/support/v7/widget/AppCompatTextHelper;->loadFromAttributes(Landroid/util/AttributeSet;I)V
+
+    .line 54
+    iget-object v1, p0, Landroid/support/v7/widget/AppCompatCheckedTextView;->mTextHelper:Landroid/support/v7/widget/AppCompatTextHelper;
+
+    invoke-virtual {v1}, Landroid/support/v7/widget/AppCompatTextHelper;->applyCompoundDrawablesTints()V
+
+    .line 56
     sget-boolean v1, Landroid/support/v7/internal/widget/TintManager;->SHOULD_BE_USED:Z
 
     if-eqz v1, :cond_0
 
-    .line 53
+    .line 57
     invoke-virtual {p0}, Landroid/support/v7/widget/AppCompatCheckedTextView;->getContext()Landroid/content/Context;
 
     move-result-object v1
@@ -89,7 +108,7 @@
 
     move-result-object v0
 
-    .line 55
+    .line 59
     .local v0, "a":Landroid/support/v7/internal/widget/TintTypedArray;
     invoke-virtual {v0, v3}, Landroid/support/v7/internal/widget/TintTypedArray;->getDrawable(I)Landroid/graphics/drawable/Drawable;
 
@@ -97,17 +116,17 @@
 
     invoke-virtual {p0, v1}, Landroid/support/v7/widget/AppCompatCheckedTextView;->setCheckMarkDrawable(Landroid/graphics/drawable/Drawable;)V
 
-    .line 56
+    .line 60
     invoke-virtual {v0}, Landroid/support/v7/internal/widget/TintTypedArray;->recycle()V
 
-    .line 58
+    .line 62
     invoke-virtual {v0}, Landroid/support/v7/internal/widget/TintTypedArray;->getTintManager()Landroid/support/v7/internal/widget/TintManager;
 
     move-result-object v1
 
     iput-object v1, p0, Landroid/support/v7/widget/AppCompatCheckedTextView;->mTintManager:Landroid/support/v7/internal/widget/TintManager;
 
-    .line 60
+    .line 64
     .end local v0    # "a":Landroid/support/v7/internal/widget/TintTypedArray;
     :cond_0
     return-void
@@ -115,6 +134,28 @@
 
 
 # virtual methods
+.method protected drawableStateChanged()V
+    .locals 1
+
+    .prologue
+    .line 85
+    invoke-super {p0}, Landroid/widget/CheckedTextView;->drawableStateChanged()V
+
+    .line 86
+    iget-object v0, p0, Landroid/support/v7/widget/AppCompatCheckedTextView;->mTextHelper:Landroid/support/v7/widget/AppCompatTextHelper;
+
+    if-eqz v0, :cond_0
+
+    .line 87
+    iget-object v0, p0, Landroid/support/v7/widget/AppCompatCheckedTextView;->mTextHelper:Landroid/support/v7/widget/AppCompatTextHelper;
+
+    invoke-virtual {v0}, Landroid/support/v7/widget/AppCompatTextHelper;->applyCompoundDrawablesTints()V
+
+    .line 89
+    :cond_0
+    return-void
+.end method
+
 .method public setCheckMarkDrawable(I)V
     .locals 1
     .param p1, "resId"    # I
@@ -123,12 +164,12 @@
     .end param
 
     .prologue
-    .line 64
+    .line 68
     iget-object v0, p0, Landroid/support/v7/widget/AppCompatCheckedTextView;->mTintManager:Landroid/support/v7/internal/widget/TintManager;
 
     if-eqz v0, :cond_0
 
-    .line 65
+    .line 69
     iget-object v0, p0, Landroid/support/v7/widget/AppCompatCheckedTextView;->mTintManager:Landroid/support/v7/internal/widget/TintManager;
 
     invoke-virtual {v0, p1}, Landroid/support/v7/internal/widget/TintManager;->getDrawable(I)Landroid/graphics/drawable/Drawable;
@@ -137,13 +178,37 @@
 
     invoke-virtual {p0, v0}, Landroid/support/v7/widget/AppCompatCheckedTextView;->setCheckMarkDrawable(Landroid/graphics/drawable/Drawable;)V
 
-    .line 69
+    .line 73
     :goto_0
     return-void
 
-    .line 67
+    .line 71
     :cond_0
     invoke-super {p0, p1}, Landroid/widget/CheckedTextView;->setCheckMarkDrawable(I)V
 
     goto :goto_0
+.end method
+
+.method public setTextAppearance(Landroid/content/Context;I)V
+    .locals 1
+    .param p1, "context"    # Landroid/content/Context;
+    .param p2, "resId"    # I
+
+    .prologue
+    .line 77
+    invoke-super {p0, p1, p2}, Landroid/widget/CheckedTextView;->setTextAppearance(Landroid/content/Context;I)V
+
+    .line 78
+    iget-object v0, p0, Landroid/support/v7/widget/AppCompatCheckedTextView;->mTextHelper:Landroid/support/v7/widget/AppCompatTextHelper;
+
+    if-eqz v0, :cond_0
+
+    .line 79
+    iget-object v0, p0, Landroid/support/v7/widget/AppCompatCheckedTextView;->mTextHelper:Landroid/support/v7/widget/AppCompatTextHelper;
+
+    invoke-virtual {v0, p1, p2}, Landroid/support/v7/widget/AppCompatTextHelper;->onSetTextAppearance(Landroid/content/Context;I)V
+
+    .line 81
+    :cond_0
+    return-void
 .end method

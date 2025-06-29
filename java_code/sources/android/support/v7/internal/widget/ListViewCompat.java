@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.graphics.drawable.DrawableWrapper;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -19,6 +20,7 @@ public class ListViewCompat extends ListView {
     public static final int NO_POSITION = -1;
     private static final int[] STATE_SET_NOTHING = {0};
     private Field mIsChildViewEnabled;
+    protected int mMotionPosition;
     int mSelectionBottomPadding;
     int mSelectionLeftPadding;
     int mSelectionRightPadding;
@@ -75,6 +77,16 @@ public class ListViewCompat extends ListView {
     protected void dispatchDraw(Canvas canvas) {
         drawSelectorCompat(canvas);
         super.dispatchDraw(canvas);
+    }
+
+    @Override // android.widget.AbsListView, android.view.View
+    public boolean onTouchEvent(MotionEvent ev) {
+        switch (ev.getAction()) {
+            case 0:
+                this.mMotionPosition = pointToPosition((int) ev.getX(), (int) ev.getY());
+                break;
+        }
+        return super.onTouchEvent(ev);
     }
 
     protected void updateSelectorStateCompat() {
@@ -203,12 +215,17 @@ public class ListViewCompat extends ListView {
             }
             child = adapter.getView(i, child, this);
             ViewGroup.LayoutParams childLp = child.getLayoutParams();
-            if (childLp != null && childLp.height > 0) {
+            if (childLp == null) {
+                childLp = generateDefaultLayoutParams();
+                child.setLayoutParams(childLp);
+            }
+            if (childLp.height > 0) {
                 heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(childLp.height, 1073741824);
             } else {
                 heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, 0);
             }
             child.measure(widthMeasureSpec, heightMeasureSpec);
+            child.forceLayout();
             if (i > 0) {
                 returnedHeight += dividerHeight;
             }

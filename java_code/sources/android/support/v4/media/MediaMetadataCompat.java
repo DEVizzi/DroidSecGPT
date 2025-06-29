@@ -11,6 +11,8 @@ import android.support.v4.media.MediaMetadataCompatApi21;
 import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 import android.util.Log;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.Set;
 /* loaded from: classes.dex */
 public final class MediaMetadataCompat implements Parcelable {
@@ -55,22 +57,42 @@ public final class MediaMetadataCompat implements Parcelable {
     private MediaDescriptionCompat mDescription;
     private Object mMetadataObj;
 
+    @Retention(RetentionPolicy.SOURCE)
+    /* loaded from: classes.dex */
+    public @interface BitmapKey {
+    }
+
+    @Retention(RetentionPolicy.SOURCE)
+    /* loaded from: classes.dex */
+    public @interface LongKey {
+    }
+
+    @Retention(RetentionPolicy.SOURCE)
+    /* loaded from: classes.dex */
+    public @interface RatingKey {
+    }
+
+    @Retention(RetentionPolicy.SOURCE)
+    /* loaded from: classes.dex */
+    public @interface TextKey {
+    }
+
     static {
-        METADATA_KEYS_TYPE.put("android.media.metadata.TITLE", 1);
-        METADATA_KEYS_TYPE.put("android.media.metadata.ARTIST", 1);
-        METADATA_KEYS_TYPE.put("android.media.metadata.DURATION", 0);
+        METADATA_KEYS_TYPE.put(METADATA_KEY_TITLE, 1);
+        METADATA_KEYS_TYPE.put(METADATA_KEY_ARTIST, 1);
+        METADATA_KEYS_TYPE.put(METADATA_KEY_DURATION, 0);
         METADATA_KEYS_TYPE.put(METADATA_KEY_ALBUM, 1);
-        METADATA_KEYS_TYPE.put("android.media.metadata.AUTHOR", 1);
+        METADATA_KEYS_TYPE.put(METADATA_KEY_AUTHOR, 1);
         METADATA_KEYS_TYPE.put(METADATA_KEY_WRITER, 1);
-        METADATA_KEYS_TYPE.put("android.media.metadata.COMPOSER", 1);
+        METADATA_KEYS_TYPE.put(METADATA_KEY_COMPOSER, 1);
         METADATA_KEYS_TYPE.put(METADATA_KEY_COMPILATION, 1);
         METADATA_KEYS_TYPE.put(METADATA_KEY_DATE, 1);
-        METADATA_KEYS_TYPE.put("android.media.metadata.YEAR", 0);
+        METADATA_KEYS_TYPE.put(METADATA_KEY_YEAR, 0);
         METADATA_KEYS_TYPE.put(METADATA_KEY_GENRE, 1);
-        METADATA_KEYS_TYPE.put("android.media.metadata.TRACK_NUMBER", 0);
+        METADATA_KEYS_TYPE.put(METADATA_KEY_TRACK_NUMBER, 0);
         METADATA_KEYS_TYPE.put(METADATA_KEY_NUM_TRACKS, 0);
-        METADATA_KEYS_TYPE.put("android.media.metadata.DISC_NUMBER", 0);
-        METADATA_KEYS_TYPE.put("android.media.metadata.ALBUM_ARTIST", 1);
+        METADATA_KEYS_TYPE.put(METADATA_KEY_DISC_NUMBER, 0);
+        METADATA_KEYS_TYPE.put(METADATA_KEY_ALBUM_ARTIST, 1);
         METADATA_KEYS_TYPE.put(METADATA_KEY_ART, 2);
         METADATA_KEYS_TYPE.put(METADATA_KEY_ART_URI, 1);
         METADATA_KEYS_TYPE.put(METADATA_KEY_ALBUM_ART, 2);
@@ -83,7 +105,7 @@ public final class MediaMetadataCompat implements Parcelable {
         METADATA_KEYS_TYPE.put(METADATA_KEY_DISPLAY_ICON, 2);
         METADATA_KEYS_TYPE.put(METADATA_KEY_DISPLAY_ICON_URI, 1);
         METADATA_KEYS_TYPE.put(METADATA_KEY_MEDIA_ID, 1);
-        PREFERRED_DESCRIPTION_ORDER = new String[]{"android.media.metadata.TITLE", "android.media.metadata.ARTIST", METADATA_KEY_ALBUM, "android.media.metadata.ALBUM_ARTIST", METADATA_KEY_WRITER, "android.media.metadata.AUTHOR", "android.media.metadata.COMPOSER"};
+        PREFERRED_DESCRIPTION_ORDER = new String[]{METADATA_KEY_TITLE, METADATA_KEY_ARTIST, METADATA_KEY_ALBUM, METADATA_KEY_ALBUM_ARTIST, METADATA_KEY_WRITER, METADATA_KEY_AUTHOR, METADATA_KEY_COMPOSER};
         PREFERRED_BITMAP_ORDER = new String[]{METADATA_KEY_DISPLAY_ICON, METADATA_KEY_ART, METADATA_KEY_ALBUM_ART};
         PREFERRED_URI_ORDER = new String[]{METADATA_KEY_DISPLAY_ICON_URI, METADATA_KEY_ART_URI, METADATA_KEY_ALBUM_ART_URI};
         CREATOR = new Parcelable.Creator<MediaMetadataCompat>() { // from class: android.support.v4.media.MediaMetadataCompat.1

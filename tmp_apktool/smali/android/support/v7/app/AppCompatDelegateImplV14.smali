@@ -35,17 +35,6 @@
     return-void
 .end method
 
-.method static synthetic access$000(Landroid/support/v7/app/AppCompatDelegateImplV14;)Z
-    .locals 1
-    .param p0, "x0"    # Landroid/support/v7/app/AppCompatDelegateImplV14;
-
-    .prologue
-    .line 24
-    iget-boolean v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV14;->mHandleNativeActionModes:Z
-
-    return v0
-.end method
-
 
 # virtual methods
 .method public isHandleNativeActionModesEnabled()Z

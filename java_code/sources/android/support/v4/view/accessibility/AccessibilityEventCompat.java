@@ -26,8 +26,9 @@ public class AccessibilityEventCompat {
     public static final int TYPE_VIEW_TEXT_TRAVERSED_AT_MOVEMENT_GRANULARITY = 131072;
     public static final int TYPE_WINDOW_CONTENT_CHANGED = 2048;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    interface AccessibilityEventVersionImpl {
+    public interface AccessibilityEventVersionImpl {
         void appendRecord(AccessibilityEvent accessibilityEvent, Object obj);
 
         int getContentChangeTypes(AccessibilityEvent accessibilityEvent);

@@ -5,7 +5,13 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.ColorInt;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.MenuRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.support.annotation.StyleRes;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MarginLayoutParamsCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -57,6 +63,7 @@ public class Toolbar extends ViewGroup {
     View mExpandedActionView;
     private ExpandedActionViewMenuPresenter mExpandedMenuPresenter;
     private int mGravity;
+    private final ArrayList<View> mHiddenViews;
     private ImageView mLogoView;
     private int mMaxButtonHeight;
     private MenuBuilder.Callback mMenuBuilderCallback;
@@ -103,6 +110,7 @@ public class Toolbar extends ViewGroup {
         this.mContentInsets = new RtlSpacingHelper();
         this.mGravity = 8388627;
         this.mTempViews = new ArrayList<>();
+        this.mHiddenViews = new ArrayList<>();
         this.mTempMargins = new int[2];
         this.mMenuViewItemClickListener = new ActionMenuView.OnMenuItemClickListener() { // from class: android.support.v7.widget.Toolbar.1
             @Override // android.support.v7.widget.ActionMenuView.OnMenuItemClickListener
@@ -174,11 +182,25 @@ public class Toolbar extends ViewGroup {
         if (!TextUtils.isEmpty(navDesc)) {
             setNavigationContentDescription(navDesc);
         }
+        Drawable logo = a.getDrawable(R.styleable.Toolbar_logo);
+        if (logo != null) {
+            setLogo(logo);
+        }
+        CharSequence logoDesc = a.getText(R.styleable.Toolbar_logoDescription);
+        if (!TextUtils.isEmpty(logoDesc)) {
+            setLogoDescription(logoDesc);
+        }
+        if (a.hasValue(R.styleable.Toolbar_titleTextColor)) {
+            setTitleTextColor(a.getColor(R.styleable.Toolbar_titleTextColor, -1));
+        }
+        if (a.hasValue(R.styleable.Toolbar_subtitleTextColor)) {
+            setSubtitleTextColor(a.getColor(R.styleable.Toolbar_subtitleTextColor, -1));
+        }
         a.recycle();
         this.mTintManager = a.getTintManager();
     }
 
-    public void setPopupTheme(int resId) {
+    public void setPopupTheme(@StyleRes int resId) {
         if (this.mPopupTheme != resId) {
             this.mPopupTheme = resId;
             if (resId == 0) {
@@ -201,7 +223,7 @@ public class Toolbar extends ViewGroup {
         this.mContentInsets.setDirection(layoutDirection == 1);
     }
 
-    public void setLogo(int resId) {
+    public void setLogo(@DrawableRes int resId) {
         setLogo(this.mTintManager.getDrawable(resId));
     }
 
@@ -277,12 +299,12 @@ public class Toolbar extends ViewGroup {
     public void setLogo(Drawable drawable) {
         if (drawable != null) {
             ensureLogoView();
-            if (this.mLogoView.getParent() == null) {
-                addSystemView(this.mLogoView);
-                updateChildVisibilityForExpandedActionView(this.mLogoView);
+            if (!isChildOrHidden(this.mLogoView)) {
+                addSystemView(this.mLogoView, true);
             }
-        } else if (this.mLogoView != null && this.mLogoView.getParent() != null) {
+        } else if (this.mLogoView != null && isChildOrHidden(this.mLogoView)) {
             removeView(this.mLogoView);
+            this.mHiddenViews.remove(this.mLogoView);
         }
         if (this.mLogoView != null) {
             this.mLogoView.setImageDrawable(drawable);
@@ -296,7 +318,7 @@ public class Toolbar extends ViewGroup {
         return null;
     }
 
-    public void setLogoDescription(int resId) {
+    public void setLogoDescription(@StringRes int resId) {
         setLogoDescription(getContext().getText(resId));
     }
 
@@ -337,7 +359,7 @@ public class Toolbar extends ViewGroup {
         return this.mTitleText;
     }
 
-    public void setTitle(int resId) {
+    public void setTitle(@StringRes int resId) {
         setTitle(getContext().getText(resId));
     }
 
@@ -355,12 +377,12 @@ public class Toolbar extends ViewGroup {
                     this.mTitleTextView.setTextColor(this.mTitleTextColor);
                 }
             }
-            if (this.mTitleTextView.getParent() == null) {
-                addSystemView(this.mTitleTextView);
-                updateChildVisibilityForExpandedActionView(this.mTitleTextView);
+            if (!isChildOrHidden(this.mTitleTextView)) {
+                addSystemView(this.mTitleTextView, true);
             }
-        } else if (this.mTitleTextView != null && this.mTitleTextView.getParent() != null) {
+        } else if (this.mTitleTextView != null && isChildOrHidden(this.mTitleTextView)) {
             removeView(this.mTitleTextView);
+            this.mHiddenViews.remove(this.mTitleTextView);
         }
         if (this.mTitleTextView != null) {
             this.mTitleTextView.setText(title);
@@ -372,7 +394,7 @@ public class Toolbar extends ViewGroup {
         return this.mSubtitleText;
     }
 
-    public void setSubtitle(int resId) {
+    public void setSubtitle(@StringRes int resId) {
         setSubtitle(getContext().getText(resId));
     }
 
@@ -390,12 +412,12 @@ public class Toolbar extends ViewGroup {
                     this.mSubtitleTextView.setTextColor(this.mSubtitleTextColor);
                 }
             }
-            if (this.mSubtitleTextView.getParent() == null) {
-                addSystemView(this.mSubtitleTextView);
-                updateChildVisibilityForExpandedActionView(this.mSubtitleTextView);
+            if (!isChildOrHidden(this.mSubtitleTextView)) {
+                addSystemView(this.mSubtitleTextView, true);
             }
-        } else if (this.mSubtitleTextView != null && this.mSubtitleTextView.getParent() != null) {
+        } else if (this.mSubtitleTextView != null && isChildOrHidden(this.mSubtitleTextView)) {
             removeView(this.mSubtitleTextView);
+            this.mHiddenViews.remove(this.mSubtitleTextView);
         }
         if (this.mSubtitleTextView != null) {
             this.mSubtitleTextView.setText(subtitle);
@@ -403,28 +425,28 @@ public class Toolbar extends ViewGroup {
         this.mSubtitleText = subtitle;
     }
 
-    public void setTitleTextAppearance(Context context, int resId) {
+    public void setTitleTextAppearance(Context context, @StyleRes int resId) {
         this.mTitleTextAppearance = resId;
         if (this.mTitleTextView != null) {
             this.mTitleTextView.setTextAppearance(context, resId);
         }
     }
 
-    public void setSubtitleTextAppearance(Context context, int resId) {
+    public void setSubtitleTextAppearance(Context context, @StyleRes int resId) {
         this.mSubtitleTextAppearance = resId;
         if (this.mSubtitleTextView != null) {
             this.mSubtitleTextView.setTextAppearance(context, resId);
         }
     }
 
-    public void setTitleTextColor(int color) {
+    public void setTitleTextColor(@ColorInt int color) {
         this.mTitleTextColor = color;
         if (this.mTitleTextView != null) {
             this.mTitleTextView.setTextColor(color);
         }
     }
 
-    public void setSubtitleTextColor(int color) {
+    public void setSubtitleTextColor(@ColorInt int color) {
         this.mSubtitleTextColor = color;
         if (this.mSubtitleTextView != null) {
             this.mSubtitleTextView.setTextColor(color);
@@ -439,7 +461,7 @@ public class Toolbar extends ViewGroup {
         return null;
     }
 
-    public void setNavigationContentDescription(int resId) {
+    public void setNavigationContentDescription(@StringRes int resId) {
         setNavigationContentDescription(resId != 0 ? getContext().getText(resId) : null);
     }
 
@@ -452,19 +474,19 @@ public class Toolbar extends ViewGroup {
         }
     }
 
-    public void setNavigationIcon(int resId) {
+    public void setNavigationIcon(@DrawableRes int resId) {
         setNavigationIcon(this.mTintManager.getDrawable(resId));
     }
 
     public void setNavigationIcon(@Nullable Drawable icon) {
         if (icon != null) {
             ensureNavButtonView();
-            if (this.mNavButtonView.getParent() == null) {
-                addSystemView(this.mNavButtonView);
-                updateChildVisibilityForExpandedActionView(this.mNavButtonView);
+            if (!isChildOrHidden(this.mNavButtonView)) {
+                addSystemView(this.mNavButtonView, true);
             }
-        } else if (this.mNavButtonView != null && this.mNavButtonView.getParent() != null) {
+        } else if (this.mNavButtonView != null && isChildOrHidden(this.mNavButtonView)) {
             removeView(this.mNavButtonView);
+            this.mHiddenViews.remove(this.mNavButtonView);
         }
         if (this.mNavButtonView != null) {
             this.mNavButtonView.setImageDrawable(icon);
@@ -489,6 +511,17 @@ public class Toolbar extends ViewGroup {
         return this.mMenuView.getMenu();
     }
 
+    public void setOverflowIcon(@Nullable Drawable icon) {
+        ensureMenu();
+        this.mMenuView.setOverflowIcon(icon);
+    }
+
+    @Nullable
+    public Drawable getOverflowIcon() {
+        ensureMenu();
+        return this.mMenuView.getOverflowIcon();
+    }
+
     private void ensureMenu() {
         ensureMenuView();
         if (this.mMenuView.peekMenu() == null) {
@@ -510,7 +543,7 @@ public class Toolbar extends ViewGroup {
             LayoutParams lp = generateDefaultLayoutParams();
             lp.gravity = 8388613 | (this.mButtonGravity & 112);
             this.mMenuView.setLayoutParams(lp);
-            addSystemView(this.mMenuView);
+            addSystemView(this.mMenuView, false);
         }
     }
 
@@ -518,7 +551,7 @@ public class Toolbar extends ViewGroup {
         return new SupportMenuInflater(getContext());
     }
 
-    public void inflateMenu(int resId) {
+    public void inflateMenu(@MenuRes int resId) {
         getMenuInflater().inflate(resId, getMenu());
     }
 
@@ -578,7 +611,7 @@ public class Toolbar extends ViewGroup {
         }
     }
 
-    private void addSystemView(View v) {
+    private void addSystemView(View v, boolean allowHide) {
         LayoutParams lp;
         ViewGroup.LayoutParams vlp = v.getLayoutParams();
         if (vlp == null) {
@@ -589,6 +622,11 @@ public class Toolbar extends ViewGroup {
             lp = (LayoutParams) vlp;
         }
         lp.mViewType = 1;
+        if (allowHide && this.mExpandedActionView != null) {
+            v.setLayoutParams(lp);
+            this.mHiddenViews.add(v);
+            return;
+        }
         addView(v, lp);
     }
 
@@ -1139,23 +1177,28 @@ public class Toolbar extends ViewGroup {
         return this.mWrapper;
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public void setChildVisibilityForExpandedActionView(boolean expand) {
+    void removeChildrenForExpandedActionView() {
         int childCount = getChildCount();
-        for (int i = 0; i < childCount; i++) {
+        for (int i = childCount - 1; i >= 0; i--) {
             View child = getChildAt(i);
             LayoutParams lp = (LayoutParams) child.getLayoutParams();
             if (lp.mViewType != 2 && child != this.mMenuView) {
-                child.setVisibility(expand ? 8 : 0);
+                removeViewAt(i);
+                this.mHiddenViews.add(child);
             }
         }
     }
 
-    private void updateChildVisibilityForExpandedActionView(View child) {
-        LayoutParams lp = (LayoutParams) child.getLayoutParams();
-        if (lp.mViewType != 2 && child != this.mMenuView) {
-            child.setVisibility(this.mExpandedActionView != null ? 8 : 0);
+    void addChildrenForExpandedActionView() {
+        int count = this.mHiddenViews.size();
+        for (int i = count - 1; i >= 0; i--) {
+            addView(this.mHiddenViews.get(i));
         }
+        this.mHiddenViews.clear();
+    }
+
+    private boolean isChildOrHidden(View child) {
+        return child.getParent() == this || this.mHiddenViews.contains(child);
     }
 
     public void setCollapsible(boolean collapsible) {
@@ -1175,7 +1218,7 @@ public class Toolbar extends ViewGroup {
         static final int SYSTEM = 1;
         int mViewType;
 
-        public LayoutParams(Context c, AttributeSet attrs) {
+        public LayoutParams(@NonNull Context c, AttributeSet attrs) {
             super(c, attrs);
             this.mViewType = 0;
         }
@@ -1226,7 +1269,6 @@ public class Toolbar extends ViewGroup {
         }
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
     public static class SavedState extends View.BaseSavedState {
         public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() { // from class: android.support.v7.widget.Toolbar.SavedState.1
@@ -1242,8 +1284,8 @@ public class Toolbar extends ViewGroup {
                 return new SavedState[size];
             }
         };
-        public int expandedMenuItemId;
-        public boolean isOverflowOpen;
+        int expandedMenuItemId;
+        boolean isOverflowOpen;
 
         public SavedState(Parcel source) {
             super(source);
@@ -1344,7 +1386,7 @@ public class Toolbar extends ViewGroup {
                 Toolbar.this.mExpandedActionView.setLayoutParams(lp);
                 Toolbar.this.addView(Toolbar.this.mExpandedActionView);
             }
-            Toolbar.this.setChildVisibilityForExpandedActionView(true);
+            Toolbar.this.removeChildrenForExpandedActionView();
             Toolbar.this.requestLayout();
             item.setActionViewExpanded(true);
             if (Toolbar.this.mExpandedActionView instanceof CollapsibleActionView) {
@@ -1361,7 +1403,7 @@ public class Toolbar extends ViewGroup {
             Toolbar.this.removeView(Toolbar.this.mExpandedActionView);
             Toolbar.this.removeView(Toolbar.this.mCollapseButtonView);
             Toolbar.this.mExpandedActionView = null;
-            Toolbar.this.setChildVisibilityForExpandedActionView(false);
+            Toolbar.this.addChildrenForExpandedActionView();
             this.mCurrentExpandedItem = null;
             Toolbar.this.requestLayout();
             item.setActionViewExpanded(false);

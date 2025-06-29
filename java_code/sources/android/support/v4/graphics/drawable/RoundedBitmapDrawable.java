@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -13,17 +14,19 @@ import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 /* loaded from: classes.dex */
 public abstract class RoundedBitmapDrawable extends Drawable {
-    private static final int DEFAULT_PAINT_FLAGS = 6;
-    Bitmap mBitmap;
+    private static final int DEFAULT_PAINT_FLAGS = 3;
+    final Bitmap mBitmap;
     private int mBitmapHeight;
-    private BitmapShader mBitmapShader;
+    private final BitmapShader mBitmapShader;
     private int mBitmapWidth;
     private float mCornerRadius;
+    private boolean mIsCircular;
     private int mTargetDensity;
     private int mGravity = 119;
-    private Paint mPaint = new Paint(6);
+    private final Paint mPaint = new Paint(3);
+    private final Matrix mShaderMatrix = new Matrix();
     final Rect mDstRect = new Rect();
-    final RectF mDstRectF = new RectF();
+    private final RectF mDstRectF = new RectF();
     private boolean mApplyGravity = true;
 
     public final Paint getPaint() {
@@ -108,8 +111,24 @@ public abstract class RoundedBitmapDrawable extends Drawable {
     /* JADX INFO: Access modifiers changed from: package-private */
     public void updateDstRect() {
         if (this.mApplyGravity) {
-            gravityCompatApply(this.mGravity, this.mBitmapWidth, this.mBitmapHeight, getBounds(), this.mDstRect);
+            if (this.mIsCircular) {
+                int minDimen = Math.min(this.mBitmapWidth, this.mBitmapHeight);
+                gravityCompatApply(this.mGravity, minDimen, minDimen, getBounds(), this.mDstRect);
+                int minDrawDimen = Math.min(this.mDstRect.width(), this.mDstRect.height());
+                int insetX = Math.max(0, (this.mDstRect.width() - minDrawDimen) / 2);
+                int insetY = Math.max(0, (this.mDstRect.height() - minDrawDimen) / 2);
+                this.mDstRect.inset(insetX, insetY);
+                this.mCornerRadius = 0.5f * minDrawDimen;
+            } else {
+                gravityCompatApply(this.mGravity, this.mBitmapWidth, this.mBitmapHeight, getBounds(), this.mDstRect);
+            }
             this.mDstRectF.set(this.mDstRect);
+            if (this.mBitmapShader != null) {
+                this.mShaderMatrix.setTranslate(this.mDstRectF.left, this.mDstRectF.top);
+                this.mShaderMatrix.preScale(this.mDstRectF.width() / this.mBitmap.getWidth(), this.mDstRectF.height() / this.mBitmap.getHeight());
+                this.mBitmapShader.setLocalMatrix(this.mShaderMatrix);
+                this.mPaint.setShader(this.mBitmapShader);
+            }
             this.mApplyGravity = false;
         }
     }
@@ -119,12 +138,10 @@ public abstract class RoundedBitmapDrawable extends Drawable {
         Bitmap bitmap = this.mBitmap;
         if (bitmap != null) {
             updateDstRect();
-            Paint paint = this.mPaint;
-            Shader shader = paint.getShader();
-            if (shader == null) {
-                canvas.drawBitmap(bitmap, (Rect) null, this.mDstRect, paint);
+            if (this.mPaint.getShader() == null) {
+                canvas.drawBitmap(bitmap, (Rect) null, this.mDstRect, this.mPaint);
             } else {
-                canvas.drawRoundRect(this.mDstRectF, this.mCornerRadius, this.mCornerRadius, paint);
+                canvas.drawRoundRect(this.mDstRectF, this.mCornerRadius, this.mCornerRadius, this.mPaint);
             }
         }
     }
@@ -154,13 +171,47 @@ public abstract class RoundedBitmapDrawable extends Drawable {
         return this.mPaint.getColorFilter();
     }
 
-    public void setCornerRadius(float cornerRadius) {
-        if (isGreaterThanZero(cornerRadius)) {
+    public void setCircular(boolean circular) {
+        this.mIsCircular = circular;
+        this.mApplyGravity = true;
+        if (circular) {
+            updateCircularCornerRadius();
             this.mPaint.setShader(this.mBitmapShader);
-        } else {
-            this.mPaint.setShader(null);
+            invalidateSelf();
+            return;
         }
-        this.mCornerRadius = cornerRadius;
+        setCornerRadius(0.0f);
+    }
+
+    private void updateCircularCornerRadius() {
+        int minCircularSize = Math.min(this.mBitmapHeight, this.mBitmapWidth);
+        this.mCornerRadius = minCircularSize / 2;
+    }
+
+    public boolean isCircular() {
+        return this.mIsCircular;
+    }
+
+    public void setCornerRadius(float cornerRadius) {
+        if (this.mCornerRadius != cornerRadius) {
+            this.mIsCircular = false;
+            if (isGreaterThanZero(cornerRadius)) {
+                this.mPaint.setShader(this.mBitmapShader);
+            } else {
+                this.mPaint.setShader(null);
+            }
+            this.mCornerRadius = cornerRadius;
+            invalidateSelf();
+        }
+    }
+
+    @Override // android.graphics.drawable.Drawable
+    protected void onBoundsChange(Rect bounds) {
+        super.onBoundsChange(bounds);
+        if (this.mIsCircular) {
+            updateCircularCornerRadius();
+        }
+        this.mApplyGravity = true;
     }
 
     public float getCornerRadius() {
@@ -180,7 +231,7 @@ public abstract class RoundedBitmapDrawable extends Drawable {
     @Override // android.graphics.drawable.Drawable
     public int getOpacity() {
         Bitmap bm;
-        return (this.mGravity != 119 || (bm = this.mBitmap) == null || bm.hasAlpha() || this.mPaint.getAlpha() < 255 || isGreaterThanZero(this.mCornerRadius)) ? -3 : -1;
+        return (this.mGravity != 119 || this.mIsCircular || (bm = this.mBitmap) == null || bm.hasAlpha() || this.mPaint.getAlpha() < 255 || isGreaterThanZero(this.mCornerRadius)) ? -3 : -1;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
@@ -197,9 +248,10 @@ public abstract class RoundedBitmapDrawable extends Drawable {
         }
         this.mBitmapHeight = -1;
         this.mBitmapWidth = -1;
+        this.mBitmapShader = null;
     }
 
     private static boolean isGreaterThanZero(float toCompare) {
-        return Float.compare(toCompare, 0.0f) > 0;
+        return toCompare > 0.05f;
     }
 }

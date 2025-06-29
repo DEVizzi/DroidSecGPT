@@ -4,13 +4,14 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Parcelable;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPropertyAnimatorCompat;
 import android.support.v4.view.ViewPropertyAnimatorListenerAdapter;
 import android.support.v7.appcompat.R;
 import android.support.v7.internal.view.menu.ActionMenuItem;
 import android.support.v7.internal.view.menu.MenuBuilder;
 import android.support.v7.internal.view.menu.MenuPresenter;
-import android.support.v7.internal.widget.AdapterViewCompat;
 import android.support.v7.widget.ActionMenuPresenter;
+import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -20,10 +21,13 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 /* loaded from: classes.dex */
 public class ToolbarWidgetWrapper implements DecorToolbar {
     private static final int AFFECTS_LOGO_MASK = 3;
+    private static final long DEFAULT_FADE_DURATION_MS = 200;
     private static final String TAG = "ToolbarWidgetWrapper";
     private ActionMenuPresenter mActionMenuPresenter;
     private View mCustomView;
@@ -36,7 +40,7 @@ public class ToolbarWidgetWrapper implements DecorToolbar {
     private boolean mMenuPrepared;
     private Drawable mNavIcon;
     private int mNavigationMode;
-    private SpinnerCompat mSpinner;
+    private Spinner mSpinner;
     private CharSequence mSubtitle;
     private View mTabView;
     private final TintManager mTintManager;
@@ -170,11 +174,6 @@ public class ToolbarWidgetWrapper implements DecorToolbar {
     }
 
     @Override // android.support.v7.internal.widget.DecorToolbar
-    public boolean isSplit() {
-        return false;
-    }
-
-    @Override // android.support.v7.internal.widget.DecorToolbar
     public boolean hasExpandedActionView() {
         return this.mToolbar.hasExpandedActionView();
     }
@@ -235,26 +234,6 @@ public class ToolbarWidgetWrapper implements DecorToolbar {
     @Override // android.support.v7.internal.widget.DecorToolbar
     public void initIndeterminateProgress() {
         Log.i(TAG, "Progress display unsupported");
-    }
-
-    @Override // android.support.v7.internal.widget.DecorToolbar
-    public boolean canSplit() {
-        return false;
-    }
-
-    @Override // android.support.v7.internal.widget.DecorToolbar
-    public void setSplitView(ViewGroup splitView) {
-    }
-
-    @Override // android.support.v7.internal.widget.DecorToolbar
-    public void setSplitToolbar(boolean split) {
-        if (split) {
-            throw new UnsupportedOperationException("Cannot split an android.widget.Toolbar");
-        }
-    }
-
-    @Override // android.support.v7.internal.widget.DecorToolbar
-    public void setSplitWhenNarrow(boolean splitWhenNarrow) {
     }
 
     @Override // android.support.v7.internal.widget.DecorToolbar
@@ -471,14 +450,14 @@ public class ToolbarWidgetWrapper implements DecorToolbar {
 
     private void ensureSpinner() {
         if (this.mSpinner == null) {
-            this.mSpinner = new SpinnerCompat(getContext(), null, R.attr.actionDropDownStyle);
+            this.mSpinner = new AppCompatSpinner(getContext(), null, R.attr.actionDropDownStyle);
             Toolbar.LayoutParams lp = new Toolbar.LayoutParams(-2, -2, 8388627);
             this.mSpinner.setLayoutParams(lp);
         }
     }
 
     @Override // android.support.v7.internal.widget.DecorToolbar
-    public void setDropdownParams(SpinnerAdapter adapter, AdapterViewCompat.OnItemSelectedListener listener) {
+    public void setDropdownParams(SpinnerAdapter adapter, AdapterView.OnItemSelectedListener listener) {
         ensureSpinner();
         this.mSpinner.setAdapter(adapter);
         this.mSpinner.setOnItemSelectedListener(listener);
@@ -526,30 +505,34 @@ public class ToolbarWidgetWrapper implements DecorToolbar {
 
     @Override // android.support.v7.internal.widget.DecorToolbar
     public void animateToVisibility(int visibility) {
-        if (visibility == 8) {
-            ViewCompat.animate(this.mToolbar).alpha(0.0f).setListener(new ViewPropertyAnimatorListenerAdapter() { // from class: android.support.v7.internal.widget.ToolbarWidgetWrapper.2
-                private boolean mCanceled = false;
-
-                @Override // android.support.v4.view.ViewPropertyAnimatorListenerAdapter, android.support.v4.view.ViewPropertyAnimatorListener
-                public void onAnimationEnd(View view) {
-                    if (!this.mCanceled) {
-                        ToolbarWidgetWrapper.this.mToolbar.setVisibility(8);
-                    }
-                }
-
-                @Override // android.support.v4.view.ViewPropertyAnimatorListenerAdapter, android.support.v4.view.ViewPropertyAnimatorListener
-                public void onAnimationCancel(View view) {
-                    this.mCanceled = true;
-                }
-            });
-        } else if (visibility == 0) {
-            ViewCompat.animate(this.mToolbar).alpha(1.0f).setListener(new ViewPropertyAnimatorListenerAdapter() { // from class: android.support.v7.internal.widget.ToolbarWidgetWrapper.3
-                @Override // android.support.v4.view.ViewPropertyAnimatorListenerAdapter, android.support.v4.view.ViewPropertyAnimatorListener
-                public void onAnimationStart(View view) {
-                    ToolbarWidgetWrapper.this.mToolbar.setVisibility(0);
-                }
-            });
+        ViewPropertyAnimatorCompat anim = setupAnimatorToVisibility(visibility, DEFAULT_FADE_DURATION_MS);
+        if (anim != null) {
+            anim.start();
         }
+    }
+
+    @Override // android.support.v7.internal.widget.DecorToolbar
+    public ViewPropertyAnimatorCompat setupAnimatorToVisibility(final int visibility, long duration) {
+        return ViewCompat.animate(this.mToolbar).alpha(visibility == 0 ? 1.0f : 0.0f).setDuration(duration).setListener(new ViewPropertyAnimatorListenerAdapter() { // from class: android.support.v7.internal.widget.ToolbarWidgetWrapper.2
+            private boolean mCanceled = false;
+
+            @Override // android.support.v4.view.ViewPropertyAnimatorListenerAdapter, android.support.v4.view.ViewPropertyAnimatorListener
+            public void onAnimationStart(View view) {
+                ToolbarWidgetWrapper.this.mToolbar.setVisibility(0);
+            }
+
+            @Override // android.support.v4.view.ViewPropertyAnimatorListenerAdapter, android.support.v4.view.ViewPropertyAnimatorListener
+            public void onAnimationEnd(View view) {
+                if (!this.mCanceled) {
+                    ToolbarWidgetWrapper.this.mToolbar.setVisibility(visibility);
+                }
+            }
+
+            @Override // android.support.v4.view.ViewPropertyAnimatorListenerAdapter, android.support.v4.view.ViewPropertyAnimatorListener
+            public void onAnimationCancel(View view) {
+                this.mCanceled = true;
+            }
+        });
     }
 
     @Override // android.support.v7.internal.widget.DecorToolbar
@@ -628,10 +611,5 @@ public class ToolbarWidgetWrapper implements DecorToolbar {
     @Override // android.support.v7.internal.widget.DecorToolbar
     public Menu getMenu() {
         return this.mToolbar.getMenu();
-    }
-
-    @Override // android.support.v7.internal.widget.DecorToolbar
-    public int getPopupTheme() {
-        return this.mToolbar.getPopupTheme();
     }
 }

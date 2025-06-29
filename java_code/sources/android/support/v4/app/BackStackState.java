@@ -35,7 +35,7 @@ public final class BackStackState implements Parcelable {
     final int mTransition;
     final int mTransitionStyle;
 
-    public BackStackState(FragmentManagerImpl fm, BackStackRecord bse) {
+    public BackStackState(BackStackRecord bse) {
         int pos;
         int numRemoved = 0;
         for (BackStackRecord.Op op = bse.mHead; op != null; op = op.next) {

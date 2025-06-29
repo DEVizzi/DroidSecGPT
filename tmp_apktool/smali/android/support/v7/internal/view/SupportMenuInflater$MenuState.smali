@@ -184,23 +184,28 @@
 
     .line 499
     .local v1, "constructor":Ljava/lang/reflect/Constructor;, "Ljava/lang/reflect/Constructor<*>;"
+    const/4 v3, 0x1
+
+    invoke-virtual {v1, v3}, Ljava/lang/reflect/Constructor;->setAccessible(Z)V
+
+    .line 500
     invoke-virtual {v1, p3}, Ljava/lang/reflect/Constructor;->newInstance([Ljava/lang/Object;)Ljava/lang/Object;
     :try_end_0
     .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_0} :catch_0
 
     move-result-object v3
 
-    .line 503
+    .line 504
     .end local v0    # "clazz":Ljava/lang/Class;, "Ljava/lang/Class<*>;"
     .end local v1    # "constructor":Ljava/lang/reflect/Constructor;, "Ljava/lang/reflect/Constructor<*>;"
     :goto_0
     return-object v3
 
-    .line 500
+    .line 501
     :catch_0
     move-exception v2
 
-    .line 501
+    .line 502
     .local v2, "e":Ljava/lang/Exception;
     const-string v3, "SupportMenuInflater"
 
@@ -224,7 +229,7 @@
 
     invoke-static {v3, v4, v2}, Landroid/util/Log;->w(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
 
-    .line 503
+    .line 504
     const/4 v3, 0x0
 
     goto :goto_0

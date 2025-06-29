@@ -23,7 +23,7 @@
     .locals 0
 
     .prologue
-    .line 2902
+    .line 2907
     iput-object p1, p0, Landroid/support/v4/view/ViewPager$PagerObserver;->this$0:Landroid/support/v4/view/ViewPager;
 
     invoke-direct {p0}, Landroid/database/DataSetObserver;-><init>()V
@@ -37,7 +37,7 @@
     .param p2, "x1"    # Landroid/support/v4/view/ViewPager$1;
 
     .prologue
-    .line 2902
+    .line 2907
     invoke-direct {p0, p1}, Landroid/support/v4/view/ViewPager$PagerObserver;-><init>(Landroid/support/v4/view/ViewPager;)V
 
     return-void
@@ -49,12 +49,12 @@
     .locals 1
 
     .prologue
-    .line 2905
+    .line 2910
     iget-object v0, p0, Landroid/support/v4/view/ViewPager$PagerObserver;->this$0:Landroid/support/v4/view/ViewPager;
 
     invoke-virtual {v0}, Landroid/support/v4/view/ViewPager;->dataSetChanged()V
 
-    .line 2906
+    .line 2911
     return-void
 .end method
 
@@ -62,11 +62,11 @@
     .locals 1
 
     .prologue
-    .line 2909
+    .line 2914
     iget-object v0, p0, Landroid/support/v4/view/ViewPager$PagerObserver;->this$0:Landroid/support/v4/view/ViewPager;
 
     invoke-virtual {v0}, Landroid/support/v4/view/ViewPager;->dataSetChanged()V
 
-    .line 2910
+    .line 2915
     return-void
 .end method

@@ -59,31 +59,33 @@
 .end method
 
 .method private updateTint([I)Z
-    .locals 5
+    .locals 6
     .param p1, "state"    # [I
 
     .prologue
     const/4 v2, 0x1
 
+    const/4 v3, 0x0
+
     .line 208
-    iget-object v3, p0, Landroid/support/v4/graphics/drawable/DrawableWrapperDonut;->mTintList:Landroid/content/res/ColorStateList;
-
-    if-eqz v3, :cond_1
-
-    iget-object v3, p0, Landroid/support/v4/graphics/drawable/DrawableWrapperDonut;->mTintMode:Landroid/graphics/PorterDuff$Mode;
-
-    if-eqz v3, :cond_1
-
-    .line 209
-    iget-object v3, p0, Landroid/support/v4/graphics/drawable/DrawableWrapperDonut;->mTintList:Landroid/content/res/ColorStateList;
-
     iget-object v4, p0, Landroid/support/v4/graphics/drawable/DrawableWrapperDonut;->mTintList:Landroid/content/res/ColorStateList;
 
-    invoke-virtual {v4}, Landroid/content/res/ColorStateList;->getDefaultColor()I
+    if-eqz v4, :cond_1
 
-    move-result v4
+    iget-object v4, p0, Landroid/support/v4/graphics/drawable/DrawableWrapperDonut;->mTintMode:Landroid/graphics/PorterDuff$Mode;
 
-    invoke-virtual {v3, p1, v4}, Landroid/content/res/ColorStateList;->getColorForState([II)I
+    if-eqz v4, :cond_1
+
+    .line 209
+    iget-object v4, p0, Landroid/support/v4/graphics/drawable/DrawableWrapperDonut;->mTintList:Landroid/content/res/ColorStateList;
+
+    iget-object v5, p0, Landroid/support/v4/graphics/drawable/DrawableWrapperDonut;->mTintList:Landroid/content/res/ColorStateList;
+
+    invoke-virtual {v5}, Landroid/content/res/ColorStateList;->getDefaultColor()I
+
+    move-result v5
+
+    invoke-virtual {v4, p1, v5}, Landroid/content/res/ColorStateList;->getColorForState([II)I
 
     move-result v0
 
@@ -93,17 +95,17 @@
 
     .line 211
     .local v1, "mode":Landroid/graphics/PorterDuff$Mode;
-    iget-boolean v3, p0, Landroid/support/v4/graphics/drawable/DrawableWrapperDonut;->mColorFilterSet:Z
+    iget-boolean v4, p0, Landroid/support/v4/graphics/drawable/DrawableWrapperDonut;->mColorFilterSet:Z
 
-    if-eqz v3, :cond_0
+    if-eqz v4, :cond_0
 
-    iget v3, p0, Landroid/support/v4/graphics/drawable/DrawableWrapperDonut;->mCurrentColor:I
+    iget v4, p0, Landroid/support/v4/graphics/drawable/DrawableWrapperDonut;->mCurrentColor:I
 
-    if-ne v0, v3, :cond_0
+    if-ne v0, v4, :cond_0
 
-    iget-object v3, p0, Landroid/support/v4/graphics/drawable/DrawableWrapperDonut;->mCurrentMode:Landroid/graphics/PorterDuff$Mode;
+    iget-object v4, p0, Landroid/support/v4/graphics/drawable/DrawableWrapperDonut;->mCurrentMode:Landroid/graphics/PorterDuff$Mode;
 
-    if-eq v1, v3, :cond_1
+    if-eq v1, v4, :cond_2
 
     .line 212
     :cond_0
@@ -118,15 +120,23 @@
     .line 215
     iput-boolean v2, p0, Landroid/support/v4/graphics/drawable/DrawableWrapperDonut;->mColorFilterSet:Z
 
-    .line 219
+    .line 222
     .end local v0    # "color":I
     .end local v1    # "mode":Landroid/graphics/PorterDuff$Mode;
     :goto_0
     return v2
 
+    .line 219
     :cond_1
-    const/4 v2, 0x0
+    iput-boolean v3, p0, Landroid/support/v4/graphics/drawable/DrawableWrapperDonut;->mColorFilterSet:Z
 
+    .line 220
+    invoke-virtual {p0}, Landroid/support/v4/graphics/drawable/DrawableWrapperDonut;->clearColorFilter()V
+
+    :cond_2
+    move v2, v3
+
+    .line 222
     goto :goto_0
 .end method
 
@@ -291,7 +301,7 @@
     .locals 1
 
     .prologue
-    .line 226
+    .line 229
     iget-object v0, p0, Landroid/support/v4/graphics/drawable/DrawableWrapperDonut;->mDrawable:Landroid/graphics/drawable/Drawable;
 
     return-object v0
@@ -613,33 +623,33 @@
     .param p1, "drawable"    # Landroid/graphics/drawable/Drawable;
 
     .prologue
-    .line 233
+    .line 236
     iget-object v0, p0, Landroid/support/v4/graphics/drawable/DrawableWrapperDonut;->mDrawable:Landroid/graphics/drawable/Drawable;
 
     if-eqz v0, :cond_0
 
-    .line 234
+    .line 237
     iget-object v0, p0, Landroid/support/v4/graphics/drawable/DrawableWrapperDonut;->mDrawable:Landroid/graphics/drawable/Drawable;
 
     const/4 v1, 0x0
 
     invoke-virtual {v0, v1}, Landroid/graphics/drawable/Drawable;->setCallback(Landroid/graphics/drawable/Drawable$Callback;)V
 
-    .line 237
+    .line 240
     :cond_0
     iput-object p1, p0, Landroid/support/v4/graphics/drawable/DrawableWrapperDonut;->mDrawable:Landroid/graphics/drawable/Drawable;
 
-    .line 239
+    .line 242
     if-eqz p1, :cond_1
 
-    .line 240
+    .line 243
     invoke-virtual {p1, p0}, Landroid/graphics/drawable/Drawable;->setCallback(Landroid/graphics/drawable/Drawable$Callback;)V
 
-    .line 243
+    .line 246
     :cond_1
     invoke-virtual {p0}, Landroid/support/v4/graphics/drawable/DrawableWrapperDonut;->invalidateSelf()V
 
-    .line 244
+    .line 247
     return-void
 .end method
 

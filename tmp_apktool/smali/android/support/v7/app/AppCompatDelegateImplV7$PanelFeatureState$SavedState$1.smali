@@ -3,7 +3,7 @@
 .source "AppCompatDelegateImplV7.java"
 
 # interfaces
-.implements Landroid/os/Parcelable$Creator;
+.implements Landroid/support/v4/os/ParcelableCompatCreatorCallbacks;
 
 
 # annotations
@@ -19,7 +19,7 @@
 .annotation system Ldalvik/annotation/Signature;
     value = {
         "Ljava/lang/Object;",
-        "Landroid/os/Parcelable$Creator",
+        "Landroid/support/v4/os/ParcelableCompatCreatorCallbacks",
         "<",
         "Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState$SavedState;",
         ">;"
@@ -32,7 +32,7 @@
     .locals 0
 
     .prologue
-    .line 1785
+    .line 1975
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -40,26 +40,28 @@
 
 
 # virtual methods
-.method public createFromParcel(Landroid/os/Parcel;)Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState$SavedState;
+.method public createFromParcel(Landroid/os/Parcel;Ljava/lang/ClassLoader;)Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState$SavedState;
     .locals 1
     .param p1, "in"    # Landroid/os/Parcel;
+    .param p2, "loader"    # Ljava/lang/ClassLoader;
 
     .prologue
-    .line 1787
-    invoke-static {p1}, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState$SavedState;->access$1100(Landroid/os/Parcel;)Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState$SavedState;
+    .line 1978
+    invoke-static {p1, p2}, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState$SavedState;->access$1300(Landroid/os/Parcel;Ljava/lang/ClassLoader;)Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState$SavedState;
 
     move-result-object v0
 
     return-object v0
 .end method
 
-.method public bridge synthetic createFromParcel(Landroid/os/Parcel;)Ljava/lang/Object;
+.method public bridge synthetic createFromParcel(Landroid/os/Parcel;Ljava/lang/ClassLoader;)Ljava/lang/Object;
     .locals 1
     .param p1, "x0"    # Landroid/os/Parcel;
+    .param p2, "x1"    # Ljava/lang/ClassLoader;
 
     .prologue
-    .line 1785
-    invoke-virtual {p0, p1}, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState$SavedState$1;->createFromParcel(Landroid/os/Parcel;)Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState$SavedState;
+    .line 1975
+    invoke-virtual {p0, p1, p2}, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState$SavedState$1;->createFromParcel(Landroid/os/Parcel;Ljava/lang/ClassLoader;)Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState$SavedState;
 
     move-result-object v0
 
@@ -71,7 +73,7 @@
     .param p1, "size"    # I
 
     .prologue
-    .line 1791
+    .line 1983
     new-array v0, p1, [Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState$SavedState;
 
     return-object v0
@@ -82,7 +84,7 @@
     .param p1, "x0"    # I
 
     .prologue
-    .line 1785
+    .line 1975
     invoke-virtual {p0, p1}, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState$SavedState$1;->newArray(I)[Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState$SavedState;
 
     move-result-object v0

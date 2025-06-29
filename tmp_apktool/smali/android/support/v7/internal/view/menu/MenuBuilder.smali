@@ -265,69 +265,6 @@
     return-void
 .end method
 
-.method private addInternal(IIILjava/lang/CharSequence;)Landroid/view/MenuItem;
-    .locals 8
-    .param p1, "group"    # I
-    .param p2, "id"    # I
-    .param p3, "categoryOrder"    # I
-    .param p4, "title"    # Ljava/lang/CharSequence;
-
-    .prologue
-    .line 433
-    invoke-static {p3}, Landroid/support/v7/internal/view/menu/MenuBuilder;->getOrdering(I)I
-
-    move-result v4
-
-    .line 435
-    .local v4, "ordering":I
-    iget v6, p0, Landroid/support/v7/internal/view/menu/MenuBuilder;->mDefaultShowAsAction:I
-
-    move-object v0, p0
-
-    move v1, p1
-
-    move v2, p2
-
-    move v3, p3
-
-    move-object v5, p4
-
-    invoke-direct/range {v0 .. v6}, Landroid/support/v7/internal/view/menu/MenuBuilder;->createNewMenuItem(IIIILjava/lang/CharSequence;I)Landroid/support/v7/internal/view/menu/MenuItemImpl;
-
-    move-result-object v7
-
-    .line 438
-    .local v7, "item":Landroid/support/v7/internal/view/menu/MenuItemImpl;
-    iget-object v0, p0, Landroid/support/v7/internal/view/menu/MenuBuilder;->mCurrentMenuInfo:Landroid/view/ContextMenu$ContextMenuInfo;
-
-    if-eqz v0, :cond_0
-
-    .line 440
-    iget-object v0, p0, Landroid/support/v7/internal/view/menu/MenuBuilder;->mCurrentMenuInfo:Landroid/view/ContextMenu$ContextMenuInfo;
-
-    invoke-virtual {v7, v0}, Landroid/support/v7/internal/view/menu/MenuItemImpl;->setMenuInfo(Landroid/view/ContextMenu$ContextMenuInfo;)V
-
-    .line 443
-    :cond_0
-    iget-object v0, p0, Landroid/support/v7/internal/view/menu/MenuBuilder;->mItems:Ljava/util/ArrayList;
-
-    iget-object v1, p0, Landroid/support/v7/internal/view/menu/MenuBuilder;->mItems:Ljava/util/ArrayList;
-
-    invoke-static {v1, v4}, Landroid/support/v7/internal/view/menu/MenuBuilder;->findInsertIndex(Ljava/util/ArrayList;I)I
-
-    move-result v1
-
-    invoke-virtual {v0, v1, v7}, Ljava/util/ArrayList;->add(ILjava/lang/Object;)V
-
-    .line 444
-    const/4 v0, 0x1
-
-    invoke-virtual {p0, v0}, Landroid/support/v7/internal/view/menu/MenuBuilder;->onItemsChanged(Z)V
-
-    .line 446
-    return-object v7
-.end method
-
 .method private createNewMenuItem(IIIILjava/lang/CharSequence;I)Landroid/support/v7/internal/view/menu/MenuItemImpl;
     .locals 8
     .param p1, "group"    # I
@@ -1026,7 +963,7 @@
 
     move-result-object v0
 
-    invoke-direct {p0, v1, v1, v1, v0}, Landroid/support/v7/internal/view/menu/MenuBuilder;->addInternal(IIILjava/lang/CharSequence;)Landroid/view/MenuItem;
+    invoke-virtual {p0, v1, v1, v1, v0}, Landroid/support/v7/internal/view/menu/MenuBuilder;->addInternal(IIILjava/lang/CharSequence;)Landroid/view/MenuItem;
 
     move-result-object v0
 
@@ -1048,7 +985,7 @@
 
     move-result-object v0
 
-    invoke-direct {p0, p1, p2, p3, v0}, Landroid/support/v7/internal/view/menu/MenuBuilder;->addInternal(IIILjava/lang/CharSequence;)Landroid/view/MenuItem;
+    invoke-virtual {p0, p1, p2, p3, v0}, Landroid/support/v7/internal/view/menu/MenuBuilder;->addInternal(IIILjava/lang/CharSequence;)Landroid/view/MenuItem;
 
     move-result-object v0
 
@@ -1064,7 +1001,7 @@
 
     .prologue
     .line 467
-    invoke-direct {p0, p1, p2, p3, p4}, Landroid/support/v7/internal/view/menu/MenuBuilder;->addInternal(IIILjava/lang/CharSequence;)Landroid/view/MenuItem;
+    invoke-virtual {p0, p1, p2, p3, p4}, Landroid/support/v7/internal/view/menu/MenuBuilder;->addInternal(IIILjava/lang/CharSequence;)Landroid/view/MenuItem;
 
     move-result-object v0
 
@@ -1079,7 +1016,7 @@
     const/4 v0, 0x0
 
     .line 457
-    invoke-direct {p0, v0, v0, v0, p1}, Landroid/support/v7/internal/view/menu/MenuBuilder;->addInternal(IIILjava/lang/CharSequence;)Landroid/view/MenuItem;
+    invoke-virtual {p0, v0, v0, v0, p1}, Landroid/support/v7/internal/view/menu/MenuBuilder;->addInternal(IIILjava/lang/CharSequence;)Landroid/view/MenuItem;
 
     move-result-object v0
 
@@ -1253,6 +1190,69 @@
     return v3
 .end method
 
+.method protected addInternal(IIILjava/lang/CharSequence;)Landroid/view/MenuItem;
+    .locals 8
+    .param p1, "group"    # I
+    .param p2, "id"    # I
+    .param p3, "categoryOrder"    # I
+    .param p4, "title"    # Ljava/lang/CharSequence;
+
+    .prologue
+    .line 433
+    invoke-static {p3}, Landroid/support/v7/internal/view/menu/MenuBuilder;->getOrdering(I)I
+
+    move-result v4
+
+    .line 435
+    .local v4, "ordering":I
+    iget v6, p0, Landroid/support/v7/internal/view/menu/MenuBuilder;->mDefaultShowAsAction:I
+
+    move-object v0, p0
+
+    move v1, p1
+
+    move v2, p2
+
+    move v3, p3
+
+    move-object v5, p4
+
+    invoke-direct/range {v0 .. v6}, Landroid/support/v7/internal/view/menu/MenuBuilder;->createNewMenuItem(IIIILjava/lang/CharSequence;I)Landroid/support/v7/internal/view/menu/MenuItemImpl;
+
+    move-result-object v7
+
+    .line 438
+    .local v7, "item":Landroid/support/v7/internal/view/menu/MenuItemImpl;
+    iget-object v0, p0, Landroid/support/v7/internal/view/menu/MenuBuilder;->mCurrentMenuInfo:Landroid/view/ContextMenu$ContextMenuInfo;
+
+    if-eqz v0, :cond_0
+
+    .line 440
+    iget-object v0, p0, Landroid/support/v7/internal/view/menu/MenuBuilder;->mCurrentMenuInfo:Landroid/view/ContextMenu$ContextMenuInfo;
+
+    invoke-virtual {v7, v0}, Landroid/support/v7/internal/view/menu/MenuItemImpl;->setMenuInfo(Landroid/view/ContextMenu$ContextMenuInfo;)V
+
+    .line 443
+    :cond_0
+    iget-object v0, p0, Landroid/support/v7/internal/view/menu/MenuBuilder;->mItems:Ljava/util/ArrayList;
+
+    iget-object v1, p0, Landroid/support/v7/internal/view/menu/MenuBuilder;->mItems:Ljava/util/ArrayList;
+
+    invoke-static {v1, v4}, Landroid/support/v7/internal/view/menu/MenuBuilder;->findInsertIndex(Ljava/util/ArrayList;I)I
+
+    move-result v1
+
+    invoke-virtual {v0, v1, v7}, Ljava/util/ArrayList;->add(ILjava/lang/Object;)V
+
+    .line 444
+    const/4 v0, 0x1
+
+    invoke-virtual {p0, v0}, Landroid/support/v7/internal/view/menu/MenuBuilder;->onItemsChanged(Z)V
+
+    .line 446
+    return-object v7
+.end method
+
 .method public addMenuPresenter(Landroid/support/v7/internal/view/menu/MenuPresenter;)V
     .locals 1
     .param p1, "presenter"    # Landroid/support/v7/internal/view/menu/MenuPresenter;
@@ -1346,7 +1346,7 @@
 
     .prologue
     .line 487
-    invoke-direct {p0, p1, p2, p3, p4}, Landroid/support/v7/internal/view/menu/MenuBuilder;->addInternal(IIILjava/lang/CharSequence;)Landroid/view/MenuItem;
+    invoke-virtual {p0, p1, p2, p3, p4}, Landroid/support/v7/internal/view/menu/MenuBuilder;->addInternal(IIILjava/lang/CharSequence;)Landroid/view/MenuItem;
 
     move-result-object v0
 

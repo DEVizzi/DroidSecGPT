@@ -19,7 +19,7 @@
     .locals 0
 
     .prologue
-    .line 1187
+    .line 1758
     invoke-direct {p0}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompat$AccessibilityNodeInfoKitKatImpl;-><init>()V
 
     return-void
@@ -33,10 +33,10 @@
     .param p2, "action"    # Ljava/lang/Object;
 
     .prologue
-    .line 1207
+    .line 1778
     invoke-static {p1, p2}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatApi21;->addAction(Ljava/lang/Object;Ljava/lang/Object;)V
 
-    .line 1208
+    .line 1779
     return-void
 .end method
 
@@ -45,7 +45,7 @@
     .param p1, "action"    # Ljava/lang/Object;
 
     .prologue
-    .line 1212
+    .line 1788
     invoke-static {p1}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatApi21;->getAccessibilityActionId(Ljava/lang/Object;)I
 
     move-result v0
@@ -58,7 +58,7 @@
     .param p1, "action"    # Ljava/lang/Object;
 
     .prologue
-    .line 1217
+    .line 1793
     invoke-static {p1}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatApi21;->getAccessibilityActionLabel(Ljava/lang/Object;)Ljava/lang/CharSequence;
 
     move-result-object v0
@@ -82,7 +82,7 @@
     .end annotation
 
     .prologue
-    .line 1195
+    .line 1766
     invoke-static {p1}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatApi21;->getActionList(Ljava/lang/Object;)Ljava/util/List;
 
     move-result-object v0
@@ -95,8 +95,34 @@
     .param p1, "info"    # Ljava/lang/Object;
 
     .prologue
-    .line 1234
+    .line 1810
     invoke-static {p1}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatApi21;->getError(Ljava/lang/Object;)Ljava/lang/CharSequence;
+
+    move-result-object v0
+
+    return-object v0
+.end method
+
+.method public getMaxTextLength(Ljava/lang/Object;)I
+    .locals 1
+    .param p1, "info"    # Ljava/lang/Object;
+
+    .prologue
+    .line 1825
+    invoke-static {p1}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatApi21;->getMaxTextLength(Ljava/lang/Object;)I
+
+    move-result v0
+
+    return v0
+.end method
+
+.method public getWindow(Ljava/lang/Object;)Ljava/lang/Object;
+    .locals 1
+    .param p1, "info"    # Ljava/lang/Object;
+
+    .prologue
+    .line 1830
+    invoke-static {p1}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatApi21;->getWindow(Ljava/lang/Object;)Ljava/lang/Object;
 
     move-result-object v0
 
@@ -108,7 +134,7 @@
     .param p1, "info"    # Ljava/lang/Object;
 
     .prologue
-    .line 1229
+    .line 1805
     invoke-static {p1}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatApi21$CollectionItemInfo;->isSelected(Ljava/lang/Object;)Z
 
     move-result v0
@@ -122,7 +148,7 @@
     .param p2, "label"    # Ljava/lang/CharSequence;
 
     .prologue
-    .line 1190
+    .line 1761
     invoke-static {p1, p2}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatApi21;->newAccessibilityAction(ILjava/lang/CharSequence;)Ljava/lang/Object;
 
     move-result-object v0
@@ -138,7 +164,7 @@
     .param p4, "selectionMode"    # I
 
     .prologue
-    .line 1201
+    .line 1772
     invoke-static {p1, p2, p3, p4}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatApi21;->obtainCollectionInfo(IIZI)Ljava/lang/Object;
 
     move-result-object v0
@@ -156,12 +182,55 @@
     .param p6, "selected"    # Z
 
     .prologue
-    .line 1223
+    .line 1799
     invoke-static/range {p1 .. p6}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatApi21;->obtainCollectionItemInfo(IIIIZZ)Ljava/lang/Object;
 
     move-result-object v0
 
     return-object v0
+.end method
+
+.method public removeAction(Ljava/lang/Object;Ljava/lang/Object;)Z
+    .locals 1
+    .param p1, "info"    # Ljava/lang/Object;
+    .param p2, "action"    # Ljava/lang/Object;
+
+    .prologue
+    .line 1783
+    invoke-static {p1, p2}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatApi21;->removeAction(Ljava/lang/Object;Ljava/lang/Object;)Z
+
+    move-result v0
+
+    return v0
+.end method
+
+.method public removeChild(Ljava/lang/Object;Landroid/view/View;)Z
+    .locals 1
+    .param p1, "info"    # Ljava/lang/Object;
+    .param p2, "child"    # Landroid/view/View;
+
+    .prologue
+    .line 1835
+    invoke-static {p1, p2}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatApi21;->removeChild(Ljava/lang/Object;Landroid/view/View;)Z
+
+    move-result v0
+
+    return v0
+.end method
+
+.method public removeChild(Ljava/lang/Object;Landroid/view/View;I)Z
+    .locals 1
+    .param p1, "info"    # Ljava/lang/Object;
+    .param p2, "root"    # Landroid/view/View;
+    .param p3, "virtualDescendantId"    # I
+
+    .prologue
+    .line 1840
+    invoke-static {p1, p2, p3}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatApi21;->removeChild(Ljava/lang/Object;Landroid/view/View;I)Z
+
+    move-result v0
+
+    return v0
 .end method
 
 .method public setError(Ljava/lang/Object;Ljava/lang/CharSequence;)V
@@ -170,36 +239,22 @@
     .param p2, "error"    # Ljava/lang/CharSequence;
 
     .prologue
-    .line 1239
+    .line 1815
     invoke-static {p1, p2}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatApi21;->setError(Ljava/lang/Object;Ljava/lang/CharSequence;)V
 
-    .line 1240
+    .line 1816
     return-void
 .end method
 
-.method public setLabelFor(Ljava/lang/Object;Landroid/view/View;)V
+.method public setMaxTextLength(Ljava/lang/Object;I)V
     .locals 0
     .param p1, "info"    # Ljava/lang/Object;
-    .param p2, "labeled"    # Landroid/view/View;
+    .param p2, "max"    # I
 
     .prologue
-    .line 1244
-    invoke-static {p1, p2}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatApi21;->setLabelFor(Ljava/lang/Object;Landroid/view/View;)V
+    .line 1820
+    invoke-static {p1, p2}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatApi21;->setMaxTextLength(Ljava/lang/Object;I)V
 
-    .line 1245
-    return-void
-.end method
-
-.method public setLabelFor(Ljava/lang/Object;Landroid/view/View;I)V
-    .locals 0
-    .param p1, "info"    # Ljava/lang/Object;
-    .param p2, "root"    # Landroid/view/View;
-    .param p3, "virtualDescendantId"    # I
-
-    .prologue
-    .line 1249
-    invoke-static {p1, p2, p3}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatApi21;->setLabelFor(Ljava/lang/Object;Landroid/view/View;I)V
-
-    .line 1250
+    .line 1821
     return-void
 .end method

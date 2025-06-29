@@ -3,6 +3,7 @@ package android.support.v7.internal.view;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.res.Resources;
+import android.support.annotation.StyleRes;
 import android.support.v7.appcompat.R;
 import android.view.LayoutInflater;
 /* loaded from: classes.dex */
@@ -11,15 +12,22 @@ public class ContextThemeWrapper extends ContextWrapper {
     private Resources.Theme mTheme;
     private int mThemeResource;
 
-    public ContextThemeWrapper(Context base, int themeres) {
+    public ContextThemeWrapper(Context base, @StyleRes int themeResId) {
         super(base);
-        this.mThemeResource = themeres;
+        this.mThemeResource = themeResId;
+    }
+
+    public ContextThemeWrapper(Context base, Resources.Theme theme) {
+        super(base);
+        this.mTheme = theme;
     }
 
     @Override // android.content.ContextWrapper, android.content.Context
     public void setTheme(int resid) {
-        this.mThemeResource = resid;
-        initializeTheme();
+        if (this.mThemeResource != resid) {
+            this.mThemeResource = resid;
+            initializeTheme();
+        }
     }
 
     public int getThemeResId() {

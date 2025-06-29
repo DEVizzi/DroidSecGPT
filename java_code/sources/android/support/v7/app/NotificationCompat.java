@@ -119,12 +119,14 @@ public class NotificationCompat extends android.support.v4.app.NotificationCompa
             return this;
         }
 
-        public void setShowCancelButton(boolean show) {
+        public MediaStyle setShowCancelButton(boolean show) {
             this.mShowCancelButton = show;
+            return this;
         }
 
-        public void setCancelButtonIntent(PendingIntent pendingIntent) {
+        public MediaStyle setCancelButtonIntent(PendingIntent pendingIntent) {
             this.mCancelButtonIntent = pendingIntent;
+            return this;
         }
     }
 }

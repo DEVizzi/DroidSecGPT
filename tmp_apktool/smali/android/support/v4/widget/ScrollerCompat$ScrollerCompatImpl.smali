@@ -57,6 +57,9 @@
 .method public abstract notifyVerticalEdgeReached(Ljava/lang/Object;III)V
 .end method
 
+.method public abstract springBack(Ljava/lang/Object;IIIIII)Z
+.end method
+
 .method public abstract startScroll(Ljava/lang/Object;IIII)V
 .end method
 

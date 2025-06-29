@@ -54,6 +54,13 @@ public class ViewPropertyAnimatorCompatSet {
         return this;
     }
 
+    public ViewPropertyAnimatorCompatSet playSequentially(ViewPropertyAnimatorCompat anim1, ViewPropertyAnimatorCompat anim2) {
+        this.mAnimators.add(anim1);
+        anim2.setStartDelay(anim1.getDuration());
+        this.mAnimators.add(anim2);
+        return this;
+    }
+
     public void start() {
         if (!this.mIsStarted) {
             Iterator i$ = this.mAnimators.iterator();

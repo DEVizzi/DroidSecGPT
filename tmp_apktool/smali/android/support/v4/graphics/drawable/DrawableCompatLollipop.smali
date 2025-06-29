@@ -8,7 +8,7 @@
     .locals 0
 
     .prologue
-    .line 27
+    .line 28
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -21,10 +21,10 @@
     .param p2, "y"    # F
 
     .prologue
-    .line 30
+    .line 31
     invoke-virtual {p0, p1, p2}, Landroid/graphics/drawable/Drawable;->setHotspot(FF)V
 
-    .line 31
+    .line 32
     return-void
 .end method
 
@@ -37,10 +37,10 @@
     .param p4, "bottom"    # I
 
     .prologue
-    .line 35
+    .line 36
     invoke-virtual {p0, p1, p2, p3, p4}, Landroid/graphics/drawable/Drawable;->setHotspotBounds(IIII)V
 
-    .line 36
+    .line 37
     return-void
 .end method
 
@@ -50,19 +50,19 @@
     .param p1, "tint"    # I
 
     .prologue
-    .line 39
+    .line 40
     instance-of v0, p0, Landroid/support/v4/graphics/drawable/DrawableWrapperLollipop;
 
     if-eqz v0, :cond_0
 
-    .line 42
+    .line 43
     invoke-static {p0, p1}, Landroid/support/v4/graphics/drawable/DrawableCompatBase;->setTint(Landroid/graphics/drawable/Drawable;I)V
 
-    .line 47
+    .line 48
     :goto_0
     return-void
 
-    .line 45
+    .line 46
     :cond_0
     invoke-virtual {p0, p1}, Landroid/graphics/drawable/Drawable;->setTint(I)V
 
@@ -75,19 +75,19 @@
     .param p1, "tint"    # Landroid/content/res/ColorStateList;
 
     .prologue
-    .line 50
+    .line 51
     instance-of v0, p0, Landroid/support/v4/graphics/drawable/DrawableWrapperLollipop;
 
     if-eqz v0, :cond_0
 
-    .line 53
+    .line 54
     invoke-static {p0, p1}, Landroid/support/v4/graphics/drawable/DrawableCompatBase;->setTintList(Landroid/graphics/drawable/Drawable;Landroid/content/res/ColorStateList;)V
 
-    .line 58
+    .line 59
     :goto_0
     return-void
 
-    .line 56
+    .line 57
     :cond_0
     invoke-virtual {p0, p1}, Landroid/graphics/drawable/Drawable;->setTintList(Landroid/content/res/ColorStateList;)V
 
@@ -100,19 +100,19 @@
     .param p1, "tintMode"    # Landroid/graphics/PorterDuff$Mode;
 
     .prologue
-    .line 61
+    .line 62
     instance-of v0, p0, Landroid/support/v4/graphics/drawable/DrawableWrapperLollipop;
 
     if-eqz v0, :cond_0
 
-    .line 64
+    .line 65
     invoke-static {p0, p1}, Landroid/support/v4/graphics/drawable/DrawableCompatBase;->setTintMode(Landroid/graphics/drawable/Drawable;Landroid/graphics/PorterDuff$Mode;)V
 
-    .line 69
+    .line 70
     :goto_0
     return-void
 
-    .line 67
+    .line 68
     :cond_0
     invoke-virtual {p0, p1}, Landroid/graphics/drawable/Drawable;->setTintMode(Landroid/graphics/PorterDuff$Mode;)V
 
@@ -124,20 +124,25 @@
     .param p0, "drawable"    # Landroid/graphics/drawable/Drawable;
 
     .prologue
-    .line 72
+    .line 73
     instance-of v0, p0, Landroid/graphics/drawable/GradientDrawable;
 
-    if-eqz v0, :cond_0
+    if-nez v0, :cond_0
 
-    .line 75
+    instance-of v0, p0, Landroid/graphics/drawable/DrawableContainer;
+
+    if-eqz v0, :cond_1
+
+    .line 77
+    :cond_0
     new-instance v0, Landroid/support/v4/graphics/drawable/DrawableWrapperLollipop;
 
     invoke-direct {v0, p0}, Landroid/support/v4/graphics/drawable/DrawableWrapperLollipop;-><init>(Landroid/graphics/drawable/Drawable;)V
 
     move-object p0, v0
 
-    .line 77
+    .line 79
     .end local p0    # "drawable":Landroid/graphics/drawable/Drawable;
-    :cond_0
+    :cond_1
     return-object p0
 .end method

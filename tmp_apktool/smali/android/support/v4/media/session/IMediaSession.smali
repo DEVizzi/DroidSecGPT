@@ -177,6 +177,14 @@
     .end annotation
 .end method
 
+.method public abstract playFromUri(Landroid/net/Uri;Landroid/os/Bundle;)V
+    .annotation system Ldalvik/annotation/Throws;
+        value = {
+            Landroid/os/RemoteException;
+        }
+    .end annotation
+.end method
+
 .method public abstract previous()V
     .annotation system Ldalvik/annotation/Throws;
         value = {

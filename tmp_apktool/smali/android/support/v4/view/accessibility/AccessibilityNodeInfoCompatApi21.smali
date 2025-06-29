@@ -19,7 +19,7 @@
     .line 28
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 66
+    .line 82
     return-void
 .end method
 
@@ -47,7 +47,7 @@
     .param p0, "action"    # Ljava/lang/Object;
 
     .prologue
-    .line 77
+    .line 93
     check-cast p0, Landroid/view/accessibility/AccessibilityNodeInfo$AccessibilityAction;
 
     .end local p0    # "action":Ljava/lang/Object;
@@ -63,7 +63,7 @@
     .param p0, "action"    # Ljava/lang/Object;
 
     .prologue
-    .line 81
+    .line 97
     check-cast p0, Landroid/view/accessibility/AccessibilityNodeInfo$AccessibilityAction;
 
     .end local p0    # "action":Ljava/lang/Object;
@@ -111,11 +111,43 @@
     .param p0, "info"    # Ljava/lang/Object;
 
     .prologue
-    .line 51
+    .line 55
     check-cast p0, Landroid/view/accessibility/AccessibilityNodeInfo;
 
     .end local p0    # "info":Ljava/lang/Object;
     invoke-virtual {p0}, Landroid/view/accessibility/AccessibilityNodeInfo;->getError()Ljava/lang/CharSequence;
+
+    move-result-object v0
+
+    return-object v0
+.end method
+
+.method public static getMaxTextLength(Ljava/lang/Object;)I
+    .locals 1
+    .param p0, "info"    # Ljava/lang/Object;
+
+    .prologue
+    .line 67
+    check-cast p0, Landroid/view/accessibility/AccessibilityNodeInfo;
+
+    .end local p0    # "info":Ljava/lang/Object;
+    invoke-virtual {p0}, Landroid/view/accessibility/AccessibilityNodeInfo;->getMaxTextLength()I
+
+    move-result v0
+
+    return v0
+.end method
+
+.method public static getWindow(Ljava/lang/Object;)Ljava/lang/Object;
+    .locals 1
+    .param p0, "info"    # Ljava/lang/Object;
+
+    .prologue
+    .line 71
+    check-cast p0, Landroid/view/accessibility/AccessibilityNodeInfo;
+
+    .end local p0    # "info":Ljava/lang/Object;
+    invoke-virtual {p0}, Landroid/view/accessibility/AccessibilityNodeInfo;->getWindow()Landroid/view/accessibility/AccessibilityWindowInfo;
 
     move-result-object v0
 
@@ -128,7 +160,7 @@
     .param p1, "label"    # Ljava/lang/CharSequence;
 
     .prologue
-    .line 73
+    .line 89
     new-instance v0, Landroid/view/accessibility/AccessibilityNodeInfo$AccessibilityAction;
 
     invoke-direct {v0, p0, p1}, Landroid/view/accessibility/AccessibilityNodeInfo$AccessibilityAction;-><init>(ILjava/lang/CharSequence;)V
@@ -144,7 +176,7 @@
     .param p3, "selectionMode"    # I
 
     .prologue
-    .line 40
+    .line 44
     invoke-static {p0, p1, p2, p3}, Landroid/view/accessibility/AccessibilityNodeInfo$CollectionInfo;->obtain(IIZI)Landroid/view/accessibility/AccessibilityNodeInfo$CollectionInfo;
 
     move-result-object v0
@@ -162,12 +194,67 @@
     .param p5, "selected"    # Z
 
     .prologue
-    .line 46
+    .line 50
     invoke-static/range {p0 .. p5}, Landroid/view/accessibility/AccessibilityNodeInfo$CollectionItemInfo;->obtain(IIIIZZ)Landroid/view/accessibility/AccessibilityNodeInfo$CollectionItemInfo;
 
     move-result-object v0
 
     return-object v0
+.end method
+
+.method public static removeAction(Ljava/lang/Object;Ljava/lang/Object;)Z
+    .locals 1
+    .param p0, "info"    # Ljava/lang/Object;
+    .param p1, "action"    # Ljava/lang/Object;
+
+    .prologue
+    .line 39
+    check-cast p0, Landroid/view/accessibility/AccessibilityNodeInfo;
+
+    .end local p0    # "info":Ljava/lang/Object;
+    check-cast p1, Landroid/view/accessibility/AccessibilityNodeInfo$AccessibilityAction;
+
+    .end local p1    # "action":Ljava/lang/Object;
+    invoke-virtual {p0, p1}, Landroid/view/accessibility/AccessibilityNodeInfo;->removeAction(Landroid/view/accessibility/AccessibilityNodeInfo$AccessibilityAction;)Z
+
+    move-result v0
+
+    return v0
+.end method
+
+.method public static removeChild(Ljava/lang/Object;Landroid/view/View;)Z
+    .locals 1
+    .param p0, "info"    # Ljava/lang/Object;
+    .param p1, "child"    # Landroid/view/View;
+
+    .prologue
+    .line 75
+    check-cast p0, Landroid/view/accessibility/AccessibilityNodeInfo;
+
+    .end local p0    # "info":Ljava/lang/Object;
+    invoke-virtual {p0, p1}, Landroid/view/accessibility/AccessibilityNodeInfo;->removeChild(Landroid/view/View;)Z
+
+    move-result v0
+
+    return v0
+.end method
+
+.method public static removeChild(Ljava/lang/Object;Landroid/view/View;I)Z
+    .locals 1
+    .param p0, "info"    # Ljava/lang/Object;
+    .param p1, "root"    # Landroid/view/View;
+    .param p2, "virtualDescendantId"    # I
+
+    .prologue
+    .line 79
+    check-cast p0, Landroid/view/accessibility/AccessibilityNodeInfo;
+
+    .end local p0    # "info":Ljava/lang/Object;
+    invoke-virtual {p0, p1, p2}, Landroid/view/accessibility/AccessibilityNodeInfo;->removeChild(Landroid/view/View;I)Z
+
+    move-result v0
+
+    return v0
 .end method
 
 .method public static setError(Ljava/lang/Object;Ljava/lang/CharSequence;)V
@@ -176,44 +263,27 @@
     .param p1, "error"    # Ljava/lang/CharSequence;
 
     .prologue
-    .line 55
+    .line 59
     check-cast p0, Landroid/view/accessibility/AccessibilityNodeInfo;
 
     .end local p0    # "info":Ljava/lang/Object;
     invoke-virtual {p0, p1}, Landroid/view/accessibility/AccessibilityNodeInfo;->setError(Ljava/lang/CharSequence;)V
 
-    .line 56
-    return-void
-.end method
-
-.method public static setLabelFor(Ljava/lang/Object;Landroid/view/View;)V
-    .locals 0
-    .param p0, "info"    # Ljava/lang/Object;
-    .param p1, "labeled"    # Landroid/view/View;
-
-    .prologue
-    .line 59
-    check-cast p0, Landroid/view/accessibility/AccessibilityNodeInfo;
-
-    .end local p0    # "info":Ljava/lang/Object;
-    invoke-virtual {p0, p1}, Landroid/view/accessibility/AccessibilityNodeInfo;->setLabelFor(Landroid/view/View;)V
-
     .line 60
     return-void
 .end method
 
-.method public static setLabelFor(Ljava/lang/Object;Landroid/view/View;I)V
+.method public static setMaxTextLength(Ljava/lang/Object;I)V
     .locals 0
     .param p0, "info"    # Ljava/lang/Object;
-    .param p1, "root"    # Landroid/view/View;
-    .param p2, "virtualDescendantId"    # I
+    .param p1, "max"    # I
 
     .prologue
     .line 63
     check-cast p0, Landroid/view/accessibility/AccessibilityNodeInfo;
 
     .end local p0    # "info":Ljava/lang/Object;
-    invoke-virtual {p0, p1, p2}, Landroid/view/accessibility/AccessibilityNodeInfo;->setLabelFor(Landroid/view/View;I)V
+    invoke-virtual {p0, p1}, Landroid/view/accessibility/AccessibilityNodeInfo;->setMaxTextLength(I)V
 
     .line 64
     return-void

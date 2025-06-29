@@ -11,6 +11,10 @@ public class TextViewCompat {
 
     /* loaded from: classes.dex */
     interface TextViewCompatImpl {
+        int getMaxLines(TextView textView);
+
+        int getMinLines(TextView textView);
+
         void setCompoundDrawablesRelative(@NonNull TextView textView, @Nullable Drawable drawable, @Nullable Drawable drawable2, @Nullable Drawable drawable3, @Nullable Drawable drawable4);
 
         void setCompoundDrawablesRelativeWithIntrinsicBounds(@NonNull TextView textView, int i, int i2, int i3, int i4);
@@ -40,10 +44,36 @@ public class TextViewCompat {
         public void setCompoundDrawablesRelativeWithIntrinsicBounds(@NonNull TextView textView, int start, int top, int end, int bottom) {
             textView.setCompoundDrawablesWithIntrinsicBounds(start, top, end, bottom);
         }
+
+        @Override // android.support.v4.widget.TextViewCompat.TextViewCompatImpl
+        public int getMaxLines(TextView textView) {
+            return TextViewCompatDonut.getMaxLines(textView);
+        }
+
+        @Override // android.support.v4.widget.TextViewCompat.TextViewCompatImpl
+        public int getMinLines(TextView textView) {
+            return TextViewCompatDonut.getMinLines(textView);
+        }
     }
 
     /* loaded from: classes.dex */
-    static class JbMr1TextViewCompatImpl extends BaseTextViewCompatImpl {
+    static class JbTextViewCompatImpl extends BaseTextViewCompatImpl {
+        JbTextViewCompatImpl() {
+        }
+
+        @Override // android.support.v4.widget.TextViewCompat.BaseTextViewCompatImpl, android.support.v4.widget.TextViewCompat.TextViewCompatImpl
+        public int getMaxLines(TextView textView) {
+            return TextViewCompatJb.getMaxLines(textView);
+        }
+
+        @Override // android.support.v4.widget.TextViewCompat.BaseTextViewCompatImpl, android.support.v4.widget.TextViewCompat.TextViewCompatImpl
+        public int getMinLines(TextView textView) {
+            return TextViewCompatJb.getMinLines(textView);
+        }
+    }
+
+    /* loaded from: classes.dex */
+    static class JbMr1TextViewCompatImpl extends JbTextViewCompatImpl {
         JbMr1TextViewCompatImpl() {
         }
 
@@ -90,6 +120,8 @@ public class TextViewCompat {
             IMPL = new JbMr2TextViewCompatImpl();
         } else if (version >= 17) {
             IMPL = new JbMr1TextViewCompatImpl();
+        } else if (version >= 16) {
+            IMPL = new JbTextViewCompatImpl();
         } else {
             IMPL = new BaseTextViewCompatImpl();
         }
@@ -105,5 +137,13 @@ public class TextViewCompat {
 
     public static void setCompoundDrawablesRelativeWithIntrinsicBounds(@NonNull TextView textView, int start, int top, int end, int bottom) {
         IMPL.setCompoundDrawablesRelativeWithIntrinsicBounds(textView, start, top, end, bottom);
+    }
+
+    public static int getMaxLines(@NonNull TextView textView) {
+        return IMPL.getMaxLines(textView);
+    }
+
+    public static int getMinLines(@NonNull TextView textView) {
+        return IMPL.getMinLines(textView);
     }
 }

@@ -74,21 +74,33 @@ class FragmentTransitionCompat21 {
         });
     }
 
-    public static void addTransitionTargets(Object enterTransitionObject, Object sharedElementTransitionObject, final View container, final ViewRetriever inFragment, final View nonExistentView, EpicenterView epicenterView, final Map<String, String> nameOverrides, final ArrayList<View> enteringViews, final Map<String, View> renamedViews, ArrayList<View> sharedElementTargets) {
+    public static Object wrapSharedElementTransition(Object transitionObj) {
+        Transition transition;
+        if (transitionObj == null || (transition = (Transition) transitionObj) == null) {
+            return null;
+        }
+        TransitionSet transitionSet = new TransitionSet();
+        transitionSet.addTransition(transition);
+        return transitionSet;
+    }
+
+    public static void addTransitionTargets(Object enterTransitionObject, Object sharedElementTransitionObject, final View container, final ViewRetriever inFragment, final View nonExistentView, EpicenterView epicenterView, final Map<String, String> nameOverrides, final ArrayList<View> enteringViews, Map<String, View> namedViews, final Map<String, View> renamedViews, ArrayList<View> sharedElementTargets) {
         if (enterTransitionObject != null || sharedElementTransitionObject != null) {
             final Transition enterTransition = (Transition) enterTransitionObject;
             if (enterTransition != null) {
                 enterTransition.addTarget(nonExistentView);
             }
             if (sharedElementTransitionObject != null) {
-                Transition sharedElementTransition = (Transition) sharedElementTransitionObject;
-                addTargets(sharedElementTransition, sharedElementTargets);
+                setSharedElementTargets(sharedElementTransitionObject, nonExistentView, namedViews, sharedElementTargets);
             }
             if (inFragment != null) {
                 container.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() { // from class: android.support.v4.app.FragmentTransitionCompat21.2
                     @Override // android.view.ViewTreeObserver.OnPreDrawListener
                     public boolean onPreDraw() {
                         container.getViewTreeObserver().removeOnPreDrawListener(this);
+                        if (enterTransition != null) {
+                            enterTransition.removeTarget(nonExistentView);
+                        }
                         View fragmentView = inFragment.getView();
                         if (fragmentView != null) {
                             if (!nameOverrides.isEmpty()) {
@@ -107,7 +119,6 @@ class FragmentTransitionCompat21 {
                                 FragmentTransitionCompat21.captureTransitioningViews(enteringViews, fragmentView);
                                 enteringViews.removeAll(renamedViews.values());
                                 enteringViews.add(nonExistentView);
-                                enterTransition.removeTarget(nonExistentView);
                                 FragmentTransitionCompat21.addTargets(enterTransition, enteringViews);
                                 return true;
                             }
@@ -160,6 +171,50 @@ class FragmentTransitionCompat21 {
         }
         Transition transition = staggered;
         return transition;
+    }
+
+    public static void setSharedElementTargets(Object transitionObj, View nonExistentView, Map<String, View> namedViews, ArrayList<View> sharedElementTargets) {
+        TransitionSet transition = (TransitionSet) transitionObj;
+        sharedElementTargets.clear();
+        sharedElementTargets.addAll(namedViews.values());
+        List<View> views = transition.getTargets();
+        views.clear();
+        int count = sharedElementTargets.size();
+        for (int i = 0; i < count; i++) {
+            View view = sharedElementTargets.get(i);
+            bfsAddViewChildren(views, view);
+        }
+        sharedElementTargets.add(nonExistentView);
+        addTargets(transition, sharedElementTargets);
+    }
+
+    private static void bfsAddViewChildren(List<View> views, View startView) {
+        int startIndex = views.size();
+        if (!containedBeforeIndex(views, startView, startIndex)) {
+            views.add(startView);
+            for (int index = startIndex; index < views.size(); index++) {
+                View view = views.get(index);
+                if (view instanceof ViewGroup) {
+                    ViewGroup viewGroup = (ViewGroup) view;
+                    int childCount = viewGroup.getChildCount();
+                    for (int childIndex = 0; childIndex < childCount; childIndex++) {
+                        View child = viewGroup.getChildAt(childIndex);
+                        if (!containedBeforeIndex(views, child, startIndex)) {
+                            views.add(child);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private static boolean containedBeforeIndex(List<View> views, View view, int maxIndex) {
+        for (int i = 0; i < maxIndex; i++) {
+            if (views.get(i) == view) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static void setSharedElementEpicenter(Transition transition, final EpicenterView epicenterView) {
@@ -235,7 +290,6 @@ class FragmentTransitionCompat21 {
                 public boolean onPreDraw() {
                     sceneRoot.getViewTreeObserver().removeOnPreDrawListener(this);
                     if (enterTransition != null) {
-                        enterTransition.removeTarget(nonExistentView);
                         FragmentTransitionCompat21.removeTargets(enterTransition, enteringViews);
                     }
                     if (exitTransition != null) {

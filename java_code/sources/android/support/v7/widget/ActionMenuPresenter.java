@@ -20,7 +20,6 @@ import android.support.v7.internal.view.menu.MenuPopupHelper;
 import android.support.v7.internal.view.menu.MenuPresenter;
 import android.support.v7.internal.view.menu.MenuView;
 import android.support.v7.internal.view.menu.SubMenuBuilder;
-import android.support.v7.internal.widget.TintImageView;
 import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.ListPopupWindow;
 import android.util.SparseBooleanArray;
@@ -39,8 +38,10 @@ public class ActionMenuPresenter extends BaseMenuPresenter implements ActionProv
     private boolean mMaxItemsSet;
     private int mMinCellSize;
     int mOpenSubMenuId;
-    private View mOverflowButton;
+    private OverflowMenuButton mOverflowButton;
     private OverflowPopup mOverflowPopup;
+    private Drawable mPendingOverflowIcon;
+    private boolean mPendingOverflowIconSet;
     private ActionMenuPopupCallback mPopupCallback;
     final PopupPresenterCallback mPopupPresenterCallback;
     private OpenOverflowRunnable mPostedOpenRunnable;
@@ -75,6 +76,11 @@ public class ActionMenuPresenter extends BaseMenuPresenter implements ActionProv
         if (this.mReserveOverflow) {
             if (this.mOverflowButton == null) {
                 this.mOverflowButton = new OverflowMenuButton(this.mSystemContext);
+                if (this.mPendingOverflowIconSet) {
+                    this.mOverflowButton.setImageDrawable(this.mPendingOverflowIcon);
+                    this.mPendingOverflowIcon = null;
+                    this.mPendingOverflowIconSet = false;
+                }
                 int spec = View.MeasureSpec.makeMeasureSpec(0, 0);
                 this.mOverflowButton.measure(spec, spec);
             }
@@ -114,6 +120,25 @@ public class ActionMenuPresenter extends BaseMenuPresenter implements ActionProv
 
     public void setExpandedActionViewsExclusive(boolean isExclusive) {
         this.mExpandedActionViewsExclusive = isExclusive;
+    }
+
+    public void setOverflowIcon(Drawable icon) {
+        if (this.mOverflowButton != null) {
+            this.mOverflowButton.setImageDrawable(icon);
+            return;
+        }
+        this.mPendingOverflowIconSet = true;
+        this.mPendingOverflowIcon = icon;
+    }
+
+    public Drawable getOverflowIcon() {
+        if (this.mOverflowButton != null) {
+            return this.mOverflowButton.getDrawable();
+        }
+        if (this.mPendingOverflowIconSet) {
+            return this.mPendingOverflowIcon;
+        }
+        return null;
     }
 
     @Override // android.support.v7.internal.view.menu.BaseMenuPresenter, android.support.v7.internal.view.menu.MenuPresenter
@@ -483,7 +508,7 @@ public class ActionMenuPresenter extends BaseMenuPresenter implements ActionProv
 
     /* JADX INFO: Access modifiers changed from: private */
     /* loaded from: classes.dex */
-    public class OverflowMenuButton extends TintImageView implements ActionMenuView.ActionMenuChildView {
+    public class OverflowMenuButton extends AppCompatImageView implements ActionMenuView.ActionMenuChildView {
         private final float[] mTempPts;
 
         public OverflowMenuButton(Context context) {
@@ -569,7 +594,9 @@ public class ActionMenuPresenter extends BaseMenuPresenter implements ActionProv
         @Override // android.support.v7.internal.view.menu.MenuPopupHelper, android.widget.PopupWindow.OnDismissListener
         public void onDismiss() {
             super.onDismiss();
-            ActionMenuPresenter.this.mMenu.close();
+            if (ActionMenuPresenter.this.mMenu != null) {
+                ActionMenuPresenter.this.mMenu.close();
+            }
             ActionMenuPresenter.this.mOverflowPopup = null;
         }
     }

@@ -28,23 +28,23 @@
     .param p2, "menu"    # Landroid/support/v7/internal/view/menu/MenuBuilder;
 
     .prologue
-    .line 339
+    .line 343
     iput-object p1, p0, Landroid/support/v7/internal/view/menu/MenuPopupHelper$MenuAdapter;->this$0:Landroid/support/v7/internal/view/menu/MenuPopupHelper;
 
     invoke-direct {p0}, Landroid/widget/BaseAdapter;-><init>()V
 
-    .line 337
+    .line 341
     const/4 v0, -0x1
 
     iput v0, p0, Landroid/support/v7/internal/view/menu/MenuPopupHelper$MenuAdapter;->mExpandedIndex:I
 
-    .line 340
+    .line 344
     iput-object p2, p0, Landroid/support/v7/internal/view/menu/MenuPopupHelper$MenuAdapter;->mAdapterMenu:Landroid/support/v7/internal/view/menu/MenuBuilder;
 
-    .line 341
+    .line 345
     invoke-virtual {p0}, Landroid/support/v7/internal/view/menu/MenuPopupHelper$MenuAdapter;->findExpandedIndex()V
 
-    .line 342
+    .line 346
     return-void
 .end method
 
@@ -53,7 +53,7 @@
     .param p0, "x0"    # Landroid/support/v7/internal/view/menu/MenuPopupHelper$MenuAdapter;
 
     .prologue
-    .line 335
+    .line 339
     iget-object v0, p0, Landroid/support/v7/internal/view/menu/MenuPopupHelper$MenuAdapter;->mAdapterMenu:Landroid/support/v7/internal/view/menu/MenuBuilder;
 
     return-object v0
@@ -65,7 +65,7 @@
     .locals 6
 
     .prologue
-    .line 382
+    .line 386
     iget-object v5, p0, Landroid/support/v7/internal/view/menu/MenuPopupHelper$MenuAdapter;->this$0:Landroid/support/v7/internal/view/menu/MenuPopupHelper;
 
     invoke-static {v5}, Landroid/support/v7/internal/view/menu/MenuPopupHelper;->access$300(Landroid/support/v7/internal/view/menu/MenuPopupHelper;)Landroid/support/v7/internal/view/menu/MenuBuilder;
@@ -76,11 +76,11 @@
 
     move-result-object v1
 
-    .line 383
+    .line 387
     .local v1, "expandedItem":Landroid/support/v7/internal/view/menu/MenuItemImpl;
     if-eqz v1, :cond_1
 
-    .line 384
+    .line 388
     iget-object v5, p0, Landroid/support/v7/internal/view/menu/MenuPopupHelper$MenuAdapter;->this$0:Landroid/support/v7/internal/view/menu/MenuPopupHelper;
 
     invoke-static {v5}, Landroid/support/v7/internal/view/menu/MenuPopupHelper;->access$300(Landroid/support/v7/internal/view/menu/MenuPopupHelper;)Landroid/support/v7/internal/view/menu/MenuBuilder;
@@ -91,13 +91,13 @@
 
     move-result-object v4
 
-    .line 385
+    .line 389
     .local v4, "items":Ljava/util/ArrayList;, "Ljava/util/ArrayList<Landroid/support/v7/internal/view/menu/MenuItemImpl;>;"
     invoke-virtual {v4}, Ljava/util/ArrayList;->size()I
 
     move-result v0
 
-    .line 386
+    .line 390
     .local v0, "count":I
     const/4 v2, 0x0
 
@@ -105,21 +105,21 @@
     :goto_0
     if-ge v2, v0, :cond_1
 
-    .line 387
+    .line 391
     invoke-virtual {v4, v2}, Ljava/util/ArrayList;->get(I)Ljava/lang/Object;
 
     move-result-object v3
 
     check-cast v3, Landroid/support/v7/internal/view/menu/MenuItemImpl;
 
-    .line 388
+    .line 392
     .local v3, "item":Landroid/support/v7/internal/view/menu/MenuItemImpl;
     if-ne v3, v1, :cond_0
 
-    .line 389
+    .line 393
     iput v2, p0, Landroid/support/v7/internal/view/menu/MenuPopupHelper$MenuAdapter;->mExpandedIndex:I
 
-    .line 395
+    .line 399
     .end local v0    # "count":I
     .end local v2    # "i":I
     .end local v3    # "item":Landroid/support/v7/internal/view/menu/MenuItemImpl;
@@ -127,7 +127,7 @@
     :goto_1
     return-void
 
-    .line 386
+    .line 390
     .restart local v0    # "count":I
     .restart local v2    # "i":I
     .restart local v3    # "item":Landroid/support/v7/internal/view/menu/MenuItemImpl;
@@ -137,7 +137,7 @@
 
     goto :goto_0
 
-    .line 394
+    .line 398
     .end local v0    # "count":I
     .end local v2    # "i":I
     .end local v3    # "item":Landroid/support/v7/internal/view/menu/MenuItemImpl;
@@ -154,7 +154,7 @@
     .locals 2
 
     .prologue
-    .line 345
+    .line 349
     iget-object v1, p0, Landroid/support/v7/internal/view/menu/MenuPopupHelper$MenuAdapter;->this$0:Landroid/support/v7/internal/view/menu/MenuPopupHelper;
 
     invoke-static {v1}, Landroid/support/v7/internal/view/menu/MenuPopupHelper;->access$100(Landroid/support/v7/internal/view/menu/MenuPopupHelper;)Z
@@ -169,23 +169,23 @@
 
     move-result-object v0
 
-    .line 347
+    .line 351
     .local v0, "items":Ljava/util/ArrayList;, "Ljava/util/ArrayList<Landroid/support/v7/internal/view/menu/MenuItemImpl;>;"
     :goto_0
     iget v1, p0, Landroid/support/v7/internal/view/menu/MenuPopupHelper$MenuAdapter;->mExpandedIndex:I
 
     if-gez v1, :cond_1
 
-    .line 348
+    .line 352
     invoke-virtual {v0}, Ljava/util/ArrayList;->size()I
 
     move-result v1
 
-    .line 350
+    .line 354
     :goto_1
     return v1
 
-    .line 345
+    .line 349
     .end local v0    # "items":Ljava/util/ArrayList;, "Ljava/util/ArrayList<Landroid/support/v7/internal/view/menu/MenuItemImpl;>;"
     :cond_0
     iget-object v1, p0, Landroid/support/v7/internal/view/menu/MenuPopupHelper$MenuAdapter;->mAdapterMenu:Landroid/support/v7/internal/view/menu/MenuBuilder;
@@ -196,7 +196,7 @@
 
     goto :goto_0
 
-    .line 350
+    .line 354
     .restart local v0    # "items":Ljava/util/ArrayList;, "Ljava/util/ArrayList<Landroid/support/v7/internal/view/menu/MenuItemImpl;>;"
     :cond_1
     invoke-virtual {v0}, Ljava/util/ArrayList;->size()I
@@ -213,7 +213,7 @@
     .param p1, "position"    # I
 
     .prologue
-    .line 354
+    .line 358
     iget-object v1, p0, Landroid/support/v7/internal/view/menu/MenuPopupHelper$MenuAdapter;->this$0:Landroid/support/v7/internal/view/menu/MenuPopupHelper;
 
     invoke-static {v1}, Landroid/support/v7/internal/view/menu/MenuPopupHelper;->access$100(Landroid/support/v7/internal/view/menu/MenuPopupHelper;)Z
@@ -228,7 +228,7 @@
 
     move-result-object v0
 
-    .line 356
+    .line 360
     .local v0, "items":Ljava/util/ArrayList;, "Ljava/util/ArrayList<Landroid/support/v7/internal/view/menu/MenuItemImpl;>;"
     :goto_0
     iget v1, p0, Landroid/support/v7/internal/view/menu/MenuPopupHelper$MenuAdapter;->mExpandedIndex:I
@@ -239,10 +239,10 @@
 
     if-lt p1, v1, :cond_0
 
-    .line 357
+    .line 361
     add-int/lit8 p1, p1, 0x1
 
-    .line 359
+    .line 363
     :cond_0
     invoke-virtual {v0, p1}, Ljava/util/ArrayList;->get(I)Ljava/lang/Object;
 
@@ -252,7 +252,7 @@
 
     return-object v1
 
-    .line 354
+    .line 358
     .end local v0    # "items":Ljava/util/ArrayList;, "Ljava/util/ArrayList<Landroid/support/v7/internal/view/menu/MenuItemImpl;>;"
     :cond_1
     iget-object v1, p0, Landroid/support/v7/internal/view/menu/MenuPopupHelper$MenuAdapter;->mAdapterMenu:Landroid/support/v7/internal/view/menu/MenuBuilder;
@@ -269,7 +269,7 @@
     .param p1, "x0"    # I
 
     .prologue
-    .line 335
+    .line 339
     invoke-virtual {p0, p1}, Landroid/support/v7/internal/view/menu/MenuPopupHelper$MenuAdapter;->getItem(I)Landroid/support/v7/internal/view/menu/MenuItemImpl;
 
     move-result-object v0
@@ -282,7 +282,7 @@
     .param p1, "position"    # I
 
     .prologue
-    .line 365
+    .line 369
     int-to-long v0, p1
 
     return-wide v0
@@ -297,10 +297,10 @@
     .prologue
     const/4 v3, 0x0
 
-    .line 369
+    .line 373
     if-nez p2, :cond_0
 
-    .line 370
+    .line 374
     iget-object v1, p0, Landroid/support/v7/internal/view/menu/MenuPopupHelper$MenuAdapter;->this$0:Landroid/support/v7/internal/view/menu/MenuPopupHelper;
 
     invoke-static {v1}, Landroid/support/v7/internal/view/menu/MenuPopupHelper;->access$200(Landroid/support/v7/internal/view/menu/MenuPopupHelper;)Landroid/view/LayoutInflater;
@@ -316,10 +316,10 @@
     :cond_0
     move-object v0, p2
 
-    .line 373
+    .line 377
     check-cast v0, Landroid/support/v7/internal/view/menu/MenuView$ItemView;
 
-    .line 374
+    .line 378
     .local v0, "itemView":Landroid/support/v7/internal/view/menu/MenuView$ItemView;
     iget-object v1, p0, Landroid/support/v7/internal/view/menu/MenuPopupHelper$MenuAdapter;->this$0:Landroid/support/v7/internal/view/menu/MenuPopupHelper;
 
@@ -329,14 +329,14 @@
 
     move-object v1, p2
 
-    .line 375
+    .line 379
     check-cast v1, Landroid/support/v7/internal/view/menu/ListMenuItemView;
 
     const/4 v2, 0x1
 
     invoke-virtual {v1, v2}, Landroid/support/v7/internal/view/menu/ListMenuItemView;->setForceShowIcon(Z)V
 
-    .line 377
+    .line 381
     :cond_1
     invoke-virtual {p0, p1}, Landroid/support/v7/internal/view/menu/MenuPopupHelper$MenuAdapter;->getItem(I)Landroid/support/v7/internal/view/menu/MenuItemImpl;
 
@@ -344,7 +344,7 @@
 
     invoke-interface {v0, v1, v3}, Landroid/support/v7/internal/view/menu/MenuView$ItemView;->initialize(Landroid/support/v7/internal/view/menu/MenuItemImpl;I)V
 
-    .line 378
+    .line 382
     return-object p2
 .end method
 
@@ -352,12 +352,12 @@
     .locals 0
 
     .prologue
-    .line 399
+    .line 403
     invoke-virtual {p0}, Landroid/support/v7/internal/view/menu/MenuPopupHelper$MenuAdapter;->findExpandedIndex()V
 
-    .line 400
+    .line 404
     invoke-super {p0}, Landroid/widget/BaseAdapter;->notifyDataSetChanged()V
 
-    .line 401
+    .line 405
     return-void
 .end method

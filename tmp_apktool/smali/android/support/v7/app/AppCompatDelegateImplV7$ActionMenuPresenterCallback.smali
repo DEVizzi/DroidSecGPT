@@ -26,7 +26,7 @@
     .locals 0
 
     .prologue
-    .line 1561
+    .line 1750
     iput-object p1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7$ActionMenuPresenterCallback;->this$0:Landroid/support/v7/app/AppCompatDelegateImplV7;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -40,7 +40,7 @@
     .param p2, "x1"    # Landroid/support/v7/app/AppCompatDelegateImplV7$1;
 
     .prologue
-    .line 1561
+    .line 1750
     invoke-direct {p0, p1}, Landroid/support/v7/app/AppCompatDelegateImplV7$ActionMenuPresenterCallback;-><init>(Landroid/support/v7/app/AppCompatDelegateImplV7;)V
 
     return-void
@@ -54,12 +54,12 @@
     .param p2, "allMenusAreClosing"    # Z
 
     .prologue
-    .line 1573
+    .line 1762
     iget-object v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7$ActionMenuPresenterCallback;->this$0:Landroid/support/v7/app/AppCompatDelegateImplV7;
 
-    invoke-static {v0, p1}, Landroid/support/v7/app/AppCompatDelegateImplV7;->access$900(Landroid/support/v7/app/AppCompatDelegateImplV7;Landroid/support/v7/internal/view/menu/MenuBuilder;)V
+    invoke-static {v0, p1}, Landroid/support/v7/app/AppCompatDelegateImplV7;->access$1100(Landroid/support/v7/app/AppCompatDelegateImplV7;Landroid/support/v7/internal/view/menu/MenuBuilder;)V
 
-    .line 1574
+    .line 1763
     return-void
 .end method
 
@@ -68,23 +68,23 @@
     .param p1, "subMenu"    # Landroid/support/v7/internal/view/menu/MenuBuilder;
 
     .prologue
-    .line 1564
+    .line 1753
     iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7$ActionMenuPresenterCallback;->this$0:Landroid/support/v7/app/AppCompatDelegateImplV7;
 
     invoke-virtual {v1}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getWindowCallback()Landroid/view/Window$Callback;
 
     move-result-object v0
 
-    .line 1565
+    .line 1754
     .local v0, "cb":Landroid/view/Window$Callback;
     if-eqz v0, :cond_0
 
-    .line 1566
-    const/16 v1, 0x8
+    .line 1755
+    const/16 v1, 0x6c
 
     invoke-interface {v0, v1, p1}, Landroid/view/Window$Callback;->onMenuOpened(ILandroid/view/Menu;)Z
 
-    .line 1568
+    .line 1757
     :cond_0
     const/4 v1, 0x1
 

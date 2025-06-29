@@ -32,7 +32,7 @@
     .locals 0
 
     .prologue
-    .line 177
+    .line 174
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -45,7 +45,7 @@
     .param p1, "in"    # Landroid/os/Parcel;
 
     .prologue
-    .line 179
+    .line 176
     new-instance v0, Landroid/support/v4/app/BackStackState;
 
     invoke-direct {v0, p1}, Landroid/support/v4/app/BackStackState;-><init>(Landroid/os/Parcel;)V
@@ -58,7 +58,7 @@
     .param p1, "x0"    # Landroid/os/Parcel;
 
     .prologue
-    .line 177
+    .line 174
     invoke-virtual {p0, p1}, Landroid/support/v4/app/BackStackState$1;->createFromParcel(Landroid/os/Parcel;)Landroid/support/v4/app/BackStackState;
 
     move-result-object v0
@@ -71,7 +71,7 @@
     .param p1, "size"    # I
 
     .prologue
-    .line 183
+    .line 180
     new-array v0, p1, [Landroid/support/v4/app/BackStackState;
 
     return-object v0
@@ -82,7 +82,7 @@
     .param p1, "x0"    # I
 
     .prologue
-    .line 177
+    .line 174
     invoke-virtual {p0, p1}, Landroid/support/v4/app/BackStackState$1;->newArray(I)[Landroid/support/v4/app/BackStackState;
 
     move-result-object v0

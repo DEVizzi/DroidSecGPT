@@ -7,7 +7,6 @@ import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.view.ActionProvider;
-import android.support.v4.view.accessibility.AccessibilityEventCompat;
 import android.support.v7.appcompat.R;
 import android.support.v7.internal.widget.ActivityChooserModel;
 import android.support.v7.internal.widget.ActivityChooserView;
@@ -156,7 +155,7 @@ public class ShareActionProvider extends ActionProvider {
         if (Build.VERSION.SDK_INT >= 21) {
             intent.addFlags(134742016);
         } else {
-            intent.addFlags(AccessibilityEventCompat.TYPE_GESTURE_DETECTION_END);
+            intent.addFlags(524288);
         }
     }
 }

@@ -41,7 +41,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.Window;
-import android.view.animation.AnimationUtils;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
 import android.widget.SpinnerAdapter;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -49,16 +51,17 @@ import java.util.ArrayList;
 public class WindowDecorActionBar extends ActionBar implements ActionBarOverlayLayout.ActionBarVisibilityCallback {
     static final /* synthetic */ boolean $assertionsDisabled;
     private static final boolean ALLOW_SHOW_HIDE_ANIMATIONS;
-    private static final int CONTEXT_DISPLAY_NORMAL = 0;
-    private static final int CONTEXT_DISPLAY_SPLIT = 1;
+    private static final long FADE_IN_DURATION_MS = 200;
+    private static final long FADE_OUT_DURATION_MS = 100;
     private static final int INVALID_POSITION = -1;
     private static final String TAG = "WindowDecorActionBar";
+    private static final Interpolator sHideInterpolator;
+    private static final Interpolator sShowInterpolator;
     ActionModeImpl mActionMode;
     private Activity mActivity;
     private ActionBarContainer mContainerView;
     private View mContentView;
     private Context mContext;
-    private int mContextDisplayMode;
     private ActionBarContextView mContextView;
     private ViewPropertyAnimatorCompatSet mCurrentShowAnim;
     private DecorToolbar mDecorToolbar;
@@ -75,7 +78,6 @@ public class WindowDecorActionBar extends ActionBar implements ActionBarOverlayL
     private TabImpl mSelectedTab;
     private boolean mShowHideAnimationEnabled;
     private boolean mShowingForMode;
-    private ActionBarContainer mSplitView;
     private ScrollingTabContainerView mTabScrollView;
     private Context mThemedContext;
     private TintManager mTintManager;
@@ -91,9 +93,6 @@ public class WindowDecorActionBar extends ActionBar implements ActionBarOverlayL
             if (WindowDecorActionBar.this.mContentAnimations && WindowDecorActionBar.this.mContentView != null) {
                 ViewCompat.setTranslationY(WindowDecorActionBar.this.mContentView, 0.0f);
                 ViewCompat.setTranslationY(WindowDecorActionBar.this.mContainerView, 0.0f);
-            }
-            if (WindowDecorActionBar.this.mSplitView != null && WindowDecorActionBar.this.mContextDisplayMode == 1) {
-                WindowDecorActionBar.this.mSplitView.setVisibility(8);
             }
             WindowDecorActionBar.this.mContainerView.setVisibility(8);
             WindowDecorActionBar.this.mContainerView.setTransitioning(false);
@@ -121,6 +120,8 @@ public class WindowDecorActionBar extends ActionBar implements ActionBarOverlayL
 
     static {
         $assertionsDisabled = !WindowDecorActionBar.class.desiredAssertionStatus();
+        sHideInterpolator = new AccelerateInterpolator();
+        sShowInterpolator = new DecelerateInterpolator();
         ALLOW_SHOW_HIDE_ANIMATIONS = Build.VERSION.SDK_INT >= 14;
     }
 
@@ -154,12 +155,10 @@ public class WindowDecorActionBar extends ActionBar implements ActionBarOverlayL
         this.mDecorToolbar = getDecorToolbar(decor.findViewById(R.id.action_bar));
         this.mContextView = (ActionBarContextView) decor.findViewById(R.id.action_context_bar);
         this.mContainerView = (ActionBarContainer) decor.findViewById(R.id.action_bar_container);
-        this.mSplitView = (ActionBarContainer) decor.findViewById(R.id.split_action_bar);
         if (this.mDecorToolbar == null || this.mContextView == null || this.mContainerView == null) {
             throw new IllegalStateException(getClass().getSimpleName() + " can only be used with a compatible window decor layout");
         }
         this.mContext = this.mDecorToolbar.getContext();
-        this.mContextDisplayMode = this.mDecorToolbar.isSplit() ? 1 : 0;
         int current = this.mDecorToolbar.getDisplayOptions();
         boolean homeAsUp = (current & 4) != 0;
         if (homeAsUp) {
@@ -192,9 +191,6 @@ public class WindowDecorActionBar extends ActionBar implements ActionBarOverlayL
     @Override // android.support.v7.app.ActionBar
     public void setElevation(float elevation) {
         ViewCompat.setElevation(this.mContainerView, elevation);
-        if (this.mSplitView != null) {
-            ViewCompat.setElevation(this.mSplitView, elevation);
-        }
     }
 
     @Override // android.support.v7.app.ActionBar
@@ -418,9 +414,6 @@ public class WindowDecorActionBar extends ActionBar implements ActionBarOverlayL
 
     @Override // android.support.v7.app.ActionBar
     public void setSplitBackgroundDrawable(Drawable d) {
-        if (this.mSplitView != null) {
-            this.mSplitView.setSplitBackground(d);
-        }
     }
 
     @Override // android.support.v7.app.ActionBar
@@ -460,12 +453,6 @@ public class WindowDecorActionBar extends ActionBar implements ActionBarOverlayL
             mode.invalidate();
             this.mContextView.initForMode(mode);
             animateToMode(true);
-            if (this.mSplitView != null && this.mContextDisplayMode == 1 && this.mSplitView.getVisibility() != 0) {
-                this.mSplitView.setVisibility(0);
-                if (this.mOverlayLayout != null) {
-                    ViewCompat.requestApplyInsets(this.mOverlayLayout);
-                }
-            }
             this.mContextView.sendAccessibilityEvent(32);
             this.mActionMode = mode;
             return mode;
@@ -715,12 +702,7 @@ public class WindowDecorActionBar extends ActionBar implements ActionBarOverlayL
                 ViewCompat.setTranslationY(this.mContentView, startingY);
                 anim.play(ViewCompat.animate(this.mContentView).translationY(0.0f));
             }
-            if (this.mSplitView != null && this.mContextDisplayMode == 1) {
-                ViewCompat.setTranslationY(this.mSplitView, this.mSplitView.getHeight());
-                this.mSplitView.setVisibility(0);
-                anim.play(ViewCompat.animate(this.mSplitView).translationY(0.0f));
-            }
-            anim.setInterpolator(AnimationUtils.loadInterpolator(this.mContext, 17432582));
+            anim.setInterpolator(sShowInterpolator);
             anim.setDuration(250L);
             anim.setListener(this.mShowListener);
             this.mCurrentShowAnim = anim;
@@ -730,11 +712,6 @@ public class WindowDecorActionBar extends ActionBar implements ActionBarOverlayL
             ViewCompat.setTranslationY(this.mContainerView, 0.0f);
             if (this.mContentAnimations && this.mContentView != null) {
                 ViewCompat.setTranslationY(this.mContentView, 0.0f);
-            }
-            if (this.mSplitView != null && this.mContextDisplayMode == 1) {
-                ViewCompat.setAlpha(this.mSplitView, 1.0f);
-                ViewCompat.setTranslationY(this.mSplitView, 0.0f);
-                this.mSplitView.setVisibility(0);
             }
             this.mShowListener.onAnimationEnd(null);
         }
@@ -763,11 +740,7 @@ public class WindowDecorActionBar extends ActionBar implements ActionBarOverlayL
             if (this.mContentAnimations && this.mContentView != null) {
                 anim.play(ViewCompat.animate(this.mContentView).translationY(endingY));
             }
-            if (this.mSplitView != null && this.mSplitView.getVisibility() == 0) {
-                ViewCompat.setAlpha(this.mSplitView, 1.0f);
-                anim.play(ViewCompat.animate(this.mSplitView).translationY(this.mSplitView.getHeight()));
-            }
-            anim.setInterpolator(AnimationUtils.loadInterpolator(this.mContext, 17432581));
+            anim.setInterpolator(sHideInterpolator);
             anim.setDuration(250L);
             anim.setListener(this.mHideListener);
             this.mCurrentShowAnim = anim;
@@ -784,13 +757,23 @@ public class WindowDecorActionBar extends ActionBar implements ActionBarOverlayL
     }
 
     public void animateToMode(boolean toActionMode) {
+        ViewPropertyAnimatorCompat fadeIn;
+        ViewPropertyAnimatorCompat fadeOut;
         if (toActionMode) {
             showForActionMode();
         } else {
             hideForActionMode();
         }
-        this.mDecorToolbar.animateToVisibility(toActionMode ? 8 : 0);
-        this.mContextView.animateToVisibility(toActionMode ? 0 : 8);
+        if (toActionMode) {
+            fadeOut = this.mDecorToolbar.setupAnimatorToVisibility(4, FADE_OUT_DURATION_MS);
+            fadeIn = this.mContextView.setupAnimatorToVisibility(0, FADE_IN_DURATION_MS);
+        } else {
+            fadeIn = this.mDecorToolbar.setupAnimatorToVisibility(0, FADE_IN_DURATION_MS);
+            fadeOut = this.mContextView.setupAnimatorToVisibility(8, FADE_OUT_DURATION_MS);
+        }
+        ViewPropertyAnimatorCompatSet set = new ViewPropertyAnimatorCompatSet();
+        set.playSequentially(fadeOut, fadeIn);
+        set.start();
     }
 
     @Override // android.support.v7.app.ActionBar

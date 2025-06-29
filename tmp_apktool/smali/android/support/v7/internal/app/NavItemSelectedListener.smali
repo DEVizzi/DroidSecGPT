@@ -3,7 +3,7 @@
 .source "NavItemSelectedListener.java"
 
 # interfaces
-.implements Landroid/support/v7/internal/widget/AdapterViewCompat$OnItemSelectedListener;
+.implements Landroid/widget/AdapterView$OnItemSelectedListener;
 
 
 # instance fields
@@ -28,7 +28,7 @@
 
 
 # virtual methods
-.method public onItemSelected(Landroid/support/v7/internal/widget/AdapterViewCompat;Landroid/view/View;IJ)V
+.method public onItemSelected(Landroid/widget/AdapterView;Landroid/view/View;IJ)V
     .locals 2
     .param p2, "view"    # Landroid/view/View;
     .param p3, "position"    # I
@@ -36,7 +36,7 @@
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "(",
-            "Landroid/support/v7/internal/widget/AdapterViewCompat",
+            "Landroid/widget/AdapterView",
             "<*>;",
             "Landroid/view/View;",
             "IJ)V"
@@ -45,7 +45,7 @@
 
     .prologue
     .line 39
-    .local p1, "parent":Landroid/support/v7/internal/widget/AdapterViewCompat;, "Landroid/support/v7/internal/widget/AdapterViewCompat<*>;"
+    .local p1, "parent":Landroid/widget/AdapterView;, "Landroid/widget/AdapterView<*>;"
     iget-object v0, p0, Landroid/support/v7/internal/app/NavItemSelectedListener;->mListener:Landroid/support/v7/app/ActionBar$OnNavigationListener;
 
     if-eqz v0, :cond_0
@@ -60,18 +60,18 @@
     return-void
 .end method
 
-.method public onNothingSelected(Landroid/support/v7/internal/widget/AdapterViewCompat;)V
+.method public onNothingSelected(Landroid/widget/AdapterView;)V
     .locals 0
     .annotation system Ldalvik/annotation/Signature;
         value = {
             "(",
-            "Landroid/support/v7/internal/widget/AdapterViewCompat",
+            "Landroid/widget/AdapterView",
             "<*>;)V"
         }
     .end annotation
 
     .prologue
     .line 47
-    .local p1, "parent":Landroid/support/v7/internal/widget/AdapterViewCompat;, "Landroid/support/v7/internal/widget/AdapterViewCompat<*>;"
+    .local p1, "parent":Landroid/widget/AdapterView;, "Landroid/widget/AdapterView<*>;"
     return-void
 .end method

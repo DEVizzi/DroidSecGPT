@@ -19,7 +19,7 @@
     .locals 0
 
     .prologue
-    .line 100
+    .line 115
     invoke-direct {p0}, Landroid/support/v4/widget/TextViewCompat$JbMr1TextViewCompatImpl;-><init>()V
 
     return-void
@@ -51,10 +51,10 @@
     .end param
 
     .prologue
-    .line 106
+    .line 120
     invoke-static {p1, p2, p3, p4, p5}, Landroid/support/v4/widget/TextViewCompatJbMr2;->setCompoundDrawablesRelative(Landroid/widget/TextView;Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;)V
 
-    .line 107
+    .line 121
     return-void
 .end method
 
@@ -70,10 +70,10 @@
     .param p5, "bottom"    # I
 
     .prologue
-    .line 121
+    .line 135
     invoke-static {p1, p2, p3, p4, p5}, Landroid/support/v4/widget/TextViewCompatJbMr2;->setCompoundDrawablesRelativeWithIntrinsicBounds(Landroid/widget/TextView;IIII)V
 
-    .line 123
+    .line 137
     return-void
 .end method
 
@@ -101,9 +101,9 @@
     .end param
 
     .prologue
-    .line 113
+    .line 127
     invoke-static {p1, p2, p3, p4, p5}, Landroid/support/v4/widget/TextViewCompatJbMr2;->setCompoundDrawablesRelativeWithIntrinsicBounds(Landroid/widget/TextView;Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;)V
 
-    .line 116
+    .line 130
     return-void
 .end method

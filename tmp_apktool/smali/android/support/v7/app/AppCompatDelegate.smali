@@ -4,6 +4,12 @@
 
 
 # static fields
+.field public static final FEATURE_ACTION_MODE_OVERLAY:I = 0xa
+
+.field public static final FEATURE_SUPPORT_ACTION_BAR:I = 0x6c
+
+.field public static final FEATURE_SUPPORT_ACTION_BAR_OVERLAY:I = 0x6d
+
 .field static final TAG:Ljava/lang/String; = "AppCompatDelegate"
 
 
@@ -12,7 +18,7 @@
     .locals 0
 
     .prologue
-    .line 104
+    .line 146
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -24,7 +30,7 @@
     .param p1, "callback"    # Landroid/support/v7/app/AppCompatCallback;
 
     .prologue
-    .line 77
+    .line 117
     invoke-virtual {p0}, Landroid/app/Activity;->getWindow()Landroid/view/Window;
 
     move-result-object v0
@@ -42,7 +48,7 @@
     .param p1, "callback"    # Landroid/support/v7/app/AppCompatCallback;
 
     .prologue
-    .line 86
+    .line 126
     invoke-virtual {p0}, Landroid/app/Dialog;->getContext()Landroid/content/Context;
 
     move-result-object v0
@@ -65,39 +71,52 @@
     .param p2, "callback"    # Landroid/support/v7/app/AppCompatCallback;
 
     .prologue
-    .line 91
+    .line 131
     sget v0, Landroid/os/Build$VERSION;->SDK_INT:I
 
-    .line 92
+    .line 132
     .local v0, "sdk":I
-    const/16 v1, 0xe
+    const/16 v1, 0x17
 
     if-lt v0, v1, :cond_0
 
-    .line 93
+    .line 133
+    new-instance v1, Landroid/support/v7/app/AppCompatDelegateImplV23;
+
+    invoke-direct {v1, p0, p1, p2}, Landroid/support/v7/app/AppCompatDelegateImplV23;-><init>(Landroid/content/Context;Landroid/view/Window;Landroid/support/v7/app/AppCompatCallback;)V
+
+    .line 139
+    :goto_0
+    return-object v1
+
+    .line 134
+    :cond_0
+    const/16 v1, 0xe
+
+    if-lt v0, v1, :cond_1
+
+    .line 135
     new-instance v1, Landroid/support/v7/app/AppCompatDelegateImplV14;
 
     invoke-direct {v1, p0, p1, p2}, Landroid/support/v7/app/AppCompatDelegateImplV14;-><init>(Landroid/content/Context;Landroid/view/Window;Landroid/support/v7/app/AppCompatCallback;)V
 
-    .line 97
-    :goto_0
-    return-object v1
+    goto :goto_0
 
-    .line 94
-    :cond_0
+    .line 136
+    :cond_1
     const/16 v1, 0xb
 
-    if-lt v0, v1, :cond_1
+    if-lt v0, v1, :cond_2
 
-    .line 95
+    .line 137
     new-instance v1, Landroid/support/v7/app/AppCompatDelegateImplV11;
 
     invoke-direct {v1, p0, p1, p2}, Landroid/support/v7/app/AppCompatDelegateImplV11;-><init>(Landroid/content/Context;Landroid/view/Window;Landroid/support/v7/app/AppCompatCallback;)V
 
     goto :goto_0
 
-    .line 97
-    :cond_1
+    .line 139
+    :cond_2
     new-instance v1, Landroid/support/v7/app/AppCompatDelegateImplV7;
 
     invoke-direct {v1, p0, p1, p2}, Landroid/support/v7/app/AppCompatDelegateImplV7;-><init>(Landroid/content/Context;Landroid/view/Window;Landroid/support/v7/app/AppCompatCallback;)V
@@ -128,6 +147,9 @@
 .end method
 
 .method public abstract getSupportActionBar()Landroid/support/v7/app/ActionBar;
+.end method
+
+.method public abstract hasWindowFeature(I)Z
 .end method
 
 .method public abstract installViewFactory()V
@@ -161,6 +183,10 @@
 .end method
 
 .method public abstract setContentView(I)V
+    .param p1    # I
+        .annotation build Landroid/support/annotation/LayoutRes;
+        .end annotation
+    .end param
 .end method
 
 .method public abstract setContentView(Landroid/view/View;)V

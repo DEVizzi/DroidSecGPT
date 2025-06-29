@@ -1,9 +1,12 @@
 package android.support.v7.internal.app;
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.appcompat.R;
 import android.support.v7.internal.view.ContextThemeWrapper;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
@@ -11,23 +14,28 @@ import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatCheckedTextView;
 import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.AppCompatImageButton;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatMultiAutoCompleteTextView;
 import android.support.v7.widget.AppCompatRadioButton;
 import android.support.v7.widget.AppCompatRatingBar;
+import android.support.v7.widget.AppCompatSeekBar;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.InflateException;
 import android.view.View;
-import com.google.android.gms.analytics.ecommerce.Promotion;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Map;
 /* loaded from: classes.dex */
 public class AppCompatViewInflater {
     private static final String LOG_TAG = "AppCompatViewInflater";
     private final Object[] mConstructorArgs = new Object[2];
-    static final Class<?>[] sConstructorSignature = {Context.class, AttributeSet.class};
+    private static final Class<?>[] sConstructorSignature = {Context.class, AttributeSet.class};
+    private static final int[] sOnClickAttrs = {16843375};
     private static final Map<String, Constructor<? extends View>> sConstructorMap = new ArrayMap();
 
     public final View createView(View parent, String name, @NonNull Context context, @NonNull AttributeSet attrs, boolean inheritContext, boolean readAndroidTheme, boolean readAppTheme) {
@@ -37,100 +45,140 @@ public class AppCompatViewInflater {
         if (readAndroidTheme || readAppTheme) {
             context = themifyContext(context, attrs, readAndroidTheme, readAppTheme);
         }
+        View view = null;
         char c = 65535;
         switch (name.hashCode()) {
             case -1946472170:
                 if (name.equals("RatingBar")) {
-                    c = 7;
+                    c = 11;
                     break;
                 }
                 break;
             case -1455429095:
                 if (name.equals("CheckedTextView")) {
-                    c = 4;
+                    c = '\b';
                     break;
                 }
                 break;
             case -1346021293:
                 if (name.equals("MultiAutoCompleteTextView")) {
-                    c = 6;
+                    c = '\n';
                     break;
                 }
                 break;
             case -938935918:
                 if (name.equals("TextView")) {
-                    c = '\t';
+                    c = 0;
+                    break;
+                }
+                break;
+            case -937446323:
+                if (name.equals("ImageButton")) {
+                    c = 5;
+                    break;
+                }
+                break;
+            case -658531749:
+                if (name.equals("SeekBar")) {
+                    c = '\f';
                     break;
                 }
                 break;
             case -339785223:
                 if (name.equals("Spinner")) {
-                    c = 1;
+                    c = 4;
                     break;
                 }
                 break;
             case 776382189:
                 if (name.equals("RadioButton")) {
-                    c = 3;
+                    c = 7;
+                    break;
+                }
+                break;
+            case 1125864064:
+                if (name.equals("ImageView")) {
+                    c = 1;
                     break;
                 }
                 break;
             case 1413872058:
                 if (name.equals("AutoCompleteTextView")) {
-                    c = 5;
+                    c = '\t';
                     break;
                 }
                 break;
             case 1601505219:
                 if (name.equals("CheckBox")) {
-                    c = 2;
+                    c = 6;
                     break;
                 }
                 break;
             case 1666676343:
                 if (name.equals("EditText")) {
-                    c = 0;
+                    c = 3;
                     break;
                 }
                 break;
             case 2001146706:
                 if (name.equals("Button")) {
-                    c = '\b';
+                    c = 2;
                     break;
                 }
                 break;
         }
         switch (c) {
             case 0:
-                return new AppCompatEditText(context, attrs);
+                view = new AppCompatTextView(context, attrs);
+                break;
             case 1:
-                return new AppCompatSpinner(context, attrs);
+                view = new AppCompatImageView(context, attrs);
+                break;
             case 2:
-                return new AppCompatCheckBox(context, attrs);
+                view = new AppCompatButton(context, attrs);
+                break;
             case 3:
-                return new AppCompatRadioButton(context, attrs);
+                view = new AppCompatEditText(context, attrs);
+                break;
             case 4:
-                return new AppCompatCheckedTextView(context, attrs);
+                view = new AppCompatSpinner(context, attrs);
+                break;
             case 5:
-                return new AppCompatAutoCompleteTextView(context, attrs);
+                view = new AppCompatImageButton(context, attrs);
+                break;
             case 6:
-                return new AppCompatMultiAutoCompleteTextView(context, attrs);
+                view = new AppCompatCheckBox(context, attrs);
+                break;
             case 7:
-                return new AppCompatRatingBar(context, attrs);
+                view = new AppCompatRadioButton(context, attrs);
+                break;
             case '\b':
-                return new AppCompatButton(context, attrs);
+                view = new AppCompatCheckedTextView(context, attrs);
+                break;
             case '\t':
-                return new AppCompatTextView(context, attrs);
-            default:
-                if (context != context) {
-                    return createViewFromTag(context, name, attrs);
-                }
-                return null;
+                view = new AppCompatAutoCompleteTextView(context, attrs);
+                break;
+            case '\n':
+                view = new AppCompatMultiAutoCompleteTextView(context, attrs);
+                break;
+            case 11:
+                view = new AppCompatRatingBar(context, attrs);
+                break;
+            case '\f':
+                view = new AppCompatSeekBar(context, attrs);
+                break;
         }
+        if (view == null && context != context) {
+            view = createViewFromTag(context, name, attrs);
+        }
+        if (view != null) {
+            checkOnClickListener(view, attrs);
+        }
+        return view;
     }
 
     private View createViewFromTag(Context context, String name, AttributeSet attrs) {
-        if (name.equals(Promotion.ACTION_VIEW)) {
+        if (name.equals("view")) {
             name = attrs.getAttributeValue(null, "class");
         }
         try {
@@ -142,6 +190,18 @@ public class AppCompatViewInflater {
         } finally {
             this.mConstructorArgs[0] = null;
             this.mConstructorArgs[1] = null;
+        }
+    }
+
+    private void checkOnClickListener(View view, AttributeSet attrs) {
+        Context context = view.getContext();
+        if (ViewCompat.hasOnClickListeners(view) && (context instanceof ContextWrapper)) {
+            TypedArray a = context.obtainStyledAttributes(attrs, sOnClickAttrs);
+            String handlerName = a.getString(0);
+            if (handlerName != null) {
+                view.setOnClickListener(new DeclaredOnClickListener(view, handlerName));
+            }
+            a.recycle();
         }
     }
 
@@ -176,5 +236,56 @@ public class AppCompatViewInflater {
             return context;
         }
         return context;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    /* loaded from: classes.dex */
+    public static class DeclaredOnClickListener implements View.OnClickListener {
+        private final View mHostView;
+        private final String mMethodName;
+        private Context mResolvedContext;
+        private Method mResolvedMethod;
+
+        public DeclaredOnClickListener(@NonNull View hostView, @NonNull String methodName) {
+            this.mHostView = hostView;
+            this.mMethodName = methodName;
+        }
+
+        @Override // android.view.View.OnClickListener
+        public void onClick(@NonNull View v) {
+            if (this.mResolvedMethod == null) {
+                resolveMethod(this.mHostView.getContext(), this.mMethodName);
+            }
+            try {
+                this.mResolvedMethod.invoke(this.mResolvedContext, v);
+            } catch (IllegalAccessException e) {
+                throw new IllegalStateException("Could not execute non-public method for android:onClick", e);
+            } catch (InvocationTargetException e2) {
+                throw new IllegalStateException("Could not execute method for android:onClick", e2);
+            }
+        }
+
+        @NonNull
+        private void resolveMethod(@Nullable Context context, @NonNull String name) {
+            Method method;
+            while (context != null) {
+                try {
+                    if (!context.isRestricted() && (method = context.getClass().getMethod(this.mMethodName, View.class)) != null) {
+                        this.mResolvedMethod = method;
+                        this.mResolvedContext = context;
+                        return;
+                    }
+                } catch (NoSuchMethodException e) {
+                }
+                if (context instanceof ContextWrapper) {
+                    context = ((ContextWrapper) context).getBaseContext();
+                } else {
+                    context = null;
+                }
+            }
+            int id = this.mHostView.getId();
+            String idText = id == -1 ? "" : " with id '" + this.mHostView.getContext().getResources().getResourceEntryName(id) + "'";
+            throw new IllegalStateException("Could not find method " + this.mMethodName + "(View) in a parent or ancestor Context for android:onClick attribute defined on view " + this.mHostView.getClass() + idText);
+        }
     }
 }

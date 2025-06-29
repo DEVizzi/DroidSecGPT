@@ -25,7 +25,7 @@
         <item name="android:textColorLink">?android:textColorLinkInverse</item>
     </style>
     <style name="Base.TextAppearance.AppCompat.Subhead.Inverse" parent="@style/Base.TextAppearance.AppCompat.Subhead">
-        <item name="android:textColor">?android:textColorSecondaryInverse</item>
+        <item name="android:textColor">?android:textColorPrimaryInverse</item>
         <item name="android:textColorHighlight">?android:textColorHighlightInverse</item>
         <item name="android:textColorHint">?android:textColorHintInverse</item>
         <item name="android:textColorLink">?android:textColorLinkInverse</item>
@@ -40,13 +40,9 @@
     <style name="Base.Theme.AppCompat.Light.Dialog" parent="@style/Base.V11.Theme.AppCompat.Light.Dialog" />
     <style name="Base.Widget.AppCompat.ProgressBar" parent="@android:style/Widget.Holo.ProgressBar" />
     <style name="Base.Widget.AppCompat.ProgressBar.Horizontal" parent="@android:style/Widget.Holo.ProgressBar.Horizontal" />
-    <style name="Base.Widget.AppCompat.Spinner" parent="@android:style/Widget.Holo.Spinner">
-        <item name="android:background">@drawable/abc_spinner_mtrl_am_alpha</item>
-        <item name="android:dropDownSelector">?listChoiceBackgroundIndicator</item>
-        <item name="android:popupBackground">@drawable/abc_popup_background_mtrl_mult</item>
-    </style>
     <style name="Platform.AppCompat" parent="@style/Platform.V11.AppCompat" />
     <style name="Platform.AppCompat.Light" parent="@style/Platform.V11.AppCompat.Light" />
+    <style name="Platform.Widget.AppCompat.Spinner" parent="@android:style/Widget.Holo.Spinner" />
     <style name="Base.V11.Theme.AppCompat.Dialog" parent="@style/Base.V7.Theme.AppCompat.Dialog">
         <item name="android:borderlessButtonStyle">@style/Widget.AppCompat.Button.Borderless</item>
         <item name="android:buttonBarStyle">@style/Widget.AppCompat.ButtonBar.AlertDialog</item>
@@ -58,7 +54,7 @@
         <item name="android:windowCloseOnTouchOutside">@bool/abc_config_closeDialogWhenTouchOutside</item>
     </style>
     <style name="Platform.V11.AppCompat" parent="@android:style/Theme.Holo">
-        <item name="android:colorForeground">@color/bright_foreground_material_dark</item>
+        <item name="android:colorForeground">@color/foreground_material_dark</item>
         <item name="android:colorBackground">@color/background_material_dark</item>
         <item name="android:backgroundDimAmount">0.6</item>
         <item name="android:disabledAlpha">@dimen/abc_disabled_alpha_material_dark</item>
@@ -80,8 +76,8 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:textColorHighlight">@color/highlighted_text_material_dark</item>
         <item name="android:textColorHint">@color/hint_foreground_material_dark</item>
-        <item name="android:textColorLink">@color/link_text_material_dark</item>
-        <item name="android:colorForegroundInverse">@color/bright_foreground_material_light</item>
+        <item name="android:textColorLink">?colorAccent</item>
+        <item name="android:colorForegroundInverse">@color/foreground_material_light</item>
         <item name="android:textColorTertiary">@color/abc_secondary_text_material_dark</item>
         <item name="android:textColorTertiaryInverse">@color/abc_secondary_text_material_light</item>
         <item name="android:listChoiceIndicatorSingle">@drawable/abc_btn_radio_material</item>
@@ -95,11 +91,11 @@
         <item name="android:buttonBarStyle">?buttonBarStyle</item>
         <item name="android:buttonBarButtonStyle">?buttonBarButtonStyle</item>
         <item name="android:textColorHighlightInverse">@color/highlighted_text_material_light</item>
-        <item name="android:textColorLinkInverse">@color/link_text_material_light</item>
+        <item name="android:textColorLinkInverse">?colorAccent</item>
         <item name="selectableItemBackground">?android:selectableItemBackground</item>
     </style>
     <style name="Platform.V11.AppCompat.Light" parent="@android:style/Theme.Holo.Light">
-        <item name="android:colorForeground">@color/bright_foreground_material_light</item>
+        <item name="android:colorForeground">@color/foreground_material_light</item>
         <item name="android:colorBackground">@color/background_material_light</item>
         <item name="android:backgroundDimAmount">0.6</item>
         <item name="android:disabledAlpha">@dimen/abc_disabled_alpha_material_light</item>
@@ -121,8 +117,8 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:textColorHighlight">@color/highlighted_text_material_light</item>
         <item name="android:textColorHint">@color/hint_foreground_material_light</item>
-        <item name="android:textColorLink">@color/link_text_material_light</item>
-        <item name="android:colorForegroundInverse">@color/bright_foreground_material_dark</item>
+        <item name="android:textColorLink">?colorAccent</item>
+        <item name="android:colorForegroundInverse">@color/foreground_material_dark</item>
         <item name="android:textColorTertiary">@color/abc_secondary_text_material_light</item>
         <item name="android:textColorTertiaryInverse">@color/abc_secondary_text_material_dark</item>
         <item name="android:listChoiceIndicatorSingle">@drawable/abc_btn_radio_material</item>
@@ -137,7 +133,7 @@
         <item name="android:buttonBarStyle">?buttonBarStyle</item>
         <item name="android:buttonBarButtonStyle">?buttonBarButtonStyle</item>
         <item name="android:textColorHighlightInverse">@color/highlighted_text_material_dark</item>
-        <item name="android:textColorLinkInverse">@color/link_text_material_dark</item>
+        <item name="android:textColorLinkInverse">?colorAccent</item>
         <item name="selectableItemBackground">?android:selectableItemBackground</item>
     </style>
 </resources>

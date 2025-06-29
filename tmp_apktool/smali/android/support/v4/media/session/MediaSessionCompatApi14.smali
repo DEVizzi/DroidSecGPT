@@ -1,4 +1,4 @@
-.class public Landroid/support/v4/media/session/MediaSessionCompatApi14;
+.class Landroid/support/v4/media/session/MediaSessionCompatApi14;
 .super Ljava/lang/Object;
 .source "MediaSessionCompatApi14.java"
 
@@ -86,7 +86,7 @@
 
 
 # direct methods
-.method public constructor <init>()V
+.method constructor <init>()V
     .locals 0
 
     .prologue

@@ -20,13 +20,17 @@
 
 .field private static final ALLOW_SHOW_HIDE_ANIMATIONS:Z
 
-.field private static final CONTEXT_DISPLAY_NORMAL:I = 0x0
+.field private static final FADE_IN_DURATION_MS:J = 0xc8L
 
-.field private static final CONTEXT_DISPLAY_SPLIT:I = 0x1
+.field private static final FADE_OUT_DURATION_MS:J = 0x64L
 
 .field private static final INVALID_POSITION:I = -0x1
 
 .field private static final TAG:Ljava/lang/String; = "WindowDecorActionBar"
+
+.field private static final sHideInterpolator:Landroid/view/animation/Interpolator;
+
+.field private static final sShowInterpolator:Landroid/view/animation/Interpolator;
 
 
 # instance fields
@@ -41,8 +45,6 @@
 .field private mContentView:Landroid/view/View;
 
 .field private mContext:Landroid/content/Context;
-
-.field private mContextDisplayMode:I
 
 .field private mContextView:Landroid/support/v7/internal/widget/ActionBarContextView;
 
@@ -97,8 +99,6 @@
 
 .field private mShowingForMode:Z
 
-.field private mSplitView:Landroid/support/v7/internal/widget/ActionBarContainer;
-
 .field private mTabScrollView:Landroid/support/v7/internal/widget/ScrollingTabContainerView;
 
 .field private mTabs:Ljava/util/ArrayList;
@@ -142,7 +142,21 @@
     :goto_0
     sput-boolean v0, Landroid/support/v7/internal/app/WindowDecorActionBar;->$assertionsDisabled:Z
 
-    .line 82
+    .line 79
+    new-instance v0, Landroid/view/animation/AccelerateInterpolator;
+
+    invoke-direct {v0}, Landroid/view/animation/AccelerateInterpolator;-><init>()V
+
+    sput-object v0, Landroid/support/v7/internal/app/WindowDecorActionBar;->sHideInterpolator:Landroid/view/animation/Interpolator;
+
+    .line 80
+    new-instance v0, Landroid/view/animation/DecelerateInterpolator;
+
+    invoke-direct {v0}, Landroid/view/animation/DecelerateInterpolator;-><init>()V
+
+    sput-object v0, Landroid/support/v7/internal/app/WindowDecorActionBar;->sShowInterpolator:Landroid/view/animation/Interpolator;
+
+    .line 85
     sget v0, Landroid/os/Build$VERSION;->SDK_INT:I
 
     const/16 v3, 0xe
@@ -163,7 +177,7 @@
     :cond_1
     move v1, v2
 
-    .line 82
+    .line 85
     goto :goto_1
 .end method
 
@@ -175,82 +189,82 @@
     .prologue
     const/4 v3, 0x1
 
-    .line 172
+    .line 171
     invoke-direct {p0}, Landroid/support/v7/app/ActionBar;-><init>()V
 
-    .line 97
+    .line 99
     new-instance v2, Ljava/util/ArrayList;
 
     invoke-direct {v2}, Ljava/util/ArrayList;-><init>()V
 
     iput-object v2, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabs:Ljava/util/ArrayList;
 
-    .line 100
+    .line 102
     const/4 v2, -0x1
 
     iput v2, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSavedTabPosition:I
 
-    .line 109
+    .line 111
     new-instance v2, Ljava/util/ArrayList;
 
     invoke-direct {v2}, Ljava/util/ArrayList;-><init>()V
 
     iput-object v2, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mMenuVisibilityListeners:Ljava/util/ArrayList;
 
-    .line 120
+    .line 122
     const/4 v2, 0x0
 
     iput v2, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mCurWindowVisibility:I
 
-    .line 122
+    .line 124
     iput-boolean v3, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContentAnimations:Z
 
-    .line 127
+    .line 129
     iput-boolean v3, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mNowShowing:Z
 
-    .line 135
+    .line 137
     new-instance v2, Landroid/support/v7/internal/app/WindowDecorActionBar$1;
 
     invoke-direct {v2, p0}, Landroid/support/v7/internal/app/WindowDecorActionBar$1;-><init>(Landroid/support/v7/internal/app/WindowDecorActionBar;)V
 
     iput-object v2, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mHideListener:Landroid/support/v4/view/ViewPropertyAnimatorListener;
 
-    .line 155
+    .line 154
     new-instance v2, Landroid/support/v7/internal/app/WindowDecorActionBar$2;
 
     invoke-direct {v2, p0}, Landroid/support/v7/internal/app/WindowDecorActionBar$2;-><init>(Landroid/support/v7/internal/app/WindowDecorActionBar;)V
 
     iput-object v2, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mShowListener:Landroid/support/v4/view/ViewPropertyAnimatorListener;
 
-    .line 163
+    .line 162
     new-instance v2, Landroid/support/v7/internal/app/WindowDecorActionBar$3;
 
     invoke-direct {v2, p0}, Landroid/support/v7/internal/app/WindowDecorActionBar$3;-><init>(Landroid/support/v7/internal/app/WindowDecorActionBar;)V
 
     iput-object v2, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mUpdateListener:Landroid/support/v4/view/ViewPropertyAnimatorUpdateListener;
 
-    .line 173
+    .line 172
     iput-object p1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mActivity:Landroid/app/Activity;
 
-    .line 174
+    .line 173
     invoke-virtual {p1}, Landroid/app/Activity;->getWindow()Landroid/view/Window;
 
     move-result-object v1
 
-    .line 175
+    .line 174
     .local v1, "window":Landroid/view/Window;
     invoke-virtual {v1}, Landroid/view/Window;->getDecorView()Landroid/view/View;
 
     move-result-object v0
 
-    .line 176
+    .line 175
     .local v0, "decor":Landroid/view/View;
     invoke-direct {p0, v0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->init(Landroid/view/View;)V
 
-    .line 177
+    .line 176
     if-nez p2, :cond_0
 
-    .line 178
+    .line 177
     const v2, 0x1020002
 
     invoke-virtual {v0, v2}, Landroid/view/View;->findViewById(I)Landroid/view/View;
@@ -259,7 +273,7 @@
 
     iput-object v2, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContentView:Landroid/view/View;
 
-    .line 180
+    .line 179
     :cond_0
     return-void
 .end method
@@ -271,64 +285,64 @@
     .prologue
     const/4 v1, 0x1
 
-    .line 182
+    .line 181
     invoke-direct {p0}, Landroid/support/v7/app/ActionBar;-><init>()V
 
-    .line 97
+    .line 99
     new-instance v0, Ljava/util/ArrayList;
 
     invoke-direct {v0}, Ljava/util/ArrayList;-><init>()V
 
     iput-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabs:Ljava/util/ArrayList;
 
-    .line 100
+    .line 102
     const/4 v0, -0x1
 
     iput v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSavedTabPosition:I
 
-    .line 109
+    .line 111
     new-instance v0, Ljava/util/ArrayList;
 
     invoke-direct {v0}, Ljava/util/ArrayList;-><init>()V
 
     iput-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mMenuVisibilityListeners:Ljava/util/ArrayList;
 
-    .line 120
+    .line 122
     const/4 v0, 0x0
 
     iput v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mCurWindowVisibility:I
 
-    .line 122
+    .line 124
     iput-boolean v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContentAnimations:Z
 
-    .line 127
+    .line 129
     iput-boolean v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mNowShowing:Z
 
-    .line 135
+    .line 137
     new-instance v0, Landroid/support/v7/internal/app/WindowDecorActionBar$1;
 
     invoke-direct {v0, p0}, Landroid/support/v7/internal/app/WindowDecorActionBar$1;-><init>(Landroid/support/v7/internal/app/WindowDecorActionBar;)V
 
     iput-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mHideListener:Landroid/support/v4/view/ViewPropertyAnimatorListener;
 
-    .line 155
+    .line 154
     new-instance v0, Landroid/support/v7/internal/app/WindowDecorActionBar$2;
 
     invoke-direct {v0, p0}, Landroid/support/v7/internal/app/WindowDecorActionBar$2;-><init>(Landroid/support/v7/internal/app/WindowDecorActionBar;)V
 
     iput-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mShowListener:Landroid/support/v4/view/ViewPropertyAnimatorListener;
 
-    .line 163
+    .line 162
     new-instance v0, Landroid/support/v7/internal/app/WindowDecorActionBar$3;
 
     invoke-direct {v0, p0}, Landroid/support/v7/internal/app/WindowDecorActionBar$3;-><init>(Landroid/support/v7/internal/app/WindowDecorActionBar;)V
 
     iput-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mUpdateListener:Landroid/support/v4/view/ViewPropertyAnimatorUpdateListener;
 
-    .line 183
+    .line 182
     iput-object p1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDialog:Landroid/app/Dialog;
 
-    .line 184
+    .line 183
     invoke-virtual {p1}, Landroid/app/Dialog;->getWindow()Landroid/view/Window;
 
     move-result-object v0
@@ -339,7 +353,7 @@
 
     invoke-direct {p0, v0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->init(Landroid/view/View;)V
 
-    .line 185
+    .line 184
     return-void
 .end method
 
@@ -350,61 +364,61 @@
     .prologue
     const/4 v1, 0x1
 
-    .line 191
+    .line 190
     invoke-direct {p0}, Landroid/support/v7/app/ActionBar;-><init>()V
 
-    .line 97
+    .line 99
     new-instance v0, Ljava/util/ArrayList;
 
     invoke-direct {v0}, Ljava/util/ArrayList;-><init>()V
 
     iput-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabs:Ljava/util/ArrayList;
 
-    .line 100
+    .line 102
     const/4 v0, -0x1
 
     iput v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSavedTabPosition:I
 
-    .line 109
+    .line 111
     new-instance v0, Ljava/util/ArrayList;
 
     invoke-direct {v0}, Ljava/util/ArrayList;-><init>()V
 
     iput-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mMenuVisibilityListeners:Ljava/util/ArrayList;
 
-    .line 120
+    .line 122
     const/4 v0, 0x0
 
     iput v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mCurWindowVisibility:I
 
-    .line 122
+    .line 124
     iput-boolean v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContentAnimations:Z
 
-    .line 127
+    .line 129
     iput-boolean v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mNowShowing:Z
 
-    .line 135
+    .line 137
     new-instance v0, Landroid/support/v7/internal/app/WindowDecorActionBar$1;
 
     invoke-direct {v0, p0}, Landroid/support/v7/internal/app/WindowDecorActionBar$1;-><init>(Landroid/support/v7/internal/app/WindowDecorActionBar;)V
 
     iput-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mHideListener:Landroid/support/v4/view/ViewPropertyAnimatorListener;
 
-    .line 155
+    .line 154
     new-instance v0, Landroid/support/v7/internal/app/WindowDecorActionBar$2;
 
     invoke-direct {v0, p0}, Landroid/support/v7/internal/app/WindowDecorActionBar$2;-><init>(Landroid/support/v7/internal/app/WindowDecorActionBar;)V
 
     iput-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mShowListener:Landroid/support/v4/view/ViewPropertyAnimatorListener;
 
-    .line 163
+    .line 162
     new-instance v0, Landroid/support/v7/internal/app/WindowDecorActionBar$3;
 
     invoke-direct {v0, p0}, Landroid/support/v7/internal/app/WindowDecorActionBar$3;-><init>(Landroid/support/v7/internal/app/WindowDecorActionBar;)V
 
     iput-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mUpdateListener:Landroid/support/v4/view/ViewPropertyAnimatorUpdateListener;
 
-    .line 192
+    .line 191
     sget-boolean v0, Landroid/support/v7/internal/app/WindowDecorActionBar;->$assertionsDisabled:Z
 
     if-nez v0, :cond_0
@@ -421,11 +435,11 @@
 
     throw v0
 
-    .line 193
+    .line 192
     :cond_0
     invoke-direct {p0, p1}, Landroid/support/v7/internal/app/WindowDecorActionBar;->init(Landroid/view/View;)V
 
-    .line 194
+    .line 193
     return-void
 .end method
 
@@ -451,29 +465,7 @@
     return-object v0
 .end method
 
-.method static synthetic access$1000(Landroid/support/v7/internal/app/WindowDecorActionBar;)Landroid/support/v7/internal/widget/ActionBarContextView;
-    .locals 1
-    .param p0, "x0"    # Landroid/support/v7/internal/app/WindowDecorActionBar;
-
-    .prologue
-    .line 75
-    iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContextView:Landroid/support/v7/internal/widget/ActionBarContextView;
-
-    return-object v0
-.end method
-
-.method static synthetic access$1100(Landroid/support/v7/internal/app/WindowDecorActionBar;)Landroid/support/v7/internal/widget/DecorToolbar;
-    .locals 1
-    .param p0, "x0"    # Landroid/support/v7/internal/app/WindowDecorActionBar;
-
-    .prologue
-    .line 75
-    iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
-
-    return-object v0
-.end method
-
-.method static synthetic access$1200(Landroid/support/v7/internal/app/WindowDecorActionBar;)Landroid/content/Context;
+.method static synthetic access$1000(Landroid/support/v7/internal/app/WindowDecorActionBar;)Landroid/content/Context;
     .locals 1
     .param p0, "x0"    # Landroid/support/v7/internal/app/WindowDecorActionBar;
 
@@ -484,7 +476,7 @@
     return-object v0
 .end method
 
-.method static synthetic access$1300(Landroid/support/v7/internal/app/WindowDecorActionBar;)Landroid/support/v7/internal/widget/ScrollingTabContainerView;
+.method static synthetic access$1100(Landroid/support/v7/internal/app/WindowDecorActionBar;)Landroid/support/v7/internal/widget/ScrollingTabContainerView;
     .locals 1
     .param p0, "x0"    # Landroid/support/v7/internal/app/WindowDecorActionBar;
 
@@ -506,29 +498,7 @@
     return-object v0
 .end method
 
-.method static synthetic access$300(Landroid/support/v7/internal/app/WindowDecorActionBar;)Landroid/support/v7/internal/widget/ActionBarContainer;
-    .locals 1
-    .param p0, "x0"    # Landroid/support/v7/internal/app/WindowDecorActionBar;
-
-    .prologue
-    .line 75
-    iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSplitView:Landroid/support/v7/internal/widget/ActionBarContainer;
-
-    return-object v0
-.end method
-
-.method static synthetic access$400(Landroid/support/v7/internal/app/WindowDecorActionBar;)I
-    .locals 1
-    .param p0, "x0"    # Landroid/support/v7/internal/app/WindowDecorActionBar;
-
-    .prologue
-    .line 75
-    iget v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContextDisplayMode:I
-
-    return v0
-.end method
-
-.method static synthetic access$502(Landroid/support/v7/internal/app/WindowDecorActionBar;Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;)Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
+.method static synthetic access$302(Landroid/support/v7/internal/app/WindowDecorActionBar;Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;)Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
     .locals 0
     .param p0, "x0"    # Landroid/support/v7/internal/app/WindowDecorActionBar;
     .param p1, "x1"    # Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
@@ -540,7 +510,7 @@
     return-object p1
 .end method
 
-.method static synthetic access$600(Landroid/support/v7/internal/app/WindowDecorActionBar;)Landroid/support/v7/internal/widget/ActionBarOverlayLayout;
+.method static synthetic access$400(Landroid/support/v7/internal/app/WindowDecorActionBar;)Landroid/support/v7/internal/widget/ActionBarOverlayLayout;
     .locals 1
     .param p0, "x0"    # Landroid/support/v7/internal/app/WindowDecorActionBar;
 
@@ -551,7 +521,7 @@
     return-object v0
 .end method
 
-.method static synthetic access$700(Landroid/support/v7/internal/app/WindowDecorActionBar;)Z
+.method static synthetic access$500(Landroid/support/v7/internal/app/WindowDecorActionBar;)Z
     .locals 1
     .param p0, "x0"    # Landroid/support/v7/internal/app/WindowDecorActionBar;
 
@@ -562,7 +532,7 @@
     return v0
 .end method
 
-.method static synthetic access$800(Landroid/support/v7/internal/app/WindowDecorActionBar;)Z
+.method static synthetic access$600(Landroid/support/v7/internal/app/WindowDecorActionBar;)Z
     .locals 1
     .param p0, "x0"    # Landroid/support/v7/internal/app/WindowDecorActionBar;
 
@@ -573,7 +543,7 @@
     return v0
 .end method
 
-.method static synthetic access$900(ZZZ)Z
+.method static synthetic access$700(ZZZ)Z
     .locals 1
     .param p0, "x0"    # Z
     .param p1, "x1"    # Z
@@ -588,6 +558,28 @@
     return v0
 .end method
 
+.method static synthetic access$800(Landroid/support/v7/internal/app/WindowDecorActionBar;)Landroid/support/v7/internal/widget/ActionBarContextView;
+    .locals 1
+    .param p0, "x0"    # Landroid/support/v7/internal/app/WindowDecorActionBar;
+
+    .prologue
+    .line 75
+    iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContextView:Landroid/support/v7/internal/widget/ActionBarContextView;
+
+    return-object v0
+.end method
+
+.method static synthetic access$900(Landroid/support/v7/internal/app/WindowDecorActionBar;)Landroid/support/v7/internal/widget/DecorToolbar;
+    .locals 1
+    .param p0, "x0"    # Landroid/support/v7/internal/app/WindowDecorActionBar;
+
+    .prologue
+    .line 75
+    iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
+
+    return-object v0
+.end method
+
 .method private static checkShowingFlags(ZZZ)Z
     .locals 1
     .param p0, "hiddenByApp"    # Z
@@ -597,21 +589,21 @@
     .prologue
     const/4 v0, 0x1
 
-    .line 744
+    .line 725
     if-eqz p2, :cond_1
 
-    .line 749
+    .line 730
     :cond_0
     :goto_0
     return v0
 
-    .line 746
+    .line 727
     :cond_1
     if-nez p0, :cond_2
 
     if-eqz p1, :cond_0
 
-    .line 747
+    .line 728
     :cond_2
     const/4 v0, 0x0
 
@@ -622,39 +614,39 @@
     .locals 1
 
     .prologue
-    .line 430
+    .line 422
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSelectedTab:Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;
 
     if-eqz v0, :cond_0
 
-    .line 431
+    .line 423
     const/4 v0, 0x0
 
     invoke-virtual {p0, v0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->selectTab(Landroid/support/v7/app/ActionBar$Tab;)V
 
-    .line 433
+    .line 425
     :cond_0
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabs:Ljava/util/ArrayList;
 
     invoke-virtual {v0}, Ljava/util/ArrayList;->clear()V
 
-    .line 434
+    .line 426
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabScrollView:Landroid/support/v7/internal/widget/ScrollingTabContainerView;
 
     if-eqz v0, :cond_1
 
-    .line 435
+    .line 427
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabScrollView:Landroid/support/v7/internal/widget/ScrollingTabContainerView;
 
     invoke-virtual {v0}, Landroid/support/v7/internal/widget/ScrollingTabContainerView;->removeAllTabs()V
 
-    .line 437
+    .line 429
     :cond_1
     const/4 v0, -0x1
 
     iput v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSavedTabPosition:I
 
-    .line 438
+    .line 430
     return-void
 .end method
 
@@ -664,22 +656,22 @@
     .param p2, "position"    # I
 
     .prologue
-    .line 531
+    .line 512
     move-object v3, p1
 
     check-cast v3, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;
 
-    .line 532
+    .line 513
     .local v3, "tabi":Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;
     invoke-virtual {v3}, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->getCallback()Landroid/support/v7/app/ActionBar$TabListener;
 
     move-result-object v0
 
-    .line 534
+    .line 515
     .local v0, "callback":Landroid/support/v7/app/ActionBar$TabListener;
     if-nez v0, :cond_0
 
-    .line 535
+    .line 516
     new-instance v4, Ljava/lang/IllegalStateException;
 
     const-string v5, "Action Bar Tab must have a Callback"
@@ -688,23 +680,23 @@
 
     throw v4
 
-    .line 538
+    .line 519
     :cond_0
     invoke-virtual {v3, p2}, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->setPosition(I)V
 
-    .line 539
+    .line 520
     iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabs:Ljava/util/ArrayList;
 
     invoke-virtual {v4, p2, v3}, Ljava/util/ArrayList;->add(ILjava/lang/Object;)V
 
-    .line 541
+    .line 522
     iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabs:Ljava/util/ArrayList;
 
     invoke-virtual {v4}, Ljava/util/ArrayList;->size()I
 
     move-result v1
 
-    .line 542
+    .line 523
     .local v1, "count":I
     add-int/lit8 v2, p2, 0x1
 
@@ -712,7 +704,7 @@
     :goto_0
     if-ge v2, v1, :cond_1
 
-    .line 543
+    .line 524
     iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabs:Ljava/util/ArrayList;
 
     invoke-virtual {v4, v2}, Ljava/util/ArrayList;->get(I)Ljava/lang/Object;
@@ -723,12 +715,12 @@
 
     invoke-virtual {v4, v2}, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->setPosition(I)V
 
-    .line 542
+    .line 523
     add-int/lit8 v2, v2, 0x1
 
     goto :goto_0
 
-    .line 545
+    .line 526
     :cond_1
     return-void
 .end method
@@ -739,16 +731,16 @@
     .prologue
     const/4 v3, 0x0
 
-    .line 296
+    .line 288
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabScrollView:Landroid/support/v7/internal/widget/ScrollingTabContainerView;
 
     if-eqz v1, :cond_0
 
-    .line 317
+    .line 309
     :goto_0
     return-void
 
-    .line 300
+    .line 292
     :cond_0
     new-instance v0, Landroid/support/v7/internal/widget/ScrollingTabContainerView;
 
@@ -756,27 +748,27 @@
 
     invoke-direct {v0, v1}, Landroid/support/v7/internal/widget/ScrollingTabContainerView;-><init>(Landroid/content/Context;)V
 
-    .line 302
+    .line 294
     .local v0, "tabScroller":Landroid/support/v7/internal/widget/ScrollingTabContainerView;
     iget-boolean v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mHasEmbeddedTabs:Z
 
     if-eqz v1, :cond_1
 
-    .line 303
+    .line 295
     invoke-virtual {v0, v3}, Landroid/support/v7/internal/widget/ScrollingTabContainerView;->setVisibility(I)V
 
-    .line 304
+    .line 296
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     invoke-interface {v1, v0}, Landroid/support/v7/internal/widget/DecorToolbar;->setEmbeddedTabView(Landroid/support/v7/internal/widget/ScrollingTabContainerView;)V
 
-    .line 316
+    .line 308
     :goto_1
     iput-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabScrollView:Landroid/support/v7/internal/widget/ScrollingTabContainerView;
 
     goto :goto_0
 
-    .line 306
+    .line 298
     :cond_1
     invoke-virtual {p0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->getNavigationMode()I
 
@@ -786,20 +778,20 @@
 
     if-ne v1, v2, :cond_3
 
-    .line 307
+    .line 299
     invoke-virtual {v0, v3}, Landroid/support/v7/internal/widget/ScrollingTabContainerView;->setVisibility(I)V
 
-    .line 308
+    .line 300
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mOverlayLayout:Landroid/support/v7/internal/widget/ActionBarOverlayLayout;
 
     if-eqz v1, :cond_2
 
-    .line 309
+    .line 301
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mOverlayLayout:Landroid/support/v7/internal/widget/ActionBarOverlayLayout;
 
     invoke-static {v1}, Landroid/support/v4/view/ViewCompat;->requestApplyInsets(Landroid/view/View;)V
 
-    .line 314
+    .line 306
     :cond_2
     :goto_2
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContainerView:Landroid/support/v7/internal/widget/ActionBarContainer;
@@ -808,7 +800,7 @@
 
     goto :goto_1
 
-    .line 312
+    .line 304
     :cond_3
     const/16 v1, 0x8
 
@@ -822,27 +814,27 @@
     .param p1, "view"    # Landroid/view/View;
 
     .prologue
-    .line 243
+    .line 238
     instance-of v0, p1, Landroid/support/v7/internal/widget/DecorToolbar;
 
     if-eqz v0, :cond_0
 
-    .line 244
+    .line 239
     check-cast p1, Landroid/support/v7/internal/widget/DecorToolbar;
 
-    .line 246
+    .line 241
     .end local p1    # "view":Landroid/view/View;
     :goto_0
     return-object p1
 
-    .line 245
+    .line 240
     .restart local p1    # "view":Landroid/view/View;
     :cond_0
     instance-of v0, p1, Landroid/support/v7/widget/Toolbar;
 
     if-eqz v0, :cond_1
 
-    .line 246
+    .line 241
     check-cast p1, Landroid/support/v7/widget/Toolbar;
 
     .end local p1    # "view":Landroid/view/View;
@@ -852,7 +844,7 @@
 
     goto :goto_0
 
-    .line 248
+    .line 243
     .restart local p1    # "view":Landroid/view/View;
     :cond_1
     new-instance v1, Ljava/lang/IllegalStateException;
@@ -902,29 +894,29 @@
     .prologue
     const/4 v1, 0x0
 
-    .line 697
+    .line 678
     iget-boolean v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mShowingForMode:Z
 
     if-eqz v0, :cond_1
 
-    .line 698
+    .line 679
     iput-boolean v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mShowingForMode:Z
 
-    .line 699
+    .line 680
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mOverlayLayout:Landroid/support/v7/internal/widget/ActionBarOverlayLayout;
 
     if-eqz v0, :cond_0
 
-    .line 700
+    .line 681
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mOverlayLayout:Landroid/support/v7/internal/widget/ActionBarOverlayLayout;
 
     invoke-virtual {v0, v1}, Landroid/support/v7/internal/widget/ActionBarOverlayLayout;->setShowingForActionMode(Z)V
 
-    .line 702
+    .line 683
     :cond_0
     invoke-direct {p0, v1}, Landroid/support/v7/internal/app/WindowDecorActionBar;->updateVisibility(Z)V
 
-    .line 704
+    .line 685
     :cond_1
     return-void
 .end method
@@ -934,11 +926,11 @@
     .param p1, "decor"    # Landroid/view/View;
 
     .prologue
-    const/4 v6, 0x1
+    const/4 v7, 0x1
 
-    const/4 v7, 0x0
+    const/4 v6, 0x0
 
-    .line 197
+    .line 196
     sget v5, Landroid/support/v7/appcompat/R$id;->decor_content_parent:I
 
     invoke-virtual {p1, v5}, Landroid/view/View;->findViewById(I)Landroid/view/View;
@@ -949,17 +941,17 @@
 
     iput-object v5, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mOverlayLayout:Landroid/support/v7/internal/widget/ActionBarOverlayLayout;
 
-    .line 198
+    .line 197
     iget-object v5, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mOverlayLayout:Landroid/support/v7/internal/widget/ActionBarOverlayLayout;
 
     if-eqz v5, :cond_0
 
-    .line 199
+    .line 198
     iget-object v5, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mOverlayLayout:Landroid/support/v7/internal/widget/ActionBarOverlayLayout;
 
     invoke-virtual {v5, p0}, Landroid/support/v7/internal/widget/ActionBarOverlayLayout;->setActionBarVisibilityCallback(Landroid/support/v7/internal/widget/ActionBarOverlayLayout$ActionBarVisibilityCallback;)V
 
-    .line 201
+    .line 200
     :cond_0
     sget v5, Landroid/support/v7/appcompat/R$id;->action_bar:I
 
@@ -973,7 +965,7 @@
 
     iput-object v5, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
-    .line 202
+    .line 201
     sget v5, Landroid/support/v7/appcompat/R$id;->action_context_bar:I
 
     invoke-virtual {p1, v5}, Landroid/view/View;->findViewById(I)Landroid/view/View;
@@ -984,7 +976,7 @@
 
     iput-object v5, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContextView:Landroid/support/v7/internal/widget/ActionBarContextView;
 
-    .line 204
+    .line 203
     sget v5, Landroid/support/v7/appcompat/R$id;->action_bar_container:I
 
     invoke-virtual {p1, v5}, Landroid/view/View;->findViewById(I)Landroid/view/View;
@@ -995,18 +987,7 @@
 
     iput-object v5, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContainerView:Landroid/support/v7/internal/widget/ActionBarContainer;
 
-    .line 207
-    sget v5, Landroid/support/v7/appcompat/R$id;->split_action_bar:I
-
-    invoke-virtual {p1, v5}, Landroid/view/View;->findViewById(I)Landroid/view/View;
-
-    move-result-object v5
-
-    check-cast v5, Landroid/support/v7/internal/widget/ActionBarContainer;
-
-    iput-object v5, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSplitView:Landroid/support/v7/internal/widget/ActionBarContainer;
-
-    .line 209
+    .line 206
     iget-object v5, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     if-eqz v5, :cond_1
@@ -1019,7 +1000,7 @@
 
     if-nez v5, :cond_2
 
-    .line 210
+    .line 207
     :cond_1
     new-instance v5, Ljava/lang/IllegalStateException;
 
@@ -1059,7 +1040,7 @@
 
     throw v5
 
-    .line 214
+    .line 211
     :cond_2
     iget-object v5, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
@@ -1069,44 +1050,30 @@
 
     iput-object v5, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContext:Landroid/content/Context;
 
-    .line 215
-    iget-object v5, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
-
-    invoke-interface {v5}, Landroid/support/v7/internal/widget/DecorToolbar;->isSplit()Z
-
-    move-result v5
-
-    if-eqz v5, :cond_7
-
-    move v5, v6
-
-    :goto_0
-    iput v5, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContextDisplayMode:I
-
-    .line 219
+    .line 214
     iget-object v5, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     invoke-interface {v5}, Landroid/support/v7/internal/widget/DecorToolbar;->getDisplayOptions()I
 
     move-result v2
 
-    .line 220
+    .line 215
     .local v2, "current":I
     and-int/lit8 v5, v2, 0x4
 
-    if-eqz v5, :cond_8
+    if-eqz v5, :cond_7
 
-    move v4, v6
+    move v4, v7
 
-    .line 221
+    .line 216
     .local v4, "homeAsUp":Z
-    :goto_1
+    :goto_0
     if-eqz v4, :cond_3
 
-    .line 222
-    iput-boolean v6, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDisplayHomeAsUpSet:Z
+    .line 217
+    iput-boolean v7, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDisplayHomeAsUpSet:Z
 
-    .line 225
+    .line 220
     :cond_3
     iget-object v5, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContext:Landroid/content/Context;
 
@@ -1114,7 +1081,7 @@
 
     move-result-object v1
 
-    .line 226
+    .line 221
     .local v1, "abp":Landroid/support/v7/internal/view/ActionBarPolicy;
     invoke-virtual {v1}, Landroid/support/v7/internal/view/ActionBarPolicy;->enableHomeButtonByDefault()Z
 
@@ -1122,22 +1089,22 @@
 
     if-nez v5, :cond_4
 
-    if-eqz v4, :cond_9
+    if-eqz v4, :cond_8
 
     :cond_4
-    move v5, v6
+    move v5, v7
 
-    :goto_2
+    :goto_1
     invoke-virtual {p0, v5}, Landroid/support/v7/internal/app/WindowDecorActionBar;->setHomeButtonEnabled(Z)V
 
-    .line 227
+    .line 222
     invoke-virtual {v1}, Landroid/support/v7/internal/view/ActionBarPolicy;->hasEmbeddedTabs()Z
 
     move-result v5
 
     invoke-direct {p0, v5}, Landroid/support/v7/internal/app/WindowDecorActionBar;->setHasEmbeddedTabs(Z)V
 
-    .line 229
+    .line 224
     iget-object v5, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContext:Landroid/content/Context;
 
     const/4 v8, 0x0
@@ -1146,72 +1113,64 @@
 
     sget v10, Landroid/support/v7/appcompat/R$attr;->actionBarStyle:I
 
-    invoke-virtual {v5, v8, v9, v10, v7}, Landroid/content/Context;->obtainStyledAttributes(Landroid/util/AttributeSet;[III)Landroid/content/res/TypedArray;
+    invoke-virtual {v5, v8, v9, v10, v6}, Landroid/content/Context;->obtainStyledAttributes(Landroid/util/AttributeSet;[III)Landroid/content/res/TypedArray;
 
     move-result-object v0
 
-    .line 232
+    .line 227
     .local v0, "a":Landroid/content/res/TypedArray;
     sget v5, Landroid/support/v7/appcompat/R$styleable;->ActionBar_hideOnContentScroll:I
 
-    invoke-virtual {v0, v5, v7}, Landroid/content/res/TypedArray;->getBoolean(IZ)Z
+    invoke-virtual {v0, v5, v6}, Landroid/content/res/TypedArray;->getBoolean(IZ)Z
 
     move-result v5
 
     if-eqz v5, :cond_5
 
-    .line 233
-    invoke-virtual {p0, v6}, Landroid/support/v7/internal/app/WindowDecorActionBar;->setHideOnContentScrollEnabled(Z)V
+    .line 228
+    invoke-virtual {p0, v7}, Landroid/support/v7/internal/app/WindowDecorActionBar;->setHideOnContentScrollEnabled(Z)V
 
-    .line 235
+    .line 230
     :cond_5
     sget v5, Landroid/support/v7/appcompat/R$styleable;->ActionBar_elevation:I
 
-    invoke-virtual {v0, v5, v7}, Landroid/content/res/TypedArray;->getDimensionPixelSize(II)I
+    invoke-virtual {v0, v5, v6}, Landroid/content/res/TypedArray;->getDimensionPixelSize(II)I
 
     move-result v3
 
-    .line 236
+    .line 231
     .local v3, "elevation":I
     if-eqz v3, :cond_6
 
-    .line 237
+    .line 232
     int-to-float v5, v3
 
     invoke-virtual {p0, v5}, Landroid/support/v7/internal/app/WindowDecorActionBar;->setElevation(F)V
 
-    .line 239
+    .line 234
     :cond_6
     invoke-virtual {v0}, Landroid/content/res/TypedArray;->recycle()V
 
-    .line 240
+    .line 235
     return-void
 
     .end local v0    # "a":Landroid/content/res/TypedArray;
     .end local v1    # "abp":Landroid/support/v7/internal/view/ActionBarPolicy;
-    .end local v2    # "current":I
     .end local v3    # "elevation":I
     .end local v4    # "homeAsUp":Z
     :cond_7
-    move v5, v7
+    move v4, v6
 
     .line 215
     goto :goto_0
 
-    .restart local v2    # "current":I
-    :cond_8
-    move v4, v7
-
-    .line 220
-    goto :goto_1
-
     .restart local v1    # "abp":Landroid/support/v7/internal/view/ActionBarPolicy;
     .restart local v4    # "homeAsUp":Z
-    :cond_9
-    move v5, v7
+    :cond_8
+    move v5, v6
 
-    .line 226
-    goto :goto_2
+    .line 221
+    goto :goto_1
 .end method
 
 .method private setHasEmbeddedTabs(Z)V
@@ -1225,27 +1184,27 @@
 
     const/4 v2, 0x0
 
-    .line 271
+    .line 263
     iput-boolean p1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mHasEmbeddedTabs:Z
 
-    .line 273
+    .line 265
     iget-boolean v3, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mHasEmbeddedTabs:Z
 
     if-nez v3, :cond_1
 
-    .line 274
+    .line 266
     iget-object v3, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     invoke-interface {v3, v4}, Landroid/support/v7/internal/widget/DecorToolbar;->setEmbeddedTabView(Landroid/support/v7/internal/widget/ScrollingTabContainerView;)V
 
-    .line 275
+    .line 267
     iget-object v3, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContainerView:Landroid/support/v7/internal/widget/ActionBarContainer;
 
     iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabScrollView:Landroid/support/v7/internal/widget/ScrollingTabContainerView;
 
     invoke-virtual {v3, v4}, Landroid/support/v7/internal/widget/ActionBarContainer;->setTabContainer(Landroid/support/v7/internal/widget/ScrollingTabContainerView;)V
 
-    .line 280
+    .line 272
     :goto_0
     invoke-virtual {p0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->getNavigationMode()I
 
@@ -1257,32 +1216,32 @@
 
     move v0, v1
 
-    .line 281
+    .line 273
     .local v0, "isInTabMode":Z
     :goto_1
     iget-object v3, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabScrollView:Landroid/support/v7/internal/widget/ScrollingTabContainerView;
 
     if-eqz v3, :cond_0
 
-    .line 282
+    .line 274
     if-eqz v0, :cond_3
 
-    .line 283
+    .line 275
     iget-object v3, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabScrollView:Landroid/support/v7/internal/widget/ScrollingTabContainerView;
 
     invoke-virtual {v3, v2}, Landroid/support/v7/internal/widget/ScrollingTabContainerView;->setVisibility(I)V
 
-    .line 284
+    .line 276
     iget-object v3, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mOverlayLayout:Landroid/support/v7/internal/widget/ActionBarOverlayLayout;
 
     if-eqz v3, :cond_0
 
-    .line 285
+    .line 277
     iget-object v3, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mOverlayLayout:Landroid/support/v7/internal/widget/ActionBarOverlayLayout;
 
     invoke-static {v3}, Landroid/support/v4/view/ViewCompat;->requestApplyInsets(Landroid/view/View;)V
 
-    .line 291
+    .line 283
     :cond_0
     :goto_2
     iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
@@ -1298,7 +1257,7 @@
     :goto_3
     invoke-interface {v4, v3}, Landroid/support/v7/internal/widget/DecorToolbar;->setCollapsible(Z)V
 
-    .line 292
+    .line 284
     iget-object v3, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mOverlayLayout:Landroid/support/v7/internal/widget/ActionBarOverlayLayout;
 
     iget-boolean v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mHasEmbeddedTabs:Z
@@ -1310,17 +1269,17 @@
     :goto_4
     invoke-virtual {v3, v1}, Landroid/support/v7/internal/widget/ActionBarOverlayLayout;->setHasNonEmbeddedTabs(Z)V
 
-    .line 293
+    .line 285
     return-void
 
-    .line 277
+    .line 269
     .end local v0    # "isInTabMode":Z
     :cond_1
     iget-object v3, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContainerView:Landroid/support/v7/internal/widget/ActionBarContainer;
 
     invoke-virtual {v3, v4}, Landroid/support/v7/internal/widget/ActionBarContainer;->setTabContainer(Landroid/support/v7/internal/widget/ScrollingTabContainerView;)V
 
-    .line 278
+    .line 270
     iget-object v3, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabScrollView:Landroid/support/v7/internal/widget/ScrollingTabContainerView;
@@ -1332,10 +1291,10 @@
     :cond_2
     move v0, v2
 
-    .line 280
+    .line 272
     goto :goto_1
 
-    .line 288
+    .line 280
     .restart local v0    # "isInTabMode":Z
     :cond_3
     iget-object v3, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabScrollView:Landroid/support/v7/internal/widget/ScrollingTabContainerView;
@@ -1349,13 +1308,13 @@
     :cond_4
     move v3, v2
 
-    .line 291
+    .line 283
     goto :goto_3
 
     :cond_5
     move v1, v2
 
-    .line 292
+    .line 284
     goto :goto_4
 .end method
 
@@ -1365,31 +1324,31 @@
     .prologue
     const/4 v1, 0x1
 
-    .line 672
+    .line 653
     iget-boolean v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mShowingForMode:Z
 
     if-nez v0, :cond_1
 
-    .line 673
+    .line 654
     iput-boolean v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mShowingForMode:Z
 
-    .line 674
+    .line 655
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mOverlayLayout:Landroid/support/v7/internal/widget/ActionBarOverlayLayout;
 
     if-eqz v0, :cond_0
 
-    .line 675
+    .line 656
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mOverlayLayout:Landroid/support/v7/internal/widget/ActionBarOverlayLayout;
 
     invoke-virtual {v0, v1}, Landroid/support/v7/internal/widget/ActionBarOverlayLayout;->setShowingForActionMode(Z)V
 
-    .line 677
+    .line 658
     :cond_0
     const/4 v0, 0x0
 
     invoke-direct {p0, v0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->updateVisibility(Z)V
 
-    .line 679
+    .line 660
     :cond_1
     return-void
 .end method
@@ -1399,7 +1358,7 @@
     .param p1, "fromSystem"    # Z
 
     .prologue
-    .line 755
+    .line 736
     iget-boolean v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mHiddenByApp:Z
 
     iget-boolean v2, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mHiddenBySystem:Z
@@ -1410,40 +1369,40 @@
 
     move-result v0
 
-    .line 758
+    .line 739
     .local v0, "shown":Z
     if-eqz v0, :cond_1
 
-    .line 759
+    .line 740
     iget-boolean v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mNowShowing:Z
 
     if-nez v1, :cond_0
 
-    .line 760
+    .line 741
     const/4 v1, 0x1
 
     iput-boolean v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mNowShowing:Z
 
-    .line 761
+    .line 742
     invoke-virtual {p0, p1}, Landroid/support/v7/internal/app/WindowDecorActionBar;->doShow(Z)V
 
-    .line 769
+    .line 750
     :cond_0
     :goto_0
     return-void
 
-    .line 764
+    .line 745
     :cond_1
     iget-boolean v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mNowShowing:Z
 
     if-eqz v1, :cond_0
 
-    .line 765
+    .line 746
     const/4 v1, 0x0
 
     iput-boolean v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mNowShowing:Z
 
-    .line 766
+    .line 747
     invoke-virtual {p0, p1}, Landroid/support/v7/internal/app/WindowDecorActionBar;->doHide(Z)V
 
     goto :goto_0
@@ -1456,12 +1415,12 @@
     .param p1, "listener"    # Landroid/support/v7/app/ActionBar$OnMenuVisibilityListener;
 
     .prologue
-    .line 346
+    .line 338
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mMenuVisibilityListeners:Ljava/util/ArrayList;
 
     invoke-virtual {v0, p1}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
 
-    .line 347
+    .line 339
     return-void
 .end method
 
@@ -1470,7 +1429,7 @@
     .param p1, "tab"    # Landroid/support/v7/app/ActionBar$Tab;
 
     .prologue
-    .line 549
+    .line 530
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabs:Ljava/util/ArrayList;
 
     invoke-virtual {v0}, Ljava/util/ArrayList;->isEmpty()Z
@@ -1479,7 +1438,7 @@
 
     invoke-virtual {p0, p1, v0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->addTab(Landroid/support/v7/app/ActionBar$Tab;Z)V
 
-    .line 550
+    .line 531
     return-void
 .end method
 
@@ -1489,7 +1448,7 @@
     .param p2, "position"    # I
 
     .prologue
-    .line 554
+    .line 535
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabs:Ljava/util/ArrayList;
 
     invoke-virtual {v0}, Ljava/util/ArrayList;->isEmpty()Z
@@ -1498,7 +1457,7 @@
 
     invoke-virtual {p0, p1, p2, v0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->addTab(Landroid/support/v7/app/ActionBar$Tab;IZ)V
 
-    .line 555
+    .line 536
     return-void
 .end method
 
@@ -1509,24 +1468,24 @@
     .param p3, "setSelected"    # Z
 
     .prologue
-    .line 569
+    .line 550
     invoke-direct {p0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->ensureTabsExist()V
 
-    .line 570
+    .line 551
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabScrollView:Landroid/support/v7/internal/widget/ScrollingTabContainerView;
 
     invoke-virtual {v0, p1, p2, p3}, Landroid/support/v7/internal/widget/ScrollingTabContainerView;->addTab(Landroid/support/v7/app/ActionBar$Tab;IZ)V
 
-    .line 571
+    .line 552
     invoke-direct {p0, p1, p2}, Landroid/support/v7/internal/app/WindowDecorActionBar;->configureTab(Landroid/support/v7/app/ActionBar$Tab;I)V
 
-    .line 572
+    .line 553
     if-eqz p3, :cond_0
 
-    .line 573
+    .line 554
     invoke-virtual {p0, p1}, Landroid/support/v7/internal/app/WindowDecorActionBar;->selectTab(Landroid/support/v7/app/ActionBar$Tab;)V
 
-    .line 575
+    .line 556
     :cond_0
     return-void
 .end method
@@ -1537,15 +1496,15 @@
     .param p2, "setSelected"    # Z
 
     .prologue
-    .line 559
+    .line 540
     invoke-direct {p0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->ensureTabsExist()V
 
-    .line 560
+    .line 541
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabScrollView:Landroid/support/v7/internal/widget/ScrollingTabContainerView;
 
     invoke-virtual {v0, p1, p2}, Landroid/support/v7/internal/widget/ScrollingTabContainerView;->addTab(Landroid/support/v7/app/ActionBar$Tab;Z)V
 
-    .line 561
+    .line 542
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabs:Ljava/util/ArrayList;
 
     invoke-virtual {v0}, Ljava/util/ArrayList;->size()I
@@ -1554,78 +1513,108 @@
 
     invoke-direct {p0, p1, v0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->configureTab(Landroid/support/v7/app/ActionBar$Tab;I)V
 
-    .line 562
+    .line 543
     if-eqz p2, :cond_0
 
-    .line 563
+    .line 544
     invoke-virtual {p0, p1}, Landroid/support/v7/internal/app/WindowDecorActionBar;->selectTab(Landroid/support/v7/app/ActionBar$Tab;)V
 
-    .line 565
+    .line 546
     :cond_0
     return-void
 .end method
 
 .method public animateToMode(Z)V
-    .locals 4
+    .locals 10
     .param p1, "toActionMode"    # Z
 
     .prologue
-    const/16 v1, 0x8
+    const-wide/16 v8, 0xc8
 
-    const/4 v2, 0x0
+    const-wide/16 v6, 0x64
 
-    .line 876
+    const/4 v5, 0x0
+
+    .line 841
     if-eqz p1, :cond_0
 
-    .line 877
+    .line 842
     invoke-direct {p0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->showForActionMode()V
 
-    .line 882
+    .line 848
     :goto_0
-    iget-object v3, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
-
     if-eqz p1, :cond_1
 
-    move v0, v1
+    .line 853
+    iget-object v3, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
+    const/4 v4, 0x4
+
+    invoke-interface {v3, v4, v6, v7}, Landroid/support/v7/internal/widget/DecorToolbar;->setupAnimatorToVisibility(IJ)Landroid/support/v4/view/ViewPropertyAnimatorCompat;
+
+    move-result-object v1
+
+    .line 855
+    .local v1, "fadeOut":Landroid/support/v4/view/ViewPropertyAnimatorCompat;
+    iget-object v3, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContextView:Landroid/support/v7/internal/widget/ActionBarContextView;
+
+    invoke-virtual {v3, v5, v8, v9}, Landroid/support/v7/internal/widget/ActionBarContextView;->setupAnimatorToVisibility(IJ)Landroid/support/v4/view/ViewPropertyAnimatorCompat;
+
+    move-result-object v0
+
+    .line 863
+    .local v0, "fadeIn":Landroid/support/v4/view/ViewPropertyAnimatorCompat;
     :goto_1
-    invoke-interface {v3, v0}, Landroid/support/v7/internal/widget/DecorToolbar;->animateToVisibility(I)V
+    new-instance v2, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
 
-    .line 883
-    iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContextView:Landroid/support/v7/internal/widget/ActionBarContextView;
+    invoke-direct {v2}, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;-><init>()V
 
-    if-eqz p1, :cond_2
+    .line 864
+    .local v2, "set":Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
+    invoke-virtual {v2, v1, v0}, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;->playSequentially(Landroid/support/v4/view/ViewPropertyAnimatorCompat;Landroid/support/v4/view/ViewPropertyAnimatorCompat;)Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
 
-    :goto_2
-    invoke-virtual {v0, v2}, Landroid/support/v7/internal/widget/ActionBarContextView;->animateToVisibility(I)V
+    .line 865
+    invoke-virtual {v2}, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;->start()V
 
-    .line 885
+    .line 867
     return-void
 
-    .line 879
+    .line 844
+    .end local v0    # "fadeIn":Landroid/support/v4/view/ViewPropertyAnimatorCompat;
+    .end local v1    # "fadeOut":Landroid/support/v4/view/ViewPropertyAnimatorCompat;
+    .end local v2    # "set":Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
     :cond_0
     invoke-direct {p0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->hideForActionMode()V
 
     goto :goto_0
 
+    .line 858
     :cond_1
-    move v0, v2
+    iget-object v3, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
-    .line 882
+    invoke-interface {v3, v5, v8, v9}, Landroid/support/v7/internal/widget/DecorToolbar;->setupAnimatorToVisibility(IJ)Landroid/support/v4/view/ViewPropertyAnimatorCompat;
+
+    move-result-object v0
+
+    .line 860
+    .restart local v0    # "fadeIn":Landroid/support/v4/view/ViewPropertyAnimatorCompat;
+    iget-object v3, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContextView:Landroid/support/v7/internal/widget/ActionBarContextView;
+
+    const/16 v4, 0x8
+
+    invoke-virtual {v3, v4, v6, v7}, Landroid/support/v7/internal/widget/ActionBarContextView;->setupAnimatorToVisibility(IJ)Landroid/support/v4/view/ViewPropertyAnimatorCompat;
+
+    move-result-object v1
+
+    .restart local v1    # "fadeOut":Landroid/support/v4/view/ViewPropertyAnimatorCompat;
     goto :goto_1
-
-    :cond_2
-    move v2, v1
-
-    .line 883
-    goto :goto_2
 .end method
 
 .method public collapseActionView()Z
     .locals 1
 
     .prologue
-    .line 942
+    .line 924
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     if-eqz v0, :cond_0
@@ -1638,15 +1627,15 @@
 
     if-eqz v0, :cond_0
 
-    .line 943
+    .line 925
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     invoke-interface {v0}, Landroid/support/v7/internal/widget/DecorToolbar;->collapseActionView()V
 
-    .line 944
+    .line 926
     const/4 v0, 0x1
 
-    .line 946
+    .line 928
     :goto_0
     return v0
 
@@ -1662,25 +1651,25 @@
     .prologue
     const/4 v2, 0x0
 
-    .line 320
+    .line 312
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDeferredModeDestroyCallback:Landroid/support/v7/view/ActionMode$Callback;
 
     if-eqz v0, :cond_0
 
-    .line 321
+    .line 313
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDeferredModeDestroyCallback:Landroid/support/v7/view/ActionMode$Callback;
 
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDeferredDestroyActionMode:Landroid/support/v7/view/ActionMode;
 
     invoke-interface {v0, v1}, Landroid/support/v7/view/ActionMode$Callback;->onDestroyActionMode(Landroid/support/v7/view/ActionMode;)V
 
-    .line 322
+    .line 314
     iput-object v2, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDeferredDestroyActionMode:Landroid/support/v7/view/ActionMode;
 
-    .line 323
+    .line 315
     iput-object v2, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDeferredModeDestroyCallback:Landroid/support/v7/view/ActionMode$Callback;
 
-    .line 325
+    .line 317
     :cond_0
     return-void
 .end method
@@ -1690,27 +1679,27 @@
     .param p1, "isVisible"    # Z
 
     .prologue
-    .line 354
+    .line 346
     iget-boolean v2, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mLastMenuVisibility:Z
 
     if-ne p1, v2, :cond_1
 
-    .line 363
+    .line 355
     :cond_0
     return-void
 
-    .line 357
+    .line 349
     :cond_1
     iput-boolean p1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mLastMenuVisibility:Z
 
-    .line 359
+    .line 351
     iget-object v2, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mMenuVisibilityListeners:Ljava/util/ArrayList;
 
     invoke-virtual {v2}, Ljava/util/ArrayList;->size()I
 
     move-result v0
 
-    .line 360
+    .line 352
     .local v0, "count":I
     const/4 v1, 0x0
 
@@ -1718,7 +1707,7 @@
     :goto_0
     if-ge v1, v0, :cond_0
 
-    .line 361
+    .line 353
     iget-object v2, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mMenuVisibilityListeners:Ljava/util/ArrayList;
 
     invoke-virtual {v2, v1}, Ljava/util/ArrayList;->get(I)Ljava/lang/Object;
@@ -1729,7 +1718,7 @@
 
     invoke-interface {v2, p1}, Landroid/support/v7/app/ActionBar$OnMenuVisibilityListener;->onMenuVisibilityChanged(Z)V
 
-    .line 360
+    .line 352
     add-int/lit8 v1, v1, 0x1
 
     goto :goto_0
@@ -1742,20 +1731,205 @@
     .prologue
     const/4 v6, 0x1
 
-    const/high16 v5, 0x3f800000    # 1.0f
-
-    .line 833
+    .line 803
     iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mCurrentShowAnim:Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
 
     if-eqz v4, :cond_0
 
-    .line 834
+    .line 804
     iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mCurrentShowAnim:Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
 
     invoke-virtual {v4}, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;->cancel()V
 
-    .line 837
+    .line 807
     :cond_0
+    iget v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mCurWindowVisibility:I
+
+    if-nez v4, :cond_4
+
+    sget-boolean v4, Landroid/support/v7/internal/app/WindowDecorActionBar;->ALLOW_SHOW_HIDE_ANIMATIONS:Z
+
+    if-eqz v4, :cond_4
+
+    iget-boolean v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mShowHideAnimationEnabled:Z
+
+    if-nez v4, :cond_1
+
+    if-eqz p1, :cond_4
+
+    .line 809
+    :cond_1
+    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContainerView:Landroid/support/v7/internal/widget/ActionBarContainer;
+
+    const/high16 v5, 0x3f800000    # 1.0f
+
+    invoke-static {v4, v5}, Landroid/support/v4/view/ViewCompat;->setAlpha(Landroid/view/View;F)V
+
+    .line 810
+    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContainerView:Landroid/support/v7/internal/widget/ActionBarContainer;
+
+    invoke-virtual {v4, v6}, Landroid/support/v7/internal/widget/ActionBarContainer;->setTransitioning(Z)V
+
+    .line 811
+    new-instance v1, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
+
+    invoke-direct {v1}, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;-><init>()V
+
+    .line 812
+    .local v1, "anim":Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
+    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContainerView:Landroid/support/v7/internal/widget/ActionBarContainer;
+
+    invoke-virtual {v4}, Landroid/support/v7/internal/widget/ActionBarContainer;->getHeight()I
+
+    move-result v4
+
+    neg-int v4, v4
+
+    int-to-float v2, v4
+
+    .line 813
+    .local v2, "endingY":F
+    if-eqz p1, :cond_2
+
+    .line 814
+    const/4 v4, 0x2
+
+    new-array v3, v4, [I
+
+    fill-array-data v3, :array_0
+
+    .line 815
+    .local v3, "topLeft":[I
+    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContainerView:Landroid/support/v7/internal/widget/ActionBarContainer;
+
+    invoke-virtual {v4, v3}, Landroid/support/v7/internal/widget/ActionBarContainer;->getLocationInWindow([I)V
+
+    .line 816
+    aget v4, v3, v6
+
+    int-to-float v4, v4
+
+    sub-float/2addr v2, v4
+
+    .line 818
+    .end local v3    # "topLeft":[I
+    :cond_2
+    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContainerView:Landroid/support/v7/internal/widget/ActionBarContainer;
+
+    invoke-static {v4}, Landroid/support/v4/view/ViewCompat;->animate(Landroid/view/View;)Landroid/support/v4/view/ViewPropertyAnimatorCompat;
+
+    move-result-object v4
+
+    invoke-virtual {v4, v2}, Landroid/support/v4/view/ViewPropertyAnimatorCompat;->translationY(F)Landroid/support/v4/view/ViewPropertyAnimatorCompat;
+
+    move-result-object v0
+
+    .line 819
+    .local v0, "a":Landroid/support/v4/view/ViewPropertyAnimatorCompat;
+    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mUpdateListener:Landroid/support/v4/view/ViewPropertyAnimatorUpdateListener;
+
+    invoke-virtual {v0, v4}, Landroid/support/v4/view/ViewPropertyAnimatorCompat;->setUpdateListener(Landroid/support/v4/view/ViewPropertyAnimatorUpdateListener;)Landroid/support/v4/view/ViewPropertyAnimatorCompat;
+
+    .line 820
+    invoke-virtual {v1, v0}, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;->play(Landroid/support/v4/view/ViewPropertyAnimatorCompat;)Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
+
+    .line 821
+    iget-boolean v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContentAnimations:Z
+
+    if-eqz v4, :cond_3
+
+    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContentView:Landroid/view/View;
+
+    if-eqz v4, :cond_3
+
+    .line 822
+    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContentView:Landroid/view/View;
+
+    invoke-static {v4}, Landroid/support/v4/view/ViewCompat;->animate(Landroid/view/View;)Landroid/support/v4/view/ViewPropertyAnimatorCompat;
+
+    move-result-object v4
+
+    invoke-virtual {v4, v2}, Landroid/support/v4/view/ViewPropertyAnimatorCompat;->translationY(F)Landroid/support/v4/view/ViewPropertyAnimatorCompat;
+
+    move-result-object v4
+
+    invoke-virtual {v1, v4}, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;->play(Landroid/support/v4/view/ViewPropertyAnimatorCompat;)Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
+
+    .line 824
+    :cond_3
+    sget-object v4, Landroid/support/v7/internal/app/WindowDecorActionBar;->sHideInterpolator:Landroid/view/animation/Interpolator;
+
+    invoke-virtual {v1, v4}, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;->setInterpolator(Landroid/view/animation/Interpolator;)Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
+
+    .line 825
+    const-wide/16 v4, 0xfa
+
+    invoke-virtual {v1, v4, v5}, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;->setDuration(J)Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
+
+    .line 826
+    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mHideListener:Landroid/support/v4/view/ViewPropertyAnimatorListener;
+
+    invoke-virtual {v1, v4}, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;->setListener(Landroid/support/v4/view/ViewPropertyAnimatorListener;)Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
+
+    .line 827
+    iput-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mCurrentShowAnim:Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
+
+    .line 828
+    invoke-virtual {v1}, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;->start()V
+
+    .line 832
+    .end local v0    # "a":Landroid/support/v4/view/ViewPropertyAnimatorCompat;
+    .end local v1    # "anim":Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
+    .end local v2    # "endingY":F
+    :goto_0
+    return-void
+
+    .line 830
+    :cond_4
+    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mHideListener:Landroid/support/v4/view/ViewPropertyAnimatorListener;
+
+    const/4 v5, 0x0
+
+    invoke-interface {v4, v5}, Landroid/support/v4/view/ViewPropertyAnimatorListener;->onAnimationEnd(Landroid/view/View;)V
+
+    goto :goto_0
+
+    .line 814
+    nop
+
+    :array_0
+    .array-data 4
+        0x0
+        0x0
+    .end array-data
+.end method
+
+.method public doShow(Z)V
+    .locals 7
+    .param p1, "fromSystem"    # Z
+
+    .prologue
+    const/4 v6, 0x0
+
+    .line 753
+    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mCurrentShowAnim:Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
+
+    if-eqz v4, :cond_0
+
+    .line 754
+    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mCurrentShowAnim:Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
+
+    invoke-virtual {v4}, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;->cancel()V
+
+    .line 756
+    :cond_0
+    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContainerView:Landroid/support/v7/internal/widget/ActionBarContainer;
+
+    const/4 v5, 0x0
+
+    invoke-virtual {v4, v5}, Landroid/support/v7/internal/widget/ActionBarContainer;->setVisibility(I)V
+
+    .line 758
     iget v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mCurWindowVisibility:I
 
     if-nez v4, :cond_5
@@ -1770,248 +1944,13 @@
 
     if-eqz p1, :cond_5
 
-    .line 839
-    :cond_1
-    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContainerView:Landroid/support/v7/internal/widget/ActionBarContainer;
-
-    invoke-static {v4, v5}, Landroid/support/v4/view/ViewCompat;->setAlpha(Landroid/view/View;F)V
-
-    .line 840
-    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContainerView:Landroid/support/v7/internal/widget/ActionBarContainer;
-
-    invoke-virtual {v4, v6}, Landroid/support/v7/internal/widget/ActionBarContainer;->setTransitioning(Z)V
-
-    .line 841
-    new-instance v1, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
-
-    invoke-direct {v1}, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;-><init>()V
-
-    .line 842
-    .local v1, "anim":Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
-    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContainerView:Landroid/support/v7/internal/widget/ActionBarContainer;
-
-    invoke-virtual {v4}, Landroid/support/v7/internal/widget/ActionBarContainer;->getHeight()I
-
-    move-result v4
-
-    neg-int v4, v4
-
-    int-to-float v2, v4
-
-    .line 843
-    .local v2, "endingY":F
-    if-eqz p1, :cond_2
-
-    .line 844
-    const/4 v4, 0x2
-
-    new-array v3, v4, [I
-
-    fill-array-data v3, :array_0
-
-    .line 845
-    .local v3, "topLeft":[I
-    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContainerView:Landroid/support/v7/internal/widget/ActionBarContainer;
-
-    invoke-virtual {v4, v3}, Landroid/support/v7/internal/widget/ActionBarContainer;->getLocationInWindow([I)V
-
-    .line 846
-    aget v4, v3, v6
-
-    int-to-float v4, v4
-
-    sub-float/2addr v2, v4
-
-    .line 848
-    .end local v3    # "topLeft":[I
-    :cond_2
-    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContainerView:Landroid/support/v7/internal/widget/ActionBarContainer;
-
-    invoke-static {v4}, Landroid/support/v4/view/ViewCompat;->animate(Landroid/view/View;)Landroid/support/v4/view/ViewPropertyAnimatorCompat;
-
-    move-result-object v4
-
-    invoke-virtual {v4, v2}, Landroid/support/v4/view/ViewPropertyAnimatorCompat;->translationY(F)Landroid/support/v4/view/ViewPropertyAnimatorCompat;
-
-    move-result-object v0
-
-    .line 849
-    .local v0, "a":Landroid/support/v4/view/ViewPropertyAnimatorCompat;
-    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mUpdateListener:Landroid/support/v4/view/ViewPropertyAnimatorUpdateListener;
-
-    invoke-virtual {v0, v4}, Landroid/support/v4/view/ViewPropertyAnimatorCompat;->setUpdateListener(Landroid/support/v4/view/ViewPropertyAnimatorUpdateListener;)Landroid/support/v4/view/ViewPropertyAnimatorCompat;
-
-    .line 850
-    invoke-virtual {v1, v0}, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;->play(Landroid/support/v4/view/ViewPropertyAnimatorCompat;)Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
-
-    .line 851
-    iget-boolean v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContentAnimations:Z
-
-    if-eqz v4, :cond_3
-
-    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContentView:Landroid/view/View;
-
-    if-eqz v4, :cond_3
-
-    .line 852
-    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContentView:Landroid/view/View;
-
-    invoke-static {v4}, Landroid/support/v4/view/ViewCompat;->animate(Landroid/view/View;)Landroid/support/v4/view/ViewPropertyAnimatorCompat;
-
-    move-result-object v4
-
-    invoke-virtual {v4, v2}, Landroid/support/v4/view/ViewPropertyAnimatorCompat;->translationY(F)Landroid/support/v4/view/ViewPropertyAnimatorCompat;
-
-    move-result-object v4
-
-    invoke-virtual {v1, v4}, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;->play(Landroid/support/v4/view/ViewPropertyAnimatorCompat;)Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
-
-    .line 854
-    :cond_3
-    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSplitView:Landroid/support/v7/internal/widget/ActionBarContainer;
-
-    if-eqz v4, :cond_4
-
-    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSplitView:Landroid/support/v7/internal/widget/ActionBarContainer;
-
-    invoke-virtual {v4}, Landroid/support/v7/internal/widget/ActionBarContainer;->getVisibility()I
-
-    move-result v4
-
-    if-nez v4, :cond_4
-
-    .line 855
-    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSplitView:Landroid/support/v7/internal/widget/ActionBarContainer;
-
-    invoke-static {v4, v5}, Landroid/support/v4/view/ViewCompat;->setAlpha(Landroid/view/View;F)V
-
-    .line 856
-    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSplitView:Landroid/support/v7/internal/widget/ActionBarContainer;
-
-    invoke-static {v4}, Landroid/support/v4/view/ViewCompat;->animate(Landroid/view/View;)Landroid/support/v4/view/ViewPropertyAnimatorCompat;
-
-    move-result-object v4
-
-    iget-object v5, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSplitView:Landroid/support/v7/internal/widget/ActionBarContainer;
-
-    invoke-virtual {v5}, Landroid/support/v7/internal/widget/ActionBarContainer;->getHeight()I
-
-    move-result v5
-
-    int-to-float v5, v5
-
-    invoke-virtual {v4, v5}, Landroid/support/v4/view/ViewPropertyAnimatorCompat;->translationY(F)Landroid/support/v4/view/ViewPropertyAnimatorCompat;
-
-    move-result-object v4
-
-    invoke-virtual {v1, v4}, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;->play(Landroid/support/v4/view/ViewPropertyAnimatorCompat;)Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
-
-    .line 858
-    :cond_4
-    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContext:Landroid/content/Context;
-
-    const v5, 0x10a0005
-
-    invoke-static {v4, v5}, Landroid/view/animation/AnimationUtils;->loadInterpolator(Landroid/content/Context;I)Landroid/view/animation/Interpolator;
-
-    move-result-object v4
-
-    invoke-virtual {v1, v4}, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;->setInterpolator(Landroid/view/animation/Interpolator;)Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
-
-    .line 860
-    const-wide/16 v4, 0xfa
-
-    invoke-virtual {v1, v4, v5}, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;->setDuration(J)Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
-
-    .line 861
-    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mHideListener:Landroid/support/v4/view/ViewPropertyAnimatorListener;
-
-    invoke-virtual {v1, v4}, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;->setListener(Landroid/support/v4/view/ViewPropertyAnimatorListener;)Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
-
-    .line 862
-    iput-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mCurrentShowAnim:Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
-
-    .line 863
-    invoke-virtual {v1}, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;->start()V
-
-    .line 867
-    .end local v0    # "a":Landroid/support/v4/view/ViewPropertyAnimatorCompat;
-    .end local v1    # "anim":Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
-    .end local v2    # "endingY":F
-    :goto_0
-    return-void
-
-    .line 865
-    :cond_5
-    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mHideListener:Landroid/support/v4/view/ViewPropertyAnimatorListener;
-
-    const/4 v5, 0x0
-
-    invoke-interface {v4, v5}, Landroid/support/v4/view/ViewPropertyAnimatorListener;->onAnimationEnd(Landroid/view/View;)V
-
-    goto :goto_0
-
-    .line 844
-    nop
-
-    :array_0
-    .array-data 4
-        0x0
-        0x0
-    .end array-data
-.end method
-
-.method public doShow(Z)V
-    .locals 9
-    .param p1, "fromSystem"    # Z
-
-    .prologue
-    const/high16 v8, 0x3f800000    # 1.0f
-
-    const/4 v5, 0x1
-
-    const/4 v7, 0x0
-
-    const/4 v6, 0x0
-
-    .line 772
-    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mCurrentShowAnim:Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
-
-    if-eqz v4, :cond_0
-
-    .line 773
-    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mCurrentShowAnim:Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
-
-    invoke-virtual {v4}, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;->cancel()V
-
-    .line 775
-    :cond_0
-    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContainerView:Landroid/support/v7/internal/widget/ActionBarContainer;
-
-    invoke-virtual {v4, v7}, Landroid/support/v7/internal/widget/ActionBarContainer;->setVisibility(I)V
-
-    .line 777
-    iget v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mCurWindowVisibility:I
-
-    if-nez v4, :cond_6
-
-    sget-boolean v4, Landroid/support/v7/internal/app/WindowDecorActionBar;->ALLOW_SHOW_HIDE_ANIMATIONS:Z
-
-    if-eqz v4, :cond_6
-
-    iget-boolean v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mShowHideAnimationEnabled:Z
-
-    if-nez v4, :cond_1
-
-    if-eqz p1, :cond_6
-
-    .line 780
+    .line 761
     :cond_1
     iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContainerView:Landroid/support/v7/internal/widget/ActionBarContainer;
 
     invoke-static {v4, v6}, Landroid/support/v4/view/ViewCompat;->setTranslationY(Landroid/view/View;F)V
 
-    .line 781
+    .line 762
     iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContainerView:Landroid/support/v7/internal/widget/ActionBarContainer;
 
     invoke-virtual {v4}, Landroid/support/v7/internal/widget/ActionBarContainer;->getHeight()I
@@ -2022,43 +1961,45 @@
 
     int-to-float v2, v4
 
-    .line 782
+    .line 763
     .local v2, "startingY":F
     if-eqz p1, :cond_2
 
-    .line 783
+    .line 764
     const/4 v4, 0x2
 
     new-array v3, v4, [I
 
     fill-array-data v3, :array_0
 
-    .line 784
+    .line 765
     .local v3, "topLeft":[I
     iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContainerView:Landroid/support/v7/internal/widget/ActionBarContainer;
 
     invoke-virtual {v4, v3}, Landroid/support/v7/internal/widget/ActionBarContainer;->getLocationInWindow([I)V
 
-    .line 785
-    aget v4, v3, v5
+    .line 766
+    const/4 v4, 0x1
+
+    aget v4, v3, v4
 
     int-to-float v4, v4
 
     sub-float/2addr v2, v4
 
-    .line 787
+    .line 768
     .end local v3    # "topLeft":[I
     :cond_2
     iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContainerView:Landroid/support/v7/internal/widget/ActionBarContainer;
 
     invoke-static {v4, v2}, Landroid/support/v4/view/ViewCompat;->setTranslationY(Landroid/view/View;F)V
 
-    .line 788
+    .line 769
     new-instance v1, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
 
     invoke-direct {v1}, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;-><init>()V
 
-    .line 789
+    .line 770
     .local v1, "anim":Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
     iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContainerView:Landroid/support/v7/internal/widget/ActionBarContainer;
 
@@ -2070,16 +2011,16 @@
 
     move-result-object v0
 
-    .line 790
+    .line 771
     .local v0, "a":Landroid/support/v4/view/ViewPropertyAnimatorCompat;
     iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mUpdateListener:Landroid/support/v4/view/ViewPropertyAnimatorUpdateListener;
 
     invoke-virtual {v0, v4}, Landroid/support/v4/view/ViewPropertyAnimatorCompat;->setUpdateListener(Landroid/support/v4/view/ViewPropertyAnimatorUpdateListener;)Landroid/support/v4/view/ViewPropertyAnimatorCompat;
 
-    .line 791
+    .line 772
     invoke-virtual {v1, v0}, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;->play(Landroid/support/v4/view/ViewPropertyAnimatorCompat;)Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
 
-    .line 792
+    .line 773
     iget-boolean v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContentAnimations:Z
 
     if-eqz v4, :cond_3
@@ -2088,12 +2029,12 @@
 
     if-eqz v4, :cond_3
 
-    .line 793
+    .line 774
     iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContentView:Landroid/view/View;
 
     invoke-static {v4, v2}, Landroid/support/v4/view/ViewCompat;->setTranslationY(Landroid/view/View;F)V
 
-    .line 794
+    .line 775
     iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContentView:Landroid/view/View;
 
     invoke-static {v4}, Landroid/support/v4/view/ViewCompat;->animate(Landroid/view/View;)Landroid/support/v4/view/ViewPropertyAnimatorCompat;
@@ -2106,145 +2047,75 @@
 
     invoke-virtual {v1, v4}, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;->play(Landroid/support/v4/view/ViewPropertyAnimatorCompat;)Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
 
-    .line 796
+    .line 777
     :cond_3
-    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSplitView:Landroid/support/v7/internal/widget/ActionBarContainer;
-
-    if-eqz v4, :cond_4
-
-    iget v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContextDisplayMode:I
-
-    if-ne v4, v5, :cond_4
-
-    .line 797
-    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSplitView:Landroid/support/v7/internal/widget/ActionBarContainer;
-
-    iget-object v5, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSplitView:Landroid/support/v7/internal/widget/ActionBarContainer;
-
-    invoke-virtual {v5}, Landroid/support/v7/internal/widget/ActionBarContainer;->getHeight()I
-
-    move-result v5
-
-    int-to-float v5, v5
-
-    invoke-static {v4, v5}, Landroid/support/v4/view/ViewCompat;->setTranslationY(Landroid/view/View;F)V
-
-    .line 798
-    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSplitView:Landroid/support/v7/internal/widget/ActionBarContainer;
-
-    invoke-virtual {v4, v7}, Landroid/support/v7/internal/widget/ActionBarContainer;->setVisibility(I)V
-
-    .line 799
-    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSplitView:Landroid/support/v7/internal/widget/ActionBarContainer;
-
-    invoke-static {v4}, Landroid/support/v4/view/ViewCompat;->animate(Landroid/view/View;)Landroid/support/v4/view/ViewPropertyAnimatorCompat;
-
-    move-result-object v4
-
-    invoke-virtual {v4, v6}, Landroid/support/v4/view/ViewPropertyAnimatorCompat;->translationY(F)Landroid/support/v4/view/ViewPropertyAnimatorCompat;
-
-    move-result-object v4
-
-    invoke-virtual {v1, v4}, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;->play(Landroid/support/v4/view/ViewPropertyAnimatorCompat;)Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
-
-    .line 801
-    :cond_4
-    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContext:Landroid/content/Context;
-
-    const v5, 0x10a0006
-
-    invoke-static {v4, v5}, Landroid/view/animation/AnimationUtils;->loadInterpolator(Landroid/content/Context;I)Landroid/view/animation/Interpolator;
-
-    move-result-object v4
+    sget-object v4, Landroid/support/v7/internal/app/WindowDecorActionBar;->sShowInterpolator:Landroid/view/animation/Interpolator;
 
     invoke-virtual {v1, v4}, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;->setInterpolator(Landroid/view/animation/Interpolator;)Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
 
-    .line 803
+    .line 778
     const-wide/16 v4, 0xfa
 
     invoke-virtual {v1, v4, v5}, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;->setDuration(J)Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
 
-    .line 811
+    .line 786
     iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mShowListener:Landroid/support/v4/view/ViewPropertyAnimatorListener;
 
     invoke-virtual {v1, v4}, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;->setListener(Landroid/support/v4/view/ViewPropertyAnimatorListener;)Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
 
-    .line 812
+    .line 787
     iput-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mCurrentShowAnim:Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
 
-    .line 813
+    .line 788
     invoke-virtual {v1}, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;->start()V
 
-    .line 827
+    .line 797
     .end local v0    # "a":Landroid/support/v4/view/ViewPropertyAnimatorCompat;
     .end local v1    # "anim":Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
     .end local v2    # "startingY":F
     :goto_0
     iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mOverlayLayout:Landroid/support/v7/internal/widget/ActionBarOverlayLayout;
 
-    if-eqz v4, :cond_5
+    if-eqz v4, :cond_4
 
-    .line 828
+    .line 798
     iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mOverlayLayout:Landroid/support/v7/internal/widget/ActionBarOverlayLayout;
 
     invoke-static {v4}, Landroid/support/v4/view/ViewCompat;->requestApplyInsets(Landroid/view/View;)V
 
-    .line 830
-    :cond_5
+    .line 800
+    :cond_4
     return-void
 
-    .line 815
-    :cond_6
+    .line 790
+    :cond_5
     iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContainerView:Landroid/support/v7/internal/widget/ActionBarContainer;
 
-    invoke-static {v4, v8}, Landroid/support/v4/view/ViewCompat;->setAlpha(Landroid/view/View;F)V
+    const/high16 v5, 0x3f800000    # 1.0f
 
-    .line 816
+    invoke-static {v4, v5}, Landroid/support/v4/view/ViewCompat;->setAlpha(Landroid/view/View;F)V
+
+    .line 791
     iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContainerView:Landroid/support/v7/internal/widget/ActionBarContainer;
 
     invoke-static {v4, v6}, Landroid/support/v4/view/ViewCompat;->setTranslationY(Landroid/view/View;F)V
 
-    .line 817
+    .line 792
     iget-boolean v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContentAnimations:Z
 
-    if-eqz v4, :cond_7
+    if-eqz v4, :cond_6
 
     iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContentView:Landroid/view/View;
 
-    if-eqz v4, :cond_7
+    if-eqz v4, :cond_6
 
-    .line 818
+    .line 793
     iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContentView:Landroid/view/View;
 
     invoke-static {v4, v6}, Landroid/support/v4/view/ViewCompat;->setTranslationY(Landroid/view/View;F)V
 
-    .line 820
-    :cond_7
-    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSplitView:Landroid/support/v7/internal/widget/ActionBarContainer;
-
-    if-eqz v4, :cond_8
-
-    iget v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContextDisplayMode:I
-
-    if-ne v4, v5, :cond_8
-
-    .line 821
-    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSplitView:Landroid/support/v7/internal/widget/ActionBarContainer;
-
-    invoke-static {v4, v8}, Landroid/support/v4/view/ViewCompat;->setAlpha(Landroid/view/View;F)V
-
-    .line 822
-    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSplitView:Landroid/support/v7/internal/widget/ActionBarContainer;
-
-    invoke-static {v4, v6}, Landroid/support/v4/view/ViewCompat;->setTranslationY(Landroid/view/View;F)V
-
-    .line 823
-    iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSplitView:Landroid/support/v7/internal/widget/ActionBarContainer;
-
-    invoke-virtual {v4, v7}, Landroid/support/v7/internal/widget/ActionBarContainer;->setVisibility(I)V
-
-    .line 825
-    :cond_8
+    .line 795
+    :cond_6
     iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mShowListener:Landroid/support/v4/view/ViewPropertyAnimatorListener;
 
     const/4 v5, 0x0
@@ -2253,7 +2124,7 @@
 
     goto :goto_0
 
-    .line 783
+    .line 764
     nop
 
     :array_0
@@ -2268,10 +2139,10 @@
     .param p1, "enabled"    # Z
 
     .prologue
-    .line 660
+    .line 641
     iput-boolean p1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContentAnimations:Z
 
-    .line 661
+    .line 642
     return-void
 .end method
 
@@ -2279,7 +2150,7 @@
     .locals 1
 
     .prologue
-    .line 483
+    .line 473
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     invoke-interface {v0}, Landroid/support/v7/internal/widget/DecorToolbar;->getCustomView()Landroid/view/View;
@@ -2293,7 +2164,7 @@
     .locals 1
 
     .prologue
-    .line 499
+    .line 489
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     invoke-interface {v0}, Landroid/support/v7/internal/widget/DecorToolbar;->getDisplayOptions()I
@@ -2307,7 +2178,7 @@
     .locals 1
 
     .prologue
-    .line 263
+    .line 255
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContainerView:Landroid/support/v7/internal/widget/ActionBarContainer;
 
     invoke-static {v0}, Landroid/support/v4/view/ViewCompat;->getElevation(Landroid/view/View;)F
@@ -2321,7 +2192,7 @@
     .locals 1
 
     .prologue
-    .line 656
+    .line 637
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContainerView:Landroid/support/v7/internal/widget/ActionBarContainer;
 
     invoke-virtual {v0}, Landroid/support/v7/internal/widget/ActionBarContainer;->getHeight()I
@@ -2335,7 +2206,7 @@
     .locals 1
 
     .prologue
-    .line 730
+    .line 711
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mOverlayLayout:Landroid/support/v7/internal/widget/ActionBarOverlayLayout;
 
     invoke-virtual {v0}, Landroid/support/v7/internal/widget/ActionBarOverlayLayout;->getActionBarHideOffset()I
@@ -2349,7 +2220,7 @@
     .locals 1
 
     .prologue
-    .line 1277
+    .line 1259
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     invoke-interface {v0}, Landroid/support/v7/internal/widget/DecorToolbar;->getNavigationMode()I
@@ -2358,13 +2229,13 @@
 
     packed-switch v0, :pswitch_data_0
 
-    .line 1283
+    .line 1265
     const/4 v0, 0x0
 
     :goto_0
     return v0
 
-    .line 1279
+    .line 1261
     :pswitch_0
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabs:Ljava/util/ArrayList;
 
@@ -2374,7 +2245,7 @@
 
     goto :goto_0
 
-    .line 1281
+    .line 1263
     :pswitch_1
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
@@ -2384,7 +2255,7 @@
 
     goto :goto_0
 
-    .line 1277
+    .line 1259
     nop
 
     :pswitch_data_0
@@ -2398,7 +2269,7 @@
     .locals 1
 
     .prologue
-    .line 495
+    .line 485
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     invoke-interface {v0}, Landroid/support/v7/internal/widget/DecorToolbar;->getNavigationMode()I
@@ -2414,7 +2285,7 @@
     .prologue
     const/4 v0, -0x1
 
-    .line 1265
+    .line 1247
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     invoke-interface {v1}, Landroid/support/v7/internal/widget/DecorToolbar;->getNavigationMode()I
@@ -2423,12 +2294,12 @@
 
     packed-switch v1, :pswitch_data_0
 
-    .line 1271
+    .line 1253
     :cond_0
     :goto_0
     return v0
 
-    .line 1267
+    .line 1249
     :pswitch_0
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSelectedTab:Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;
 
@@ -2442,7 +2313,7 @@
 
     goto :goto_0
 
-    .line 1269
+    .line 1251
     :pswitch_1
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
@@ -2452,7 +2323,7 @@
 
     goto :goto_0
 
-    .line 1265
+    .line 1247
     nop
 
     :pswitch_data_0
@@ -2466,7 +2337,7 @@
     .locals 1
 
     .prologue
-    .line 651
+    .line 632
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSelectedTab:Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;
 
     return-object v0
@@ -2476,7 +2347,7 @@
     .locals 1
 
     .prologue
-    .line 491
+    .line 481
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     invoke-interface {v0}, Landroid/support/v7/internal/widget/DecorToolbar;->getSubtitle()Ljava/lang/CharSequence;
@@ -2491,7 +2362,7 @@
     .param p1, "index"    # I
 
     .prologue
-    .line 1324
+    .line 1306
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabs:Ljava/util/ArrayList;
 
     invoke-virtual {v0, p1}, Ljava/util/ArrayList;->get(I)Ljava/lang/Object;
@@ -2507,7 +2378,7 @@
     .locals 1
 
     .prologue
-    .line 1289
+    .line 1271
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabs:Ljava/util/ArrayList;
 
     invoke-virtual {v0}, Ljava/util/ArrayList;->size()I
@@ -2521,17 +2392,17 @@
     .locals 5
 
     .prologue
-    .line 888
+    .line 870
     iget-object v3, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mThemedContext:Landroid/content/Context;
 
     if-nez v3, :cond_0
 
-    .line 889
+    .line 871
     new-instance v1, Landroid/util/TypedValue;
 
     invoke-direct {v1}, Landroid/util/TypedValue;-><init>()V
 
-    .line 890
+    .line 872
     .local v1, "outValue":Landroid/util/TypedValue;
     iget-object v3, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContext:Landroid/content/Context;
 
@@ -2539,7 +2410,7 @@
 
     move-result-object v0
 
-    .line 891
+    .line 873
     .local v0, "currentTheme":Landroid/content/res/Resources$Theme;
     sget v3, Landroid/support/v7/appcompat/R$attr;->actionBarWidgetTheme:I
 
@@ -2547,14 +2418,14 @@
 
     invoke-virtual {v0, v3, v1, v4}, Landroid/content/res/Resources$Theme;->resolveAttribute(ILandroid/util/TypedValue;Z)Z
 
-    .line 892
+    .line 874
     iget v2, v1, Landroid/util/TypedValue;->resourceId:I
 
-    .line 894
+    .line 876
     .local v2, "targetThemeRes":I
     if-eqz v2, :cond_1
 
-    .line 895
+    .line 877
     new-instance v3, Landroid/view/ContextThemeWrapper;
 
     iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContext:Landroid/content/Context;
@@ -2563,7 +2434,7 @@
 
     iput-object v3, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mThemedContext:Landroid/content/Context;
 
-    .line 900
+    .line 882
     .end local v0    # "currentTheme":Landroid/content/res/Resources$Theme;
     .end local v1    # "outValue":Landroid/util/TypedValue;
     .end local v2    # "targetThemeRes":I
@@ -2573,7 +2444,7 @@
 
     return-object v3
 
-    .line 897
+    .line 879
     .restart local v0    # "currentTheme":Landroid/content/res/Resources$Theme;
     .restart local v1    # "outValue":Landroid/util/TypedValue;
     .restart local v2    # "targetThemeRes":I
@@ -2589,12 +2460,12 @@
     .locals 1
 
     .prologue
-    .line 1363
+    .line 1345
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTintManager:Landroid/support/v7/internal/widget/TintManager;
 
     if-nez v0, :cond_0
 
-    .line 1364
+    .line 1346
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContext:Landroid/content/Context;
 
     invoke-static {v0}, Landroid/support/v7/internal/widget/TintManager;->get(Landroid/content/Context;)Landroid/support/v7/internal/widget/TintManager;
@@ -2603,7 +2474,7 @@
 
     iput-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTintManager:Landroid/support/v7/internal/widget/TintManager;
 
-    .line 1366
+    .line 1348
     :cond_0
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTintManager:Landroid/support/v7/internal/widget/TintManager;
 
@@ -2614,7 +2485,7 @@
     .locals 1
 
     .prologue
-    .line 487
+    .line 477
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     invoke-interface {v0}, Landroid/support/v7/internal/widget/DecorToolbar;->getTitle()Ljava/lang/CharSequence;
@@ -2628,7 +2499,7 @@
     .locals 1
 
     .prologue
-    .line 1339
+    .line 1321
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     invoke-interface {v0}, Landroid/support/v7/internal/widget/DecorToolbar;->hasIcon()Z
@@ -2642,7 +2513,7 @@
     .locals 1
 
     .prologue
-    .line 1353
+    .line 1335
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     invoke-interface {v0}, Landroid/support/v7/internal/widget/DecorToolbar;->hasLogo()Z
@@ -2656,22 +2527,22 @@
     .locals 1
 
     .prologue
-    .line 690
+    .line 671
     iget-boolean v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mHiddenByApp:Z
 
     if-nez v0, :cond_0
 
-    .line 691
+    .line 672
     const/4 v0, 0x1
 
     iput-boolean v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mHiddenByApp:Z
 
-    .line 692
+    .line 673
     const/4 v0, 0x0
 
     invoke-direct {p0, v0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->updateVisibility(Z)V
 
-    .line 694
+    .line 675
     :cond_0
     return-void
 .end method
@@ -2682,18 +2553,18 @@
     .prologue
     const/4 v1, 0x1
 
-    .line 707
+    .line 688
     iget-boolean v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mHiddenBySystem:Z
 
     if-nez v0, :cond_0
 
-    .line 708
+    .line 689
     iput-boolean v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mHiddenBySystem:Z
 
-    .line 709
+    .line 690
     invoke-direct {p0, v1}, Landroid/support/v7/internal/app/WindowDecorActionBar;->updateVisibility(Z)V
 
-    .line 711
+    .line 692
     :cond_0
     return-void
 .end method
@@ -2702,7 +2573,7 @@
     .locals 1
 
     .prologue
-    .line 725
+    .line 706
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mOverlayLayout:Landroid/support/v7/internal/widget/ActionBarOverlayLayout;
 
     invoke-virtual {v0}, Landroid/support/v7/internal/widget/ActionBarOverlayLayout;->isHideOnContentScrollEnabled()Z
@@ -2716,12 +2587,12 @@
     .locals 2
 
     .prologue
-    .line 870
+    .line 835
     invoke-virtual {p0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->getHeight()I
 
     move-result v0
 
-    .line 872
+    .line 837
     .local v0, "height":I
     iget-boolean v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mNowShowing:Z
 
@@ -2751,7 +2622,7 @@
     .locals 1
 
     .prologue
-    .line 905
+    .line 887
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     if-eqz v0, :cond_0
@@ -2779,7 +2650,7 @@
     .locals 1
 
     .prologue
-    .line 579
+    .line 560
     new-instance v0, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;
 
     invoke-direct {v0, p0}, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;-><init>(Landroid/support/v7/internal/app/WindowDecorActionBar;)V
@@ -2792,7 +2663,7 @@
     .param p1, "newConfig"    # Landroid/content/res/Configuration;
 
     .prologue
-    .line 267
+    .line 259
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContext:Landroid/content/Context;
 
     invoke-static {v0}, Landroid/support/v7/internal/view/ActionBarPolicy;->get(Landroid/content/Context;)Landroid/support/v7/internal/view/ActionBarPolicy;
@@ -2805,7 +2676,7 @@
 
     invoke-direct {p0, v0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->setHasEmbeddedTabs(Z)V
 
-    .line 268
+    .line 260
     return-void
 .end method
 
@@ -2813,22 +2684,22 @@
     .locals 1
 
     .prologue
-    .line 930
+    .line 912
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mCurrentShowAnim:Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
 
     if-eqz v0, :cond_0
 
-    .line 931
+    .line 913
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mCurrentShowAnim:Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
 
     invoke-virtual {v0}, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;->cancel()V
 
-    .line 932
+    .line 914
     const/4 v0, 0x0
 
     iput-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mCurrentShowAnim:Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
 
-    .line 934
+    .line 916
     :cond_0
     return-void
 .end method
@@ -2837,7 +2708,7 @@
     .locals 0
 
     .prologue
-    .line 938
+    .line 920
     return-void
 .end method
 
@@ -2846,10 +2717,10 @@
     .param p1, "visibility"    # I
 
     .prologue
-    .line 328
+    .line 320
     iput p1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mCurWindowVisibility:I
 
-    .line 329
+    .line 321
     return-void
 .end method
 
@@ -2857,10 +2728,10 @@
     .locals 0
 
     .prologue
-    .line 426
+    .line 418
     invoke-direct {p0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->cleanupTabs()V
 
-    .line 427
+    .line 419
     return-void
 .end method
 
@@ -2869,12 +2740,12 @@
     .param p1, "listener"    # Landroid/support/v7/app/ActionBar$OnMenuVisibilityListener;
 
     .prologue
-    .line 350
+    .line 342
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mMenuVisibilityListeners:Ljava/util/ArrayList;
 
     invoke-virtual {v0, p1}, Ljava/util/ArrayList;->remove(Ljava/lang/Object;)Z
 
-    .line 351
+    .line 343
     return-void
 .end method
 
@@ -2883,14 +2754,14 @@
     .param p1, "tab"    # Landroid/support/v7/app/ActionBar$Tab;
 
     .prologue
-    .line 584
+    .line 565
     invoke-virtual {p1}, Landroid/support/v7/app/ActionBar$Tab;->getPosition()I
 
     move-result v0
 
     invoke-virtual {p0, v0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->removeTabAt(I)V
 
-    .line 585
+    .line 566
     return-void
 .end method
 
@@ -2899,17 +2770,17 @@
     .param p1, "position"    # I
 
     .prologue
-    .line 589
+    .line 570
     iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabScrollView:Landroid/support/v7/internal/widget/ScrollingTabContainerView;
 
     if-nez v4, :cond_1
 
-    .line 610
+    .line 591
     :cond_0
     :goto_0
     return-void
 
-    .line 594
+    .line 575
     :cond_1
     iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSelectedTab:Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;
 
@@ -2921,14 +2792,14 @@
 
     move-result v3
 
-    .line 596
+    .line 577
     .local v3, "selectedTabPosition":I
     :goto_1
     iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabScrollView:Landroid/support/v7/internal/widget/ScrollingTabContainerView;
 
     invoke-virtual {v4, p1}, Landroid/support/v7/internal/widget/ScrollingTabContainerView;->removeTabAt(I)V
 
-    .line 597
+    .line 578
     iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabs:Ljava/util/ArrayList;
 
     invoke-virtual {v4, p1}, Ljava/util/ArrayList;->remove(I)Ljava/lang/Object;
@@ -2937,16 +2808,16 @@
 
     check-cast v2, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;
 
-    .line 598
+    .line 579
     .local v2, "removedTab":Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;
     if-eqz v2, :cond_2
 
-    .line 599
+    .line 580
     const/4 v4, -0x1
 
     invoke-virtual {v2, v4}, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->setPosition(I)V
 
-    .line 602
+    .line 583
     :cond_2
     iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabs:Ljava/util/ArrayList;
 
@@ -2954,7 +2825,7 @@
 
     move-result v1
 
-    .line 603
+    .line 584
     .local v1, "newTabCount":I
     move v0, p1
 
@@ -2962,7 +2833,7 @@
     :goto_2
     if-ge v0, v1, :cond_4
 
-    .line 604
+    .line 585
     iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabs:Ljava/util/ArrayList;
 
     invoke-virtual {v4, v0}, Ljava/util/ArrayList;->get(I)Ljava/lang/Object;
@@ -2973,12 +2844,12 @@
 
     invoke-virtual {v4, v0}, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->setPosition(I)V
 
-    .line 603
+    .line 584
     add-int/lit8 v0, v0, 0x1
 
     goto :goto_2
 
-    .line 594
+    .line 575
     .end local v0    # "i":I
     .end local v1    # "newTabCount":I
     .end local v2    # "removedTab":Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;
@@ -2988,7 +2859,7 @@
 
     goto :goto_1
 
-    .line 607
+    .line 588
     .restart local v0    # "i":I
     .restart local v1    # "newTabCount":I
     .restart local v2    # "removedTab":Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;
@@ -2996,7 +2867,7 @@
     :cond_4
     if-ne v3, p1, :cond_0
 
-    .line 608
+    .line 589
     iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabs:Ljava/util/ArrayList;
 
     invoke-virtual {v4}, Ljava/util/ArrayList;->isEmpty()Z
@@ -3039,7 +2910,7 @@
     .prologue
     const/4 v2, -0x1
 
-    .line 614
+    .line 595
     invoke-virtual {p0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->getNavigationMode()I
 
     move-result v1
@@ -3048,7 +2919,7 @@
 
     if-eq v1, v3, :cond_2
 
-    .line 615
+    .line 596
     if-eqz p1, :cond_1
 
     invoke-virtual {p1}, Landroid/support/v7/app/ActionBar$Tab;->getPosition()I
@@ -3058,7 +2929,7 @@
     :goto_0
     iput v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSavedTabPosition:I
 
-    .line 647
+    .line 628
     .end local p1    # "tab":Landroid/support/v7/app/ActionBar$Tab;
     :cond_0
     :goto_1
@@ -3068,10 +2939,10 @@
     :cond_1
     move v1, v2
 
-    .line 615
+    .line 596
     goto :goto_0
 
-    .line 620
+    .line 601
     :cond_2
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mActivity:Landroid/app/Activity;
 
@@ -3091,7 +2962,7 @@
 
     if-nez v1, :cond_4
 
-    .line 622
+    .line 603
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mActivity:Landroid/app/Activity;
 
     check-cast v1, Landroid/support/v4/app/FragmentActivity;
@@ -3108,19 +2979,19 @@
 
     move-result-object v0
 
-    .line 628
+    .line 609
     .local v0, "trans":Landroid/support/v4/app/FragmentTransaction;
     :goto_2
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSelectedTab:Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;
 
     if-ne v1, p1, :cond_5
 
-    .line 629
+    .line 610
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSelectedTab:Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;
 
     if-eqz v1, :cond_3
 
-    .line 630
+    .line 611
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSelectedTab:Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;
 
     invoke-virtual {v1}, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->getCallback()Landroid/support/v7/app/ActionBar$TabListener;
@@ -3131,7 +3002,7 @@
 
     invoke-interface {v1, v2, v0}, Landroid/support/v7/app/ActionBar$TabListener;->onTabReselected(Landroid/support/v7/app/ActionBar$Tab;Landroid/support/v4/app/FragmentTransaction;)V
 
-    .line 631
+    .line 612
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabScrollView:Landroid/support/v7/internal/widget/ScrollingTabContainerView;
 
     invoke-virtual {p1}, Landroid/support/v7/app/ActionBar$Tab;->getPosition()I
@@ -3140,7 +3011,7 @@
 
     invoke-virtual {v1, v2}, Landroid/support/v7/internal/widget/ScrollingTabContainerView;->animateToTab(I)V
 
-    .line 644
+    .line 625
     .end local p1    # "tab":Landroid/support/v7/app/ActionBar$Tab;
     :cond_3
     :goto_3
@@ -3152,12 +3023,12 @@
 
     if-nez v1, :cond_0
 
-    .line 645
+    .line 626
     invoke-virtual {v0}, Landroid/support/v4/app/FragmentTransaction;->commit()I
 
     goto :goto_1
 
-    .line 625
+    .line 606
     .end local v0    # "trans":Landroid/support/v4/app/FragmentTransaction;
     .restart local p1    # "tab":Landroid/support/v7/app/ActionBar$Tab;
     :cond_4
@@ -3166,7 +3037,7 @@
     .restart local v0    # "trans":Landroid/support/v4/app/FragmentTransaction;
     goto :goto_2
 
-    .line 634
+    .line 615
     :cond_5
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabScrollView:Landroid/support/v7/internal/widget/ScrollingTabContainerView;
 
@@ -3179,12 +3050,12 @@
     :cond_6
     invoke-virtual {v1, v2}, Landroid/support/v7/internal/widget/ScrollingTabContainerView;->setTabSelected(I)V
 
-    .line 635
+    .line 616
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSelectedTab:Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;
 
     if-eqz v1, :cond_7
 
-    .line 636
+    .line 617
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSelectedTab:Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;
 
     invoke-virtual {v1}, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->getCallback()Landroid/support/v7/app/ActionBar$TabListener;
@@ -3195,19 +3066,19 @@
 
     invoke-interface {v1, v2, v0}, Landroid/support/v7/app/ActionBar$TabListener;->onTabUnselected(Landroid/support/v7/app/ActionBar$Tab;Landroid/support/v4/app/FragmentTransaction;)V
 
-    .line 638
+    .line 619
     :cond_7
     check-cast p1, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;
 
     .end local p1    # "tab":Landroid/support/v7/app/ActionBar$Tab;
     iput-object p1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSelectedTab:Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;
 
-    .line 639
+    .line 620
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSelectedTab:Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;
 
     if-eqz v1, :cond_3
 
-    .line 640
+    .line 621
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSelectedTab:Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;
 
     invoke-virtual {v1}, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->getCallback()Landroid/support/v7/app/ActionBar$TabListener;
@@ -3226,12 +3097,12 @@
     .param p1, "d"    # Landroid/graphics/drawable/Drawable;
 
     .prologue
-    .line 469
+    .line 461
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContainerView:Landroid/support/v7/internal/widget/ActionBarContainer;
 
     invoke-virtual {v0, p1}, Landroid/support/v7/internal/widget/ActionBarContainer;->setPrimaryBackground(Landroid/graphics/drawable/Drawable;)V
 
-    .line 470
+    .line 462
     return-void
 .end method
 
@@ -3240,7 +3111,7 @@
     .param p1, "resId"    # I
 
     .prologue
-    .line 367
+    .line 359
     invoke-virtual {p0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->getThemedContext()Landroid/content/Context;
 
     move-result-object v0
@@ -3263,7 +3134,7 @@
 
     invoke-virtual {p0, v0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->setCustomView(Landroid/view/View;)V
 
-    .line 369
+    .line 361
     return-void
 .end method
 
@@ -3272,12 +3143,12 @@
     .param p1, "view"    # Landroid/view/View;
 
     .prologue
-    .line 1249
+    .line 1231
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     invoke-interface {v0, p1}, Landroid/support/v7/internal/widget/DecorToolbar;->setCustomView(Landroid/view/View;)V
 
-    .line 1250
+    .line 1232
     return-void
 .end method
 
@@ -3287,15 +3158,15 @@
     .param p2, "layoutParams"    # Landroid/support/v7/app/ActionBar$LayoutParams;
 
     .prologue
-    .line 1254
+    .line 1236
     invoke-virtual {p1, p2}, Landroid/view/View;->setLayoutParams(Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 1255
+    .line 1237
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     invoke-interface {v0, p1}, Landroid/support/v7/internal/widget/DecorToolbar;->setCustomView(Landroid/view/View;)V
 
-    .line 1256
+    .line 1238
     return-void
 .end method
 
@@ -3304,15 +3175,15 @@
     .param p1, "enable"    # Z
 
     .prologue
-    .line 1357
+    .line 1339
     iget-boolean v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDisplayHomeAsUpSet:Z
 
     if-nez v0, :cond_0
 
-    .line 1358
+    .line 1340
     invoke-virtual {p0, p1}, Landroid/support/v7/internal/app/WindowDecorActionBar;->setDisplayHomeAsUpEnabled(Z)V
 
-    .line 1360
+    .line 1342
     :cond_0
     return-void
 .end method
@@ -3324,7 +3195,7 @@
     .prologue
     const/4 v1, 0x4
 
-    .line 383
+    .line 375
     if-eqz p1, :cond_0
 
     move v0, v1
@@ -3332,10 +3203,10 @@
     :goto_0
     invoke-virtual {p0, v0, v1}, Landroid/support/v7/internal/app/WindowDecorActionBar;->setDisplayOptions(II)V
 
-    .line 384
+    .line 376
     return-void
 
-    .line 383
+    .line 375
     :cond_0
     const/4 v0, 0x0
 
@@ -3347,23 +3218,23 @@
     .param p1, "options"    # I
 
     .prologue
-    .line 454
+    .line 446
     and-int/lit8 v0, p1, 0x4
 
     if-eqz v0, :cond_0
 
-    .line 455
+    .line 447
     const/4 v0, 0x1
 
     iput-boolean v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDisplayHomeAsUpSet:Z
 
-    .line 457
+    .line 449
     :cond_0
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     invoke-interface {v0, p1}, Landroid/support/v7/internal/widget/DecorToolbar;->setDisplayOptions(I)V
 
-    .line 458
+    .line 450
     return-void
 .end method
 
@@ -3373,25 +3244,25 @@
     .param p2, "mask"    # I
 
     .prologue
-    .line 461
+    .line 453
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     invoke-interface {v1}, Landroid/support/v7/internal/widget/DecorToolbar;->getDisplayOptions()I
 
     move-result v0
 
-    .line 462
+    .line 454
     .local v0, "current":I
     and-int/lit8 v1, p2, 0x4
 
     if-eqz v1, :cond_0
 
-    .line 463
+    .line 455
     const/4 v1, 0x1
 
     iput-boolean v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDisplayHomeAsUpSet:Z
 
-    .line 465
+    .line 457
     :cond_0
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
@@ -3405,7 +3276,7 @@
 
     invoke-interface {v1, v2}, Landroid/support/v7/internal/widget/DecorToolbar;->setDisplayOptions(I)V
 
-    .line 466
+    .line 458
     return-void
 .end method
 
@@ -3416,7 +3287,7 @@
     .prologue
     const/16 v1, 0x10
 
-    .line 393
+    .line 385
     if-eqz p1, :cond_0
 
     move v0, v1
@@ -3424,10 +3295,10 @@
     :goto_0
     invoke-virtual {p0, v0, v1}, Landroid/support/v7/internal/app/WindowDecorActionBar;->setDisplayOptions(II)V
 
-    .line 394
+    .line 386
     return-void
 
-    .line 393
+    .line 385
     :cond_0
     const/4 v0, 0x0
 
@@ -3441,7 +3312,7 @@
     .prologue
     const/4 v1, 0x2
 
-    .line 378
+    .line 370
     if-eqz p1, :cond_0
 
     move v0, v1
@@ -3449,10 +3320,10 @@
     :goto_0
     invoke-virtual {p0, v0, v1}, Landroid/support/v7/internal/app/WindowDecorActionBar;->setDisplayOptions(II)V
 
-    .line 379
+    .line 371
     return-void
 
-    .line 378
+    .line 370
     :cond_0
     const/4 v0, 0x0
 
@@ -3466,7 +3337,7 @@
     .prologue
     const/16 v1, 0x8
 
-    .line 388
+    .line 380
     if-eqz p1, :cond_0
 
     move v0, v1
@@ -3474,10 +3345,10 @@
     :goto_0
     invoke-virtual {p0, v0, v1}, Landroid/support/v7/internal/app/WindowDecorActionBar;->setDisplayOptions(II)V
 
-    .line 389
+    .line 381
     return-void
 
-    .line 388
+    .line 380
     :cond_0
     const/4 v0, 0x0
 
@@ -3491,7 +3362,7 @@
     .prologue
     const/4 v1, 0x1
 
-    .line 373
+    .line 365
     if-eqz p1, :cond_0
 
     move v0, v1
@@ -3499,10 +3370,10 @@
     :goto_0
     invoke-virtual {p0, v0, v1}, Landroid/support/v7/internal/app/WindowDecorActionBar;->setDisplayOptions(II)V
 
-    .line 374
+    .line 366
     return-void
 
-    .line 373
+    .line 365
     :cond_0
     const/4 v0, 0x0
 
@@ -3514,23 +3385,12 @@
     .param p1, "elevation"    # F
 
     .prologue
-    .line 255
+    .line 250
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContainerView:Landroid/support/v7/internal/widget/ActionBarContainer;
 
     invoke-static {v0, p1}, Landroid/support/v4/view/ViewCompat;->setElevation(Landroid/view/View;F)V
 
-    .line 256
-    iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSplitView:Landroid/support/v7/internal/widget/ActionBarContainer;
-
-    if-eqz v0, :cond_0
-
-    .line 257
-    iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSplitView:Landroid/support/v7/internal/widget/ActionBarContainer;
-
-    invoke-static {v0, p1}, Landroid/support/v4/view/ViewCompat;->setElevation(Landroid/view/View;F)V
-
-    .line 259
-    :cond_0
+    .line 251
     return-void
 .end method
 
@@ -3539,7 +3399,7 @@
     .param p1, "offset"    # I
 
     .prologue
-    .line 735
+    .line 716
     if-eqz p1, :cond_0
 
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mOverlayLayout:Landroid/support/v7/internal/widget/ActionBarOverlayLayout;
@@ -3550,7 +3410,7 @@
 
     if-nez v0, :cond_0
 
-    .line 736
+    .line 717
     new-instance v0, Ljava/lang/IllegalStateException;
 
     const-string v1, "Action bar must be in overlay mode (Window.FEATURE_OVERLAY_ACTION_BAR) to set a non-zero hide offset"
@@ -3559,13 +3419,13 @@
 
     throw v0
 
-    .line 739
+    .line 720
     :cond_0
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mOverlayLayout:Landroid/support/v7/internal/widget/ActionBarOverlayLayout;
 
     invoke-virtual {v0, p1}, Landroid/support/v7/internal/widget/ActionBarOverlayLayout;->setActionBarHideOffset(I)V
 
-    .line 740
+    .line 721
     return-void
 .end method
 
@@ -3574,7 +3434,7 @@
     .param p1, "hideOnContentScroll"    # Z
 
     .prologue
-    .line 715
+    .line 696
     if-eqz p1, :cond_0
 
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mOverlayLayout:Landroid/support/v7/internal/widget/ActionBarOverlayLayout;
@@ -3585,7 +3445,7 @@
 
     if-nez v0, :cond_0
 
-    .line 716
+    .line 697
     new-instance v0, Ljava/lang/IllegalStateException;
 
     const-string v1, "Action bar must be in overlay mode (Window.FEATURE_OVERLAY_ACTION_BAR) to enable hide on content scroll"
@@ -3594,16 +3454,16 @@
 
     throw v0
 
-    .line 719
+    .line 700
     :cond_0
     iput-boolean p1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mHideOnContentScroll:Z
 
-    .line 720
+    .line 701
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mOverlayLayout:Landroid/support/v7/internal/widget/ActionBarOverlayLayout;
 
     invoke-virtual {v0, p1}, Landroid/support/v7/internal/widget/ActionBarOverlayLayout;->setHideOnContentScrollEnabled(Z)V
 
-    .line 721
+    .line 702
     return-void
 .end method
 
@@ -3612,12 +3472,12 @@
     .param p1, "resId"    # I
 
     .prologue
-    .line 925
+    .line 907
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     invoke-interface {v0, p1}, Landroid/support/v7/internal/widget/DecorToolbar;->setNavigationContentDescription(I)V
 
-    .line 926
+    .line 908
     return-void
 .end method
 
@@ -3626,12 +3486,12 @@
     .param p1, "description"    # Ljava/lang/CharSequence;
 
     .prologue
-    .line 920
+    .line 902
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     invoke-interface {v0, p1}, Landroid/support/v7/internal/widget/DecorToolbar;->setNavigationContentDescription(Ljava/lang/CharSequence;)V
 
-    .line 921
+    .line 903
     return-void
 .end method
 
@@ -3640,12 +3500,12 @@
     .param p1, "resId"    # I
 
     .prologue
-    .line 915
+    .line 897
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     invoke-interface {v0, p1}, Landroid/support/v7/internal/widget/DecorToolbar;->setNavigationIcon(I)V
 
-    .line 916
+    .line 898
     return-void
 .end method
 
@@ -3654,12 +3514,12 @@
     .param p1, "indicator"    # Landroid/graphics/drawable/Drawable;
 
     .prologue
-    .line 910
+    .line 892
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     invoke-interface {v0, p1}, Landroid/support/v7/internal/widget/DecorToolbar;->setNavigationIcon(Landroid/graphics/drawable/Drawable;)V
 
-    .line 911
+    .line 893
     return-void
 .end method
 
@@ -3668,12 +3528,12 @@
     .param p1, "enable"    # Z
 
     .prologue
-    .line 398
+    .line 390
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     invoke-interface {v0, p1}, Landroid/support/v7/internal/widget/DecorToolbar;->setHomeButtonEnabled(Z)V
 
-    .line 399
+    .line 391
     return-void
 .end method
 
@@ -3682,12 +3542,12 @@
     .param p1, "resId"    # I
 
     .prologue
-    .line 1330
+    .line 1312
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     invoke-interface {v0, p1}, Landroid/support/v7/internal/widget/DecorToolbar;->setIcon(I)V
 
-    .line 1331
+    .line 1313
     return-void
 .end method
 
@@ -3696,12 +3556,12 @@
     .param p1, "icon"    # Landroid/graphics/drawable/Drawable;
 
     .prologue
-    .line 1335
+    .line 1317
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     invoke-interface {v0, p1}, Landroid/support/v7/internal/widget/DecorToolbar;->setIcon(Landroid/graphics/drawable/Drawable;)V
 
-    .line 1336
+    .line 1318
     return-void
 .end method
 
@@ -3711,16 +3571,16 @@
     .param p2, "callback"    # Landroid/support/v7/app/ActionBar$OnNavigationListener;
 
     .prologue
-    .line 1260
+    .line 1242
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     new-instance v1, Landroid/support/v7/internal/app/NavItemSelectedListener;
 
     invoke-direct {v1, p2}, Landroid/support/v7/internal/app/NavItemSelectedListener;-><init>(Landroid/support/v7/app/ActionBar$OnNavigationListener;)V
 
-    invoke-interface {v0, p1, v1}, Landroid/support/v7/internal/widget/DecorToolbar;->setDropdownParams(Landroid/widget/SpinnerAdapter;Landroid/support/v7/internal/widget/AdapterViewCompat$OnItemSelectedListener;)V
+    invoke-interface {v0, p1, v1}, Landroid/support/v7/internal/widget/DecorToolbar;->setDropdownParams(Landroid/widget/SpinnerAdapter;Landroid/widget/AdapterView$OnItemSelectedListener;)V
 
-    .line 1261
+    .line 1243
     return-void
 .end method
 
@@ -3729,12 +3589,12 @@
     .param p1, "resId"    # I
 
     .prologue
-    .line 1344
+    .line 1326
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     invoke-interface {v0, p1}, Landroid/support/v7/internal/widget/DecorToolbar;->setLogo(I)V
 
-    .line 1345
+    .line 1327
     return-void
 .end method
 
@@ -3743,12 +3603,12 @@
     .param p1, "logo"    # Landroid/graphics/drawable/Drawable;
 
     .prologue
-    .line 1349
+    .line 1331
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     invoke-interface {v0, p1}, Landroid/support/v7/internal/widget/DecorToolbar;->setLogo(Landroid/graphics/drawable/Drawable;)V
 
-    .line 1350
+    .line 1332
     return-void
 .end method
 
@@ -3765,18 +3625,18 @@
 
     const/4 v3, 0x0
 
-    .line 1294
+    .line 1276
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     invoke-interface {v1}, Landroid/support/v7/internal/widget/DecorToolbar;->getNavigationMode()I
 
     move-result v0
 
-    .line 1295
+    .line 1277
     .local v0, "oldMode":I
     packed-switch v0, :pswitch_data_0
 
-    .line 1302
+    .line 1284
     :goto_0
     if-eq v0, p1, :cond_0
 
@@ -3784,26 +3644,26 @@
 
     if-nez v1, :cond_0
 
-    .line 1303
+    .line 1285
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mOverlayLayout:Landroid/support/v7/internal/widget/ActionBarOverlayLayout;
 
     if-eqz v1, :cond_0
 
-    .line 1304
+    .line 1286
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mOverlayLayout:Landroid/support/v7/internal/widget/ActionBarOverlayLayout;
 
     invoke-static {v1}, Landroid/support/v4/view/ViewCompat;->requestApplyInsets(Landroid/view/View;)V
 
-    .line 1307
+    .line 1289
     :cond_0
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     invoke-interface {v1, p1}, Landroid/support/v7/internal/widget/DecorToolbar;->setNavigationMode(I)V
 
-    .line 1308
+    .line 1290
     packed-switch p1, :pswitch_data_1
 
-    .line 1318
+    .line 1300
     :cond_1
     :goto_1
     iget-object v4, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
@@ -3819,7 +3679,7 @@
     :goto_2
     invoke-interface {v4, v1}, Landroid/support/v7/internal/widget/DecorToolbar;->setCollapsible(Z)V
 
-    .line 1319
+    .line 1301
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mOverlayLayout:Landroid/support/v7/internal/widget/ActionBarOverlayLayout;
 
     if-ne p1, v6, :cond_3
@@ -3831,10 +3691,10 @@
     :goto_3
     invoke-virtual {v1, v2}, Landroid/support/v7/internal/widget/ActionBarOverlayLayout;->setHasNonEmbeddedTabs(Z)V
 
-    .line 1320
+    .line 1302
     return-void
 
-    .line 1297
+    .line 1279
     :pswitch_0
     invoke-virtual {p0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->getSelectedNavigationIndex()I
 
@@ -3842,12 +3702,12 @@
 
     iput v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSavedTabPosition:I
 
-    .line 1298
+    .line 1280
     const/4 v1, 0x0
 
     invoke-virtual {p0, v1}, Landroid/support/v7/internal/app/WindowDecorActionBar;->selectTab(Landroid/support/v7/app/ActionBar$Tab;)V
 
-    .line 1299
+    .line 1281
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabScrollView:Landroid/support/v7/internal/widget/ScrollingTabContainerView;
 
     const/16 v4, 0x8
@@ -3856,26 +3716,26 @@
 
     goto :goto_0
 
-    .line 1310
+    .line 1292
     :pswitch_1
     invoke-direct {p0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->ensureTabsExist()V
 
-    .line 1311
+    .line 1293
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabScrollView:Landroid/support/v7/internal/widget/ScrollingTabContainerView;
 
     invoke-virtual {v1, v3}, Landroid/support/v7/internal/widget/ScrollingTabContainerView;->setVisibility(I)V
 
-    .line 1312
+    .line 1294
     iget v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSavedTabPosition:I
 
     if-eq v1, v5, :cond_1
 
-    .line 1313
+    .line 1295
     iget v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSavedTabPosition:I
 
     invoke-virtual {p0, v1}, Landroid/support/v7/internal/app/WindowDecorActionBar;->setSelectedNavigationItem(I)V
 
-    .line 1314
+    .line 1296
     iput v5, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSavedTabPosition:I
 
     goto :goto_1
@@ -3883,22 +3743,22 @@
     :cond_2
     move v1, v3
 
-    .line 1318
+    .line 1300
     goto :goto_2
 
     :cond_3
     move v2, v3
 
-    .line 1319
+    .line 1301
     goto :goto_3
 
-    .line 1295
+    .line 1277
     :pswitch_data_0
     .packed-switch 0x2
         :pswitch_0
     .end packed-switch
 
-    .line 1308
+    .line 1290
     :pswitch_data_1
     .packed-switch 0x2
         :pswitch_1
@@ -3910,7 +3770,7 @@
     .param p1, "position"    # I
 
     .prologue
-    .line 412
+    .line 404
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     invoke-interface {v0}, Landroid/support/v7/internal/widget/DecorToolbar;->getNavigationMode()I
@@ -3919,7 +3779,7 @@
 
     packed-switch v0, :pswitch_data_0
 
-    .line 420
+    .line 412
     new-instance v0, Ljava/lang/IllegalStateException;
 
     const-string v1, "setSelectedNavigationIndex not valid for current navigation mode"
@@ -3928,7 +3788,7 @@
 
     throw v0
 
-    .line 414
+    .line 406
     :pswitch_0
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mTabs:Ljava/util/ArrayList;
 
@@ -3940,11 +3800,11 @@
 
     invoke-virtual {p0, v0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->selectTab(Landroid/support/v7/app/ActionBar$Tab;)V
 
-    .line 423
+    .line 415
     :goto_0
     return-void
 
-    .line 417
+    .line 409
     :pswitch_1
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
@@ -3952,7 +3812,7 @@
 
     goto :goto_0
 
-    .line 412
+    .line 404
     nop
 
     :pswitch_data_0
@@ -3967,43 +3827,32 @@
     .param p1, "enabled"    # Z
 
     .prologue
-    .line 339
+    .line 331
     iput-boolean p1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mShowHideAnimationEnabled:Z
 
-    .line 340
+    .line 332
     if-nez p1, :cond_0
 
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mCurrentShowAnim:Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
 
     if-eqz v0, :cond_0
 
-    .line 341
+    .line 333
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mCurrentShowAnim:Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;
 
     invoke-virtual {v0}, Landroid/support/v7/internal/view/ViewPropertyAnimatorCompatSet;->cancel()V
 
-    .line 343
+    .line 335
     :cond_0
     return-void
 .end method
 
 .method public setSplitBackgroundDrawable(Landroid/graphics/drawable/Drawable;)V
-    .locals 1
+    .locals 0
     .param p1, "d"    # Landroid/graphics/drawable/Drawable;
 
     .prologue
-    .line 477
-    iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSplitView:Landroid/support/v7/internal/widget/ActionBarContainer;
-
-    if-eqz v0, :cond_0
-
-    .line 478
-    iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSplitView:Landroid/support/v7/internal/widget/ActionBarContainer;
-
-    invoke-virtual {v0, p1}, Landroid/support/v7/internal/widget/ActionBarContainer;->setSplitBackground(Landroid/graphics/drawable/Drawable;)V
-
-    .line 480
-    :cond_0
+    .line 470
     return-void
 .end method
 
@@ -4012,12 +3861,12 @@
     .param p1, "d"    # Landroid/graphics/drawable/Drawable;
 
     .prologue
-    .line 473
+    .line 465
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContainerView:Landroid/support/v7/internal/widget/ActionBarContainer;
 
     invoke-virtual {v0, p1}, Landroid/support/v7/internal/widget/ActionBarContainer;->setStackedBackground(Landroid/graphics/drawable/Drawable;)V
 
-    .line 474
+    .line 466
     return-void
 .end method
 
@@ -4026,7 +3875,7 @@
     .param p1, "resId"    # I
 
     .prologue
-    .line 408
+    .line 400
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContext:Landroid/content/Context;
 
     invoke-virtual {v0, p1}, Landroid/content/Context;->getString(I)Ljava/lang/String;
@@ -4035,7 +3884,7 @@
 
     invoke-virtual {p0, v0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->setSubtitle(Ljava/lang/CharSequence;)V
 
-    .line 409
+    .line 401
     return-void
 .end method
 
@@ -4044,12 +3893,12 @@
     .param p1, "subtitle"    # Ljava/lang/CharSequence;
 
     .prologue
-    .line 450
+    .line 442
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     invoke-interface {v0, p1}, Landroid/support/v7/internal/widget/DecorToolbar;->setSubtitle(Ljava/lang/CharSequence;)V
 
-    .line 451
+    .line 443
     return-void
 .end method
 
@@ -4058,7 +3907,7 @@
     .param p1, "resId"    # I
 
     .prologue
-    .line 403
+    .line 395
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContext:Landroid/content/Context;
 
     invoke-virtual {v0, p1}, Landroid/content/Context;->getString(I)Ljava/lang/String;
@@ -4067,7 +3916,7 @@
 
     invoke-virtual {p0, v0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->setTitle(Ljava/lang/CharSequence;)V
 
-    .line 404
+    .line 396
     return-void
 .end method
 
@@ -4076,12 +3925,12 @@
     .param p1, "title"    # Ljava/lang/CharSequence;
 
     .prologue
-    .line 441
+    .line 433
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     invoke-interface {v0, p1}, Landroid/support/v7/internal/widget/DecorToolbar;->setTitle(Ljava/lang/CharSequence;)V
 
-    .line 442
+    .line 434
     return-void
 .end method
 
@@ -4090,12 +3939,12 @@
     .param p1, "title"    # Ljava/lang/CharSequence;
 
     .prologue
-    .line 446
+    .line 438
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mDecorToolbar:Landroid/support/v7/internal/widget/DecorToolbar;
 
     invoke-interface {v0, p1}, Landroid/support/v7/internal/widget/DecorToolbar;->setWindowTitle(Ljava/lang/CharSequence;)V
 
-    .line 447
+    .line 439
     return-void
 .end method
 
@@ -4105,18 +3954,18 @@
     .prologue
     const/4 v1, 0x0
 
-    .line 665
+    .line 646
     iget-boolean v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mHiddenByApp:Z
 
     if-eqz v0, :cond_0
 
-    .line 666
+    .line 647
     iput-boolean v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mHiddenByApp:Z
 
-    .line 667
+    .line 648
     invoke-direct {p0, v1}, Landroid/support/v7/internal/app/WindowDecorActionBar;->updateVisibility(Z)V
 
-    .line 669
+    .line 650
     :cond_0
     return-void
 .end method
@@ -4125,57 +3974,55 @@
     .locals 1
 
     .prologue
-    .line 682
+    .line 663
     iget-boolean v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mHiddenBySystem:Z
 
     if-eqz v0, :cond_0
 
-    .line 683
+    .line 664
     const/4 v0, 0x0
 
     iput-boolean v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mHiddenBySystem:Z
 
-    .line 684
+    .line 665
     const/4 v0, 0x1
 
     invoke-direct {p0, v0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->updateVisibility(Z)V
 
-    .line 686
+    .line 667
     :cond_0
     return-void
 .end method
 
 .method public startActionMode(Landroid/support/v7/view/ActionMode$Callback;)Landroid/support/v7/view/ActionMode;
-    .locals 4
+    .locals 3
     .param p1, "callback"    # Landroid/support/v7/view/ActionMode$Callback;
 
     .prologue
-    const/4 v3, 0x1
-
-    const/4 v2, 0x0
-
-    .line 503
+    .line 493
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mActionMode:Landroid/support/v7/internal/app/WindowDecorActionBar$ActionModeImpl;
 
     if-eqz v1, :cond_0
 
-    .line 504
+    .line 494
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mActionMode:Landroid/support/v7/internal/app/WindowDecorActionBar$ActionModeImpl;
 
     invoke-virtual {v1}, Landroid/support/v7/internal/app/WindowDecorActionBar$ActionModeImpl;->finish()V
 
-    .line 507
+    .line 497
     :cond_0
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mOverlayLayout:Landroid/support/v7/internal/widget/ActionBarOverlayLayout;
 
+    const/4 v2, 0x0
+
     invoke-virtual {v1, v2}, Landroid/support/v7/internal/widget/ActionBarOverlayLayout;->setHideOnContentScrollEnabled(Z)V
 
-    .line 508
+    .line 498
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContextView:Landroid/support/v7/internal/widget/ActionBarContextView;
 
     invoke-virtual {v1}, Landroid/support/v7/internal/widget/ActionBarContextView;->killMode()V
 
-    .line 509
+    .line 499
     new-instance v0, Landroid/support/v7/internal/app/WindowDecorActionBar$ActionModeImpl;
 
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContextView:Landroid/support/v7/internal/widget/ActionBarContextView;
@@ -4186,76 +4033,44 @@
 
     invoke-direct {v0, p0, v1, p1}, Landroid/support/v7/internal/app/WindowDecorActionBar$ActionModeImpl;-><init>(Landroid/support/v7/internal/app/WindowDecorActionBar;Landroid/content/Context;Landroid/support/v7/view/ActionMode$Callback;)V
 
-    .line 510
+    .line 500
     .local v0, "mode":Landroid/support/v7/internal/app/WindowDecorActionBar$ActionModeImpl;
     invoke-virtual {v0}, Landroid/support/v7/internal/app/WindowDecorActionBar$ActionModeImpl;->dispatchOnCreate()Z
 
     move-result v1
 
-    if-eqz v1, :cond_2
+    if-eqz v1, :cond_1
 
-    .line 511
+    .line 501
     invoke-virtual {v0}, Landroid/support/v7/internal/app/WindowDecorActionBar$ActionModeImpl;->invalidate()V
 
-    .line 512
+    .line 502
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContextView:Landroid/support/v7/internal/widget/ActionBarContextView;
 
     invoke-virtual {v1, v0}, Landroid/support/v7/internal/widget/ActionBarContextView;->initForMode(Landroid/support/v7/view/ActionMode;)V
 
-    .line 513
-    invoke-virtual {p0, v3}, Landroid/support/v7/internal/app/WindowDecorActionBar;->animateToMode(Z)V
+    .line 503
+    const/4 v1, 0x1
 
-    .line 514
-    iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSplitView:Landroid/support/v7/internal/widget/ActionBarContainer;
+    invoke-virtual {p0, v1}, Landroid/support/v7/internal/app/WindowDecorActionBar;->animateToMode(Z)V
 
-    if-eqz v1, :cond_1
-
-    iget v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContextDisplayMode:I
-
-    if-ne v1, v3, :cond_1
-
-    .line 516
-    iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSplitView:Landroid/support/v7/internal/widget/ActionBarContainer;
-
-    invoke-virtual {v1}, Landroid/support/v7/internal/widget/ActionBarContainer;->getVisibility()I
-
-    move-result v1
-
-    if-eqz v1, :cond_1
-
-    .line 517
-    iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mSplitView:Landroid/support/v7/internal/widget/ActionBarContainer;
-
-    invoke-virtual {v1, v2}, Landroid/support/v7/internal/widget/ActionBarContainer;->setVisibility(I)V
-
-    .line 518
-    iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mOverlayLayout:Landroid/support/v7/internal/widget/ActionBarOverlayLayout;
-
-    if-eqz v1, :cond_1
-
-    .line 519
-    iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mOverlayLayout:Landroid/support/v7/internal/widget/ActionBarOverlayLayout;
-
-    invoke-static {v1}, Landroid/support/v4/view/ViewCompat;->requestApplyInsets(Landroid/view/View;)V
-
-    .line 523
-    :cond_1
+    .line 504
     iget-object v1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mContextView:Landroid/support/v7/internal/widget/ActionBarContextView;
 
     const/16 v2, 0x20
 
     invoke-virtual {v1, v2}, Landroid/support/v7/internal/widget/ActionBarContextView;->sendAccessibilityEvent(I)V
 
-    .line 524
+    .line 505
     iput-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar;->mActionMode:Landroid/support/v7/internal/app/WindowDecorActionBar$ActionModeImpl;
 
-    .line 527
+    .line 508
     .end local v0    # "mode":Landroid/support/v7/internal/app/WindowDecorActionBar$ActionModeImpl;
     :goto_0
     return-object v0
 
     .restart local v0    # "mode":Landroid/support/v7/internal/app/WindowDecorActionBar$ActionModeImpl;
-    :cond_2
+    :cond_1
     const/4 v0, 0x0
 
     goto :goto_0

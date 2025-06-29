@@ -12,7 +12,6 @@ import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.text.TextUtils;
 import android.webkit.MimeTypeMap;
-import com.google.android.gms.drive.DriveFile;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -263,7 +262,7 @@ public class FileProvider extends ContentProvider {
 
     private static int modeToMode(String mode) {
         if ("r".equals(mode)) {
-            return DriveFile.MODE_READ_ONLY;
+            return 268435456;
         }
         if ("w".equals(mode) || "wt".equals(mode)) {
             return 738197504;

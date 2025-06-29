@@ -28,6 +28,15 @@
 
 
 # virtual methods
+.method public clearInterpolator(Landroid/view/View;)V
+    .locals 0
+    .param p1, "view"    # Landroid/view/View;
+
+    .prologue
+    .line 154
+    return-void
+.end method
+
 .method public emptyValueAnimator()Landroid/support/v4/animation/ValueAnimatorCompat;
     .locals 1
 

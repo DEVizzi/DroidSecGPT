@@ -19,7 +19,7 @@
     .locals 0
 
     .prologue
-    .line 1531
+    .line 1534
     invoke-direct {p0}, Landroid/support/v4/widget/SlidingPaneLayout$SlidingPanelLayoutImplBase;-><init>()V
 
     return-void
@@ -33,7 +33,7 @@
     .param p2, "child"    # Landroid/view/View;
 
     .prologue
-    .line 1534
+    .line 1537
     invoke-virtual {p2}, Landroid/view/View;->getLayoutParams()Landroid/view/ViewGroup$LayoutParams;
 
     move-result-object v0
@@ -44,6 +44,6 @@
 
     invoke-static {p2, v0}, Landroid/support/v4/view/ViewCompat;->setLayerPaint(Landroid/view/View;Landroid/graphics/Paint;)V
 
-    .line 1535
+    .line 1538
     return-void
 .end method

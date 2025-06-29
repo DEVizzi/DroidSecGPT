@@ -32,17 +32,17 @@
     .locals 1
 
     .prologue
-    .line 1763
+    .line 1765
     invoke-direct {p0}, Landroid/support/v4/app/NotificationCompat$Style;-><init>()V
 
-    .line 1761
+    .line 1763
     new-instance v0, Ljava/util/ArrayList;
 
     invoke-direct {v0}, Ljava/util/ArrayList;-><init>()V
 
     iput-object v0, p0, Landroid/support/v4/app/NotificationCompat$InboxStyle;->mTexts:Ljava/util/ArrayList;
 
-    .line 1764
+    .line 1766
     return-void
 .end method
 
@@ -51,20 +51,20 @@
     .param p1, "builder"    # Landroid/support/v4/app/NotificationCompat$Builder;
 
     .prologue
-    .line 1766
+    .line 1768
     invoke-direct {p0}, Landroid/support/v4/app/NotificationCompat$Style;-><init>()V
 
-    .line 1761
+    .line 1763
     new-instance v0, Ljava/util/ArrayList;
 
     invoke-direct {v0}, Ljava/util/ArrayList;-><init>()V
 
     iput-object v0, p0, Landroid/support/v4/app/NotificationCompat$InboxStyle;->mTexts:Ljava/util/ArrayList;
 
-    .line 1767
+    .line 1769
     invoke-virtual {p0, p1}, Landroid/support/v4/app/NotificationCompat$InboxStyle;->setBuilder(Landroid/support/v4/app/NotificationCompat$Builder;)V
 
-    .line 1768
+    .line 1770
     return-void
 .end method
 
@@ -75,7 +75,7 @@
     .param p1, "cs"    # Ljava/lang/CharSequence;
 
     .prologue
-    .line 1792
+    .line 1794
     iget-object v0, p0, Landroid/support/v4/app/NotificationCompat$InboxStyle;->mTexts:Ljava/util/ArrayList;
 
     invoke-static {p1}, Landroid/support/v4/app/NotificationCompat$Builder;->limitCharSequenceLength(Ljava/lang/CharSequence;)Ljava/lang/CharSequence;
@@ -84,7 +84,7 @@
 
     invoke-virtual {v0, v1}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
 
-    .line 1793
+    .line 1795
     return-object p0
 .end method
 
@@ -93,14 +93,14 @@
     .param p1, "title"    # Ljava/lang/CharSequence;
 
     .prologue
-    .line 1775
+    .line 1777
     invoke-static {p1}, Landroid/support/v4/app/NotificationCompat$Builder;->limitCharSequenceLength(Ljava/lang/CharSequence;)Ljava/lang/CharSequence;
 
     move-result-object v0
 
     iput-object v0, p0, Landroid/support/v4/app/NotificationCompat$InboxStyle;->mBigContentTitle:Ljava/lang/CharSequence;
 
-    .line 1776
+    .line 1778
     return-object p0
 .end method
 
@@ -109,18 +109,18 @@
     .param p1, "cs"    # Ljava/lang/CharSequence;
 
     .prologue
-    .line 1783
+    .line 1785
     invoke-static {p1}, Landroid/support/v4/app/NotificationCompat$Builder;->limitCharSequenceLength(Ljava/lang/CharSequence;)Ljava/lang/CharSequence;
 
     move-result-object v0
 
     iput-object v0, p0, Landroid/support/v4/app/NotificationCompat$InboxStyle;->mSummaryText:Ljava/lang/CharSequence;
 
-    .line 1784
+    .line 1786
     const/4 v0, 0x1
 
     iput-boolean v0, p0, Landroid/support/v4/app/NotificationCompat$InboxStyle;->mSummaryTextSet:Z
 
-    .line 1785
+    .line 1787
     return-object p0
 .end method

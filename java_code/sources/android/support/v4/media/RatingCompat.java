@@ -4,6 +4,8 @@ import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 /* loaded from: classes.dex */
 public final class RatingCompat implements Parcelable {
     public static final Parcelable.Creator<RatingCompat> CREATOR = new Parcelable.Creator<RatingCompat>() { // from class: android.support.v4.media.RatingCompat.1
@@ -31,6 +33,16 @@ public final class RatingCompat implements Parcelable {
     private Object mRatingObj;
     private final int mRatingStyle;
     private final float mRatingValue;
+
+    @Retention(RetentionPolicy.SOURCE)
+    /* loaded from: classes.dex */
+    public @interface StarStyle {
+    }
+
+    @Retention(RetentionPolicy.SOURCE)
+    /* loaded from: classes.dex */
+    public @interface Style {
+    }
 
     private RatingCompat(int ratingStyle, float rating) {
         this.mRatingStyle = ratingStyle;
@@ -60,7 +72,7 @@ public final class RatingCompat implements Parcelable {
             case 4:
             case 5:
             case 6:
-                return new RatingCompat(ratingStyle, -1.0f);
+                return new RatingCompat(ratingStyle, RATING_NOT_RATED);
             default:
                 return null;
         }
@@ -134,14 +146,11 @@ public final class RatingCompat implements Parcelable {
                 }
                 break;
         }
-        return -1.0f;
+        return RATING_NOT_RATED;
     }
 
     public float getPercentRating() {
-        if (this.mRatingStyle == 6 && isRated()) {
-            return this.mRatingValue;
-        }
-        return -1.0f;
+        return (this.mRatingStyle == 6 && isRated()) ? this.mRatingValue : RATING_NOT_RATED;
     }
 
     public static RatingCompat fromRating(Object ratingObj) {

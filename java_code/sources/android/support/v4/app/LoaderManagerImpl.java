@@ -15,8 +15,8 @@ import java.lang.reflect.Modifier;
 public class LoaderManagerImpl extends LoaderManager {
     static boolean DEBUG = false;
     static final String TAG = "LoaderManager";
-    FragmentActivity mActivity;
     boolean mCreatingLoader;
+    private FragmentHostCallback mHost;
     boolean mRetaining;
     boolean mRetainingStarted;
     boolean mStarted;
@@ -27,7 +27,7 @@ public class LoaderManagerImpl extends LoaderManager {
     /* JADX INFO: Access modifiers changed from: package-private */
     /* compiled from: LoaderManager.java */
     /* loaded from: classes.dex */
-    public final class LoaderInfo implements Loader.OnLoadCompleteListener<Object> {
+    public final class LoaderInfo implements Loader.OnLoadCompleteListener<Object>, Loader.OnLoadCanceledListener<Object> {
         final Bundle mArgs;
         LoaderManager.LoaderCallbacks<Object> mCallbacks;
         Object mData;
@@ -66,6 +66,7 @@ public class LoaderManagerImpl extends LoaderManager {
                     }
                     if (!this.mListenerRegistered) {
                         this.mLoader.registerListener(this.mId, this);
+                        this.mLoader.registerOnLoadCanceledListener(this);
                         this.mListenerRegistered = true;
                     }
                     this.mLoader.startLoading();
@@ -115,7 +116,17 @@ public class LoaderManagerImpl extends LoaderManager {
             if (!this.mRetaining && this.mLoader != null && this.mListenerRegistered) {
                 this.mListenerRegistered = false;
                 this.mLoader.unregisterListener(this);
+                this.mLoader.unregisterOnLoadCanceledListener(this);
                 this.mLoader.stopLoading();
+            }
+        }
+
+        void cancel() {
+            if (LoaderManagerImpl.DEBUG) {
+                Log.v(LoaderManagerImpl.TAG, "  Canceling: " + this);
+            }
+            if (this.mStarted && this.mLoader != null && this.mListenerRegistered && !this.mLoader.cancelLoad()) {
+                onLoadCanceled(this.mLoader);
             }
         }
 
@@ -131,15 +142,15 @@ public class LoaderManagerImpl extends LoaderManager {
                     Log.v(LoaderManagerImpl.TAG, "  Reseting: " + this);
                 }
                 String lastBecause = null;
-                if (LoaderManagerImpl.this.mActivity != null) {
-                    lastBecause = LoaderManagerImpl.this.mActivity.mFragments.mNoTransactionsBecause;
-                    LoaderManagerImpl.this.mActivity.mFragments.mNoTransactionsBecause = "onLoaderReset";
+                if (LoaderManagerImpl.this.mHost != null) {
+                    lastBecause = LoaderManagerImpl.this.mHost.mFragmentManager.mNoTransactionsBecause;
+                    LoaderManagerImpl.this.mHost.mFragmentManager.mNoTransactionsBecause = "onLoaderReset";
                 }
                 try {
                     this.mCallbacks.onLoaderReset(this.mLoader);
                 } finally {
-                    if (LoaderManagerImpl.this.mActivity != null) {
-                        LoaderManagerImpl.this.mActivity.mFragments.mNoTransactionsBecause = lastBecause;
+                    if (LoaderManagerImpl.this.mHost != null) {
+                        LoaderManagerImpl.this.mHost.mFragmentManager.mNoTransactionsBecause = lastBecause;
                     }
                 }
             }
@@ -150,11 +161,39 @@ public class LoaderManagerImpl extends LoaderManager {
                 if (this.mListenerRegistered) {
                     this.mListenerRegistered = false;
                     this.mLoader.unregisterListener(this);
+                    this.mLoader.unregisterOnLoadCanceledListener(this);
                 }
                 this.mLoader.reset();
             }
             if (this.mPendingLoader != null) {
                 this.mPendingLoader.destroy();
+            }
+        }
+
+        @Override // android.support.v4.content.Loader.OnLoadCanceledListener
+        public void onLoadCanceled(Loader<Object> loader) {
+            if (LoaderManagerImpl.DEBUG) {
+                Log.v(LoaderManagerImpl.TAG, "onLoadCanceled: " + this);
+            }
+            if (this.mDestroyed) {
+                if (LoaderManagerImpl.DEBUG) {
+                    Log.v(LoaderManagerImpl.TAG, "  Ignoring load canceled -- destroyed");
+                }
+            } else if (LoaderManagerImpl.this.mLoaders.get(this.mId) != this) {
+                if (LoaderManagerImpl.DEBUG) {
+                    Log.v(LoaderManagerImpl.TAG, "  Ignoring load canceled -- not active");
+                }
+            } else {
+                LoaderInfo pending = this.mPendingLoader;
+                if (pending != null) {
+                    if (LoaderManagerImpl.DEBUG) {
+                        Log.v(LoaderManagerImpl.TAG, "  Switching to pending loader: " + pending);
+                    }
+                    this.mPendingLoader = null;
+                    LoaderManagerImpl.this.mLoaders.put(this.mId, null);
+                    destroy();
+                    LoaderManagerImpl.this.installLoader(pending);
+                }
             }
         }
 
@@ -196,8 +235,8 @@ public class LoaderManagerImpl extends LoaderManager {
                     info.destroy();
                     LoaderManagerImpl.this.mInactiveLoaders.remove(this.mId);
                 }
-                if (LoaderManagerImpl.this.mActivity != null && !LoaderManagerImpl.this.hasRunningLoaders()) {
-                    LoaderManagerImpl.this.mActivity.mFragments.startPendingDeferredFragments();
+                if (LoaderManagerImpl.this.mHost != null && !LoaderManagerImpl.this.hasRunningLoaders()) {
+                    LoaderManagerImpl.this.mHost.mFragmentManager.startPendingDeferredFragments();
                 }
             }
         }
@@ -205,9 +244,9 @@ public class LoaderManagerImpl extends LoaderManager {
         void callOnLoadFinished(Loader<Object> loader, Object data) {
             if (this.mCallbacks != null) {
                 String lastBecause = null;
-                if (LoaderManagerImpl.this.mActivity != null) {
-                    lastBecause = LoaderManagerImpl.this.mActivity.mFragments.mNoTransactionsBecause;
-                    LoaderManagerImpl.this.mActivity.mFragments.mNoTransactionsBecause = "onLoadFinished";
+                if (LoaderManagerImpl.this.mHost != null) {
+                    lastBecause = LoaderManagerImpl.this.mHost.mFragmentManager.mNoTransactionsBecause;
+                    LoaderManagerImpl.this.mHost.mFragmentManager.mNoTransactionsBecause = "onLoadFinished";
                 }
                 try {
                     if (LoaderManagerImpl.DEBUG) {
@@ -216,8 +255,8 @@ public class LoaderManagerImpl extends LoaderManager {
                     this.mCallbacks.onLoadFinished(loader, data);
                     this.mDeliveredData = true;
                 } finally {
-                    if (LoaderManagerImpl.this.mActivity != null) {
-                        LoaderManagerImpl.this.mActivity.mFragments.mNoTransactionsBecause = lastBecause;
+                    if (LoaderManagerImpl.this.mHost != null) {
+                        LoaderManagerImpl.this.mHost.mFragmentManager.mNoTransactionsBecause = lastBecause;
                     }
                 }
             }
@@ -285,15 +324,15 @@ public class LoaderManagerImpl extends LoaderManager {
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public LoaderManagerImpl(String who, FragmentActivity activity, boolean started) {
+    public LoaderManagerImpl(String who, FragmentHostCallback host, boolean started) {
         this.mWho = who;
-        this.mActivity = activity;
+        this.mHost = host;
         this.mStarted = started;
     }
 
     /* JADX INFO: Access modifiers changed from: package-private */
-    public void updateActivity(FragmentActivity activity) {
-        this.mActivity = activity;
+    public void updateHostController(FragmentHostCallback host) {
+        this.mHost = host;
     }
 
     private LoaderInfo createLoader(int id, Bundle args, LoaderManager.LoaderCallbacks<Object> callback) {
@@ -374,6 +413,10 @@ public class LoaderManagerImpl extends LoaderManager {
                     this.mLoaders.put(id, null);
                     info.destroy();
                 } else {
+                    if (DEBUG) {
+                        Log.v(TAG, "  Current loader is running; attempting to cancel");
+                    }
+                    info.cancel();
                     if (info.mPendingLoader != null) {
                         if (DEBUG) {
                             Log.v(TAG, "  Removing pending loader: " + info.mPendingLoader);
@@ -418,8 +461,8 @@ public class LoaderManagerImpl extends LoaderManager {
             this.mInactiveLoaders.removeAt(idx2);
             info2.destroy();
         }
-        if (this.mActivity != null && !hasRunningLoaders()) {
-            this.mActivity.mFragments.startPendingDeferredFragments();
+        if (this.mHost != null && !hasRunningLoaders()) {
+            this.mHost.mFragmentManager.startPendingDeferredFragments();
         }
     }
 
@@ -542,7 +585,7 @@ public class LoaderManagerImpl extends LoaderManager {
         sb.append("LoaderManager{");
         sb.append(Integer.toHexString(System.identityHashCode(this)));
         sb.append(" in ");
-        DebugUtils.buildShortClassTag(this.mActivity, sb);
+        DebugUtils.buildShortClassTag(this.mHost, sb);
         sb.append("}}");
         return sb.toString();
     }

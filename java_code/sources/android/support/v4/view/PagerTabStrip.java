@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
@@ -81,7 +82,7 @@ public class PagerTabStrip extends PagerTitleStrip {
         }
     }
 
-    public void setTabIndicatorColor(int color) {
+    public void setTabIndicatorColor(@ColorInt int color) {
         this.mIndicatorColor = color;
         this.mTabPaint.setColor(this.mIndicatorColor);
         invalidate();
@@ -91,6 +92,7 @@ public class PagerTabStrip extends PagerTitleStrip {
         setTabIndicatorColor(getContext().getResources().getColor(resId));
     }
 
+    @ColorInt
     public int getTabIndicatorColor() {
         return this.mIndicatorColor;
     }
@@ -120,7 +122,7 @@ public class PagerTabStrip extends PagerTitleStrip {
     }
 
     @Override // android.view.View
-    public void setBackgroundColor(int color) {
+    public void setBackgroundColor(@ColorInt int color) {
         super.setBackgroundColor(color);
         if (!this.mDrawFullUnderlineSet) {
             this.mDrawFullUnderline = ((-16777216) & color) == 0;

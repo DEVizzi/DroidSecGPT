@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 /* loaded from: classes.dex */
 public class ContentFrameLayout extends FrameLayout {
+    private OnAttachListener mAttachListener;
     private final Rect mDecorPadding;
     private TypedValue mFixedHeightMajor;
     private TypedValue mFixedHeightMinor;
@@ -17,6 +18,13 @@ public class ContentFrameLayout extends FrameLayout {
     private TypedValue mFixedWidthMinor;
     private TypedValue mMinWidthMajor;
     private TypedValue mMinWidthMinor;
+
+    /* loaded from: classes.dex */
+    public interface OnAttachListener {
+        void onAttachedFromWindow();
+
+        void onDetachedFromWindow();
+    }
 
     public ContentFrameLayout(Context context) {
         this(context, null);
@@ -33,6 +41,10 @@ public class ContentFrameLayout extends FrameLayout {
 
     public void dispatchFitSystemWindows(Rect insets) {
         fitSystemWindows(insets);
+    }
+
+    public void setAttachListener(OnAttachListener attachListener) {
+        this.mAttachListener = attachListener;
     }
 
     public void setDecorPadding(int left, int top, int right, int bottom) {
@@ -147,5 +159,21 @@ public class ContentFrameLayout extends FrameLayout {
             this.mFixedHeightMinor = new TypedValue();
         }
         return this.mFixedHeightMinor;
+    }
+
+    @Override // android.view.ViewGroup, android.view.View
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if (this.mAttachListener != null) {
+            this.mAttachListener.onAttachedFromWindow();
+        }
+    }
+
+    @Override // android.view.ViewGroup, android.view.View
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (this.mAttachListener != null) {
+            this.mAttachListener.onDetachedFromWindow();
+        }
     }
 }

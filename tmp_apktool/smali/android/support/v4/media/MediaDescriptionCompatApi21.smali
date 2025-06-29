@@ -1,4 +1,4 @@
-.class public Landroid/support/v4/media/MediaDescriptionCompatApi21;
+.class Landroid/support/v4/media/MediaDescriptionCompatApi21;
 .super Ljava/lang/Object;
 .source "MediaDescriptionCompatApi21.java"
 
@@ -12,7 +12,7 @@
 
 
 # direct methods
-.method public constructor <init>()V
+.method constructor <init>()V
     .locals 0
 
     .prologue

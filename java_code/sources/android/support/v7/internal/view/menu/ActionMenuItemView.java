@@ -221,7 +221,7 @@ public class ActionMenuItemView extends AppCompatTextView implements MenuView.It
         }
         Toast cheatSheet = Toast.makeText(context, this.mItemData.getTitle(), 0);
         if (midy < displayFrame.height()) {
-            cheatSheet.setGravity(8388661, referenceX, height);
+            cheatSheet.setGravity(8388661, referenceX, (screenPos[1] + height) - displayFrame.top);
         } else {
             cheatSheet.setGravity(81, 0, height);
         }
@@ -268,16 +268,6 @@ public class ActionMenuItemView extends AppCompatTextView implements MenuView.It
         protected boolean onForwardingStarted() {
             ListPopupWindow popup;
             return ActionMenuItemView.this.mItemInvoker != null && ActionMenuItemView.this.mItemInvoker.invokeItem(ActionMenuItemView.this.mItemData) && (popup = getPopup()) != null && popup.isShowing();
-        }
-
-        @Override // android.support.v7.widget.ListPopupWindow.ForwardingListener
-        protected boolean onForwardingStopped() {
-            ListPopupWindow popup = getPopup();
-            if (popup != null) {
-                popup.dismiss();
-                return true;
-            }
-            return false;
         }
     }
 }

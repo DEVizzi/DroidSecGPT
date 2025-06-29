@@ -4,7 +4,10 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.media.AudioManager;
 /* loaded from: classes.dex */
-public class MediaSessionCompatApi8 {
+class MediaSessionCompatApi8 {
+    MediaSessionCompatApi8() {
+    }
+
     public static void registerMediaButtonEventReceiver(Context context, ComponentName mbr) {
         AudioManager am = (AudioManager) context.getSystemService("audio");
         am.registerMediaButtonEventReceiver(mbr);

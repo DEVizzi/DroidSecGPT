@@ -63,16 +63,16 @@
 
 
 # virtual methods
-.method public setCancelButtonIntent(Landroid/app/PendingIntent;)V
+.method public setCancelButtonIntent(Landroid/app/PendingIntent;)Landroid/support/v7/app/NotificationCompat$MediaStyle;
     .locals 0
     .param p1, "pendingIntent"    # Landroid/app/PendingIntent;
 
     .prologue
-    .line 237
+    .line 238
     iput-object p1, p0, Landroid/support/v7/app/NotificationCompat$MediaStyle;->mCancelButtonIntent:Landroid/app/PendingIntent;
 
-    .line 238
-    return-void
+    .line 239
+    return-object p0
 .end method
 
 .method public setMediaSession(Landroid/support/v4/media/session/MediaSessionCompat$Token;)Landroid/support/v7/app/NotificationCompat$MediaStyle;
@@ -99,7 +99,7 @@
     return-object p0
 .end method
 
-.method public setShowCancelButton(Z)V
+.method public setShowCancelButton(Z)Landroid/support/v7/app/NotificationCompat$MediaStyle;
     .locals 0
     .param p1, "show"    # Z
 
@@ -108,5 +108,5 @@
     iput-boolean p1, p0, Landroid/support/v7/app/NotificationCompat$MediaStyle;->mShowCancelButton:Z
 
     .line 228
-    return-void
+    return-object p0
 .end method

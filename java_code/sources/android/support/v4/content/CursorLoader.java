@@ -4,11 +4,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.content.Loader;
+import android.support.v4.os.CancellationSignal;
+import android.support.v4.os.OperationCanceledException;
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.util.Arrays;
 /* loaded from: classes.dex */
 public class CursorLoader extends AsyncTaskLoader<Cursor> {
+    CancellationSignal mCancellationSignal;
     Cursor mCursor;
     final Loader<Cursor>.ForceLoadContentObserver mObserver;
     String[] mProjection;
@@ -20,12 +23,43 @@ public class CursorLoader extends AsyncTaskLoader<Cursor> {
     /* JADX WARN: Can't rename method to resolve collision */
     @Override // android.support.v4.content.AsyncTaskLoader
     public Cursor loadInBackground() {
-        Cursor cursor = getContext().getContentResolver().query(this.mUri, this.mProjection, this.mSelection, this.mSelectionArgs, this.mSortOrder);
-        if (cursor != null) {
-            cursor.getCount();
-            cursor.registerContentObserver(this.mObserver);
+        synchronized (this) {
+            if (isLoadInBackgroundCanceled()) {
+                throw new OperationCanceledException();
+            }
+            this.mCancellationSignal = new CancellationSignal();
         }
-        return cursor;
+        try {
+            Cursor cursor = ContentResolverCompat.query(getContext().getContentResolver(), this.mUri, this.mProjection, this.mSelection, this.mSelectionArgs, this.mSortOrder, this.mCancellationSignal);
+            if (cursor != null) {
+                try {
+                    cursor.getCount();
+                    cursor.registerContentObserver(this.mObserver);
+                } catch (RuntimeException ex) {
+                    cursor.close();
+                    throw ex;
+                }
+            }
+            synchronized (this) {
+                this.mCancellationSignal = null;
+            }
+            return cursor;
+        } catch (Throwable th) {
+            synchronized (this) {
+                this.mCancellationSignal = null;
+                throw th;
+            }
+        }
+    }
+
+    @Override // android.support.v4.content.AsyncTaskLoader
+    public void cancelLoadInBackground() {
+        super.cancelLoadInBackground();
+        synchronized (this) {
+            if (this.mCancellationSignal != null) {
+                this.mCancellationSignal.cancel();
+            }
+        }
     }
 
     @Override // android.support.v4.content.Loader
@@ -62,9 +96,8 @@ public class CursorLoader extends AsyncTaskLoader<Cursor> {
         this.mSortOrder = sortOrder;
     }
 
-    /* JADX INFO: Access modifiers changed from: protected */
     @Override // android.support.v4.content.Loader
-    public void onStartLoading() {
+    protected void onStartLoading() {
         if (this.mCursor != null) {
             deliverResult(this.mCursor);
         }

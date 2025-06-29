@@ -5,11 +5,14 @@ import android.media.RemoteControlClient;
 import android.os.Bundle;
 import android.support.v4.media.session.MediaSessionCompatApi14;
 /* loaded from: classes.dex */
-public class MediaSessionCompatApi19 {
+class MediaSessionCompatApi19 {
     private static final long ACTION_SET_RATING = 128;
     private static final String METADATA_KEY_RATING = "android.media.metadata.RATING";
     private static final String METADATA_KEY_USER_RATING = "android.media.metadata.USER_RATING";
     private static final String METADATA_KEY_YEAR = "android.media.metadata.YEAR";
+
+    MediaSessionCompatApi19() {
+    }
 
     public static void setTransportControlFlags(Object rccObj, long actions) {
         ((RemoteControlClient) rccObj).setTransportControlFlags(getRccTransportControlFlagsFromActions(actions));

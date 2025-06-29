@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.v4.view.accessibility.AccessibilityEventCompat;
 import android.support.v7.appcompat.R;
 import android.support.v7.internal.VersionUtils;
 import android.support.v7.internal.widget.ActivityChooserView;
@@ -188,7 +187,7 @@ public class ActionBarContainer extends FrameLayout {
 
     public void setTransitioning(boolean isTransitioning) {
         this.mIsTransitioning = isTransitioning;
-        setDescendantFocusability(isTransitioning ? 393216 : AccessibilityEventCompat.TYPE_GESTURE_DETECTION_START);
+        setDescendantFocusability(isTransitioning ? 393216 : 262144);
     }
 
     @Override // android.view.ViewGroup

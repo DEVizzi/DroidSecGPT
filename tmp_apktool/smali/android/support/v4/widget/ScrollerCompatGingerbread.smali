@@ -287,6 +287,41 @@
     return-void
 .end method
 
+.method public static springBack(Ljava/lang/Object;IIIIII)Z
+    .locals 7
+    .param p0, "scroller"    # Ljava/lang/Object;
+    .param p1, "startX"    # I
+    .param p2, "startY"    # I
+    .param p3, "minX"    # I
+    .param p4, "maxX"    # I
+    .param p5, "minY"    # I
+    .param p6, "maxY"    # I
+
+    .prologue
+    .line 93
+    move-object v0, p0
+
+    check-cast v0, Landroid/widget/OverScroller;
+
+    move v1, p1
+
+    move v2, p2
+
+    move v3, p3
+
+    move v4, p4
+
+    move v5, p5
+
+    move v6, p6
+
+    invoke-virtual/range {v0 .. v6}, Landroid/widget/OverScroller;->springBack(IIIIII)Z
+
+    move-result v0
+
+    return v0
+.end method
+
 .method public static startScroll(Ljava/lang/Object;IIII)V
     .locals 0
     .param p0, "scroller"    # Ljava/lang/Object;

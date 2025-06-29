@@ -3,7 +3,11 @@ package android.support.v4.print;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
@@ -97,11 +101,12 @@ public class PrintHelperKitkat {
                 @Override // android.print.PrintDocumentAdapter
                 public void onWrite(PageRange[] pageRanges, ParcelFileDescriptor fileDescriptor, CancellationSignal cancellationSignal, PrintDocumentAdapter.WriteResultCallback writeResultCallback) {
                     PrintedPdfDocument pdfDocument = new PrintedPdfDocument(PrintHelperKitkat.this.mContext, this.mAttributes);
+                    Bitmap maybeGrayscale = PrintHelperKitkat.this.convertBitmapForColorMode(bitmap, this.mAttributes.getColorMode());
                     try {
                         PdfDocument.Page page = pdfDocument.startPage(1);
                         RectF content = new RectF(page.getInfo().getContentRect());
-                        Matrix matrix = PrintHelperKitkat.this.getMatrix(bitmap.getWidth(), bitmap.getHeight(), content, fittingMode);
-                        page.getCanvas().drawBitmap(bitmap, matrix, null);
+                        Matrix matrix = PrintHelperKitkat.this.getMatrix(maybeGrayscale.getWidth(), maybeGrayscale.getHeight(), content, fittingMode);
+                        page.getCanvas().drawBitmap(maybeGrayscale, matrix, null);
                         pdfDocument.finishPage(page);
                         try {
                             pdfDocument.writeTo(new FileOutputStream(fileDescriptor.getFileDescriptor()));
@@ -110,6 +115,7 @@ public class PrintHelperKitkat {
                             Log.e(PrintHelperKitkat.LOG_TAG, "Error writing printed content", ioe);
                             writeResultCallback.onWriteFailed(null);
                         }
+                    } finally {
                         if (pdfDocument != null) {
                             pdfDocument.close();
                         }
@@ -119,17 +125,9 @@ public class PrintHelperKitkat {
                             } catch (IOException e) {
                             }
                         }
-                    } catch (Throwable th) {
-                        if (pdfDocument != null) {
-                            pdfDocument.close();
+                        if (maybeGrayscale != bitmap) {
+                            maybeGrayscale.recycle();
                         }
-                        if (fileDescriptor != null) {
-                            try {
-                                fileDescriptor.close();
-                            } catch (IOException e2) {
-                            }
-                        }
-                        throw th;
                     }
                 }
 
@@ -272,16 +270,21 @@ public class PrintHelperKitkat {
             if (this.val$callback != null) {
                 this.val$callback.onFinish();
             }
+            if (this.mBitmap != null) {
+                this.mBitmap.recycle();
+                this.mBitmap = null;
+            }
         }
 
         @Override // android.print.PrintDocumentAdapter
         public void onWrite(PageRange[] pageRanges, ParcelFileDescriptor fileDescriptor, CancellationSignal cancellationSignal, PrintDocumentAdapter.WriteResultCallback writeResultCallback) {
             PrintedPdfDocument pdfDocument = new PrintedPdfDocument(PrintHelperKitkat.this.mContext, this.mAttributes);
+            Bitmap maybeGrayscale = PrintHelperKitkat.this.convertBitmapForColorMode(this.mBitmap, this.mAttributes.getColorMode());
             try {
                 PdfDocument.Page page = pdfDocument.startPage(1);
                 RectF content = new RectF(page.getInfo().getContentRect());
                 Matrix matrix = PrintHelperKitkat.this.getMatrix(this.mBitmap.getWidth(), this.mBitmap.getHeight(), content, this.val$fittingMode);
-                page.getCanvas().drawBitmap(this.mBitmap, matrix, null);
+                page.getCanvas().drawBitmap(maybeGrayscale, matrix, null);
                 pdfDocument.finishPage(page);
                 try {
                     pdfDocument.writeTo(new FileOutputStream(fileDescriptor.getFileDescriptor()));
@@ -290,6 +293,7 @@ public class PrintHelperKitkat {
                     Log.e(PrintHelperKitkat.LOG_TAG, "Error writing printed content", ioe);
                     writeResultCallback.onWriteFailed(null);
                 }
+            } finally {
                 if (pdfDocument != null) {
                     pdfDocument.close();
                 }
@@ -299,17 +303,9 @@ public class PrintHelperKitkat {
                     } catch (IOException e) {
                     }
                 }
-            } catch (Throwable th) {
-                if (pdfDocument != null) {
-                    pdfDocument.close();
+                if (maybeGrayscale != this.mBitmap) {
+                    maybeGrayscale.recycle();
                 }
-                if (fileDescriptor != null) {
-                    try {
-                        fileDescriptor.close();
-                    } catch (IOException e2) {
-                    }
-                }
-                throw th;
             }
         }
     }
@@ -373,5 +369,22 @@ public class PrintHelperKitkat {
                 }
             }
         }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public Bitmap convertBitmapForColorMode(Bitmap original, int colorMode) {
+        if (colorMode == 1) {
+            Bitmap grayscale = Bitmap.createBitmap(original.getWidth(), original.getHeight(), Bitmap.Config.ARGB_8888);
+            Canvas c = new Canvas(grayscale);
+            Paint p = new Paint();
+            ColorMatrix cm = new ColorMatrix();
+            cm.setSaturation(0.0f);
+            ColorMatrixColorFilter f = new ColorMatrixColorFilter(cm);
+            p.setColorFilter(f);
+            c.drawBitmap(original, 0.0f, 0.0f, p);
+            c.setBitmap(null);
+            return grayscale;
+        }
+        return original;
     }
 }

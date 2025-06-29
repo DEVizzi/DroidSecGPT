@@ -30,7 +30,7 @@
     .locals 0
 
     .prologue
-    .line 1882
+    .line 1949
     iput-object p1, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->this$0:Landroid/support/v7/widget/Toolbar;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -44,7 +44,7 @@
     .param p2, "x1"    # Landroid/support/v7/widget/Toolbar$1;
 
     .prologue
-    .line 1882
+    .line 1949
     invoke-direct {p0, p1}, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;-><init>(Landroid/support/v7/widget/Toolbar;)V
 
     return-void
@@ -53,16 +53,14 @@
 
 # virtual methods
 .method public collapseItemActionView(Landroid/support/v7/internal/view/menu/MenuBuilder;Landroid/support/v7/internal/view/menu/MenuItemImpl;)Z
-    .locals 4
+    .locals 3
     .param p1, "menu"    # Landroid/support/v7/internal/view/menu/MenuBuilder;
     .param p2, "item"    # Landroid/support/v7/internal/view/menu/MenuItemImpl;
 
     .prologue
-    const/4 v3, 0x0
-
     const/4 v2, 0x0
 
-    .line 1973
+    .line 2040
     iget-object v0, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->this$0:Landroid/support/v7/widget/Toolbar;
 
     iget-object v0, v0, Landroid/support/v7/widget/Toolbar;->mExpandedActionView:Landroid/view/View;
@@ -71,7 +69,7 @@
 
     if-eqz v0, :cond_0
 
-    .line 1974
+    .line 2041
     iget-object v0, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->this$0:Landroid/support/v7/widget/Toolbar;
 
     iget-object v0, v0, Landroid/support/v7/widget/Toolbar;->mExpandedActionView:Landroid/view/View;
@@ -80,7 +78,7 @@
 
     invoke-interface {v0}, Landroid/support/v7/view/CollapsibleActionView;->onActionViewCollapsed()V
 
-    .line 1977
+    .line 2044
     :cond_0
     iget-object v0, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->this$0:Landroid/support/v7/widget/Toolbar;
 
@@ -90,7 +88,7 @@
 
     invoke-virtual {v0, v1}, Landroid/support/v7/widget/Toolbar;->removeView(Landroid/view/View;)V
 
-    .line 1978
+    .line 2045
     iget-object v0, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->this$0:Landroid/support/v7/widget/Toolbar;
 
     iget-object v1, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->this$0:Landroid/support/v7/widget/Toolbar;
@@ -101,28 +99,30 @@
 
     invoke-virtual {v0, v1}, Landroid/support/v7/widget/Toolbar;->removeView(Landroid/view/View;)V
 
-    .line 1979
+    .line 2046
     iget-object v0, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->this$0:Landroid/support/v7/widget/Toolbar;
 
-    iput-object v3, v0, Landroid/support/v7/widget/Toolbar;->mExpandedActionView:Landroid/view/View;
+    iput-object v2, v0, Landroid/support/v7/widget/Toolbar;->mExpandedActionView:Landroid/view/View;
 
-    .line 1981
+    .line 2048
     iget-object v0, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->this$0:Landroid/support/v7/widget/Toolbar;
 
-    invoke-static {v0, v2}, Landroid/support/v7/widget/Toolbar;->access$500(Landroid/support/v7/widget/Toolbar;Z)V
+    invoke-virtual {v0}, Landroid/support/v7/widget/Toolbar;->addChildrenForExpandedActionView()V
 
-    .line 1982
-    iput-object v3, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->mCurrentExpandedItem:Landroid/support/v7/internal/view/menu/MenuItemImpl;
+    .line 2049
+    iput-object v2, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->mCurrentExpandedItem:Landroid/support/v7/internal/view/menu/MenuItemImpl;
 
-    .line 1983
+    .line 2050
     iget-object v0, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->this$0:Landroid/support/v7/widget/Toolbar;
 
     invoke-virtual {v0}, Landroid/support/v7/widget/Toolbar;->requestLayout()V
 
-    .line 1984
-    invoke-virtual {p2, v2}, Landroid/support/v7/internal/view/menu/MenuItemImpl;->setActionViewExpanded(Z)V
+    .line 2051
+    const/4 v0, 0x0
 
-    .line 1986
+    invoke-virtual {p2, v0}, Landroid/support/v7/internal/view/menu/MenuItemImpl;->setActionViewExpanded(Z)V
+
+    .line 2053
     const/4 v0, 0x1
 
     return v0
@@ -136,12 +136,12 @@
     .prologue
     const/4 v3, 0x1
 
-    .line 1944
+    .line 2011
     iget-object v1, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->this$0:Landroid/support/v7/widget/Toolbar;
 
     invoke-static {v1}, Landroid/support/v7/widget/Toolbar;->access$200(Landroid/support/v7/widget/Toolbar;)V
 
-    .line 1945
+    .line 2012
     iget-object v1, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->this$0:Landroid/support/v7/widget/Toolbar;
 
     invoke-static {v1}, Landroid/support/v7/widget/Toolbar;->access$300(Landroid/support/v7/widget/Toolbar;)Landroid/widget/ImageButton;
@@ -156,7 +156,7 @@
 
     if-eq v1, v2, :cond_0
 
-    .line 1946
+    .line 2013
     iget-object v1, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->this$0:Landroid/support/v7/widget/Toolbar;
 
     iget-object v2, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->this$0:Landroid/support/v7/widget/Toolbar;
@@ -167,7 +167,7 @@
 
     invoke-virtual {v1, v2}, Landroid/support/v7/widget/Toolbar;->addView(Landroid/view/View;)V
 
-    .line 1948
+    .line 2015
     :cond_0
     iget-object v1, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->this$0:Landroid/support/v7/widget/Toolbar;
 
@@ -177,10 +177,10 @@
 
     iput-object v2, v1, Landroid/support/v7/widget/Toolbar;->mExpandedActionView:Landroid/view/View;
 
-    .line 1949
+    .line 2016
     iput-object p2, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->mCurrentExpandedItem:Landroid/support/v7/internal/view/menu/MenuItemImpl;
 
-    .line 1950
+    .line 2017
     iget-object v1, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->this$0:Landroid/support/v7/widget/Toolbar;
 
     iget-object v1, v1, Landroid/support/v7/widget/Toolbar;->mExpandedActionView:Landroid/view/View;
@@ -193,14 +193,14 @@
 
     if-eq v1, v2, :cond_1
 
-    .line 1951
+    .line 2018
     iget-object v1, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->this$0:Landroid/support/v7/widget/Toolbar;
 
     invoke-virtual {v1}, Landroid/support/v7/widget/Toolbar;->generateDefaultLayoutParams()Landroid/support/v7/widget/Toolbar$LayoutParams;
 
     move-result-object v0
 
-    .line 1952
+    .line 2019
     .local v0, "lp":Landroid/support/v7/widget/Toolbar$LayoutParams;
     const v1, 0x800003
 
@@ -216,19 +216,19 @@
 
     iput v1, v0, Landroid/support/v7/widget/Toolbar$LayoutParams;->gravity:I
 
-    .line 1953
+    .line 2020
     const/4 v1, 0x2
 
     iput v1, v0, Landroid/support/v7/widget/Toolbar$LayoutParams;->mViewType:I
 
-    .line 1954
+    .line 2021
     iget-object v1, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->this$0:Landroid/support/v7/widget/Toolbar;
 
     iget-object v1, v1, Landroid/support/v7/widget/Toolbar;->mExpandedActionView:Landroid/view/View;
 
     invoke-virtual {v1, v0}, Landroid/view/View;->setLayoutParams(Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 1955
+    .line 2022
     iget-object v1, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->this$0:Landroid/support/v7/widget/Toolbar;
 
     iget-object v2, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->this$0:Landroid/support/v7/widget/Toolbar;
@@ -237,22 +237,22 @@
 
     invoke-virtual {v1, v2}, Landroid/support/v7/widget/Toolbar;->addView(Landroid/view/View;)V
 
-    .line 1958
+    .line 2025
     .end local v0    # "lp":Landroid/support/v7/widget/Toolbar$LayoutParams;
     :cond_1
     iget-object v1, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->this$0:Landroid/support/v7/widget/Toolbar;
 
-    invoke-static {v1, v3}, Landroid/support/v7/widget/Toolbar;->access$500(Landroid/support/v7/widget/Toolbar;Z)V
+    invoke-virtual {v1}, Landroid/support/v7/widget/Toolbar;->removeChildrenForExpandedActionView()V
 
-    .line 1959
+    .line 2026
     iget-object v1, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->this$0:Landroid/support/v7/widget/Toolbar;
 
     invoke-virtual {v1}, Landroid/support/v7/widget/Toolbar;->requestLayout()V
 
-    .line 1960
+    .line 2027
     invoke-virtual {p2, v3}, Landroid/support/v7/internal/view/menu/MenuItemImpl;->setActionViewExpanded(Z)V
 
-    .line 1962
+    .line 2029
     iget-object v1, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->this$0:Landroid/support/v7/widget/Toolbar;
 
     iget-object v1, v1, Landroid/support/v7/widget/Toolbar;->mExpandedActionView:Landroid/view/View;
@@ -261,7 +261,7 @@
 
     if-eqz v1, :cond_2
 
-    .line 1963
+    .line 2030
     iget-object v1, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->this$0:Landroid/support/v7/widget/Toolbar;
 
     iget-object v1, v1, Landroid/support/v7/widget/Toolbar;->mExpandedActionView:Landroid/view/View;
@@ -270,7 +270,7 @@
 
     invoke-interface {v1}, Landroid/support/v7/view/CollapsibleActionView;->onActionViewExpanded()V
 
-    .line 1966
+    .line 2033
     :cond_2
     return v3
 .end method
@@ -279,7 +279,7 @@
     .locals 1
 
     .prologue
-    .line 1939
+    .line 2006
     const/4 v0, 0x0
 
     return v0
@@ -289,7 +289,7 @@
     .locals 1
 
     .prologue
-    .line 1991
+    .line 2058
     const/4 v0, 0x0
 
     return v0
@@ -300,7 +300,7 @@
     .param p1, "root"    # Landroid/view/ViewGroup;
 
     .prologue
-    .line 1897
+    .line 1964
     const/4 v0, 0x0
 
     return-object v0
@@ -312,7 +312,7 @@
     .param p2, "menu"    # Landroid/support/v7/internal/view/menu/MenuBuilder;
 
     .prologue
-    .line 1889
+    .line 1956
     iget-object v0, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->mMenu:Landroid/support/v7/internal/view/menu/MenuBuilder;
 
     if-eqz v0, :cond_0
@@ -321,18 +321,18 @@
 
     if-eqz v0, :cond_0
 
-    .line 1890
+    .line 1957
     iget-object v0, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->mMenu:Landroid/support/v7/internal/view/menu/MenuBuilder;
 
     iget-object v1, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->mCurrentExpandedItem:Landroid/support/v7/internal/view/menu/MenuItemImpl;
 
     invoke-virtual {v0, v1}, Landroid/support/v7/internal/view/menu/MenuBuilder;->collapseItemActionView(Landroid/support/v7/internal/view/menu/MenuItemImpl;)Z
 
-    .line 1892
+    .line 1959
     :cond_0
     iput-object p2, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->mMenu:Landroid/support/v7/internal/view/menu/MenuBuilder;
 
-    .line 1893
+    .line 1960
     return-void
 .end method
 
@@ -342,7 +342,7 @@
     .param p2, "allMenusAreClosing"    # Z
 
     .prologue
-    .line 1935
+    .line 2002
     return-void
 .end method
 
@@ -351,7 +351,7 @@
     .param p1, "state"    # Landroid/os/Parcelable;
 
     .prologue
-    .line 2001
+    .line 2068
     return-void
 .end method
 
@@ -359,7 +359,7 @@
     .locals 1
 
     .prologue
-    .line 1996
+    .line 2063
     const/4 v0, 0x0
 
     return-object v0
@@ -370,7 +370,7 @@
     .param p1, "subMenu"    # Landroid/support/v7/internal/view/menu/SubMenuBuilder;
 
     .prologue
-    .line 1930
+    .line 1997
     const/4 v0, 0x0
 
     return v0
@@ -381,7 +381,7 @@
     .param p1, "cb"    # Landroid/support/v7/internal/view/menu/MenuPresenter$Callback;
 
     .prologue
-    .line 1926
+    .line 1993
     return-void
 .end method
 
@@ -390,28 +390,28 @@
     .param p1, "cleared"    # Z
 
     .prologue
-    .line 1903
+    .line 1970
     iget-object v4, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->mCurrentExpandedItem:Landroid/support/v7/internal/view/menu/MenuItemImpl;
 
     if-eqz v4, :cond_1
 
-    .line 1904
+    .line 1971
     const/4 v1, 0x0
 
-    .line 1906
+    .line 1973
     .local v1, "found":Z
     iget-object v4, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->mMenu:Landroid/support/v7/internal/view/menu/MenuBuilder;
 
     if-eqz v4, :cond_0
 
-    .line 1907
+    .line 1974
     iget-object v4, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->mMenu:Landroid/support/v7/internal/view/menu/MenuBuilder;
 
     invoke-virtual {v4}, Landroid/support/v7/internal/view/menu/MenuBuilder;->size()I
 
     move-result v0
 
-    .line 1908
+    .line 1975
     .local v0, "count":I
     const/4 v2, 0x0
 
@@ -419,42 +419,42 @@
     :goto_0
     if-ge v2, v0, :cond_0
 
-    .line 1909
+    .line 1976
     iget-object v4, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->mMenu:Landroid/support/v7/internal/view/menu/MenuBuilder;
 
     invoke-virtual {v4, v2}, Landroid/support/v7/internal/view/menu/MenuBuilder;->getItem(I)Landroid/view/MenuItem;
 
     move-result-object v3
 
-    .line 1910
+    .line 1977
     .local v3, "item":Landroid/view/MenuItem;
     iget-object v4, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->mCurrentExpandedItem:Landroid/support/v7/internal/view/menu/MenuItemImpl;
 
     if-ne v3, v4, :cond_2
 
-    .line 1911
+    .line 1978
     const/4 v1, 0x1
 
-    .line 1917
+    .line 1984
     .end local v0    # "count":I
     .end local v2    # "i":I
     .end local v3    # "item":Landroid/view/MenuItem;
     :cond_0
     if-nez v1, :cond_1
 
-    .line 1919
+    .line 1986
     iget-object v4, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->mMenu:Landroid/support/v7/internal/view/menu/MenuBuilder;
 
     iget-object v5, p0, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->mCurrentExpandedItem:Landroid/support/v7/internal/view/menu/MenuItemImpl;
 
     invoke-virtual {p0, v4, v5}, Landroid/support/v7/widget/Toolbar$ExpandedActionViewMenuPresenter;->collapseItemActionView(Landroid/support/v7/internal/view/menu/MenuBuilder;Landroid/support/v7/internal/view/menu/MenuItemImpl;)Z
 
-    .line 1922
+    .line 1989
     .end local v1    # "found":Z
     :cond_1
     return-void
 
-    .line 1908
+    .line 1975
     .restart local v0    # "count":I
     .restart local v1    # "found":Z
     .restart local v2    # "i":I

@@ -10,8 +10,9 @@ public class AccessibilityRecordCompat {
     private static final AccessibilityRecordImpl IMPL;
     private final Object mRecord;
 
+    /* JADX INFO: Access modifiers changed from: package-private */
     /* loaded from: classes.dex */
-    interface AccessibilityRecordImpl {
+    public interface AccessibilityRecordImpl {
         int getAddedCount(Object obj);
 
         CharSequence getBeforeText(Object obj);

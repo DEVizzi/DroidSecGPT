@@ -15,6 +15,7 @@
 
 .annotation system Ldalvik/annotation/MemberClasses;
     value = {
+        Landroid/support/v4/media/session/MediaSessionCompat$Callback$StubApi23;,
         Landroid/support/v4/media/session/MediaSessionCompat$Callback$StubApi21;
     }
 .end annotation
@@ -31,17 +32,40 @@
     .prologue
     const/4 v2, 0x0
 
-    .line 454
+    .line 511
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 455
+    .line 512
+    sget v0, Landroid/os/Build$VERSION;->SDK_INT:I
+
+    const/16 v1, 0x17
+
+    if-lt v0, v1, :cond_0
+
+    .line 513
+    new-instance v0, Landroid/support/v4/media/session/MediaSessionCompat$Callback$StubApi23;
+
+    invoke-direct {v0, p0, v2}, Landroid/support/v4/media/session/MediaSessionCompat$Callback$StubApi23;-><init>(Landroid/support/v4/media/session/MediaSessionCompat$Callback;Landroid/support/v4/media/session/MediaSessionCompat$1;)V
+
+    invoke-static {v0}, Landroid/support/v4/media/session/MediaSessionCompatApi23;->createCallback(Landroid/support/v4/media/session/MediaSessionCompatApi23$Callback;)Ljava/lang/Object;
+
+    move-result-object v0
+
+    iput-object v0, p0, Landroid/support/v4/media/session/MediaSessionCompat$Callback;->mCallbackObj:Ljava/lang/Object;
+
+    .line 519
+    :goto_0
+    return-void
+
+    .line 514
+    :cond_0
     sget v0, Landroid/os/Build$VERSION;->SDK_INT:I
 
     const/16 v1, 0x15
 
-    if-lt v0, v1, :cond_0
+    if-lt v0, v1, :cond_1
 
-    .line 456
+    .line 515
     new-instance v0, Landroid/support/v4/media/session/MediaSessionCompat$Callback$StubApi21;
 
     invoke-direct {v0, p0, v2}, Landroid/support/v4/media/session/MediaSessionCompat$Callback$StubApi21;-><init>(Landroid/support/v4/media/session/MediaSessionCompat$Callback;Landroid/support/v4/media/session/MediaSessionCompat$1;)V
@@ -52,12 +76,10 @@
 
     iput-object v0, p0, Landroid/support/v4/media/session/MediaSessionCompat$Callback;->mCallbackObj:Ljava/lang/Object;
 
-    .line 460
-    :goto_0
-    return-void
+    goto :goto_0
 
-    .line 458
-    :cond_0
+    .line 517
+    :cond_1
     iput-object v2, p0, Landroid/support/v4/media/session/MediaSessionCompat$Callback;->mCallbackObj:Ljava/lang/Object;
 
     goto :goto_0
@@ -72,7 +94,7 @@
     .param p3, "cb"    # Landroid/os/ResultReceiver;
 
     .prologue
-    .line 472
+    .line 531
     return-void
 .end method
 
@@ -82,7 +104,7 @@
     .param p2, "extras"    # Landroid/os/Bundle;
 
     .prologue
-    .line 575
+    .line 640
     return-void
 .end method
 
@@ -90,7 +112,7 @@
     .locals 0
 
     .prologue
-    .line 535
+    .line 600
     return-void
 .end method
 
@@ -99,7 +121,7 @@
     .param p1, "mediaButtonEvent"    # Landroid/content/Intent;
 
     .prologue
-    .line 481
+    .line 540
     const/4 v0, 0x0
 
     return v0
@@ -109,7 +131,7 @@
     .locals 0
 
     .prologue
-    .line 517
+    .line 582
     return-void
 .end method
 
@@ -117,7 +139,7 @@
     .locals 0
 
     .prologue
-    .line 488
+    .line 547
     return-void
 .end method
 
@@ -127,7 +149,7 @@
     .param p2, "extras"    # Landroid/os/Bundle;
 
     .prologue
-    .line 495
+    .line 554
     return-void
 .end method
 
@@ -137,7 +159,17 @@
     .param p2, "extras"    # Landroid/os/Bundle;
 
     .prologue
-    .line 504
+    .line 563
+    return-void
+.end method
+
+.method public onPlayFromUri(Landroid/net/Uri;Landroid/os/Bundle;)V
+    .locals 0
+    .param p1, "uri"    # Landroid/net/Uri;
+    .param p2, "extras"    # Landroid/os/Bundle;
+
+    .prologue
+    .line 569
     return-void
 .end method
 
@@ -145,7 +177,7 @@
     .locals 0
 
     .prologue
-    .line 541
+    .line 606
     return-void
 .end method
 
@@ -154,7 +186,7 @@
     .param p1, "pos"    # J
 
     .prologue
-    .line 555
+    .line 620
     return-void
 .end method
 
@@ -163,7 +195,7 @@
     .param p1, "rating"    # Landroid/support/v4/media/RatingCompat;
 
     .prologue
-    .line 563
+    .line 628
     return-void
 .end method
 
@@ -171,7 +203,7 @@
     .locals 0
 
     .prologue
-    .line 523
+    .line 588
     return-void
 .end method
 
@@ -179,7 +211,7 @@
     .locals 0
 
     .prologue
-    .line 529
+    .line 594
     return-void
 .end method
 
@@ -188,7 +220,7 @@
     .param p1, "id"    # J
 
     .prologue
-    .line 511
+    .line 576
     return-void
 .end method
 
@@ -196,6 +228,6 @@
     .locals 0
 
     .prologue
-    .line 547
+    .line 612
     return-void
 .end method

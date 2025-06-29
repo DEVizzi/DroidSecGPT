@@ -23,7 +23,7 @@
     .locals 0
 
     .prologue
-    .line 913
+    .line 1096
     iput-object p1, p0, Landroid/support/v4/widget/SwipeRefreshLayout$8;->this$0:Landroid/support/v4/widget/SwipeRefreshLayout;
 
     invoke-direct {p0}, Landroid/view/animation/Animation;-><init>()V
@@ -39,7 +39,7 @@
     .param p2, "t"    # Landroid/view/animation/Transformation;
 
     .prologue
-    .line 916
+    .line 1099
     iget-object v1, p0, Landroid/support/v4/widget/SwipeRefreshLayout$8;->this$0:Landroid/support/v4/widget/SwipeRefreshLayout;
 
     invoke-static {v1}, Landroid/support/v4/widget/SwipeRefreshLayout;->access$1400(Landroid/support/v4/widget/SwipeRefreshLayout;)F
@@ -58,17 +58,17 @@
 
     add-float v0, v1, v2
 
-    .line 917
+    .line 1100
     .local v0, "targetScale":F
     iget-object v1, p0, Landroid/support/v4/widget/SwipeRefreshLayout$8;->this$0:Landroid/support/v4/widget/SwipeRefreshLayout;
 
     invoke-static {v1, v0}, Landroid/support/v4/widget/SwipeRefreshLayout;->access$700(Landroid/support/v4/widget/SwipeRefreshLayout;F)V
 
-    .line 918
+    .line 1101
     iget-object v1, p0, Landroid/support/v4/widget/SwipeRefreshLayout$8;->this$0:Landroid/support/v4/widget/SwipeRefreshLayout;
 
     invoke-static {v1, p1}, Landroid/support/v4/widget/SwipeRefreshLayout;->access$1300(Landroid/support/v4/widget/SwipeRefreshLayout;F)V
 
-    .line 919
+    .line 1102
     return-void
 .end method

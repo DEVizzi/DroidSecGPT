@@ -87,7 +87,9 @@ public class NotificationCompatImplBase {
         if (!tombstone) {
             button.setOnClickPendingIntent(R.id.action0, action.getActionIntent());
         }
-        button.setContentDescription(R.id.action0, action.getTitle());
+        if (Build.VERSION.SDK_INT >= 15) {
+            button.setContentDescription(R.id.action0, action.getTitle());
+        }
         return button;
     }
 
@@ -100,6 +102,7 @@ public class NotificationCompatImplBase {
         boolean showLine3 = false;
         boolean showLine2 = false;
         if (largeIcon != null && Build.VERSION.SDK_INT >= 16) {
+            contentView.setViewVisibility(R.id.icon, 0);
             contentView.setImageViewBitmap(R.id.icon, largeIcon);
         } else {
             contentView.setViewVisibility(R.id.icon, 8);

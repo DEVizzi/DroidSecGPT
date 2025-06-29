@@ -35,7 +35,7 @@
     .param p11, "fitIn1U"    # Z
 
     .prologue
-    .line 167
+    .line 169
     new-instance v2, Landroid/widget/RemoteViews;
 
     invoke-virtual/range {p0 .. p0}, Landroid/content/Context;->getPackageName()Ljava/lang/String;
@@ -46,15 +46,15 @@
 
     invoke-direct {v2, v3, v0}, Landroid/widget/RemoteViews;-><init>(Ljava/lang/String;I)V
 
-    .line 168
+    .line 170
     .local v2, "contentView":Landroid/widget/RemoteViews;
     const/4 v11, 0x0
 
-    .line 169
+    .line 171
     .local v11, "showLine3":Z
     const/4 v10, 0x0
 
-    .line 173
+    .line 175
     .local v10, "showLine2":Z
     if-eqz p5, :cond_6
 
@@ -64,60 +64,67 @@
 
     if-lt v3, v4, :cond_6
 
-    .line 174
+    .line 176
+    sget v3, Landroid/support/v7/appcompat/R$id;->icon:I
+
+    const/4 v4, 0x0
+
+    invoke-virtual {v2, v3, v4}, Landroid/widget/RemoteViews;->setViewVisibility(II)V
+
+    .line 177
     sget v3, Landroid/support/v7/appcompat/R$id;->icon:I
 
     move-object/from16 v0, p5
 
     invoke-virtual {v2, v3, v0}, Landroid/widget/RemoteViews;->setImageViewBitmap(ILandroid/graphics/Bitmap;)V
 
-    .line 178
+    .line 181
     :goto_0
     if-eqz p1, :cond_0
 
-    .line 179
+    .line 182
     sget v3, Landroid/support/v7/appcompat/R$id;->title:I
 
     move-object/from16 v0, p1
 
     invoke-virtual {v2, v3, v0}, Landroid/widget/RemoteViews;->setTextViewText(ILjava/lang/CharSequence;)V
 
-    .line 181
+    .line 184
     :cond_0
     if-eqz p2, :cond_1
 
-    .line 182
+    .line 185
     sget v3, Landroid/support/v7/appcompat/R$id;->text:I
 
     move-object/from16 v0, p2
 
     invoke-virtual {v2, v3, v0}, Landroid/widget/RemoteViews;->setTextViewText(ILjava/lang/CharSequence;)V
 
-    .line 183
+    .line 186
     const/4 v11, 0x1
 
-    .line 185
+    .line 188
     :cond_1
     if-eqz p3, :cond_7
 
-    .line 186
+    .line 189
     sget v3, Landroid/support/v7/appcompat/R$id;->info:I
 
     move-object/from16 v0, p3
 
     invoke-virtual {v2, v3, v0}, Landroid/widget/RemoteViews;->setTextViewText(ILjava/lang/CharSequence;)V
 
-    .line 187
+    .line 190
     sget v3, Landroid/support/v7/appcompat/R$id;->info:I
 
     const/4 v4, 0x0
 
     invoke-virtual {v2, v3, v4}, Landroid/widget/RemoteViews;->setViewVisibility(II)V
 
-    .line 188
+    .line 191
     const/4 v11, 0x1
 
-    .line 206
+    .line 209
     :goto_1
     if-eqz p6, :cond_2
 
@@ -127,34 +134,34 @@
 
     if-lt v3, v4, :cond_2
 
-    .line 207
+    .line 210
     sget v3, Landroid/support/v7/appcompat/R$id;->text:I
 
     move-object/from16 v0, p6
 
     invoke-virtual {v2, v3, v0}, Landroid/widget/RemoteViews;->setTextViewText(ILjava/lang/CharSequence;)V
 
-    .line 208
+    .line 211
     if-eqz p2, :cond_a
 
-    .line 209
+    .line 212
     sget v3, Landroid/support/v7/appcompat/R$id;->text2:I
 
     move-object/from16 v0, p2
 
     invoke-virtual {v2, v3, v0}, Landroid/widget/RemoteViews;->setTextViewText(ILjava/lang/CharSequence;)V
 
-    .line 210
+    .line 213
     sget v3, Landroid/support/v7/appcompat/R$id;->text2:I
 
     const/4 v4, 0x0
 
     invoke-virtual {v2, v3, v4}, Landroid/widget/RemoteViews;->setViewVisibility(II)V
 
-    .line 211
+    .line 214
     const/4 v10, 0x1
 
-    .line 218
+    .line 221
     :cond_2
     :goto_2
     if-eqz v10, :cond_4
@@ -165,15 +172,15 @@
 
     if-lt v3, v4, :cond_4
 
-    .line 219
+    .line 222
     if-eqz p11, :cond_3
 
-    .line 221
+    .line 224
     invoke-virtual/range {p0 .. p0}, Landroid/content/Context;->getResources()Landroid/content/res/Resources;
 
     move-result-object v9
 
-    .line 222
+    .line 225
     .local v9, "res":Landroid/content/res/Resources;
     sget v3, Landroid/support/v7/appcompat/R$dimen;->notification_subtext_size:I
 
@@ -183,7 +190,7 @@
 
     int-to-float v12, v3
 
-    .line 224
+    .line 227
     .local v12, "subTextSize":F
     sget v3, Landroid/support/v7/appcompat/R$id;->text:I
 
@@ -191,7 +198,7 @@
 
     invoke-virtual {v2, v3, v4, v12}, Landroid/widget/RemoteViews;->setTextViewTextSize(IIF)V
 
-    .line 227
+    .line 230
     .end local v9    # "res":Landroid/content/res/Resources;
     .end local v12    # "subTextSize":F
     :cond_3
@@ -207,7 +214,7 @@
 
     invoke-virtual/range {v2 .. v7}, Landroid/widget/RemoteViews;->setViewPadding(IIIII)V
 
-    .line 230
+    .line 233
     :cond_4
     const-wide/16 v4, 0x0
 
@@ -215,17 +222,17 @@
 
     if-eqz v3, :cond_5
 
-    .line 231
+    .line 234
     if-eqz p7, :cond_b
 
-    .line 232
+    .line 235
     sget v3, Landroid/support/v7/appcompat/R$id;->chronometer:I
 
     const/4 v4, 0x0
 
     invoke-virtual {v2, v3, v4}, Landroid/widget/RemoteViews;->setViewVisibility(II)V
 
-    .line 233
+    .line 236
     sget v3, Landroid/support/v7/appcompat/R$id;->chronometer:I
 
     const-string v4, "setBase"
@@ -244,7 +251,7 @@
 
     invoke-virtual {v2, v3, v4, v6, v7}, Landroid/widget/RemoteViews;->setLong(ILjava/lang/String;J)V
 
-    .line 235
+    .line 238
     sget v3, Landroid/support/v7/appcompat/R$id;->chronometer:I
 
     const-string v4, "setStarted"
@@ -253,7 +260,7 @@
 
     invoke-virtual {v2, v3, v4, v5}, Landroid/widget/RemoteViews;->setBoolean(ILjava/lang/String;Z)V
 
-    .line 241
+    .line 244
     :cond_5
     :goto_3
     sget v4, Landroid/support/v7/appcompat/R$id;->line3:I
@@ -265,10 +272,10 @@
     :goto_4
     invoke-virtual {v2, v4, v3}, Landroid/widget/RemoteViews;->setViewVisibility(II)V
 
-    .line 242
+    .line 245
     return-object v2
 
-    .line 176
+    .line 179
     :cond_6
     sget v3, Landroid/support/v7/appcompat/R$id;->icon:I
 
@@ -278,11 +285,11 @@
 
     goto/16 :goto_0
 
-    .line 189
+    .line 192
     :cond_7
     if-lez p4, :cond_9
 
-    .line 190
+    .line 193
     invoke-virtual/range {p0 .. p0}, Landroid/content/Context;->getResources()Landroid/content/res/Resources;
 
     move-result-object v3
@@ -293,13 +300,13 @@
 
     move-result v13
 
-    .line 192
+    .line 195
     .local v13, "tooBig":I
     move/from16 v0, p4
 
     if-le v0, v13, :cond_8
 
-    .line 193
+    .line 196
     sget v3, Landroid/support/v7/appcompat/R$id;->info:I
 
     invoke-virtual/range {p0 .. p0}, Landroid/content/Context;->getResources()Landroid/content/res/Resources;
@@ -314,7 +321,7 @@
 
     invoke-virtual {v2, v3, v4}, Landroid/widget/RemoteViews;->setTextViewText(ILjava/lang/CharSequence;)V
 
-    .line 199
+    .line 202
     :goto_5
     sget v3, Landroid/support/v7/appcompat/R$id;->info:I
 
@@ -322,19 +329,19 @@
 
     invoke-virtual {v2, v3, v4}, Landroid/widget/RemoteViews;->setViewVisibility(II)V
 
-    .line 200
+    .line 203
     const/4 v11, 0x1
 
-    .line 201
+    .line 204
     goto/16 :goto_1
 
-    .line 196
+    .line 199
     :cond_8
     invoke-static {}, Ljava/text/NumberFormat;->getIntegerInstance()Ljava/text/NumberFormat;
 
     move-result-object v8
 
-    .line 197
+    .line 200
     .local v8, "f":Ljava/text/NumberFormat;
     sget v3, Landroid/support/v7/appcompat/R$id;->info:I
 
@@ -350,7 +357,7 @@
 
     goto :goto_5
 
-    .line 202
+    .line 205
     .end local v8    # "f":Ljava/text/NumberFormat;
     .end local v13    # "tooBig":I
     :cond_9
@@ -362,7 +369,7 @@
 
     goto/16 :goto_1
 
-    .line 213
+    .line 216
     :cond_a
     sget v3, Landroid/support/v7/appcompat/R$id;->text2:I
 
@@ -372,7 +379,7 @@
 
     goto/16 :goto_2
 
-    .line 237
+    .line 240
     :cond_b
     sget v3, Landroid/support/v7/appcompat/R$id;->time:I
 
@@ -380,7 +387,7 @@
 
     invoke-virtual {v2, v3, v4}, Landroid/widget/RemoteViews;->setViewVisibility(II)V
 
-    .line 238
+    .line 241
     sget v3, Landroid/support/v7/appcompat/R$id;->time:I
 
     const-string v4, "setTime"
@@ -391,7 +398,7 @@
 
     goto :goto_3
 
-    .line 241
+    .line 244
     :cond_c
     const/16 v3, 0x8
 
@@ -857,7 +864,7 @@
 
     move-result-object v2
 
-    if-nez v2, :cond_1
+    if-nez v2, :cond_2
 
     const/4 v1, 0x1
 
@@ -898,6 +905,13 @@
 
     .line 151
     :cond_0
+    sget v2, Landroid/os/Build$VERSION;->SDK_INT:I
+
+    const/16 v3, 0xf
+
+    if-lt v2, v3, :cond_1
+
+    .line 152
     sget v2, Landroid/support/v7/appcompat/R$id;->action0:I
 
     invoke-virtual {p1}, Landroid/support/v4/app/NotificationCompatBase$Action;->getTitle()Ljava/lang/CharSequence;
@@ -906,13 +920,14 @@
 
     invoke-virtual {v0, v2, v3}, Landroid/widget/RemoteViews;->setContentDescription(ILjava/lang/CharSequence;)V
 
-    .line 152
+    .line 154
+    :cond_1
     return-object v0
 
     .line 144
     .end local v0    # "button":Landroid/widget/RemoteViews;
     .end local v1    # "tombstone":Z
-    :cond_1
+    :cond_2
     const/4 v1, 0x0
 
     goto :goto_0
@@ -923,15 +938,15 @@
     .param p0, "actionCount"    # I
 
     .prologue
-    .line 156
+    .line 158
     const/4 v0, 0x3
 
     if-gt p0, v0, :cond_0
 
-    .line 157
+    .line 159
     sget v0, Landroid/support/v7/appcompat/R$layout;->notification_template_big_media_narrow:I
 
-    .line 159
+    .line 161
     :goto_0
     return v0
 

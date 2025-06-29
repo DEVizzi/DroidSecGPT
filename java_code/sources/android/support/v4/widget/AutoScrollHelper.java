@@ -64,7 +64,7 @@ public abstract class AutoScrollHelper implements View.OnTouchListener {
         setEdgeType(1);
         setMaximumEdges(Float.MAX_VALUE, Float.MAX_VALUE);
         setRelativeEdges(DEFAULT_RELATIVE_EDGE, DEFAULT_RELATIVE_EDGE);
-        setRelativeVelocity(1.0f, 1.0f);
+        setRelativeVelocity(DEFAULT_RELATIVE_VELOCITY, DEFAULT_RELATIVE_VELOCITY);
         setActivationDelay(DEFAULT_ACTIVATION_DELAY);
         setRampUpDuration(500);
         setRampDownDuration(500);
@@ -241,7 +241,7 @@ public abstract class AutoScrollHelper implements View.OnTouchListener {
         } else {
             interpolated = this.mEdgeInterpolator.getInterpolation(value);
         }
-        return constrain(interpolated, -1.0f, 1.0f);
+        return constrain(interpolated, -1.0f, (float) DEFAULT_RELATIVE_VELOCITY);
     }
 
     private float constrainEdgeValue(float current, float leading) {
@@ -253,9 +253,12 @@ public abstract class AutoScrollHelper implements View.OnTouchListener {
             case 1:
                 if (current < leading) {
                     if (current >= 0.0f) {
-                        return 1.0f - (current / leading);
+                        return DEFAULT_RELATIVE_VELOCITY - (current / leading);
                     }
-                    return (this.mAnimating && this.mEdgeType == 1) ? 1.0f : 0.0f;
+                    if (this.mAnimating && this.mEdgeType == 1) {
+                        return DEFAULT_RELATIVE_VELOCITY;
+                    }
+                    return 0.0f;
                 }
                 return 0.0f;
             case 2:
@@ -372,10 +375,10 @@ public abstract class AutoScrollHelper implements View.OnTouchListener {
             }
             if (this.mStopTime < 0 || currentTime < this.mStopTime) {
                 long elapsedSinceStart = currentTime - this.mStartTime;
-                return AutoScrollHelper.constrain(((float) elapsedSinceStart) / this.mRampUpDuration, 0.0f, 1.0f) * 0.5f;
+                return AutoScrollHelper.constrain(((float) elapsedSinceStart) / this.mRampUpDuration, 0.0f, (float) AutoScrollHelper.DEFAULT_RELATIVE_VELOCITY) * 0.5f;
             }
             long elapsedSinceEnd = currentTime - this.mStopTime;
-            return (AutoScrollHelper.constrain(((float) elapsedSinceEnd) / this.mEffectiveRampDown, 0.0f, 1.0f) * this.mStopValue) + (1.0f - this.mStopValue);
+            return (AutoScrollHelper.constrain(((float) elapsedSinceEnd) / this.mEffectiveRampDown, 0.0f, (float) AutoScrollHelper.DEFAULT_RELATIVE_VELOCITY) * this.mStopValue) + (AutoScrollHelper.DEFAULT_RELATIVE_VELOCITY - this.mStopValue);
         }
 
         private float interpolateValue(float value) {

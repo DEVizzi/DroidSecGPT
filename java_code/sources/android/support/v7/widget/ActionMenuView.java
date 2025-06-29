@@ -2,7 +2,10 @@ package android.support.v7.widget;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.support.v7.internal.view.menu.ActionMenuItemView;
 import android.support.v7.internal.view.menu.MenuBuilder;
 import android.support.v7.internal.view.menu.MenuItemImpl;
@@ -25,7 +28,6 @@ public class ActionMenuView extends LinearLayoutCompat implements MenuBuilder.It
     static final int MIN_CELL_SIZE = 56;
     private static final String TAG = "ActionMenuView";
     private MenuPresenter.Callback mActionMenuPresenterCallback;
-    private Context mContext;
     private boolean mFormatItems;
     private int mFormatItemsWidth;
     private int mGeneratedItemPadding;
@@ -56,7 +58,6 @@ public class ActionMenuView extends LinearLayoutCompat implements MenuBuilder.It
 
     public ActionMenuView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.mContext = context;
         setBaselineAligned(false);
         float density = context.getResources().getDisplayMetrics().density;
         this.mMinCellSize = (int) (56.0f * density);
@@ -65,13 +66,13 @@ public class ActionMenuView extends LinearLayoutCompat implements MenuBuilder.It
         this.mPopupTheme = 0;
     }
 
-    public void setPopupTheme(int resId) {
+    public void setPopupTheme(@StyleRes int resId) {
         if (this.mPopupTheme != resId) {
             this.mPopupTheme = resId;
             if (resId == 0) {
-                this.mPopupContext = this.mContext;
+                this.mPopupContext = getContext();
             } else {
-                this.mPopupContext = new ContextThemeWrapper(this.mContext, resId);
+                this.mPopupContext = new ContextThemeWrapper(getContext(), resId);
             }
         }
     }
@@ -408,6 +409,17 @@ public class ActionMenuView extends LinearLayoutCompat implements MenuBuilder.It
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         dismissPopupMenus();
+    }
+
+    public void setOverflowIcon(@Nullable Drawable icon) {
+        getMenu();
+        this.mPresenter.setOverflowIcon(icon);
+    }
+
+    @Nullable
+    public Drawable getOverflowIcon() {
+        getMenu();
+        return this.mPresenter.getOverflowIcon();
     }
 
     public boolean isOverflowReserved() {

@@ -5,6 +5,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.SearchEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -106,6 +107,11 @@ public class WindowCallbackWrapper implements Window.Callback {
     }
 
     @Override // android.view.Window.Callback
+    public boolean onSearchRequested(SearchEvent searchEvent) {
+        return this.mWrapped.onSearchRequested(searchEvent);
+    }
+
+    @Override // android.view.Window.Callback
     public boolean onSearchRequested() {
         return this.mWrapped.onSearchRequested();
     }
@@ -113,6 +119,11 @@ public class WindowCallbackWrapper implements Window.Callback {
     @Override // android.view.Window.Callback
     public ActionMode onWindowStartingActionMode(ActionMode.Callback callback) {
         return this.mWrapped.onWindowStartingActionMode(callback);
+    }
+
+    @Override // android.view.Window.Callback
+    public ActionMode onWindowStartingActionMode(ActionMode.Callback callback, int type) {
+        return this.mWrapped.onWindowStartingActionMode(callback, type);
     }
 
     @Override // android.view.Window.Callback

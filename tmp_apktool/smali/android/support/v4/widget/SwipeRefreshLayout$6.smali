@@ -23,7 +23,7 @@
     .locals 0
 
     .prologue
-    .line 874
+    .line 1057
     iput-object p1, p0, Landroid/support/v4/widget/SwipeRefreshLayout$6;->this$0:Landroid/support/v4/widget/SwipeRefreshLayout;
 
     invoke-direct {p0}, Landroid/view/animation/Animation;-><init>()V
@@ -39,14 +39,14 @@
     .param p2, "t"    # Landroid/view/animation/Transformation;
 
     .prologue
-    .line 877
+    .line 1060
     const/4 v2, 0x0
 
-    .line 878
+    .line 1061
     .local v2, "targetTop":I
     const/4 v0, 0x0
 
-    .line 879
+    .line 1062
     .local v0, "endTarget":I
     iget-object v3, p0, Landroid/support/v4/widget/SwipeRefreshLayout$6;->this$0:Landroid/support/v4/widget/SwipeRefreshLayout;
 
@@ -56,7 +56,7 @@
 
     if-nez v3, :cond_0
 
-    .line 880
+    .line 1063
     iget-object v3, p0, Landroid/support/v4/widget/SwipeRefreshLayout$6;->this$0:Landroid/support/v4/widget/SwipeRefreshLayout;
 
     invoke-static {v3}, Landroid/support/v4/widget/SwipeRefreshLayout;->access$1200(Landroid/support/v4/widget/SwipeRefreshLayout;)F
@@ -77,7 +77,7 @@
 
     float-to-int v0, v3
 
-    .line 884
+    .line 1067
     :goto_0
     iget-object v3, p0, Landroid/support/v4/widget/SwipeRefreshLayout$6;->this$0:Landroid/support/v4/widget/SwipeRefreshLayout;
 
@@ -97,7 +97,7 @@
 
     add-int v2, v3, v4
 
-    .line 885
+    .line 1068
     iget-object v3, p0, Landroid/support/v4/widget/SwipeRefreshLayout$6;->this$0:Landroid/support/v4/widget/SwipeRefreshLayout;
 
     invoke-static {v3}, Landroid/support/v4/widget/SwipeRefreshLayout;->access$400(Landroid/support/v4/widget/SwipeRefreshLayout;)Landroid/support/v4/widget/CircleImageView;
@@ -110,7 +110,7 @@
 
     sub-int v1, v2, v3
 
-    .line 886
+    .line 1069
     .local v1, "offset":I
     iget-object v3, p0, Landroid/support/v4/widget/SwipeRefreshLayout$6;->this$0:Landroid/support/v4/widget/SwipeRefreshLayout;
 
@@ -118,7 +118,7 @@
 
     invoke-static {v3, v1, v4}, Landroid/support/v4/widget/SwipeRefreshLayout;->access$900(Landroid/support/v4/widget/SwipeRefreshLayout;IZ)V
 
-    .line 887
+    .line 1070
     iget-object v3, p0, Landroid/support/v4/widget/SwipeRefreshLayout$6;->this$0:Landroid/support/v4/widget/SwipeRefreshLayout;
 
     invoke-static {v3}, Landroid/support/v4/widget/SwipeRefreshLayout;->access$100(Landroid/support/v4/widget/SwipeRefreshLayout;)Landroid/support/v4/widget/MaterialProgressDrawable;
@@ -131,10 +131,10 @@
 
     invoke-virtual {v3, v4}, Landroid/support/v4/widget/MaterialProgressDrawable;->setArrowScale(F)V
 
-    .line 888
+    .line 1071
     return-void
 
-    .line 882
+    .line 1065
     .end local v1    # "offset":I
     :cond_0
     iget-object v3, p0, Landroid/support/v4/widget/SwipeRefreshLayout$6;->this$0:Landroid/support/v4/widget/SwipeRefreshLayout;

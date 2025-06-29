@@ -32,7 +32,7 @@
     .locals 0
 
     .prologue
-    .line 122
+    .line 123
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -46,7 +46,7 @@
     .param p2, "rhs"    # Landroid/support/v4/view/ViewPager$ItemInfo;
 
     .prologue
-    .line 125
+    .line 126
     iget v0, p1, Landroid/support/v4/view/ViewPager$ItemInfo;->position:I
 
     iget v1, p2, Landroid/support/v4/view/ViewPager$ItemInfo;->position:I
@@ -62,7 +62,7 @@
     .param p2, "x1"    # Ljava/lang/Object;
 
     .prologue
-    .line 122
+    .line 123
     check-cast p1, Landroid/support/v4/view/ViewPager$ItemInfo;
 
     .end local p1    # "x0":Ljava/lang/Object;

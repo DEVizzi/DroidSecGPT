@@ -1,27 +1,48 @@
 package android.support.v4.media.session;
 
 import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.RemoteControlClient;
 import android.os.SystemClock;
 import android.support.v4.media.session.MediaSessionCompatApi14;
+import android.util.Log;
 /* loaded from: classes.dex */
-public class MediaSessionCompatApi18 {
+class MediaSessionCompatApi18 {
     private static final long ACTION_SEEK_TO = 256;
+    private static final String TAG = "MediaSessionCompatApi18";
+    private static boolean sIsMbrPendingIntentSupported = true;
+
+    MediaSessionCompatApi18() {
+    }
 
     public static Object createPlaybackPositionUpdateListener(MediaSessionCompatApi14.Callback callback) {
         return new OnPlaybackPositionUpdateListener(callback);
     }
 
-    public static void registerMediaButtonEventReceiver(Context context, PendingIntent pi) {
+    public static void registerMediaButtonEventReceiver(Context context, PendingIntent pi, ComponentName cn) {
         AudioManager am = (AudioManager) context.getSystemService("audio");
-        am.registerMediaButtonEventReceiver(pi);
+        if (sIsMbrPendingIntentSupported) {
+            try {
+                am.registerMediaButtonEventReceiver(pi);
+            } catch (NullPointerException e) {
+                Log.w(TAG, "Unable to register media button event receiver with PendingIntent, falling back to ComponentName.");
+                sIsMbrPendingIntentSupported = false;
+            }
+        }
+        if (!sIsMbrPendingIntentSupported) {
+            am.registerMediaButtonEventReceiver(cn);
+        }
     }
 
-    public static void unregisterMediaButtonEventReceiver(Context context, PendingIntent pi) {
+    public static void unregisterMediaButtonEventReceiver(Context context, PendingIntent pi, ComponentName cn) {
         AudioManager am = (AudioManager) context.getSystemService("audio");
-        am.unregisterMediaButtonEventReceiver(pi);
+        if (sIsMbrPendingIntentSupported) {
+            am.unregisterMediaButtonEventReceiver(pi);
+        } else {
+            am.unregisterMediaButtonEventReceiver(cn);
+        }
     }
 
     public static void setState(Object rccObj, int state, long position, float speed, long updateTime) {

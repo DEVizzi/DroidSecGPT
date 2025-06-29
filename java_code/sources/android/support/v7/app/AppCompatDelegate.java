@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.view.ActionMode;
@@ -17,6 +18,9 @@ import android.view.ViewGroup;
 import android.view.Window;
 /* loaded from: classes.dex */
 public abstract class AppCompatDelegate {
+    public static final int FEATURE_ACTION_MODE_OVERLAY = 10;
+    public static final int FEATURE_SUPPORT_ACTION_BAR = 108;
+    public static final int FEATURE_SUPPORT_ACTION_BAR_OVERLAY = 109;
     static final String TAG = "AppCompatDelegate";
 
     public abstract void addContentView(View view, ViewGroup.LayoutParams layoutParams);
@@ -28,6 +32,8 @@ public abstract class AppCompatDelegate {
     public abstract MenuInflater getMenuInflater();
 
     public abstract ActionBar getSupportActionBar();
+
+    public abstract boolean hasWindowFeature(int i);
 
     public abstract void installViewFactory();
 
@@ -49,7 +55,7 @@ public abstract class AppCompatDelegate {
 
     public abstract boolean requestWindowFeature(int i);
 
-    public abstract void setContentView(int i);
+    public abstract void setContentView(@LayoutRes int i);
 
     public abstract void setContentView(View view);
 
@@ -73,6 +79,9 @@ public abstract class AppCompatDelegate {
 
     private static AppCompatDelegate create(Context context, Window window, AppCompatCallback callback) {
         int sdk = Build.VERSION.SDK_INT;
+        if (sdk >= 23) {
+            return new AppCompatDelegateImplV23(context, window, callback);
+        }
         if (sdk >= 14) {
             return new AppCompatDelegateImplV14(context, window, callback);
         }

@@ -26,7 +26,7 @@
     .locals 0
 
     .prologue
-    .line 960
+    .line 968
     iput-object p1, p0, Landroid/support/v7/widget/SearchView$8;->this$0:Landroid/support/v7/widget/SearchView;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -47,7 +47,7 @@
 
     const/4 v0, 0x0
 
-    .line 963
+    .line 971
     iget-object v2, p0, Landroid/support/v7/widget/SearchView$8;->this$0:Landroid/support/v7/widget/SearchView;
 
     invoke-static {v2}, Landroid/support/v7/widget/SearchView;->access$1400(Landroid/support/v7/widget/SearchView;)Landroid/app/SearchableInfo;
@@ -56,12 +56,12 @@
 
     if-nez v2, :cond_1
 
-    .line 993
+    .line 1001
     :cond_0
     :goto_0
     return v0
 
-    .line 974
+    .line 982
     :cond_1
     iget-object v2, p0, Landroid/support/v7/widget/SearchView$8;->this$0:Landroid/support/v7/widget/SearchView;
 
@@ -89,7 +89,7 @@
 
     if-eq v2, v3, :cond_2
 
-    .line 976
+    .line 984
     iget-object v0, p0, Landroid/support/v7/widget/SearchView$8;->this$0:Landroid/support/v7/widget/SearchView;
 
     invoke-static {v0, p1, p2, p3}, Landroid/support/v7/widget/SearchView;->access$1500(Landroid/support/v7/widget/SearchView;Landroid/view/View;ILandroid/view/KeyEvent;)Z
@@ -98,7 +98,7 @@
 
     goto :goto_0
 
-    .line 981
+    .line 989
     :cond_2
     iget-object v2, p0, Landroid/support/v7/widget/SearchView$8;->this$0:Landroid/support/v7/widget/SearchView;
 
@@ -118,22 +118,22 @@
 
     if-eqz v2, :cond_0
 
-    .line 982
+    .line 990
     invoke-virtual {p3}, Landroid/view/KeyEvent;->getAction()I
 
     move-result v2
 
     if-ne v2, v1, :cond_0
 
-    .line 983
+    .line 991
     const/16 v2, 0x42
 
     if-ne p2, v2, :cond_0
 
-    .line 984
+    .line 992
     invoke-virtual {p1}, Landroid/view/View;->cancelLongPress()V
 
-    .line 987
+    .line 995
     iget-object v2, p0, Landroid/support/v7/widget/SearchView$8;->this$0:Landroid/support/v7/widget/SearchView;
 
     const/4 v3, 0x0
@@ -156,6 +156,6 @@
 
     move v0, v1
 
-    .line 989
+    .line 997
     goto :goto_0
 .end method

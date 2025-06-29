@@ -10,9 +10,6 @@
 .method public abstract canShowOverflowMenu()Z
 .end method
 
-.method public abstract canSplit()Z
-.end method
-
 .method public abstract collapseActionView()V
 .end method
 
@@ -41,9 +38,6 @@
 .end method
 
 .method public abstract getNavigationMode()I
-.end method
-
-.method public abstract getPopupTheme()I
 .end method
 
 .method public abstract getSubtitle()Ljava/lang/CharSequence;
@@ -83,9 +77,6 @@
 .end method
 
 .method public abstract isOverflowMenuShowing()Z
-.end method
-
-.method public abstract isSplit()Z
 .end method
 
 .method public abstract isTitleTruncated()Z
@@ -133,7 +124,7 @@
 .method public abstract setDisplayOptions(I)V
 .end method
 
-.method public abstract setDropdownParams(Landroid/widget/SpinnerAdapter;Landroid/support/v7/internal/widget/AdapterViewCompat$OnItemSelectedListener;)V
+.method public abstract setDropdownParams(Landroid/widget/SpinnerAdapter;Landroid/widget/AdapterView$OnItemSelectedListener;)V
 .end method
 
 .method public abstract setDropdownSelectedPosition(I)V
@@ -181,15 +172,6 @@
 .method public abstract setNavigationMode(I)V
 .end method
 
-.method public abstract setSplitToolbar(Z)V
-.end method
-
-.method public abstract setSplitView(Landroid/view/ViewGroup;)V
-.end method
-
-.method public abstract setSplitWhenNarrow(Z)V
-.end method
-
 .method public abstract setSubtitle(Ljava/lang/CharSequence;)V
 .end method
 
@@ -203,6 +185,9 @@
 .end method
 
 .method public abstract setWindowTitle(Ljava/lang/CharSequence;)V
+.end method
+
+.method public abstract setupAnimatorToVisibility(IJ)Landroid/support/v4/view/ViewPropertyAnimatorCompat;
 .end method
 
 .method public abstract showOverflowMenu()Z

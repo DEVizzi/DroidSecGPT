@@ -22,6 +22,7 @@ import java.util.List;
 /* loaded from: classes.dex */
 public abstract class ExploreByTouchHelper extends AccessibilityDelegateCompat {
     private static final String DEFAULT_CLASS_NAME = View.class.getName();
+    public static final int HOST_ID = -1;
     public static final int INVALID_ID = Integer.MIN_VALUE;
     private final AccessibilityManager mManager;
     private ExploreByTouchNodeProvider mNodeProvider;
@@ -154,6 +155,7 @@ public abstract class ExploreByTouchHelper extends AccessibilityDelegateCompat {
     private AccessibilityNodeInfoCompat createNodeForHost() {
         AccessibilityNodeInfoCompat node = AccessibilityNodeInfoCompat.obtain(this.mView);
         ViewCompat.onInitializeAccessibilityNodeInfo(this.mView, node);
+        onPopulateNodeForHost(node);
         LinkedList<Integer> virtualViewIds = new LinkedList<>();
         getVisibleVirtualViews(virtualViewIds);
         Iterator i$ = virtualViewIds.iterator();
@@ -265,6 +267,9 @@ public abstract class ExploreByTouchHelper extends AccessibilityDelegateCompat {
 
     private boolean requestAccessibilityFocus(int virtualViewId) {
         if (this.mManager.isEnabled() && AccessibilityManagerCompat.isTouchExplorationEnabled(this.mManager) && !isAccessibilityFocused(virtualViewId)) {
+            if (this.mFocusedVirtualViewId != Integer.MIN_VALUE) {
+                sendEventForVirtualView(this.mFocusedVirtualViewId, 65536);
+            }
             this.mFocusedVirtualViewId = virtualViewId;
             this.mView.invalidate();
             sendEventForVirtualView(virtualViewId, 32768);
@@ -281,6 +286,9 @@ public abstract class ExploreByTouchHelper extends AccessibilityDelegateCompat {
             return true;
         }
         return false;
+    }
+
+    public void onPopulateNodeForHost(AccessibilityNodeInfoCompat node) {
     }
 
     /* loaded from: classes.dex */

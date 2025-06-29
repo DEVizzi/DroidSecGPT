@@ -146,6 +146,22 @@
     return-void
 .end method
 
+.method public reset()V
+    .locals 1
+
+    .prologue
+    const/4 v0, 0x0
+
+    .line 248
+    iput-object v0, p0, Landroid/support/v4/view/ActionProvider;->mVisibilityListener:Landroid/support/v4/view/ActionProvider$VisibilityListener;
+
+    .line 249
+    iput-object v0, p0, Landroid/support/v4/view/ActionProvider;->mSubUiVisibilityListener:Landroid/support/v4/view/ActionProvider$SubUiVisibilityListener;
+
+    .line 250
+    return-void
+.end method
+
 .method public setSubUiVisibilityListener(Landroid/support/v4/view/ActionProvider$SubUiVisibilityListener;)V
     .locals 0
     .param p1, "listener"    # Landroid/support/v4/view/ActionProvider$SubUiVisibilityListener;

@@ -36,6 +36,8 @@
 
 .field private mEnableDefaultActionBarUp:Z
 
+.field mFadeAnim:Landroid/support/v4/view/ViewPropertyAnimatorCompat;
+
 .field private mFeatureIndeterminateProgress:Z
 
 .field private mFeatureProgress:Z
@@ -77,17 +79,22 @@
     .param p3, "callback"    # Landroid/support/v7/app/AppCompatCallback;
 
     .prologue
-    .line 141
+    .line 145
     invoke-direct {p0, p1, p2, p3}, Landroid/support/v7/app/AppCompatDelegateImplBase;-><init>(Landroid/content/Context;Landroid/view/Window;Landroid/support/v7/app/AppCompatCallback;)V
 
-    .line 119
+    .line 103
+    const/4 v0, 0x0
+
+    iput-object v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mFadeAnim:Landroid/support/v4/view/ViewPropertyAnimatorCompat;
+
+    .line 123
     new-instance v0, Landroid/support/v7/app/AppCompatDelegateImplV7$1;
 
     invoke-direct {v0, p0}, Landroid/support/v7/app/AppCompatDelegateImplV7$1;-><init>(Landroid/support/v7/app/AppCompatDelegateImplV7;)V
 
     iput-object v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mInvalidatePanelMenuRunnable:Ljava/lang/Runnable;
 
-    .line 142
+    .line 146
     return-void
 .end method
 
@@ -96,7 +103,7 @@
     .param p0, "x0"    # Landroid/support/v7/app/AppCompatDelegateImplV7;
 
     .prologue
-    .line 89
+    .line 92
     iget v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mInvalidatePanelMenuFeatures:I
 
     return v0
@@ -108,7 +115,7 @@
     .param p1, "x1"    # I
 
     .prologue
-    .line 89
+    .line 92
     iput p1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mInvalidatePanelMenuFeatures:I
 
     return p1
@@ -120,19 +127,44 @@
     .param p1, "x1"    # I
 
     .prologue
-    .line 89
+    .line 92
     invoke-direct {p0, p1}, Landroid/support/v7/app/AppCompatDelegateImplV7;->doInvalidatePanelMenu(I)V
 
     return-void
 .end method
 
-.method static synthetic access$1200(Landroid/support/v7/app/AppCompatDelegateImplV7;I)V
+.method static synthetic access$1000(Landroid/support/v7/app/AppCompatDelegateImplV7;Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;Z)V
+    .locals 0
+    .param p0, "x0"    # Landroid/support/v7/app/AppCompatDelegateImplV7;
+    .param p1, "x1"    # Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
+    .param p2, "x2"    # Z
+
+    .prologue
+    .line 92
+    invoke-direct {p0, p1, p2}, Landroid/support/v7/app/AppCompatDelegateImplV7;->closePanel(Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;Z)V
+
+    return-void
+.end method
+
+.method static synthetic access$1100(Landroid/support/v7/app/AppCompatDelegateImplV7;Landroid/support/v7/internal/view/menu/MenuBuilder;)V
+    .locals 0
+    .param p0, "x0"    # Landroid/support/v7/app/AppCompatDelegateImplV7;
+    .param p1, "x1"    # Landroid/support/v7/internal/view/menu/MenuBuilder;
+
+    .prologue
+    .line 92
+    invoke-direct {p0, p1}, Landroid/support/v7/app/AppCompatDelegateImplV7;->checkCloseActionMenu(Landroid/support/v7/internal/view/menu/MenuBuilder;)V
+
+    return-void
+.end method
+
+.method static synthetic access$1400(Landroid/support/v7/app/AppCompatDelegateImplV7;I)V
     .locals 0
     .param p0, "x0"    # Landroid/support/v7/app/AppCompatDelegateImplV7;
     .param p1, "x1"    # I
 
     .prologue
-    .line 89
+    .line 92
     invoke-direct {p0, p1}, Landroid/support/v7/app/AppCompatDelegateImplV7;->closePanel(I)V
 
     return-void
@@ -144,7 +176,7 @@
     .param p1, "x1"    # Z
 
     .prologue
-    .line 89
+    .line 92
     iput-boolean p1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mInvalidatePanelMenuPosted:Z
 
     return p1
@@ -156,7 +188,7 @@
     .param p1, "x1"    # I
 
     .prologue
-    .line 89
+    .line 92
     invoke-direct {p0, p1}, Landroid/support/v7/app/AppCompatDelegateImplV7;->updateStatusGuard(I)I
 
     move-result v0
@@ -164,13 +196,35 @@
     return v0
 .end method
 
-.method static synthetic access$600(Landroid/support/v7/app/AppCompatDelegateImplV7;Landroid/view/Menu;)Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
+.method static synthetic access$400(Landroid/support/v7/app/AppCompatDelegateImplV7;)V
+    .locals 0
+    .param p0, "x0"    # Landroid/support/v7/app/AppCompatDelegateImplV7;
+
+    .prologue
+    .line 92
+    invoke-direct {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->dismissPopups()V
+
+    return-void
+.end method
+
+.method static synthetic access$500(Landroid/support/v7/app/AppCompatDelegateImplV7;)V
+    .locals 0
+    .param p0, "x0"    # Landroid/support/v7/app/AppCompatDelegateImplV7;
+
+    .prologue
+    .line 92
+    invoke-direct {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->endOnGoingFadeAnimation()V
+
+    return-void
+.end method
+
+.method static synthetic access$800(Landroid/support/v7/app/AppCompatDelegateImplV7;Landroid/view/Menu;)Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
     .locals 1
     .param p0, "x0"    # Landroid/support/v7/app/AppCompatDelegateImplV7;
     .param p1, "x1"    # Landroid/view/Menu;
 
     .prologue
-    .line 89
+    .line 92
     invoke-direct {p0, p1}, Landroid/support/v7/app/AppCompatDelegateImplV7;->findMenuPanel(Landroid/view/Menu;)Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
 
     move-result-object v0
@@ -178,7 +232,7 @@
     return-object v0
 .end method
 
-.method static synthetic access$700(Landroid/support/v7/app/AppCompatDelegateImplV7;ILandroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;Landroid/view/Menu;)V
+.method static synthetic access$900(Landroid/support/v7/app/AppCompatDelegateImplV7;ILandroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;Landroid/view/Menu;)V
     .locals 0
     .param p0, "x0"    # Landroid/support/v7/app/AppCompatDelegateImplV7;
     .param p1, "x1"    # I
@@ -186,241 +240,227 @@
     .param p3, "x3"    # Landroid/view/Menu;
 
     .prologue
-    .line 89
+    .line 92
     invoke-direct {p0, p1, p2, p3}, Landroid/support/v7/app/AppCompatDelegateImplV7;->callOnPanelClosed(ILandroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;Landroid/view/Menu;)V
 
     return-void
 .end method
 
-.method static synthetic access$800(Landroid/support/v7/app/AppCompatDelegateImplV7;Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;Z)V
-    .locals 0
-    .param p0, "x0"    # Landroid/support/v7/app/AppCompatDelegateImplV7;
-    .param p1, "x1"    # Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
-    .param p2, "x2"    # Z
+.method private applyFixedSizeWindow()V
+    .locals 6
 
     .prologue
-    .line 89
-    invoke-direct {p0, p1, p2}, Landroid/support/v7/app/AppCompatDelegateImplV7;->closePanel(Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;Z)V
+    .line 482
+    iget-object v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mSubDecor:Landroid/view/ViewGroup;
 
-    return-void
-.end method
+    const v3, 0x1020002
 
-.method static synthetic access$900(Landroid/support/v7/app/AppCompatDelegateImplV7;Landroid/support/v7/internal/view/menu/MenuBuilder;)V
-    .locals 0
-    .param p0, "x0"    # Landroid/support/v7/app/AppCompatDelegateImplV7;
-    .param p1, "x1"    # Landroid/support/v7/internal/view/menu/MenuBuilder;
+    invoke-virtual {v2, v3}, Landroid/view/ViewGroup;->findViewById(I)Landroid/view/View;
 
-    .prologue
-    .line 89
-    invoke-direct {p0, p1}, Landroid/support/v7/app/AppCompatDelegateImplV7;->checkCloseActionMenu(Landroid/support/v7/internal/view/menu/MenuBuilder;)V
+    move-result-object v1
 
-    return-void
-.end method
+    check-cast v1, Landroid/support/v7/internal/widget/ContentFrameLayout;
 
-.method private applyFixedSizeWindow(Landroid/support/v7/internal/widget/ContentFrameLayout;)V
-    .locals 5
-    .param p1, "contentFrameLayout"    # Landroid/support/v7/internal/widget/ContentFrameLayout;
-
-    .prologue
-    .line 431
-    iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mWindowDecor:Landroid/view/ViewGroup;
-
-    invoke-virtual {v1}, Landroid/view/ViewGroup;->getPaddingLeft()I
-
-    move-result v1
-
+    .line 488
+    .local v1, "cfl":Landroid/support/v7/internal/widget/ContentFrameLayout;
     iget-object v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mWindowDecor:Landroid/view/ViewGroup;
 
-    invoke-virtual {v2}, Landroid/view/ViewGroup;->getPaddingTop()I
+    invoke-virtual {v2}, Landroid/view/ViewGroup;->getPaddingLeft()I
 
     move-result v2
 
     iget-object v3, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mWindowDecor:Landroid/view/ViewGroup;
 
-    invoke-virtual {v3}, Landroid/view/ViewGroup;->getPaddingRight()I
+    invoke-virtual {v3}, Landroid/view/ViewGroup;->getPaddingTop()I
 
     move-result v3
 
     iget-object v4, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mWindowDecor:Landroid/view/ViewGroup;
 
-    invoke-virtual {v4}, Landroid/view/ViewGroup;->getPaddingBottom()I
+    invoke-virtual {v4}, Landroid/view/ViewGroup;->getPaddingRight()I
 
     move-result v4
 
-    invoke-virtual {p1, v1, v2, v3, v4}, Landroid/support/v7/internal/widget/ContentFrameLayout;->setDecorPadding(IIII)V
+    iget-object v5, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mWindowDecor:Landroid/view/ViewGroup;
 
-    .line 436
-    iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mContext:Landroid/content/Context;
+    invoke-virtual {v5}, Landroid/view/ViewGroup;->getPaddingBottom()I
 
-    sget-object v2, Landroid/support/v7/appcompat/R$styleable;->Theme:[I
+    move-result v5
 
-    invoke-virtual {v1, v2}, Landroid/content/Context;->obtainStyledAttributes([I)Landroid/content/res/TypedArray;
+    invoke-virtual {v1, v2, v3, v4, v5}, Landroid/support/v7/internal/widget/ContentFrameLayout;->setDecorPadding(IIII)V
+
+    .line 492
+    iget-object v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mContext:Landroid/content/Context;
+
+    sget-object v3, Landroid/support/v7/appcompat/R$styleable;->Theme:[I
+
+    invoke-virtual {v2, v3}, Landroid/content/Context;->obtainStyledAttributes([I)Landroid/content/res/TypedArray;
 
     move-result-object v0
 
-    .line 437
+    .line 493
     .local v0, "a":Landroid/content/res/TypedArray;
-    sget v1, Landroid/support/v7/appcompat/R$styleable;->Theme_windowMinWidthMajor:I
+    sget v2, Landroid/support/v7/appcompat/R$styleable;->Theme_windowMinWidthMajor:I
 
-    invoke-virtual {p1}, Landroid/support/v7/internal/widget/ContentFrameLayout;->getMinWidthMajor()Landroid/util/TypedValue;
+    invoke-virtual {v1}, Landroid/support/v7/internal/widget/ContentFrameLayout;->getMinWidthMajor()Landroid/util/TypedValue;
 
-    move-result-object v2
+    move-result-object v3
 
-    invoke-virtual {v0, v1, v2}, Landroid/content/res/TypedArray;->getValue(ILandroid/util/TypedValue;)Z
+    invoke-virtual {v0, v2, v3}, Landroid/content/res/TypedArray;->getValue(ILandroid/util/TypedValue;)Z
 
-    .line 438
-    sget v1, Landroid/support/v7/appcompat/R$styleable;->Theme_windowMinWidthMinor:I
+    .line 494
+    sget v2, Landroid/support/v7/appcompat/R$styleable;->Theme_windowMinWidthMinor:I
 
-    invoke-virtual {p1}, Landroid/support/v7/internal/widget/ContentFrameLayout;->getMinWidthMinor()Landroid/util/TypedValue;
+    invoke-virtual {v1}, Landroid/support/v7/internal/widget/ContentFrameLayout;->getMinWidthMinor()Landroid/util/TypedValue;
 
-    move-result-object v2
+    move-result-object v3
 
-    invoke-virtual {v0, v1, v2}, Landroid/content/res/TypedArray;->getValue(ILandroid/util/TypedValue;)Z
+    invoke-virtual {v0, v2, v3}, Landroid/content/res/TypedArray;->getValue(ILandroid/util/TypedValue;)Z
 
-    .line 440
-    sget v1, Landroid/support/v7/appcompat/R$styleable;->Theme_windowFixedWidthMajor:I
+    .line 496
+    sget v2, Landroid/support/v7/appcompat/R$styleable;->Theme_windowFixedWidthMajor:I
 
-    invoke-virtual {v0, v1}, Landroid/content/res/TypedArray;->hasValue(I)Z
+    invoke-virtual {v0, v2}, Landroid/content/res/TypedArray;->hasValue(I)Z
 
-    move-result v1
+    move-result v2
 
-    if-eqz v1, :cond_0
+    if-eqz v2, :cond_0
 
-    .line 441
-    sget v1, Landroid/support/v7/appcompat/R$styleable;->Theme_windowFixedWidthMajor:I
+    .line 497
+    sget v2, Landroid/support/v7/appcompat/R$styleable;->Theme_windowFixedWidthMajor:I
 
-    invoke-virtual {p1}, Landroid/support/v7/internal/widget/ContentFrameLayout;->getFixedWidthMajor()Landroid/util/TypedValue;
+    invoke-virtual {v1}, Landroid/support/v7/internal/widget/ContentFrameLayout;->getFixedWidthMajor()Landroid/util/TypedValue;
 
-    move-result-object v2
+    move-result-object v3
 
-    invoke-virtual {v0, v1, v2}, Landroid/content/res/TypedArray;->getValue(ILandroid/util/TypedValue;)Z
+    invoke-virtual {v0, v2, v3}, Landroid/content/res/TypedArray;->getValue(ILandroid/util/TypedValue;)Z
 
-    .line 444
+    .line 499
     :cond_0
-    sget v1, Landroid/support/v7/appcompat/R$styleable;->Theme_windowFixedWidthMinor:I
+    sget v2, Landroid/support/v7/appcompat/R$styleable;->Theme_windowFixedWidthMinor:I
 
-    invoke-virtual {v0, v1}, Landroid/content/res/TypedArray;->hasValue(I)Z
+    invoke-virtual {v0, v2}, Landroid/content/res/TypedArray;->hasValue(I)Z
 
-    move-result v1
+    move-result v2
 
-    if-eqz v1, :cond_1
+    if-eqz v2, :cond_1
 
-    .line 445
-    sget v1, Landroid/support/v7/appcompat/R$styleable;->Theme_windowFixedWidthMinor:I
+    .line 500
+    sget v2, Landroid/support/v7/appcompat/R$styleable;->Theme_windowFixedWidthMinor:I
 
-    invoke-virtual {p1}, Landroid/support/v7/internal/widget/ContentFrameLayout;->getFixedWidthMinor()Landroid/util/TypedValue;
+    invoke-virtual {v1}, Landroid/support/v7/internal/widget/ContentFrameLayout;->getFixedWidthMinor()Landroid/util/TypedValue;
 
-    move-result-object v2
+    move-result-object v3
 
-    invoke-virtual {v0, v1, v2}, Landroid/content/res/TypedArray;->getValue(ILandroid/util/TypedValue;)Z
+    invoke-virtual {v0, v2, v3}, Landroid/content/res/TypedArray;->getValue(ILandroid/util/TypedValue;)Z
 
-    .line 448
+    .line 502
     :cond_1
-    sget v1, Landroid/support/v7/appcompat/R$styleable;->Theme_windowFixedHeightMajor:I
+    sget v2, Landroid/support/v7/appcompat/R$styleable;->Theme_windowFixedHeightMajor:I
 
-    invoke-virtual {v0, v1}, Landroid/content/res/TypedArray;->hasValue(I)Z
+    invoke-virtual {v0, v2}, Landroid/content/res/TypedArray;->hasValue(I)Z
 
-    move-result v1
+    move-result v2
 
-    if-eqz v1, :cond_2
+    if-eqz v2, :cond_2
 
-    .line 449
-    sget v1, Landroid/support/v7/appcompat/R$styleable;->Theme_windowFixedHeightMajor:I
+    .line 503
+    sget v2, Landroid/support/v7/appcompat/R$styleable;->Theme_windowFixedHeightMajor:I
 
-    invoke-virtual {p1}, Landroid/support/v7/internal/widget/ContentFrameLayout;->getFixedHeightMajor()Landroid/util/TypedValue;
+    invoke-virtual {v1}, Landroid/support/v7/internal/widget/ContentFrameLayout;->getFixedHeightMajor()Landroid/util/TypedValue;
 
-    move-result-object v2
+    move-result-object v3
 
-    invoke-virtual {v0, v1, v2}, Landroid/content/res/TypedArray;->getValue(ILandroid/util/TypedValue;)Z
+    invoke-virtual {v0, v2, v3}, Landroid/content/res/TypedArray;->getValue(ILandroid/util/TypedValue;)Z
 
-    .line 452
+    .line 505
     :cond_2
-    sget v1, Landroid/support/v7/appcompat/R$styleable;->Theme_windowFixedHeightMinor:I
+    sget v2, Landroid/support/v7/appcompat/R$styleable;->Theme_windowFixedHeightMinor:I
 
-    invoke-virtual {v0, v1}, Landroid/content/res/TypedArray;->hasValue(I)Z
+    invoke-virtual {v0, v2}, Landroid/content/res/TypedArray;->hasValue(I)Z
 
-    move-result v1
+    move-result v2
 
-    if-eqz v1, :cond_3
+    if-eqz v2, :cond_3
 
-    .line 453
-    sget v1, Landroid/support/v7/appcompat/R$styleable;->Theme_windowFixedHeightMinor:I
+    .line 506
+    sget v2, Landroid/support/v7/appcompat/R$styleable;->Theme_windowFixedHeightMinor:I
 
-    invoke-virtual {p1}, Landroid/support/v7/internal/widget/ContentFrameLayout;->getFixedHeightMinor()Landroid/util/TypedValue;
+    invoke-virtual {v1}, Landroid/support/v7/internal/widget/ContentFrameLayout;->getFixedHeightMinor()Landroid/util/TypedValue;
 
-    move-result-object v2
+    move-result-object v3
 
-    invoke-virtual {v0, v1, v2}, Landroid/content/res/TypedArray;->getValue(ILandroid/util/TypedValue;)Z
+    invoke-virtual {v0, v2, v3}, Landroid/content/res/TypedArray;->getValue(ILandroid/util/TypedValue;)Z
 
-    .line 456
+    .line 508
     :cond_3
     invoke-virtual {v0}, Landroid/content/res/TypedArray;->recycle()V
 
-    .line 458
-    invoke-virtual {p1}, Landroid/support/v7/internal/widget/ContentFrameLayout;->requestLayout()V
+    .line 510
+    invoke-virtual {v1}, Landroid/support/v7/internal/widget/ContentFrameLayout;->requestLayout()V
 
-    .line 459
+    .line 511
     return-void
 .end method
 
 .method private callOnPanelClosed(ILandroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;Landroid/view/Menu;)V
-    .locals 2
+    .locals 1
     .param p1, "featureId"    # I
     .param p2, "panel"    # Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
     .param p3, "menu"    # Landroid/view/Menu;
 
     .prologue
-    .line 1287
+    .line 1430
     if-nez p3, :cond_1
 
-    .line 1289
+    .line 1432
     if-nez p2, :cond_0
 
-    .line 1290
+    .line 1433
     if-ltz p1, :cond_0
 
-    iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mPanels:[Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
+    iget-object v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mPanels:[Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
 
-    array-length v1, v1
+    array-length v0, v0
 
-    if-ge p1, v1, :cond_0
+    if-ge p1, v0, :cond_0
 
-    .line 1291
-    iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mPanels:[Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
+    .line 1434
+    iget-object v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mPanels:[Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
 
-    aget-object p2, v1, p1
+    aget-object p2, v0, p1
 
-    .line 1295
+    .line 1438
     :cond_0
     if-eqz p2, :cond_1
 
-    .line 1297
+    .line 1440
     iget-object p3, p2, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->menu:Landroid/support/v7/internal/view/menu/MenuBuilder;
 
-    .line 1302
+    .line 1445
     :cond_1
     if-eqz p2, :cond_3
 
-    iget-boolean v1, p2, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->isOpen:Z
+    iget-boolean v0, p2, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->isOpen:Z
 
-    if-nez v1, :cond_3
+    if-nez v0, :cond_3
 
-    .line 1309
+    .line 1454
     :cond_2
     :goto_0
     return-void
 
-    .line 1305
+    .line 1448
     :cond_3
-    invoke-virtual {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getWindowCallback()Landroid/view/Window$Callback;
+    invoke-virtual {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->isDestroyed()Z
 
-    move-result-object v0
+    move-result v0
 
-    .line 1306
-    .local v0, "cb":Landroid/view/Window$Callback;
-    if-eqz v0, :cond_2
+    if-nez v0, :cond_2
 
-    .line 1307
+    .line 1452
+    iget-object v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOriginalWindowCallback:Landroid/view/Window$Callback;
+
     invoke-interface {v0, p1, p3}, Landroid/view/Window$Callback;->onPanelClosed(ILandroid/view/Menu;)V
 
     goto :goto_0
@@ -431,32 +471,32 @@
     .param p1, "menu"    # Landroid/support/v7/internal/view/menu/MenuBuilder;
 
     .prologue
-    .line 1165
+    .line 1315
     iget-boolean v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mClosingActionMenu:Z
 
     if-eqz v1, :cond_0
 
-    .line 1176
+    .line 1326
     :goto_0
     return-void
 
-    .line 1169
+    .line 1319
     :cond_0
     const/4 v1, 0x1
 
     iput-boolean v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mClosingActionMenu:Z
 
-    .line 1170
+    .line 1320
     iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
 
     invoke-interface {v1}, Landroid/support/v7/internal/widget/DecorContentParent;->dismissPopups()V
 
-    .line 1171
+    .line 1321
     invoke-virtual {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getWindowCallback()Landroid/view/Window$Callback;
 
     move-result-object v0
 
-    .line 1172
+    .line 1322
     .local v0, "cb":Landroid/view/Window$Callback;
     if-eqz v0, :cond_1
 
@@ -466,12 +506,12 @@
 
     if-nez v1, :cond_1
 
-    .line 1173
-    const/16 v1, 0x8
+    .line 1323
+    const/16 v1, 0x6c
 
     invoke-interface {v0, v1, p1}, Landroid/view/Window$Callback;->onPanelClosed(ILandroid/view/Menu;)V
 
-    .line 1175
+    .line 1325
     :cond_1
     const/4 v1, 0x0
 
@@ -487,125 +527,726 @@
     .prologue
     const/4 v1, 0x1
 
-    .line 1179
+    .line 1329
     invoke-direct {p0, p1, v1}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getPanelState(IZ)Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
 
     move-result-object v0
 
     invoke-direct {p0, v0, v1}, Landroid/support/v7/app/AppCompatDelegateImplV7;->closePanel(Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;Z)V
 
-    .line 1180
+    .line 1330
     return-void
 .end method
 
 .method private closePanel(Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;Z)V
-    .locals 6
+    .locals 5
     .param p1, "st"    # Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
     .param p2, "doCallback"    # Z
 
     .prologue
-    const/4 v5, 0x0
-
     const/4 v4, 0x0
 
-    .line 1183
+    const/4 v3, 0x0
+
+    .line 1333
     if-eqz p2, :cond_1
 
-    iget v2, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->featureId:I
+    iget v1, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->featureId:I
 
-    if-nez v2, :cond_1
+    if-nez v1, :cond_1
 
-    iget-object v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
+    iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
 
-    if-eqz v2, :cond_1
+    if-eqz v1, :cond_1
 
-    iget-object v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
+    iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
 
-    invoke-interface {v2}, Landroid/support/v7/internal/widget/DecorContentParent;->isOverflowMenuShowing()Z
+    invoke-interface {v1}, Landroid/support/v7/internal/widget/DecorContentParent;->isOverflowMenuShowing()Z
 
-    move-result v2
+    move-result v1
 
-    if-eqz v2, :cond_1
+    if-eqz v1, :cond_1
 
-    .line 1185
-    iget-object v2, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->menu:Landroid/support/v7/internal/view/menu/MenuBuilder;
+    .line 1335
+    iget-object v1, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->menu:Landroid/support/v7/internal/view/menu/MenuBuilder;
 
-    invoke-direct {p0, v2}, Landroid/support/v7/app/AppCompatDelegateImplV7;->checkCloseActionMenu(Landroid/support/v7/internal/view/menu/MenuBuilder;)V
+    invoke-direct {p0, v1}, Landroid/support/v7/app/AppCompatDelegateImplV7;->checkCloseActionMenu(Landroid/support/v7/internal/view/menu/MenuBuilder;)V
 
-    .line 1216
+    .line 1362
     :cond_0
     :goto_0
     return-void
 
-    .line 1189
+    .line 1339
     :cond_1
-    iget-boolean v0, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->isOpen:Z
+    iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mContext:Landroid/content/Context;
 
-    .line 1191
-    .local v0, "wasOpen":Z
-    iget-object v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mContext:Landroid/content/Context;
+    const-string v2, "window"
 
-    const-string v3, "window"
+    invoke-virtual {v1, v2}, Landroid/content/Context;->getSystemService(Ljava/lang/String;)Ljava/lang/Object;
 
-    invoke-virtual {v2, v3}, Landroid/content/Context;->getSystemService(Ljava/lang/String;)Ljava/lang/Object;
+    move-result-object v0
+
+    check-cast v0, Landroid/view/WindowManager;
+
+    .line 1340
+    .local v0, "wm":Landroid/view/WindowManager;
+    if-eqz v0, :cond_2
+
+    iget-boolean v1, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->isOpen:Z
+
+    if-eqz v1, :cond_2
+
+    iget-object v1, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->decorView:Landroid/view/ViewGroup;
+
+    if-eqz v1, :cond_2
+
+    .line 1341
+    iget-object v1, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->decorView:Landroid/view/ViewGroup;
+
+    invoke-interface {v0, v1}, Landroid/view/WindowManager;->removeView(Landroid/view/View;)V
+
+    .line 1343
+    if-eqz p2, :cond_2
+
+    .line 1344
+    iget v1, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->featureId:I
+
+    invoke-direct {p0, v1, p1, v4}, Landroid/support/v7/app/AppCompatDelegateImplV7;->callOnPanelClosed(ILandroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;Landroid/view/Menu;)V
+
+    .line 1348
+    :cond_2
+    iput-boolean v3, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->isPrepared:Z
+
+    .line 1349
+    iput-boolean v3, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->isHandled:Z
+
+    .line 1350
+    iput-boolean v3, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->isOpen:Z
+
+    .line 1353
+    iput-object v4, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->shownPanelView:Landroid/view/View;
+
+    .line 1357
+    const/4 v1, 0x1
+
+    iput-boolean v1, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->refreshDecorView:Z
+
+    .line 1359
+    iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mPreparedPanel:Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
+
+    if-ne v1, p1, :cond_0
+
+    .line 1360
+    iput-object v4, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mPreparedPanel:Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
+
+    goto :goto_0
+.end method
+
+.method private createSubDecor()Landroid/view/ViewGroup;
+    .locals 15
+
+    .prologue
+    const v14, 0x1020002
+
+    const/16 v13, 0x6d
+
+    const/4 v12, 0x1
+
+    const/4 v11, 0x0
+
+    const/4 v10, 0x0
+
+    .line 307
+    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mContext:Landroid/content/Context;
+
+    sget-object v9, Landroid/support/v7/appcompat/R$styleable;->Theme:[I
+
+    invoke-virtual {v8, v9}, Landroid/content/Context;->obtainStyledAttributes([I)Landroid/content/res/TypedArray;
+
+    move-result-object v0
+
+    .line 309
+    .local v0, "a":Landroid/content/res/TypedArray;
+    sget v8, Landroid/support/v7/appcompat/R$styleable;->Theme_windowActionBar:I
+
+    invoke-virtual {v0, v8}, Landroid/content/res/TypedArray;->hasValue(I)Z
+
+    move-result v8
+
+    if-nez v8, :cond_0
+
+    .line 310
+    invoke-virtual {v0}, Landroid/content/res/TypedArray;->recycle()V
+
+    .line 311
+    new-instance v8, Ljava/lang/IllegalStateException;
+
+    const-string v9, "You need to use a Theme.AppCompat theme (or descendant) with this activity."
+
+    invoke-direct {v8, v9}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
+
+    throw v8
+
+    .line 315
+    :cond_0
+    sget v8, Landroid/support/v7/appcompat/R$styleable;->Theme_windowNoTitle:I
+
+    invoke-virtual {v0, v8, v10}, Landroid/content/res/TypedArray;->getBoolean(IZ)Z
+
+    move-result v8
+
+    if-eqz v8, :cond_5
+
+    .line 316
+    invoke-virtual {p0, v12}, Landroid/support/v7/app/AppCompatDelegateImplV7;->requestWindowFeature(I)Z
+
+    .line 321
+    :cond_1
+    :goto_0
+    sget v8, Landroid/support/v7/appcompat/R$styleable;->Theme_windowActionBarOverlay:I
+
+    invoke-virtual {v0, v8, v10}, Landroid/content/res/TypedArray;->getBoolean(IZ)Z
+
+    move-result v8
+
+    if-eqz v8, :cond_2
+
+    .line 322
+    invoke-virtual {p0, v13}, Landroid/support/v7/app/AppCompatDelegateImplV7;->requestWindowFeature(I)Z
+
+    .line 324
+    :cond_2
+    sget v8, Landroid/support/v7/appcompat/R$styleable;->Theme_windowActionModeOverlay:I
+
+    invoke-virtual {v0, v8, v10}, Landroid/content/res/TypedArray;->getBoolean(IZ)Z
+
+    move-result v8
+
+    if-eqz v8, :cond_3
+
+    .line 325
+    const/16 v8, 0xa
+
+    invoke-virtual {p0, v8}, Landroid/support/v7/app/AppCompatDelegateImplV7;->requestWindowFeature(I)Z
+
+    .line 327
+    :cond_3
+    sget v8, Landroid/support/v7/appcompat/R$styleable;->Theme_android_windowIsFloating:I
+
+    invoke-virtual {v0, v8, v10}, Landroid/content/res/TypedArray;->getBoolean(IZ)Z
+
+    move-result v8
+
+    iput-boolean v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mIsFloating:Z
+
+    .line 328
+    invoke-virtual {v0}, Landroid/content/res/TypedArray;->recycle()V
+
+    .line 330
+    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mContext:Landroid/content/Context;
+
+    invoke-static {v8}, Landroid/view/LayoutInflater;->from(Landroid/content/Context;)Landroid/view/LayoutInflater;
+
+    move-result-object v4
+
+    .line 331
+    .local v4, "inflater":Landroid/view/LayoutInflater;
+    const/4 v6, 0x0
+
+    .line 334
+    .local v6, "subDecor":Landroid/view/ViewGroup;
+    iget-boolean v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mWindowNoTitle:Z
+
+    if-nez v8, :cond_a
+
+    .line 335
+    iget-boolean v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mIsFloating:Z
+
+    if-eqz v8, :cond_6
+
+    .line 337
+    sget v8, Landroid/support/v7/appcompat/R$layout;->abc_dialog_title_material:I
+
+    invoke-virtual {v4, v8, v11}, Landroid/view/LayoutInflater;->inflate(ILandroid/view/ViewGroup;)Landroid/view/View;
+
+    move-result-object v6
+
+    .end local v6    # "subDecor":Landroid/view/ViewGroup;
+    check-cast v6, Landroid/view/ViewGroup;
+
+    .line 341
+    .restart local v6    # "subDecor":Landroid/view/ViewGroup;
+    iput-boolean v10, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOverlayActionBar:Z
+
+    iput-boolean v10, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mHasActionBar:Z
+
+    .line 422
+    :cond_4
+    :goto_1
+    if-nez v6, :cond_d
+
+    .line 423
+    new-instance v8, Ljava/lang/IllegalArgumentException;
+
+    new-instance v9, Ljava/lang/StringBuilder;
+
+    invoke-direct {v9}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v10, "AppCompat does not support the current theme features: { windowActionBar: "
+
+    invoke-virtual {v9, v10}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v9
+
+    iget-boolean v10, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mHasActionBar:Z
+
+    invoke-virtual {v9, v10}, Ljava/lang/StringBuilder;->append(Z)Ljava/lang/StringBuilder;
+
+    move-result-object v9
+
+    const-string v10, ", windowActionBarOverlay: "
+
+    invoke-virtual {v9, v10}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v9
+
+    iget-boolean v10, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOverlayActionBar:Z
+
+    invoke-virtual {v9, v10}, Ljava/lang/StringBuilder;->append(Z)Ljava/lang/StringBuilder;
+
+    move-result-object v9
+
+    const-string v10, ", android:windowIsFloating: "
+
+    invoke-virtual {v9, v10}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v9
+
+    iget-boolean v10, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mIsFloating:Z
+
+    invoke-virtual {v9, v10}, Ljava/lang/StringBuilder;->append(Z)Ljava/lang/StringBuilder;
+
+    move-result-object v9
+
+    const-string v10, ", windowActionModeOverlay: "
+
+    invoke-virtual {v9, v10}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v9
+
+    iget-boolean v10, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOverlayActionMode:Z
+
+    invoke-virtual {v9, v10}, Ljava/lang/StringBuilder;->append(Z)Ljava/lang/StringBuilder;
+
+    move-result-object v9
+
+    const-string v10, ", windowNoTitle: "
+
+    invoke-virtual {v9, v10}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v9
+
+    iget-boolean v10, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mWindowNoTitle:Z
+
+    invoke-virtual {v9, v10}, Ljava/lang/StringBuilder;->append(Z)Ljava/lang/StringBuilder;
+
+    move-result-object v9
+
+    const-string v10, " }"
+
+    invoke-virtual {v9, v10}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v9
+
+    invoke-virtual {v9}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v9
+
+    invoke-direct {v8, v9}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+
+    throw v8
+
+    .line 317
+    .end local v4    # "inflater":Landroid/view/LayoutInflater;
+    .end local v6    # "subDecor":Landroid/view/ViewGroup;
+    :cond_5
+    sget v8, Landroid/support/v7/appcompat/R$styleable;->Theme_windowActionBar:I
+
+    invoke-virtual {v0, v8, v10}, Landroid/content/res/TypedArray;->getBoolean(IZ)Z
+
+    move-result v8
+
+    if-eqz v8, :cond_1
+
+    .line 319
+    const/16 v8, 0x6c
+
+    invoke-virtual {p0, v8}, Landroid/support/v7/app/AppCompatDelegateImplV7;->requestWindowFeature(I)Z
+
+    goto/16 :goto_0
+
+    .line 342
+    .restart local v4    # "inflater":Landroid/view/LayoutInflater;
+    .restart local v6    # "subDecor":Landroid/view/ViewGroup;
+    :cond_6
+    iget-boolean v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mHasActionBar:Z
+
+    if-eqz v8, :cond_4
+
+    .line 348
+    new-instance v5, Landroid/util/TypedValue;
+
+    invoke-direct {v5}, Landroid/util/TypedValue;-><init>()V
+
+    .line 349
+    .local v5, "outValue":Landroid/util/TypedValue;
+    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mContext:Landroid/content/Context;
+
+    invoke-virtual {v8}, Landroid/content/Context;->getTheme()Landroid/content/res/Resources$Theme;
+
+    move-result-object v8
+
+    sget v9, Landroid/support/v7/appcompat/R$attr;->actionBarTheme:I
+
+    invoke-virtual {v8, v9, v5, v12}, Landroid/content/res/Resources$Theme;->resolveAttribute(ILandroid/util/TypedValue;Z)Z
+
+    .line 352
+    iget v8, v5, Landroid/util/TypedValue;->resourceId:I
+
+    if-eqz v8, :cond_9
+
+    .line 353
+    new-instance v7, Landroid/support/v7/internal/view/ContextThemeWrapper;
+
+    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mContext:Landroid/content/Context;
+
+    iget v9, v5, Landroid/util/TypedValue;->resourceId:I
+
+    invoke-direct {v7, v8, v9}, Landroid/support/v7/internal/view/ContextThemeWrapper;-><init>(Landroid/content/Context;I)V
+
+    .line 359
+    .local v7, "themedContext":Landroid/content/Context;
+    :goto_2
+    invoke-static {v7}, Landroid/view/LayoutInflater;->from(Landroid/content/Context;)Landroid/view/LayoutInflater;
+
+    move-result-object v8
+
+    sget v9, Landroid/support/v7/appcompat/R$layout;->abc_screen_toolbar:I
+
+    invoke-virtual {v8, v9, v11}, Landroid/view/LayoutInflater;->inflate(ILandroid/view/ViewGroup;)Landroid/view/View;
+
+    move-result-object v6
+
+    .end local v6    # "subDecor":Landroid/view/ViewGroup;
+    check-cast v6, Landroid/view/ViewGroup;
+
+    .line 362
+    .restart local v6    # "subDecor":Landroid/view/ViewGroup;
+    sget v8, Landroid/support/v7/appcompat/R$id;->decor_content_parent:I
+
+    invoke-virtual {v6, v8}, Landroid/view/ViewGroup;->findViewById(I)Landroid/view/View;
+
+    move-result-object v8
+
+    check-cast v8, Landroid/support/v7/internal/widget/DecorContentParent;
+
+    iput-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
+
+    .line 364
+    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
+
+    invoke-virtual {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getWindowCallback()Landroid/view/Window$Callback;
+
+    move-result-object v9
+
+    invoke-interface {v8, v9}, Landroid/support/v7/internal/widget/DecorContentParent;->setWindowCallback(Landroid/view/Window$Callback;)V
+
+    .line 369
+    iget-boolean v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOverlayActionBar:Z
+
+    if-eqz v8, :cond_7
+
+    .line 370
+    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
+
+    invoke-interface {v8, v13}, Landroid/support/v7/internal/widget/DecorContentParent;->initFeature(I)V
+
+    .line 372
+    :cond_7
+    iget-boolean v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mFeatureProgress:Z
+
+    if-eqz v8, :cond_8
+
+    .line 373
+    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
+
+    const/4 v9, 0x2
+
+    invoke-interface {v8, v9}, Landroid/support/v7/internal/widget/DecorContentParent;->initFeature(I)V
+
+    .line 375
+    :cond_8
+    iget-boolean v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mFeatureIndeterminateProgress:Z
+
+    if-eqz v8, :cond_4
+
+    .line 376
+    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
+
+    const/4 v9, 0x5
+
+    invoke-interface {v8, v9}, Landroid/support/v7/internal/widget/DecorContentParent;->initFeature(I)V
+
+    goto/16 :goto_1
+
+    .line 355
+    .end local v7    # "themedContext":Landroid/content/Context;
+    :cond_9
+    iget-object v7, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mContext:Landroid/content/Context;
+
+    .restart local v7    # "themedContext":Landroid/content/Context;
+    goto :goto_2
+
+    .line 380
+    .end local v5    # "outValue":Landroid/util/TypedValue;
+    .end local v7    # "themedContext":Landroid/content/Context;
+    :cond_a
+    iget-boolean v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOverlayActionMode:Z
+
+    if-eqz v8, :cond_b
+
+    .line 381
+    sget v8, Landroid/support/v7/appcompat/R$layout;->abc_screen_simple_overlay_action_mode:I
+
+    invoke-virtual {v4, v8, v11}, Landroid/view/LayoutInflater;->inflate(ILandroid/view/ViewGroup;)Landroid/view/View;
+
+    move-result-object v6
+
+    .end local v6    # "subDecor":Landroid/view/ViewGroup;
+    check-cast v6, Landroid/view/ViewGroup;
+
+    .line 387
+    .restart local v6    # "subDecor":Landroid/view/ViewGroup;
+    :goto_3
+    sget v8, Landroid/os/Build$VERSION;->SDK_INT:I
+
+    const/16 v9, 0x15
+
+    if-lt v8, v9, :cond_c
+
+    .line 390
+    new-instance v8, Landroid/support/v7/app/AppCompatDelegateImplV7$2;
+
+    invoke-direct {v8, p0}, Landroid/support/v7/app/AppCompatDelegateImplV7$2;-><init>(Landroid/support/v7/app/AppCompatDelegateImplV7;)V
+
+    invoke-static {v6, v8}, Landroid/support/v4/view/ViewCompat;->setOnApplyWindowInsetsListener(Landroid/view/View;Landroid/support/v4/view/OnApplyWindowInsetsListener;)V
+
+    goto/16 :goto_1
+
+    .line 384
+    :cond_b
+    sget v8, Landroid/support/v7/appcompat/R$layout;->abc_screen_simple:I
+
+    invoke-virtual {v4, v8, v11}, Landroid/view/LayoutInflater;->inflate(ILandroid/view/ViewGroup;)Landroid/view/View;
+
+    move-result-object v6
+
+    .end local v6    # "subDecor":Landroid/view/ViewGroup;
+    check-cast v6, Landroid/view/ViewGroup;
+
+    .restart local v6    # "subDecor":Landroid/view/ViewGroup;
+    goto :goto_3
+
+    :cond_c
+    move-object v8, v6
+
+    .line 412
+    check-cast v8, Landroid/support/v7/internal/widget/FitWindowsViewGroup;
+
+    new-instance v9, Landroid/support/v7/app/AppCompatDelegateImplV7$3;
+
+    invoke-direct {v9, p0}, Landroid/support/v7/app/AppCompatDelegateImplV7$3;-><init>(Landroid/support/v7/app/AppCompatDelegateImplV7;)V
+
+    invoke-interface {v8, v9}, Landroid/support/v7/internal/widget/FitWindowsViewGroup;->setOnFitSystemWindowsListener(Landroid/support/v7/internal/widget/FitWindowsViewGroup$OnFitSystemWindowsListener;)V
+
+    goto/16 :goto_1
+
+    .line 433
+    :cond_d
+    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
+
+    if-nez v8, :cond_e
+
+    .line 434
+    sget v8, Landroid/support/v7/appcompat/R$id;->title:I
+
+    invoke-virtual {v6, v8}, Landroid/view/ViewGroup;->findViewById(I)Landroid/view/View;
+
+    move-result-object v8
+
+    check-cast v8, Landroid/widget/TextView;
+
+    iput-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mTitleView:Landroid/widget/TextView;
+
+    .line 438
+    :cond_e
+    invoke-static {v6}, Landroid/support/v7/internal/widget/ViewUtils;->makeOptionalFitsSystemWindows(Landroid/view/View;)V
+
+    .line 440
+    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mWindow:Landroid/view/Window;
+
+    invoke-virtual {v8, v14}, Landroid/view/Window;->findViewById(I)Landroid/view/View;
+
+    move-result-object v3
+
+    check-cast v3, Landroid/view/ViewGroup;
+
+    .line 441
+    .local v3, "decorContent":Landroid/view/ViewGroup;
+    sget v8, Landroid/support/v7/appcompat/R$id;->action_bar_activity_content:I
+
+    invoke-virtual {v6, v8}, Landroid/view/ViewGroup;->findViewById(I)Landroid/view/View;
 
     move-result-object v1
 
-    check-cast v1, Landroid/view/WindowManager;
+    check-cast v1, Landroid/support/v7/internal/widget/ContentFrameLayout;
 
-    .line 1192
-    .local v1, "wm":Landroid/view/WindowManager;
+    .line 446
+    .local v1, "abcContent":Landroid/support/v7/internal/widget/ContentFrameLayout;
+    :goto_4
+    invoke-virtual {v3}, Landroid/view/ViewGroup;->getChildCount()I
+
+    move-result v8
+
+    if-lez v8, :cond_f
+
+    .line 447
+    invoke-virtual {v3, v10}, Landroid/view/ViewGroup;->getChildAt(I)Landroid/view/View;
+
+    move-result-object v2
+
+    .line 448
+    .local v2, "child":Landroid/view/View;
+    invoke-virtual {v3, v10}, Landroid/view/ViewGroup;->removeViewAt(I)V
+
+    .line 449
+    invoke-virtual {v1, v2}, Landroid/support/v7/internal/widget/ContentFrameLayout;->addView(Landroid/view/View;)V
+
+    goto :goto_4
+
+    .line 453
+    .end local v2    # "child":Landroid/view/View;
+    :cond_f
+    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mWindow:Landroid/view/Window;
+
+    invoke-virtual {v8, v6}, Landroid/view/Window;->setContentView(Landroid/view/View;)V
+
+    .line 457
+    const/4 v8, -0x1
+
+    invoke-virtual {v3, v8}, Landroid/view/ViewGroup;->setId(I)V
+
+    .line 458
+    invoke-virtual {v1, v14}, Landroid/support/v7/internal/widget/ContentFrameLayout;->setId(I)V
+
+    .line 462
+    instance-of v8, v3, Landroid/widget/FrameLayout;
+
+    if-eqz v8, :cond_10
+
+    .line 463
+    check-cast v3, Landroid/widget/FrameLayout;
+
+    .end local v3    # "decorContent":Landroid/view/ViewGroup;
+    invoke-virtual {v3, v11}, Landroid/widget/FrameLayout;->setForeground(Landroid/graphics/drawable/Drawable;)V
+
+    .line 466
+    :cond_10
+    new-instance v8, Landroid/support/v7/app/AppCompatDelegateImplV7$4;
+
+    invoke-direct {v8, p0}, Landroid/support/v7/app/AppCompatDelegateImplV7$4;-><init>(Landroid/support/v7/app/AppCompatDelegateImplV7;)V
+
+    invoke-virtual {v1, v8}, Landroid/support/v7/internal/widget/ContentFrameLayout;->setAttachListener(Landroid/support/v7/internal/widget/ContentFrameLayout$OnAttachListener;)V
+
+    .line 476
+    return-object v6
+.end method
+
+.method private dismissPopups()V
+    .locals 4
+
+    .prologue
+    const/4 v3, 0x0
+
+    .line 1648
+    iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
+
+    if-eqz v1, :cond_0
+
+    .line 1649
+    iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
+
+    invoke-interface {v1}, Landroid/support/v7/internal/widget/DecorContentParent;->dismissPopups()V
+
+    .line 1652
+    :cond_0
+    iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionModePopup:Landroid/widget/PopupWindow;
+
     if-eqz v1, :cond_2
 
-    if-eqz v0, :cond_2
+    .line 1653
+    iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mWindowDecor:Landroid/view/ViewGroup;
 
-    iget-object v2, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->decorView:Landroid/view/ViewGroup;
+    iget-object v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mShowActionModePopup:Ljava/lang/Runnable;
 
-    if-eqz v2, :cond_2
+    invoke-virtual {v1, v2}, Landroid/view/ViewGroup;->removeCallbacks(Ljava/lang/Runnable;)Z
 
-    .line 1193
-    iget-object v2, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->decorView:Landroid/view/ViewGroup;
+    .line 1654
+    iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionModePopup:Landroid/widget/PopupWindow;
 
-    invoke-interface {v1, v2}, Landroid/view/WindowManager;->removeView(Landroid/view/View;)V
+    invoke-virtual {v1}, Landroid/widget/PopupWindow;->isShowing()Z
 
-    .line 1196
+    move-result v1
+
+    if-eqz v1, :cond_1
+
+    .line 1655
+    iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionModePopup:Landroid/widget/PopupWindow;
+
+    invoke-virtual {v1}, Landroid/widget/PopupWindow;->dismiss()V
+
+    .line 1657
+    :cond_1
+    const/4 v1, 0x0
+
+    iput-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionModePopup:Landroid/widget/PopupWindow;
+
+    .line 1659
     :cond_2
-    iput-boolean v4, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->isPrepared:Z
+    invoke-direct {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->endOnGoingFadeAnimation()V
 
-    .line 1197
-    iput-boolean v4, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->isHandled:Z
+    .line 1661
+    invoke-direct {p0, v3, v3}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getPanelState(IZ)Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
 
-    .line 1198
-    iput-boolean v4, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->isOpen:Z
+    move-result-object v0
 
-    .line 1200
+    .line 1662
+    .local v0, "st":Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
     if-eqz v0, :cond_3
 
-    if-eqz p2, :cond_3
+    iget-object v1, v0, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->menu:Landroid/support/v7/internal/view/menu/MenuBuilder;
 
-    .line 1203
-    iget v2, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->featureId:I
+    if-eqz v1, :cond_3
 
-    invoke-direct {p0, v2, p1, v5}, Landroid/support/v7/app/AppCompatDelegateImplV7;->callOnPanelClosed(ILandroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;Landroid/view/Menu;)V
+    .line 1663
+    iget-object v1, v0, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->menu:Landroid/support/v7/internal/view/menu/MenuBuilder;
 
-    .line 1207
+    invoke-virtual {v1}, Landroid/support/v7/internal/view/menu/MenuBuilder;->close()V
+
+    .line 1665
     :cond_3
-    iput-object v5, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->shownPanelView:Landroid/view/View;
-
-    .line 1211
-    const/4 v2, 0x1
-
-    iput-boolean v2, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->refreshDecorView:Z
-
-    .line 1213
-    iget-object v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mPreparedPanel:Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
-
-    if-ne v2, p1, :cond_0
-
-    .line 1214
-    iput-object v5, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mPreparedPanel:Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
-
-    goto :goto_0
+    return-void
 .end method
 
 .method private doInvalidatePanelMenu(I)V
@@ -617,63 +1258,63 @@
 
     const/4 v3, 0x0
 
-    .line 1375
+    .line 1520
     invoke-direct {p0, p1, v4}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getPanelState(IZ)Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
 
     move-result-object v1
 
-    .line 1376
+    .line 1521
     .local v1, "st":Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
     const/4 v0, 0x0
 
-    .line 1377
+    .line 1522
     .local v0, "savedActionViewStates":Landroid/os/Bundle;
     iget-object v2, v1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->menu:Landroid/support/v7/internal/view/menu/MenuBuilder;
 
     if-eqz v2, :cond_1
 
-    .line 1378
+    .line 1523
     new-instance v0, Landroid/os/Bundle;
 
     .end local v0    # "savedActionViewStates":Landroid/os/Bundle;
     invoke-direct {v0}, Landroid/os/Bundle;-><init>()V
 
-    .line 1379
+    .line 1524
     .restart local v0    # "savedActionViewStates":Landroid/os/Bundle;
     iget-object v2, v1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->menu:Landroid/support/v7/internal/view/menu/MenuBuilder;
 
     invoke-virtual {v2, v0}, Landroid/support/v7/internal/view/menu/MenuBuilder;->saveActionViewStates(Landroid/os/Bundle;)V
 
-    .line 1380
+    .line 1525
     invoke-virtual {v0}, Landroid/os/Bundle;->size()I
 
     move-result v2
 
     if-lez v2, :cond_0
 
-    .line 1381
+    .line 1526
     iput-object v0, v1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->frozenActionViewState:Landroid/os/Bundle;
 
-    .line 1384
+    .line 1529
     :cond_0
     iget-object v2, v1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->menu:Landroid/support/v7/internal/view/menu/MenuBuilder;
 
     invoke-virtual {v2}, Landroid/support/v7/internal/view/menu/MenuBuilder;->stopDispatchingItemsChanged()V
 
-    .line 1385
+    .line 1530
     iget-object v2, v1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->menu:Landroid/support/v7/internal/view/menu/MenuBuilder;
 
     invoke-virtual {v2}, Landroid/support/v7/internal/view/menu/MenuBuilder;->clear()V
 
-    .line 1387
+    .line 1532
     :cond_1
     iput-boolean v4, v1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->refreshMenuContent:Z
 
-    .line 1388
+    .line 1533
     iput-boolean v4, v1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->refreshDecorView:Z
 
-    .line 1391
-    const/16 v2, 0x8
+    .line 1536
+    const/16 v2, 0x6c
 
     if-eq p1, v2, :cond_2
 
@@ -684,441 +1325,123 @@
 
     if-eqz v2, :cond_3
 
-    .line 1393
+    .line 1538
     invoke-direct {p0, v3, v3}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getPanelState(IZ)Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
 
     move-result-object v1
 
-    .line 1394
+    .line 1539
     if-eqz v1, :cond_3
 
-    .line 1395
+    .line 1540
     iput-boolean v3, v1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->isPrepared:Z
 
-    .line 1396
+    .line 1541
     const/4 v2, 0x0
 
     invoke-direct {p0, v1, v2}, Landroid/support/v7/app/AppCompatDelegateImplV7;->preparePanel(Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;Landroid/view/KeyEvent;)Z
 
-    .line 1399
+    .line 1544
     :cond_3
     return-void
 .end method
 
-.method private ensureSubDecor()V
-    .locals 14
+.method private endOnGoingFadeAnimation()V
+    .locals 1
 
     .prologue
-    const v13, 0x1020002
+    .line 799
+    iget-object v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mFadeAnim:Landroid/support/v4/view/ViewPropertyAnimatorCompat;
 
-    const/4 v12, 0x1
+    if-eqz v0, :cond_0
 
-    const/4 v11, 0x0
+    .line 800
+    iget-object v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mFadeAnim:Landroid/support/v4/view/ViewPropertyAnimatorCompat;
 
-    const/4 v10, 0x0
+    invoke-virtual {v0}, Landroid/support/v4/view/ViewPropertyAnimatorCompat;->cancel()V
 
-    .line 271
-    iget-boolean v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mSubDecorInstalled:Z
-
-    if-nez v8, :cond_e
-
-    .line 272
-    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mContext:Landroid/content/Context;
-
-    invoke-static {v8}, Landroid/view/LayoutInflater;->from(Landroid/content/Context;)Landroid/view/LayoutInflater;
-
-    move-result-object v3
-
-    .line 274
-    .local v3, "inflater":Landroid/view/LayoutInflater;
-    iget-boolean v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mWindowNoTitle:Z
-
-    if-nez v8, :cond_5
-
-    .line 275
-    iget-boolean v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mIsFloating:Z
-
-    if-eqz v8, :cond_1
-
-    .line 277
-    sget v8, Landroid/support/v7/appcompat/R$layout;->abc_dialog_title_material:I
-
-    invoke-virtual {v3, v8, v11}, Landroid/view/LayoutInflater;->inflate(ILandroid/view/ViewGroup;)Landroid/view/View;
-
-    move-result-object v8
-
-    check-cast v8, Landroid/view/ViewGroup;
-
-    iput-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mSubDecor:Landroid/view/ViewGroup;
-
-    .line 281
-    iput-boolean v10, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOverlayActionBar:Z
-
-    iput-boolean v10, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mHasActionBar:Z
-
-    .line 362
+    .line 802
     :cond_0
-    :goto_0
-    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mSubDecor:Landroid/view/ViewGroup;
+    return-void
+.end method
 
-    if-nez v8, :cond_8
+.method private ensureSubDecor()V
+    .locals 4
 
-    .line 363
-    new-instance v8, Ljava/lang/IllegalArgumentException;
+    .prologue
+    const/4 v3, 0x0
 
-    const-string v9, "AppCompat does not support the current theme features"
+    .line 279
+    iget-boolean v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mSubDecorInstalled:Z
 
-    invoke-direct {v8, v9}, Ljava/lang/IllegalArgumentException;-><init>(Ljava/lang/String;)V
+    if-nez v2, :cond_2
 
-    throw v8
-
-    .line 282
-    :cond_1
-    iget-boolean v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mHasActionBar:Z
-
-    if-eqz v8, :cond_0
-
-    .line 288
-    new-instance v4, Landroid/util/TypedValue;
-
-    invoke-direct {v4}, Landroid/util/TypedValue;-><init>()V
-
-    .line 289
-    .local v4, "outValue":Landroid/util/TypedValue;
-    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mContext:Landroid/content/Context;
-
-    invoke-virtual {v8}, Landroid/content/Context;->getTheme()Landroid/content/res/Resources$Theme;
-
-    move-result-object v8
-
-    sget v9, Landroid/support/v7/appcompat/R$attr;->actionBarTheme:I
-
-    invoke-virtual {v8, v9, v4, v12}, Landroid/content/res/Resources$Theme;->resolveAttribute(ILandroid/util/TypedValue;Z)Z
-
-    .line 292
-    iget v8, v4, Landroid/util/TypedValue;->resourceId:I
-
-    if-eqz v8, :cond_4
-
-    .line 293
-    new-instance v6, Landroid/support/v7/internal/view/ContextThemeWrapper;
-
-    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mContext:Landroid/content/Context;
-
-    iget v9, v4, Landroid/util/TypedValue;->resourceId:I
-
-    invoke-direct {v6, v8, v9}, Landroid/support/v7/internal/view/ContextThemeWrapper;-><init>(Landroid/content/Context;I)V
-
-    .line 299
-    .local v6, "themedContext":Landroid/content/Context;
-    :goto_1
-    invoke-static {v6}, Landroid/view/LayoutInflater;->from(Landroid/content/Context;)Landroid/view/LayoutInflater;
-
-    move-result-object v8
-
-    sget v9, Landroid/support/v7/appcompat/R$layout;->abc_screen_toolbar:I
-
-    invoke-virtual {v8, v9, v11}, Landroid/view/LayoutInflater;->inflate(ILandroid/view/ViewGroup;)Landroid/view/View;
-
-    move-result-object v8
-
-    check-cast v8, Landroid/view/ViewGroup;
-
-    iput-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mSubDecor:Landroid/view/ViewGroup;
-
-    .line 302
-    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mSubDecor:Landroid/view/ViewGroup;
-
-    sget v9, Landroid/support/v7/appcompat/R$id;->decor_content_parent:I
-
-    invoke-virtual {v8, v9}, Landroid/view/ViewGroup;->findViewById(I)Landroid/view/View;
-
-    move-result-object v8
-
-    check-cast v8, Landroid/support/v7/internal/widget/DecorContentParent;
-
-    iput-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
-
-    .line 304
-    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
-
-    invoke-virtual {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getWindowCallback()Landroid/view/Window$Callback;
-
-    move-result-object v9
-
-    invoke-interface {v8, v9}, Landroid/support/v7/internal/widget/DecorContentParent;->setWindowCallback(Landroid/view/Window$Callback;)V
-
-    .line 309
-    iget-boolean v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOverlayActionBar:Z
-
-    if-eqz v8, :cond_2
-
-    .line 310
-    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
-
-    const/16 v9, 0x9
-
-    invoke-interface {v8, v9}, Landroid/support/v7/internal/widget/DecorContentParent;->initFeature(I)V
-
-    .line 312
-    :cond_2
-    iget-boolean v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mFeatureProgress:Z
-
-    if-eqz v8, :cond_3
-
-    .line 313
-    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
-
-    const/4 v9, 0x2
-
-    invoke-interface {v8, v9}, Landroid/support/v7/internal/widget/DecorContentParent;->initFeature(I)V
-
-    .line 315
-    :cond_3
-    iget-boolean v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mFeatureIndeterminateProgress:Z
-
-    if-eqz v8, :cond_0
-
-    .line 316
-    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
-
-    const/4 v9, 0x5
-
-    invoke-interface {v8, v9}, Landroid/support/v7/internal/widget/DecorContentParent;->initFeature(I)V
-
-    goto :goto_0
-
-    .line 295
-    .end local v6    # "themedContext":Landroid/content/Context;
-    :cond_4
-    iget-object v6, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mContext:Landroid/content/Context;
-
-    .restart local v6    # "themedContext":Landroid/content/Context;
-    goto :goto_1
-
-    .line 320
-    .end local v4    # "outValue":Landroid/util/TypedValue;
-    .end local v6    # "themedContext":Landroid/content/Context;
-    :cond_5
-    iget-boolean v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOverlayActionMode:Z
-
-    if-eqz v8, :cond_6
-
-    .line 321
-    sget v8, Landroid/support/v7/appcompat/R$layout;->abc_screen_simple_overlay_action_mode:I
-
-    invoke-virtual {v3, v8, v11}, Landroid/view/LayoutInflater;->inflate(ILandroid/view/ViewGroup;)Landroid/view/View;
-
-    move-result-object v8
-
-    check-cast v8, Landroid/view/ViewGroup;
-
-    iput-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mSubDecor:Landroid/view/ViewGroup;
-
-    .line 327
-    :goto_2
-    sget v8, Landroid/os/Build$VERSION;->SDK_INT:I
-
-    const/16 v9, 0x15
-
-    if-lt v8, v9, :cond_7
-
-    .line 330
-    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mSubDecor:Landroid/view/ViewGroup;
-
-    new-instance v9, Landroid/support/v7/app/AppCompatDelegateImplV7$2;
-
-    invoke-direct {v9, p0}, Landroid/support/v7/app/AppCompatDelegateImplV7$2;-><init>(Landroid/support/v7/app/AppCompatDelegateImplV7;)V
-
-    invoke-static {v8, v9}, Landroid/support/v4/view/ViewCompat;->setOnApplyWindowInsetsListener(Landroid/view/View;Landroid/support/v4/view/OnApplyWindowInsetsListener;)V
-
-    goto/16 :goto_0
-
-    .line 324
-    :cond_6
-    sget v8, Landroid/support/v7/appcompat/R$layout;->abc_screen_simple:I
-
-    invoke-virtual {v3, v8, v11}, Landroid/view/LayoutInflater;->inflate(ILandroid/view/ViewGroup;)Landroid/view/View;
-
-    move-result-object v8
-
-    check-cast v8, Landroid/view/ViewGroup;
-
-    iput-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mSubDecor:Landroid/view/ViewGroup;
-
-    goto :goto_2
-
-    .line 352
-    :cond_7
-    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mSubDecor:Landroid/view/ViewGroup;
-
-    check-cast v8, Landroid/support/v7/internal/widget/FitWindowsViewGroup;
-
-    new-instance v9, Landroid/support/v7/app/AppCompatDelegateImplV7$3;
-
-    invoke-direct {v9, p0}, Landroid/support/v7/app/AppCompatDelegateImplV7$3;-><init>(Landroid/support/v7/app/AppCompatDelegateImplV7;)V
-
-    invoke-interface {v8, v9}, Landroid/support/v7/internal/widget/FitWindowsViewGroup;->setOnFitSystemWindowsListener(Landroid/support/v7/internal/widget/FitWindowsViewGroup$OnFitSystemWindowsListener;)V
-
-    goto/16 :goto_0
-
-    .line 367
-    :cond_8
-    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
-
-    if-nez v8, :cond_9
-
-    .line 368
-    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mSubDecor:Landroid/view/ViewGroup;
-
-    sget v9, Landroid/support/v7/appcompat/R$id;->title:I
-
-    invoke-virtual {v8, v9}, Landroid/view/ViewGroup;->findViewById(I)Landroid/view/View;
-
-    move-result-object v8
-
-    check-cast v8, Landroid/widget/TextView;
-
-    iput-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mTitleView:Landroid/widget/TextView;
-
-    .line 372
-    :cond_9
-    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mSubDecor:Landroid/view/ViewGroup;
-
-    invoke-static {v8}, Landroid/support/v7/internal/widget/ViewUtils;->makeOptionalFitsSystemWindows(Landroid/view/View;)V
-
-    .line 374
-    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mWindow:Landroid/view/Window;
-
-    invoke-virtual {v8, v13}, Landroid/view/Window;->findViewById(I)Landroid/view/View;
+    .line 280
+    invoke-direct {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->createSubDecor()Landroid/view/ViewGroup;
 
     move-result-object v2
 
-    check-cast v2, Landroid/view/ViewGroup;
+    iput-object v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mSubDecor:Landroid/view/ViewGroup;
 
-    .line 375
-    .local v2, "decorContent":Landroid/view/ViewGroup;
-    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mSubDecor:Landroid/view/ViewGroup;
-
-    sget v9, Landroid/support/v7/appcompat/R$id;->action_bar_activity_content:I
-
-    invoke-virtual {v8, v9}, Landroid/view/ViewGroup;->findViewById(I)Landroid/view/View;
-
-    move-result-object v0
-
-    check-cast v0, Landroid/support/v7/internal/widget/ContentFrameLayout;
-
-    .line 380
-    .local v0, "abcContent":Landroid/support/v7/internal/widget/ContentFrameLayout;
-    :goto_3
-    invoke-virtual {v2}, Landroid/view/ViewGroup;->getChildCount()I
-
-    move-result v8
-
-    if-lez v8, :cond_a
-
-    .line 381
-    invoke-virtual {v2, v10}, Landroid/view/ViewGroup;->getChildAt(I)Landroid/view/View;
+    .line 283
+    invoke-virtual {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getTitle()Ljava/lang/CharSequence;
 
     move-result-object v1
 
-    .line 382
-    .local v1, "child":Landroid/view/View;
-    invoke-virtual {v2, v10}, Landroid/view/ViewGroup;->removeViewAt(I)V
+    .line 284
+    .local v1, "title":Ljava/lang/CharSequence;
+    invoke-static {v1}, Landroid/text/TextUtils;->isEmpty(Ljava/lang/CharSequence;)Z
 
-    .line 383
-    invoke-virtual {v0, v1}, Landroid/support/v7/internal/widget/ContentFrameLayout;->addView(Landroid/view/View;)V
+    move-result v2
 
-    goto :goto_3
+    if-nez v2, :cond_0
 
-    .line 387
-    .end local v1    # "child":Landroid/view/View;
-    :cond_a
-    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mWindow:Landroid/view/Window;
+    .line 285
+    invoke-virtual {p0, v1}, Landroid/support/v7/app/AppCompatDelegateImplV7;->onTitleChanged(Ljava/lang/CharSequence;)V
 
-    iget-object v9, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mSubDecor:Landroid/view/ViewGroup;
+    .line 288
+    :cond_0
+    invoke-direct {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->applyFixedSizeWindow()V
 
-    invoke-virtual {v8, v9}, Landroid/view/Window;->setContentView(Landroid/view/View;)V
+    .line 290
+    iget-object v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mSubDecor:Landroid/view/ViewGroup;
 
-    .line 391
-    const/4 v8, -0x1
+    invoke-virtual {p0, v2}, Landroid/support/v7/app/AppCompatDelegateImplV7;->onSubDecorInstalled(Landroid/view/ViewGroup;)V
 
-    invoke-virtual {v2, v8}, Landroid/view/ViewGroup;->setId(I)V
+    .line 292
+    const/4 v2, 0x1
 
-    .line 392
-    invoke-virtual {v0, v13}, Landroid/support/v7/internal/widget/ContentFrameLayout;->setId(I)V
+    iput-boolean v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mSubDecorInstalled:Z
 
-    .line 396
-    instance-of v8, v2, Landroid/widget/FrameLayout;
+    .line 299
+    invoke-direct {p0, v3, v3}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getPanelState(IZ)Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
 
-    if-eqz v8, :cond_b
+    move-result-object v0
 
-    .line 397
-    check-cast v2, Landroid/widget/FrameLayout;
-
-    .end local v2    # "decorContent":Landroid/view/ViewGroup;
-    invoke-virtual {v2, v11}, Landroid/widget/FrameLayout;->setForeground(Landroid/graphics/drawable/Drawable;)V
-
-    .line 401
-    :cond_b
-    invoke-virtual {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getTitle()Ljava/lang/CharSequence;
-
-    move-result-object v7
-
-    .line 402
-    .local v7, "title":Ljava/lang/CharSequence;
-    invoke-static {v7}, Landroid/text/TextUtils;->isEmpty(Ljava/lang/CharSequence;)Z
-
-    move-result v8
-
-    if-nez v8, :cond_c
-
-    .line 403
-    invoke-virtual {p0, v7}, Landroid/support/v7/app/AppCompatDelegateImplV7;->onTitleChanged(Ljava/lang/CharSequence;)V
-
-    .line 406
-    :cond_c
-    invoke-direct {p0, v0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->applyFixedSizeWindow(Landroid/support/v7/internal/widget/ContentFrameLayout;)V
-
-    .line 408
-    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mSubDecor:Landroid/view/ViewGroup;
-
-    invoke-virtual {p0, v8}, Landroid/support/v7/app/AppCompatDelegateImplV7;->onSubDecorInstalled(Landroid/view/ViewGroup;)V
-
-    .line 410
-    iput-boolean v12, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mSubDecorInstalled:Z
-
-    .line 417
-    invoke-direct {p0, v10, v10}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getPanelState(IZ)Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
-
-    move-result-object v5
-
-    .line 418
-    .local v5, "st":Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
+    .line 300
+    .local v0, "st":Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
     invoke-virtual {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->isDestroyed()Z
 
-    move-result v8
+    move-result v2
 
-    if-nez v8, :cond_e
+    if-nez v2, :cond_2
 
-    if-eqz v5, :cond_d
+    if-eqz v0, :cond_1
 
-    iget-object v8, v5, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->menu:Landroid/support/v7/internal/view/menu/MenuBuilder;
+    iget-object v2, v0, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->menu:Landroid/support/v7/internal/view/menu/MenuBuilder;
 
-    if-nez v8, :cond_e
+    if-nez v2, :cond_2
 
-    .line 419
-    :cond_d
-    const/16 v8, 0x8
+    .line 301
+    :cond_1
+    const/16 v2, 0x6c
 
-    invoke-direct {p0, v8}, Landroid/support/v7/app/AppCompatDelegateImplV7;->invalidatePanelMenu(I)V
+    invoke-direct {p0, v2}, Landroid/support/v7/app/AppCompatDelegateImplV7;->invalidatePanelMenu(I)V
 
-    .line 422
-    .end local v0    # "abcContent":Landroid/support/v7/internal/widget/ContentFrameLayout;
-    .end local v3    # "inflater":Landroid/view/LayoutInflater;
-    .end local v5    # "st":Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
-    .end local v7    # "title":Ljava/lang/CharSequence;
-    :cond_e
+    .line 304
+    .end local v0    # "st":Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
+    .end local v1    # "title":Ljava/lang/CharSequence;
+    :cond_2
     return-void
 .end method
 
@@ -1127,16 +1450,16 @@
     .param p1, "menu"    # Landroid/view/Menu;
 
     .prologue
-    .line 1312
+    .line 1457
     iget-object v3, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mPanels:[Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
 
-    .line 1313
+    .line 1458
     .local v3, "panels":[Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
     if-eqz v3, :cond_0
 
     array-length v0, v3
 
-    .line 1314
+    .line 1459
     .local v0, "N":I
     :goto_0
     const/4 v1, 0x0
@@ -1145,10 +1468,10 @@
     :goto_1
     if-ge v1, v0, :cond_2
 
-    .line 1315
+    .line 1460
     aget-object v2, v3, v1
 
-    .line 1316
+    .line 1461
     .local v2, "panel":Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
     if-eqz v2, :cond_1
 
@@ -1156,12 +1479,12 @@
 
     if-ne v4, p1, :cond_1
 
-    .line 1320
+    .line 1465
     .end local v2    # "panel":Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
     :goto_2
     return-object v2
 
-    .line 1313
+    .line 1458
     .end local v0    # "N":I
     .end local v1    # "i":I
     :cond_0
@@ -1169,7 +1492,7 @@
 
     goto :goto_0
 
-    .line 1314
+    .line 1459
     .restart local v0    # "N":I
     .restart local v1    # "i":I
     .restart local v2    # "panel":Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
@@ -1178,7 +1501,7 @@
 
     goto :goto_1
 
-    .line 1320
+    .line 1465
     .end local v2    # "panel":Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
     :cond_2
     const/4 v2, 0x0
@@ -1194,7 +1517,7 @@
     .prologue
     const/4 v4, 0x0
 
-    .line 1325
+    .line 1470
     iget-object v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mPanels:[Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
 
     .local v0, "ar":[Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
@@ -1204,37 +1527,37 @@
 
     if-gt v3, p1, :cond_2
 
-    .line 1326
+    .line 1471
     :cond_0
     add-int/lit8 v3, p1, 0x1
 
     new-array v1, v3, [Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
 
-    .line 1327
+    .line 1472
     .local v1, "nar":[Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
     if-eqz v0, :cond_1
 
-    .line 1328
+    .line 1473
     array-length v3, v0
 
     invoke-static {v0, v4, v1, v4, v3}, Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
 
-    .line 1330
+    .line 1475
     :cond_1
     move-object v0, v1
 
     iput-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mPanels:[Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
 
-    .line 1333
+    .line 1478
     .end local v1    # "nar":[Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
     :cond_2
     aget-object v2, v0, p1
 
-    .line 1334
+    .line 1479
     .local v2, "st":Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
     if-nez v2, :cond_3
 
-    .line 1335
+    .line 1480
     new-instance v2, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
 
     .end local v2    # "st":Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
@@ -1243,7 +1566,7 @@
     .restart local v2    # "st":Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
     aput-object v2, v0, p1
 
-    .line 1337
+    .line 1482
     :cond_3
     return-object v2
 .end method
@@ -1257,22 +1580,22 @@
 
     const/4 v2, 0x0
 
-    .line 1042
+    .line 1190
     iget-object v3, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->createdPanelView:Landroid/view/View;
 
     if-eqz v3, :cond_1
 
-    .line 1043
+    .line 1191
     iget-object v2, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->createdPanelView:Landroid/view/View;
 
     iput-object v2, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->shownPanelView:Landroid/view/View;
 
-    .line 1059
+    .line 1207
     :cond_0
     :goto_0
     return v1
 
-    .line 1047
+    .line 1195
     :cond_1
     iget-object v3, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->menu:Landroid/support/v7/internal/view/menu/MenuBuilder;
 
@@ -1280,16 +1603,16 @@
 
     move v1, v2
 
-    .line 1048
+    .line 1196
     goto :goto_0
 
-    .line 1051
+    .line 1199
     :cond_2
     iget-object v3, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mPanelMenuPresenterCallback:Landroid/support/v7/app/AppCompatDelegateImplV7$PanelMenuPresenterCallback;
 
     if-nez v3, :cond_3
 
-    .line 1052
+    .line 1200
     new-instance v3, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelMenuPresenterCallback;
 
     const/4 v4, 0x0
@@ -1298,7 +1621,7 @@
 
     iput-object v3, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mPanelMenuPresenterCallback:Landroid/support/v7/app/AppCompatDelegateImplV7$PanelMenuPresenterCallback;
 
-    .line 1055
+    .line 1203
     :cond_3
     iget-object v3, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mPanelMenuPresenterCallback:Landroid/support/v7/app/AppCompatDelegateImplV7$PanelMenuPresenterCallback;
 
@@ -1306,14 +1629,14 @@
 
     move-result-object v0
 
-    .line 1057
+    .line 1205
     .local v0, "menuView":Landroid/support/v7/internal/view/menu/MenuView;
     check-cast v0, Landroid/view/View;
 
     .end local v0    # "menuView":Landroid/support/v7/internal/view/menu/MenuView;
     iput-object v0, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->shownPanelView:Landroid/view/View;
 
-    .line 1059
+    .line 1207
     iget-object v3, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->shownPanelView:Landroid/view/View;
 
     if-nez v3, :cond_0
@@ -1328,14 +1651,14 @@
     .param p1, "st"    # Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
 
     .prologue
-    .line 948
+    .line 1096
     invoke-virtual {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getActionBarThemedContext()Landroid/content/Context;
 
     move-result-object v0
 
     invoke-virtual {p1, v0}, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->setStyle(Landroid/content/Context;)V
 
-    .line 949
+    .line 1097
     new-instance v0, Landroid/support/v7/app/AppCompatDelegateImplV7$ListMenuDecorView;
 
     iget-object v1, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->listPresenterContext:Landroid/content/Context;
@@ -1344,12 +1667,12 @@
 
     iput-object v0, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->decorView:Landroid/view/ViewGroup;
 
-    .line 950
+    .line 1098
     const/16 v0, 0x51
 
     iput v0, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->gravity:I
 
-    .line 951
+    .line 1099
     const/4 v0, 0x1
 
     return v0
@@ -1362,10 +1685,10 @@
     .prologue
     const/4 v8, 0x1
 
-    .line 999
+    .line 1147
     iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mContext:Landroid/content/Context;
 
-    .line 1002
+    .line 1150
     .local v1, "context":Landroid/content/Context;
     iget v6, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->featureId:I
 
@@ -1373,7 +1696,7 @@
 
     iget v6, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->featureId:I
 
-    const/16 v7, 0x8
+    const/16 v7, 0x6c
 
     if-ne v6, v7, :cond_3
 
@@ -1382,33 +1705,33 @@
 
     if-eqz v6, :cond_3
 
-    .line 1004
+    .line 1152
     new-instance v4, Landroid/util/TypedValue;
 
     invoke-direct {v4}, Landroid/util/TypedValue;-><init>()V
 
-    .line 1005
+    .line 1153
     .local v4, "outValue":Landroid/util/TypedValue;
     invoke-virtual {v1}, Landroid/content/Context;->getTheme()Landroid/content/res/Resources$Theme;
 
     move-result-object v0
 
-    .line 1006
+    .line 1154
     .local v0, "baseTheme":Landroid/content/res/Resources$Theme;
     sget v6, Landroid/support/v7/appcompat/R$attr;->actionBarTheme:I
 
     invoke-virtual {v0, v6, v4, v8}, Landroid/content/res/Resources$Theme;->resolveAttribute(ILandroid/util/TypedValue;Z)Z
 
-    .line 1008
+    .line 1156
     const/4 v5, 0x0
 
-    .line 1009
+    .line 1157
     .local v5, "widgetTheme":Landroid/content/res/Resources$Theme;
     iget v6, v4, Landroid/util/TypedValue;->resourceId:I
 
     if-eqz v6, :cond_4
 
-    .line 1010
+    .line 1158
     invoke-virtual {v1}, Landroid/content/Context;->getResources()Landroid/content/res/Resources;
 
     move-result-object v6
@@ -1417,29 +1740,29 @@
 
     move-result-object v5
 
-    .line 1011
+    .line 1159
     invoke-virtual {v5, v0}, Landroid/content/res/Resources$Theme;->setTo(Landroid/content/res/Resources$Theme;)V
 
-    .line 1012
+    .line 1160
     iget v6, v4, Landroid/util/TypedValue;->resourceId:I
 
     invoke-virtual {v5, v6, v8}, Landroid/content/res/Resources$Theme;->applyStyle(IZ)V
 
-    .line 1013
+    .line 1161
     sget v6, Landroid/support/v7/appcompat/R$attr;->actionBarWidgetTheme:I
 
     invoke-virtual {v5, v6, v4, v8}, Landroid/content/res/Resources$Theme;->resolveAttribute(ILandroid/util/TypedValue;Z)Z
 
-    .line 1020
+    .line 1168
     :goto_0
     iget v6, v4, Landroid/util/TypedValue;->resourceId:I
 
     if-eqz v6, :cond_2
 
-    .line 1021
+    .line 1169
     if-nez v5, :cond_1
 
-    .line 1022
+    .line 1170
     invoke-virtual {v1}, Landroid/content/Context;->getResources()Landroid/content/res/Resources;
 
     move-result-object v6
@@ -1448,27 +1771,27 @@
 
     move-result-object v5
 
-    .line 1023
+    .line 1171
     invoke-virtual {v5, v0}, Landroid/content/res/Resources$Theme;->setTo(Landroid/content/res/Resources$Theme;)V
 
-    .line 1025
+    .line 1173
     :cond_1
     iget v6, v4, Landroid/util/TypedValue;->resourceId:I
 
     invoke-virtual {v5, v6, v8}, Landroid/content/res/Resources$Theme;->applyStyle(IZ)V
 
-    .line 1028
+    .line 1176
     :cond_2
     if-eqz v5, :cond_3
 
-    .line 1029
+    .line 1177
     new-instance v2, Landroid/support/v7/internal/view/ContextThemeWrapper;
 
     const/4 v6, 0x0
 
     invoke-direct {v2, v1, v6}, Landroid/support/v7/internal/view/ContextThemeWrapper;-><init>(Landroid/content/Context;I)V
 
-    .line 1030
+    .line 1178
     .end local v1    # "context":Landroid/content/Context;
     .local v2, "context":Landroid/content/Context;
     invoke-virtual {v2}, Landroid/content/Context;->getTheme()Landroid/content/res/Resources$Theme;
@@ -1479,7 +1802,7 @@
 
     move-object v1, v2
 
-    .line 1034
+    .line 1182
     .end local v0    # "baseTheme":Landroid/content/res/Resources$Theme;
     .end local v2    # "context":Landroid/content/Context;
     .end local v4    # "outValue":Landroid/util/TypedValue;
@@ -1490,17 +1813,17 @@
 
     invoke-direct {v3, v1}, Landroid/support/v7/internal/view/menu/MenuBuilder;-><init>(Landroid/content/Context;)V
 
-    .line 1035
+    .line 1183
     .local v3, "menu":Landroid/support/v7/internal/view/menu/MenuBuilder;
     invoke-virtual {v3, p0}, Landroid/support/v7/internal/view/menu/MenuBuilder;->setCallback(Landroid/support/v7/internal/view/menu/MenuBuilder$Callback;)V
 
-    .line 1036
+    .line 1184
     invoke-virtual {p1, v3}, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->setMenu(Landroid/support/v7/internal/view/menu/MenuBuilder;)V
 
-    .line 1038
+    .line 1186
     return v8
 
-    .line 1016
+    .line 1164
     .end local v3    # "menu":Landroid/support/v7/internal/view/menu/MenuBuilder;
     .restart local v0    # "baseTheme":Landroid/content/res/Resources$Theme;
     .restart local v4    # "outValue":Landroid/util/TypedValue;
@@ -1520,7 +1843,7 @@
     .prologue
     const/4 v2, 0x1
 
-    .line 1366
+    .line 1511
     iget v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mInvalidatePanelMenuFeatures:I
 
     shl-int v1, v2, p1
@@ -1529,7 +1852,7 @@
 
     iput v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mInvalidatePanelMenuFeatures:I
 
-    .line 1368
+    .line 1513
     iget-boolean v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mInvalidatePanelMenuPosted:Z
 
     if-nez v0, :cond_0
@@ -1538,17 +1861,17 @@
 
     if-eqz v0, :cond_0
 
-    .line 1369
+    .line 1514
     iget-object v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mWindowDecor:Landroid/view/ViewGroup;
 
     iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mInvalidatePanelMenuRunnable:Ljava/lang/Runnable;
 
     invoke-static {v0, v1}, Landroid/support/v4/view/ViewCompat;->postOnAnimation(Landroid/view/View;Ljava/lang/Runnable;)V
 
-    .line 1370
+    .line 1515
     iput-boolean v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mInvalidatePanelMenuPosted:Z
 
-    .line 1372
+    .line 1517
     :cond_0
     return-void
 .end method
@@ -1559,32 +1882,32 @@
     .param p2, "event"    # Landroid/view/KeyEvent;
 
     .prologue
-    .line 1219
+    .line 1365
     invoke-virtual {p2}, Landroid/view/KeyEvent;->getRepeatCount()I
 
     move-result v1
 
     if-nez v1, :cond_0
 
-    .line 1220
+    .line 1366
     const/4 v1, 0x1
 
     invoke-direct {p0, p1, v1}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getPanelState(IZ)Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
 
     move-result-object v0
 
-    .line 1221
+    .line 1367
     .local v0, "st":Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
     iget-boolean v1, v0, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->isOpen:Z
 
     if-nez v1, :cond_0
 
-    .line 1222
+    .line 1368
     invoke-direct {p0, v0, p2}, Landroid/support/v7/app/AppCompatDelegateImplV7;->preparePanel(Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;Landroid/view/KeyEvent;)Z
 
     move-result v1
 
-    .line 1226
+    .line 1372
     .end local v0    # "st":Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
     :goto_0
     return v1
@@ -1595,184 +1918,186 @@
     goto :goto_0
 .end method
 
-.method private onKeyUpPanel(ILandroid/view/KeyEvent;)V
+.method private onKeyUpPanel(ILandroid/view/KeyEvent;)Z
     .locals 7
     .param p1, "featureId"    # I
     .param p2, "event"    # Landroid/view/KeyEvent;
 
     .prologue
-    const/4 v5, 0x1
+    const/4 v6, 0x1
 
-    const/4 v6, 0x0
+    const/4 v4, 0x0
 
-    .line 1230
-    iget-object v4, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionMode:Landroid/support/v7/view/ActionMode;
+    .line 1376
+    iget-object v5, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionMode:Landroid/support/v7/view/ActionMode;
 
-    if-eqz v4, :cond_1
+    if-eqz v5, :cond_1
 
-    .line 1283
+    move v1, v4
+
+    .line 1425
     :cond_0
     :goto_0
-    return-void
+    return v1
 
-    .line 1234
+    .line 1380
     :cond_1
     const/4 v1, 0x0
 
-    .line 1235
-    .local v1, "playSoundEffect":Z
-    invoke-direct {p0, p1, v5}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getPanelState(IZ)Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
+    .line 1381
+    .local v1, "handled":Z
+    invoke-direct {p0, p1, v6}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getPanelState(IZ)Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
 
     move-result-object v3
 
-    .line 1236
+    .line 1382
     .local v3, "st":Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
     if-nez p1, :cond_4
 
-    iget-object v4, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
+    iget-object v5, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
 
-    if-eqz v4, :cond_4
+    if-eqz v5, :cond_4
 
-    iget-object v4, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
+    iget-object v5, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
 
-    invoke-interface {v4}, Landroid/support/v7/internal/widget/DecorContentParent;->canShowOverflowMenu()Z
+    invoke-interface {v5}, Landroid/support/v7/internal/widget/DecorContentParent;->canShowOverflowMenu()Z
 
-    move-result v4
+    move-result v5
 
-    if-eqz v4, :cond_4
+    if-eqz v5, :cond_4
 
-    iget-object v4, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mContext:Landroid/content/Context;
+    iget-object v5, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mContext:Landroid/content/Context;
 
-    invoke-static {v4}, Landroid/view/ViewConfiguration;->get(Landroid/content/Context;)Landroid/view/ViewConfiguration;
+    invoke-static {v5}, Landroid/view/ViewConfiguration;->get(Landroid/content/Context;)Landroid/view/ViewConfiguration;
 
-    move-result-object v4
+    move-result-object v5
 
-    invoke-static {v4}, Landroid/support/v4/view/ViewConfigurationCompat;->hasPermanentMenuKey(Landroid/view/ViewConfiguration;)Z
+    invoke-static {v5}, Landroid/support/v4/view/ViewConfigurationCompat;->hasPermanentMenuKey(Landroid/view/ViewConfiguration;)Z
 
-    move-result v4
+    move-result v5
 
-    if-nez v4, :cond_4
+    if-nez v5, :cond_4
 
-    .line 1239
-    iget-object v4, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
+    .line 1385
+    iget-object v5, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
 
-    invoke-interface {v4}, Landroid/support/v7/internal/widget/DecorContentParent;->isOverflowMenuShowing()Z
+    invoke-interface {v5}, Landroid/support/v7/internal/widget/DecorContentParent;->isOverflowMenuShowing()Z
 
-    move-result v4
+    move-result v5
 
-    if-nez v4, :cond_3
+    if-nez v5, :cond_3
 
-    .line 1240
+    .line 1386
     invoke-virtual {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->isDestroyed()Z
 
-    move-result v4
+    move-result v5
 
-    if-nez v4, :cond_2
+    if-nez v5, :cond_2
 
     invoke-direct {p0, v3, p2}, Landroid/support/v7/app/AppCompatDelegateImplV7;->preparePanel(Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;Landroid/view/KeyEvent;)Z
 
-    move-result v4
+    move-result v5
 
-    if-eqz v4, :cond_2
+    if-eqz v5, :cond_2
 
-    .line 1241
-    iget-object v4, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
+    .line 1387
+    iget-object v5, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
 
-    invoke-interface {v4}, Landroid/support/v7/internal/widget/DecorContentParent;->showOverflowMenu()Z
+    invoke-interface {v5}, Landroid/support/v7/internal/widget/DecorContentParent;->showOverflowMenu()Z
 
     move-result v1
 
-    .line 1274
+    .line 1416
     :cond_2
     :goto_1
     if-eqz v1, :cond_0
 
-    .line 1275
-    iget-object v4, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mContext:Landroid/content/Context;
+    .line 1417
+    iget-object v5, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mContext:Landroid/content/Context;
 
-    const-string v5, "audio"
+    const-string v6, "audio"
 
-    invoke-virtual {v4, v5}, Landroid/content/Context;->getSystemService(Ljava/lang/String;)Ljava/lang/Object;
+    invoke-virtual {v5, v6}, Landroid/content/Context;->getSystemService(Ljava/lang/String;)Ljava/lang/Object;
 
     move-result-object v0
 
     check-cast v0, Landroid/media/AudioManager;
 
-    .line 1277
+    .line 1419
     .local v0, "audioManager":Landroid/media/AudioManager;
     if-eqz v0, :cond_8
 
-    .line 1278
-    invoke-virtual {v0, v6}, Landroid/media/AudioManager;->playSoundEffect(I)V
+    .line 1420
+    invoke-virtual {v0, v4}, Landroid/media/AudioManager;->playSoundEffect(I)V
 
     goto :goto_0
 
-    .line 1244
+    .line 1390
     .end local v0    # "audioManager":Landroid/media/AudioManager;
     :cond_3
-    iget-object v4, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
+    iget-object v5, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
 
-    invoke-interface {v4}, Landroid/support/v7/internal/widget/DecorContentParent;->hideOverflowMenu()Z
+    invoke-interface {v5}, Landroid/support/v7/internal/widget/DecorContentParent;->hideOverflowMenu()Z
 
     move-result v1
 
     goto :goto_1
 
-    .line 1247
+    .line 1393
     :cond_4
-    iget-boolean v4, v3, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->isOpen:Z
+    iget-boolean v5, v3, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->isOpen:Z
 
-    if-nez v4, :cond_5
+    if-nez v5, :cond_5
 
-    iget-boolean v4, v3, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->isHandled:Z
+    iget-boolean v5, v3, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->isHandled:Z
 
-    if-eqz v4, :cond_6
+    if-eqz v5, :cond_6
 
-    .line 1251
+    .line 1396
     :cond_5
     iget-boolean v1, v3, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->isOpen:Z
 
-    .line 1254
-    invoke-direct {p0, v3, v5}, Landroid/support/v7/app/AppCompatDelegateImplV7;->closePanel(Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;Z)V
+    .line 1398
+    invoke-direct {p0, v3, v6}, Landroid/support/v7/app/AppCompatDelegateImplV7;->closePanel(Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;Z)V
 
     goto :goto_1
 
-    .line 1256
+    .line 1399
     :cond_6
-    iget-boolean v4, v3, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->isPrepared:Z
+    iget-boolean v5, v3, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->isPrepared:Z
 
-    if-eqz v4, :cond_2
+    if-eqz v5, :cond_2
 
-    .line 1257
+    .line 1400
     const/4 v2, 0x1
 
-    .line 1258
+    .line 1401
     .local v2, "show":Z
-    iget-boolean v4, v3, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->refreshMenuContent:Z
+    iget-boolean v5, v3, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->refreshMenuContent:Z
 
-    if-eqz v4, :cond_7
+    if-eqz v5, :cond_7
 
-    .line 1261
-    iput-boolean v6, v3, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->isPrepared:Z
+    .line 1404
+    iput-boolean v4, v3, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->isPrepared:Z
 
-    .line 1262
+    .line 1405
     invoke-direct {p0, v3, p2}, Landroid/support/v7/app/AppCompatDelegateImplV7;->preparePanel(Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;Landroid/view/KeyEvent;)Z
 
     move-result v2
 
-    .line 1265
+    .line 1408
     :cond_7
     if-eqz v2, :cond_2
 
-    .line 1267
+    .line 1410
     invoke-direct {p0, v3, p2}, Landroid/support/v7/app/AppCompatDelegateImplV7;->openPanel(Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;Landroid/view/KeyEvent;)V
 
-    .line 1269
+    .line 1411
     const/4 v1, 0x1
 
     goto :goto_1
 
-    .line 1280
+    .line 1422
     .end local v2    # "show":Z
     .restart local v0    # "audioManager":Landroid/media/AudioManager;
     :cond_8
@@ -1791,7 +2116,7 @@
     .param p2, "event"    # Landroid/view/KeyEvent;
 
     .prologue
-    .line 849
+    .line 997
     move-object/from16 v0, p1
 
     iget-boolean v4, v0, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->isOpen:Z
@@ -1804,12 +2129,12 @@
 
     if-eqz v4, :cond_1
 
-    .line 945
+    .line 1093
     :cond_0
     :goto_0
     return-void
 
-    .line 855
+    .line 1003
     :cond_1
     move-object/from16 v0, p1
 
@@ -1817,12 +2142,12 @@
 
     if-nez v4, :cond_2
 
-    .line 856
+    .line 1004
     move-object/from16 v0, p0
 
     iget-object v13, v0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mContext:Landroid/content/Context;
 
-    .line 857
+    .line 1005
     .local v13, "context":Landroid/content/Context;
     invoke-virtual {v13}, Landroid/content/Context;->getResources()Landroid/content/res/Resources;
 
@@ -1832,7 +2157,7 @@
 
     move-result-object v12
 
-    .line 858
+    .line 1006
     .local v12, "config":Landroid/content/res/Configuration;
     iget v4, v12, Landroid/content/res/Configuration;->screenLayout:I
 
@@ -1844,7 +2169,7 @@
 
     const/4 v15, 0x1
 
-    .line 860
+    .line 1008
     .local v15, "isXLarge":Z
     :goto_1
     invoke-virtual {v13}, Landroid/content/Context;->getApplicationInfo()Landroid/content/pm/ApplicationInfo;
@@ -1859,14 +2184,14 @@
 
     const/4 v14, 0x1
 
-    .line 863
+    .line 1011
     .local v14, "isHoneycombApp":Z
     :goto_2
     if-eqz v15, :cond_2
 
     if-nez v14, :cond_0
 
-    .line 868
+    .line 1016
     .end local v12    # "config":Landroid/content/res/Configuration;
     .end local v13    # "context":Landroid/content/Context;
     .end local v14    # "isHoneycombApp":Z
@@ -1876,7 +2201,7 @@
 
     move-result-object v11
 
-    .line 869
+    .line 1017
     .local v11, "cb":Landroid/view/Window$Callback;
     if-eqz v11, :cond_5
 
@@ -1894,7 +2219,7 @@
 
     if-nez v4, :cond_5
 
-    .line 871
+    .line 1019
     const/4 v4, 0x1
 
     move-object/from16 v0, p0
@@ -1905,7 +2230,7 @@
 
     goto :goto_0
 
-    .line 858
+    .line 1006
     .end local v11    # "cb":Landroid/view/Window$Callback;
     .restart local v12    # "config":Landroid/content/res/Configuration;
     .restart local v13    # "context":Landroid/content/Context;
@@ -1914,14 +2239,14 @@
 
     goto :goto_1
 
-    .line 860
+    .line 1008
     .restart local v15    # "isXLarge":Z
     :cond_4
     const/4 v14, 0x0
 
     goto :goto_2
 
-    .line 875
+    .line 1023
     .end local v12    # "config":Landroid/content/res/Configuration;
     .end local v13    # "context":Landroid/content/Context;
     .end local v15    # "isXLarge":Z
@@ -1939,21 +2264,21 @@
 
     check-cast v17, Landroid/view/WindowManager;
 
-    .line 876
+    .line 1024
     .local v17, "wm":Landroid/view/WindowManager;
     if-eqz v17, :cond_0
 
-    .line 881
+    .line 1029
     invoke-direct/range {p0 .. p2}, Landroid/support/v7/app/AppCompatDelegateImplV7;->preparePanel(Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;Landroid/view/KeyEvent;)Z
 
     move-result v4
 
     if-eqz v4, :cond_0
 
-    .line 885
+    .line 1033
     const/4 v3, -0x2
 
-    .line 886
+    .line 1034
     .local v3, "width":I
     move-object/from16 v0, p1
 
@@ -1967,7 +2292,7 @@
 
     if-eqz v4, :cond_c
 
-    .line 887
+    .line 1035
     :cond_6
     move-object/from16 v0, p1
 
@@ -1975,7 +2300,7 @@
 
     if-nez v4, :cond_b
 
-    .line 889
+    .line 1037
     invoke-direct/range {p0 .. p1}, Landroid/support/v7/app/AppCompatDelegateImplV7;->initializePanelDecor(Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;)Z
 
     move-result v4
@@ -1988,7 +2313,7 @@
 
     if-eqz v4, :cond_0
 
-    .line 897
+    .line 1045
     :cond_7
     :goto_3
     invoke-direct/range {p0 .. p1}, Landroid/support/v7/app/AppCompatDelegateImplV7;->initializePanelContent(Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;)Z
@@ -2003,7 +2328,7 @@
 
     if-eqz v4, :cond_0
 
-    .line 901
+    .line 1049
     move-object/from16 v0, p1
 
     iget-object v4, v0, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->shownPanelView:Landroid/view/View;
@@ -2012,11 +2337,11 @@
 
     move-result-object v2
 
-    .line 902
+    .line 1050
     .local v2, "lp":Landroid/view/ViewGroup$LayoutParams;
     if-nez v2, :cond_8
 
-    .line 903
+    .line 1051
     new-instance v2, Landroid/view/ViewGroup$LayoutParams;
 
     .end local v2    # "lp":Landroid/view/ViewGroup$LayoutParams;
@@ -2026,14 +2351,14 @@
 
     invoke-direct {v2, v4, v5}, Landroid/view/ViewGroup$LayoutParams;-><init>(II)V
 
-    .line 906
+    .line 1054
     .restart local v2    # "lp":Landroid/view/ViewGroup$LayoutParams;
     :cond_8
     move-object/from16 v0, p1
 
     iget v10, v0, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->background:I
 
-    .line 907
+    .line 1055
     .local v10, "backgroundResId":I
     move-object/from16 v0, p1
 
@@ -2041,7 +2366,7 @@
 
     invoke-virtual {v4, v10}, Landroid/view/ViewGroup;->setBackgroundResource(I)V
 
-    .line 909
+    .line 1057
     move-object/from16 v0, p1
 
     iget-object v4, v0, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->shownPanelView:Landroid/view/View;
@@ -2050,7 +2375,7 @@
 
     move-result-object v16
 
-    .line 910
+    .line 1058
     .local v16, "shownPanelParent":Landroid/view/ViewParent;
     if-eqz v16, :cond_9
 
@@ -2060,7 +2385,7 @@
 
     if-eqz v4, :cond_9
 
-    .line 911
+    .line 1059
     check-cast v16, Landroid/view/ViewGroup;
 
     .end local v16    # "shownPanelParent":Landroid/view/ViewParent;
@@ -2072,7 +2397,7 @@
 
     invoke-virtual {v0, v4}, Landroid/view/ViewGroup;->removeView(Landroid/view/View;)V
 
-    .line 913
+    .line 1061
     :cond_9
     move-object/from16 v0, p1
 
@@ -2084,7 +2409,7 @@
 
     invoke-virtual {v4, v5, v2}, Landroid/view/ViewGroup;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 919
+    .line 1067
     move-object/from16 v0, p1
 
     iget-object v4, v0, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->shownPanelView:Landroid/view/View;
@@ -2095,14 +2420,14 @@
 
     if-nez v4, :cond_a
 
-    .line 920
+    .line 1068
     move-object/from16 v0, p1
 
     iget-object v4, v0, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->shownPanelView:Landroid/view/View;
 
     invoke-virtual {v4}, Landroid/view/View;->requestFocus()Z
 
-    .line 931
+    .line 1079
     .end local v2    # "lp":Landroid/view/ViewGroup$LayoutParams;
     .end local v10    # "backgroundResId":I
     :cond_a
@@ -2113,7 +2438,7 @@
 
     iput-boolean v4, v0, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->isHandled:Z
 
-    .line 933
+    .line 1081
     new-instance v2, Landroid/view/WindowManager$LayoutParams;
 
     const/4 v4, -0x2
@@ -2134,7 +2459,7 @@
 
     invoke-direct/range {v2 .. v9}, Landroid/view/WindowManager$LayoutParams;-><init>(IIIIIII)V
 
-    .line 940
+    .line 1088
     .local v2, "lp":Landroid/view/WindowManager$LayoutParams;
     move-object/from16 v0, p1
 
@@ -2142,14 +2467,14 @@
 
     iput v4, v2, Landroid/view/WindowManager$LayoutParams;->gravity:I
 
-    .line 941
+    .line 1089
     move-object/from16 v0, p1
 
     iget v4, v0, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->windowAnimations:I
 
     iput v4, v2, Landroid/view/WindowManager$LayoutParams;->windowAnimations:I
 
-    .line 943
+    .line 1091
     move-object/from16 v0, p1
 
     iget-object v4, v0, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->decorView:Landroid/view/ViewGroup;
@@ -2158,7 +2483,7 @@
 
     invoke-interface {v0, v4, v2}, Landroid/view/WindowManager;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 944
+    .line 1092
     const/4 v4, 0x1
 
     move-object/from16 v0, p1
@@ -2167,7 +2492,7 @@
 
     goto/16 :goto_0
 
-    .line 891
+    .line 1039
     .end local v2    # "lp":Landroid/view/WindowManager$LayoutParams;
     :cond_b
     move-object/from16 v0, p1
@@ -2186,7 +2511,7 @@
 
     if-lez v4, :cond_7
 
-    .line 893
+    .line 1041
     move-object/from16 v0, p1
 
     iget-object v4, v0, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->decorView:Landroid/view/ViewGroup;
@@ -2195,7 +2520,7 @@
 
     goto/16 :goto_3
 
-    .line 922
+    .line 1070
     :cond_c
     move-object/from16 v0, p1
 
@@ -2203,7 +2528,7 @@
 
     if-eqz v4, :cond_a
 
-    .line 925
+    .line 1073
     move-object/from16 v0, p1
 
     iget-object v4, v0, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->createdPanelView:Landroid/view/View;
@@ -2212,7 +2537,7 @@
 
     move-result-object v2
 
-    .line 926
+    .line 1074
     .local v2, "lp":Landroid/view/ViewGroup$LayoutParams;
     if-eqz v2, :cond_a
 
@@ -2222,7 +2547,7 @@
 
     if-ne v4, v5, :cond_a
 
-    .line 927
+    .line 1075
     const/4 v3, -0x1
 
     goto :goto_4
@@ -2236,26 +2561,26 @@
     .param p4, "flags"    # I
 
     .prologue
-    .line 1342
+    .line 1487
     invoke-virtual {p3}, Landroid/view/KeyEvent;->isSystem()Z
 
     move-result v1
 
     if-eqz v1, :cond_1
 
-    .line 1343
+    .line 1488
     const/4 v0, 0x0
 
-    .line 1362
+    .line 1507
     :cond_0
     :goto_0
     return v0
 
-    .line 1346
+    .line 1491
     :cond_1
     const/4 v0, 0x0
 
-    .line 1350
+    .line 1495
     .local v0, "handled":Z
     iget-boolean v1, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->isPrepared:Z
 
@@ -2272,18 +2597,18 @@
 
     if-eqz v1, :cond_3
 
-    .line 1352
+    .line 1497
     iget-object v1, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->menu:Landroid/support/v7/internal/view/menu/MenuBuilder;
 
     invoke-virtual {v1, p2, p3, p4}, Landroid/support/v7/internal/view/menu/MenuBuilder;->performShortcut(ILandroid/view/KeyEvent;I)Z
 
     move-result v0
 
-    .line 1355
+    .line 1500
     :cond_3
     if-eqz v0, :cond_0
 
-    .line 1357
+    .line 1502
     and-int/lit8 v1, p4, 0x1
 
     if-nez v1, :cond_0
@@ -2292,7 +2617,7 @@
 
     if-nez v1, :cond_0
 
-    .line 1358
+    .line 1503
     const/4 v1, 0x1
 
     invoke-direct {p0, p1, v1}, Landroid/support/v7/app/AppCompatDelegateImplV7;->closePanel(Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;Z)V
@@ -2312,19 +2637,19 @@
 
     const/4 v5, 0x0
 
-    .line 1063
+    .line 1211
     invoke-virtual {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->isDestroyed()Z
 
     move-result v3
 
     if-eqz v3, :cond_1
 
-    .line 1161
+    .line 1311
     :cond_0
     :goto_0
     return v5
 
-    .line 1068
+    .line 1216
     :cond_1
     iget-boolean v3, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->isPrepared:Z
 
@@ -2332,10 +2657,10 @@
 
     move v5, v4
 
-    .line 1069
+    .line 1217
     goto :goto_0
 
-    .line 1072
+    .line 1220
     :cond_2
     iget-object v3, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mPreparedPanel:Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
 
@@ -2345,22 +2670,22 @@
 
     if-eq v3, p1, :cond_3
 
-    .line 1074
+    .line 1222
     iget-object v3, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mPreparedPanel:Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
 
     invoke-direct {p0, v3, v5}, Landroid/support/v7/app/AppCompatDelegateImplV7;->closePanel(Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;Z)V
 
-    .line 1077
+    .line 1225
     :cond_3
     invoke-virtual {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getWindowCallback()Landroid/view/Window$Callback;
 
     move-result-object v0
 
-    .line 1079
+    .line 1227
     .local v0, "cb":Landroid/view/Window$Callback;
     if-eqz v0, :cond_4
 
-    .line 1080
+    .line 1228
     iget v3, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->featureId:I
 
     invoke-interface {v0, v3}, Landroid/view/Window$Callback;->onCreatePanelView(I)Landroid/view/View;
@@ -2369,7 +2694,7 @@
 
     iput-object v3, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->createdPanelView:Landroid/view/View;
 
-    .line 1083
+    .line 1231
     :cond_4
     iget v3, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->featureId:I
 
@@ -2377,14 +2702,14 @@
 
     iget v3, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->featureId:I
 
-    const/16 v6, 0x8
+    const/16 v6, 0x6c
 
-    if-ne v3, v6, :cond_b
+    if-ne v3, v6, :cond_c
 
     :cond_5
     move v1, v4
 
-    .line 1086
+    .line 1234
     .local v1, "isActionBarMenu":Z
     :goto_1
     if-eqz v1, :cond_6
@@ -2393,33 +2718,44 @@
 
     if-eqz v3, :cond_6
 
-    .line 1089
+    .line 1237
     iget-object v3, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
 
     invoke-interface {v3}, Landroid/support/v7/internal/widget/DecorContentParent;->setMenuPrepared()V
 
-    .line 1092
+    .line 1240
     :cond_6
     iget-object v3, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->createdPanelView:Landroid/view/View;
 
-    if-nez v3, :cond_11
+    if-nez v3, :cond_12
 
-    .line 1094
-    iget-object v3, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->menu:Landroid/support/v7/internal/view/menu/MenuBuilder;
+    if-eqz v1, :cond_7
 
-    if-eqz v3, :cond_7
+    invoke-virtual {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->peekSupportActionBar()Landroid/support/v7/app/ActionBar;
 
-    iget-boolean v3, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->refreshMenuContent:Z
+    move-result-object v3
 
-    if-eqz v3, :cond_d
+    instance-of v3, v3, Landroid/support/v7/internal/app/ToolbarActionBar;
 
-    .line 1095
+    if-nez v3, :cond_12
+
+    .line 1244
     :cond_7
     iget-object v3, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->menu:Landroid/support/v7/internal/view/menu/MenuBuilder;
 
-    if-nez v3, :cond_8
+    if-eqz v3, :cond_8
 
-    .line 1096
+    iget-boolean v3, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->refreshMenuContent:Z
+
+    if-eqz v3, :cond_e
+
+    .line 1245
+    :cond_8
+    iget-object v3, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->menu:Landroid/support/v7/internal/view/menu/MenuBuilder;
+
+    if-nez v3, :cond_9
+
+    .line 1246
     invoke-direct {p0, p1}, Landroid/support/v7/app/AppCompatDelegateImplV7;->initializePanelMenu(Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;)Z
 
     move-result v3
@@ -2430,28 +2766,28 @@
 
     if-eqz v3, :cond_0
 
-    .line 1101
-    :cond_8
-    if-eqz v1, :cond_a
+    .line 1251
+    :cond_9
+    if-eqz v1, :cond_b
 
     iget-object v3, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
 
-    if-eqz v3, :cond_a
+    if-eqz v3, :cond_b
 
-    .line 1102
+    .line 1252
     iget-object v3, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionMenuPresenterCallback:Landroid/support/v7/app/AppCompatDelegateImplV7$ActionMenuPresenterCallback;
 
-    if-nez v3, :cond_9
+    if-nez v3, :cond_a
 
-    .line 1103
+    .line 1253
     new-instance v3, Landroid/support/v7/app/AppCompatDelegateImplV7$ActionMenuPresenterCallback;
 
     invoke-direct {v3, p0, v8}, Landroid/support/v7/app/AppCompatDelegateImplV7$ActionMenuPresenterCallback;-><init>(Landroid/support/v7/app/AppCompatDelegateImplV7;Landroid/support/v7/app/AppCompatDelegateImplV7$1;)V
 
     iput-object v3, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionMenuPresenterCallback:Landroid/support/v7/app/AppCompatDelegateImplV7$ActionMenuPresenterCallback;
 
-    .line 1105
-    :cond_9
+    .line 1255
+    :cond_a
     iget-object v3, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
 
     iget-object v6, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->menu:Landroid/support/v7/internal/view/menu/MenuBuilder;
@@ -2460,13 +2796,13 @@
 
     invoke-interface {v3, v6, v7}, Landroid/support/v7/internal/widget/DecorContentParent;->setMenu(Landroid/view/Menu;Landroid/support/v7/internal/view/menu/MenuPresenter$Callback;)V
 
-    .line 1110
-    :cond_a
+    .line 1260
+    :cond_b
     iget-object v3, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->menu:Landroid/support/v7/internal/view/menu/MenuBuilder;
 
     invoke-virtual {v3}, Landroid/support/v7/internal/view/menu/MenuBuilder;->stopDispatchingItemsChanged()V
 
-    .line 1111
+    .line 1261
     iget v3, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->featureId:I
 
     iget-object v6, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->menu:Landroid/support/v7/internal/view/menu/MenuBuilder;
@@ -2475,19 +2811,19 @@
 
     move-result v3
 
-    if-nez v3, :cond_c
+    if-nez v3, :cond_d
 
-    .line 1113
+    .line 1263
     invoke-virtual {p1, v8}, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->setMenu(Landroid/support/v7/internal/view/menu/MenuBuilder;)V
 
-    .line 1115
+    .line 1265
     if-eqz v1, :cond_0
 
     iget-object v3, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
 
     if-eqz v3, :cond_0
 
-    .line 1117
+    .line 1267
     iget-object v3, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
 
     iget-object v4, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionMenuPresenterCallback:Landroid/support/v7/app/AppCompatDelegateImplV7$ActionMenuPresenterCallback;
@@ -2497,40 +2833,40 @@
     goto/16 :goto_0
 
     .end local v1    # "isActionBarMenu":Z
-    :cond_b
+    :cond_c
     move v1, v5
 
-    .line 1083
+    .line 1231
     goto :goto_1
 
-    .line 1123
+    .line 1273
     .restart local v1    # "isActionBarMenu":Z
-    :cond_c
+    :cond_d
     iput-boolean v5, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->refreshMenuContent:Z
 
-    .line 1128
-    :cond_d
+    .line 1278
+    :cond_e
     iget-object v3, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->menu:Landroid/support/v7/internal/view/menu/MenuBuilder;
 
     invoke-virtual {v3}, Landroid/support/v7/internal/view/menu/MenuBuilder;->stopDispatchingItemsChanged()V
 
-    .line 1132
+    .line 1282
     iget-object v3, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->frozenActionViewState:Landroid/os/Bundle;
 
-    if-eqz v3, :cond_e
+    if-eqz v3, :cond_f
 
-    .line 1133
+    .line 1283
     iget-object v3, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->menu:Landroid/support/v7/internal/view/menu/MenuBuilder;
 
     iget-object v6, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->frozenActionViewState:Landroid/os/Bundle;
 
     invoke-virtual {v3, v6}, Landroid/support/v7/internal/view/menu/MenuBuilder;->restoreActionViewStates(Landroid/os/Bundle;)V
 
-    .line 1134
+    .line 1284
     iput-object v8, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->frozenActionViewState:Landroid/os/Bundle;
 
-    .line 1138
-    :cond_e
+    .line 1288
+    :cond_f
     iget-object v3, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->createdPanelView:Landroid/view/View;
 
     iget-object v6, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->menu:Landroid/support/v7/internal/view/menu/MenuBuilder;
@@ -2539,33 +2875,33 @@
 
     move-result v3
 
-    if-nez v3, :cond_10
+    if-nez v3, :cond_11
 
-    .line 1139
-    if-eqz v1, :cond_f
+    .line 1289
+    if-eqz v1, :cond_10
 
     iget-object v3, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
 
-    if-eqz v3, :cond_f
+    if-eqz v3, :cond_10
 
-    .line 1142
+    .line 1292
     iget-object v3, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
 
     iget-object v4, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionMenuPresenterCallback:Landroid/support/v7/app/AppCompatDelegateImplV7$ActionMenuPresenterCallback;
 
     invoke-interface {v3, v8, v4}, Landroid/support/v7/internal/widget/DecorContentParent;->setMenu(Landroid/view/Menu;Landroid/support/v7/internal/view/menu/MenuPresenter$Callback;)V
 
-    .line 1144
-    :cond_f
+    .line 1294
+    :cond_10
     iget-object v3, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->menu:Landroid/support/v7/internal/view/menu/MenuBuilder;
 
     invoke-virtual {v3}, Landroid/support/v7/internal/view/menu/MenuBuilder;->startDispatchingItemsChanged()V
 
     goto/16 :goto_0
 
-    .line 1149
-    :cond_10
-    if-eqz p2, :cond_12
+    .line 1299
+    :cond_11
+    if-eqz p2, :cond_13
 
     invoke-virtual {p2}, Landroid/view/KeyEvent;->getDeviceId()I
 
@@ -2576,58 +2912,58 @@
 
     move-result-object v2
 
-    .line 1151
+    .line 1301
     .local v2, "kmap":Landroid/view/KeyCharacterMap;
     invoke-virtual {v2}, Landroid/view/KeyCharacterMap;->getKeyboardType()I
 
     move-result v3
 
-    if-eq v3, v4, :cond_13
+    if-eq v3, v4, :cond_14
 
     move v3, v4
 
     :goto_3
     iput-boolean v3, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->qwertyMode:Z
 
-    .line 1152
+    .line 1302
     iget-object v3, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->menu:Landroid/support/v7/internal/view/menu/MenuBuilder;
 
     iget-boolean v6, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->qwertyMode:Z
 
     invoke-virtual {v3, v6}, Landroid/support/v7/internal/view/menu/MenuBuilder;->setQwertyMode(Z)V
 
-    .line 1153
+    .line 1303
     iget-object v3, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->menu:Landroid/support/v7/internal/view/menu/MenuBuilder;
 
     invoke-virtual {v3}, Landroid/support/v7/internal/view/menu/MenuBuilder;->startDispatchingItemsChanged()V
 
-    .line 1157
+    .line 1307
     .end local v2    # "kmap":Landroid/view/KeyCharacterMap;
-    :cond_11
+    :cond_12
     iput-boolean v4, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->isPrepared:Z
 
-    .line 1158
+    .line 1308
     iput-boolean v5, p1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->isHandled:Z
 
-    .line 1159
+    .line 1309
     iput-object p1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mPreparedPanel:Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
 
     move v5, v4
 
-    .line 1161
+    .line 1311
     goto/16 :goto_0
 
-    .line 1149
-    :cond_12
+    .line 1299
+    :cond_13
     const/4 v3, -0x1
 
     goto :goto_2
 
     .restart local v2    # "kmap":Landroid/view/KeyCharacterMap;
-    :cond_13
+    :cond_14
     move v3, v5
 
-    .line 1151
+    .line 1301
     goto :goto_3
 .end method
 
@@ -2637,13 +2973,13 @@
     .param p2, "toggleMenuMode"    # Z
 
     .prologue
-    const/16 v6, 0x8
+    const/16 v6, 0x6c
 
     const/4 v5, 0x1
 
     const/4 v4, 0x0
 
-    .line 955
+    .line 1103
     iget-object v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
 
     if-eqz v2, :cond_5
@@ -2676,13 +3012,13 @@
 
     if-eqz v2, :cond_5
 
-    .line 959
+    .line 1107
     :cond_0
     invoke-virtual {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getWindowCallback()Landroid/view/Window$Callback;
 
     move-result-object v0
 
-    .line 961
+    .line 1109
     .local v0, "cb":Landroid/view/Window$Callback;
     iget-object v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
 
@@ -2694,7 +3030,7 @@
 
     if-nez p2, :cond_4
 
-    .line 962
+    .line 1110
     :cond_1
     if-eqz v0, :cond_3
 
@@ -2704,7 +3040,7 @@
 
     if-nez v2, :cond_3
 
-    .line 964
+    .line 1112
     iget-boolean v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mInvalidatePanelMenuPosted:Z
 
     if-eqz v2, :cond_2
@@ -2715,25 +3051,25 @@
 
     if-eqz v2, :cond_2
 
-    .line 966
+    .line 1114
     iget-object v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mWindowDecor:Landroid/view/ViewGroup;
 
     iget-object v3, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mInvalidatePanelMenuRunnable:Ljava/lang/Runnable;
 
     invoke-virtual {v2, v3}, Landroid/view/ViewGroup;->removeCallbacks(Ljava/lang/Runnable;)Z
 
-    .line 967
+    .line 1115
     iget-object v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mInvalidatePanelMenuRunnable:Ljava/lang/Runnable;
 
     invoke-interface {v2}, Ljava/lang/Runnable;->run()V
 
-    .line 970
+    .line 1118
     :cond_2
     invoke-direct {p0, v4, v5}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getPanelState(IZ)Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
 
     move-result-object v1
 
-    .line 974
+    .line 1122
     .local v1, "st":Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
     iget-object v2, v1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->menu:Landroid/support/v7/internal/view/menu/MenuBuilder;
 
@@ -2753,43 +3089,43 @@
 
     if-eqz v2, :cond_3
 
-    .line 976
+    .line 1124
     iget-object v2, v1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->menu:Landroid/support/v7/internal/view/menu/MenuBuilder;
 
     invoke-interface {v0, v6, v2}, Landroid/view/Window$Callback;->onMenuOpened(ILandroid/view/Menu;)Z
 
-    .line 977
+    .line 1125
     iget-object v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
 
     invoke-interface {v2}, Landroid/support/v7/internal/widget/DecorContentParent;->showOverflowMenu()Z
 
-    .line 996
+    .line 1144
     .end local v0    # "cb":Landroid/view/Window$Callback;
     .end local v1    # "st":Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
     :cond_3
     :goto_0
     return-void
 
-    .line 981
+    .line 1129
     .restart local v0    # "cb":Landroid/view/Window$Callback;
     :cond_4
     iget-object v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
 
     invoke-interface {v2}, Landroid/support/v7/internal/widget/DecorContentParent;->hideOverflowMenu()Z
 
-    .line 982
+    .line 1130
     invoke-virtual {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->isDestroyed()Z
 
     move-result v2
 
     if-nez v2, :cond_3
 
-    .line 983
+    .line 1131
     invoke-direct {p0, v4, v5}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getPanelState(IZ)Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
 
     move-result-object v1
 
-    .line 984
+    .line 1132
     .restart local v1    # "st":Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
     iget-object v2, v1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->menu:Landroid/support/v7/internal/view/menu/MenuBuilder;
 
@@ -2797,7 +3133,7 @@
 
     goto :goto_0
 
-    .line 990
+    .line 1138
     .end local v0    # "cb":Landroid/view/Window$Callback;
     .end local v1    # "st":Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
     :cond_5
@@ -2805,14 +3141,14 @@
 
     move-result-object v1
 
-    .line 992
+    .line 1140
     .restart local v1    # "st":Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
     iput-boolean v5, v1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->refreshDecorView:Z
 
-    .line 993
+    .line 1141
     invoke-direct {p0, v1, v4}, Landroid/support/v7/app/AppCompatDelegateImplV7;->closePanel(Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;Z)V
 
-    .line 995
+    .line 1143
     const/4 v2, 0x0
 
     invoke-direct {p0, v1, v2}, Landroid/support/v7/app/AppCompatDelegateImplV7;->openPanel(Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;Landroid/view/KeyEvent;)V
@@ -2820,16 +3156,120 @@
     goto :goto_0
 .end method
 
+.method private sanitizeWindowFeatureId(I)I
+    .locals 2
+    .param p1, "featureId"    # I
+
+    .prologue
+    .line 1630
+    const/16 v0, 0x8
+
+    if-ne p1, v0, :cond_1
+
+    .line 1631
+    const-string v0, "AppCompatDelegate"
+
+    const-string v1, "You should now use the AppCompatDelegate.FEATURE_SUPPORT_ACTION_BAR id when requesting this feature."
+
+    invoke-static {v0, v1}, Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I
+
+    .line 1633
+    const/16 p1, 0x6c
+
+    .line 1640
+    .end local p1    # "featureId":I
+    :cond_0
+    :goto_0
+    return p1
+
+    .line 1634
+    .restart local p1    # "featureId":I
+    :cond_1
+    const/16 v0, 0x9
+
+    if-ne p1, v0, :cond_0
+
+    .line 1635
+    const-string v0, "AppCompatDelegate"
+
+    const-string v1, "You should now use the AppCompatDelegate.FEATURE_SUPPORT_ACTION_BAR_OVERLAY id when requesting this feature."
+
+    invoke-static {v0, v1}, Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I
+
+    .line 1637
+    const/16 p1, 0x6d
+
+    goto :goto_0
+.end method
+
+.method private shouldInheritContext(Landroid/view/ViewParent;)Z
+    .locals 2
+    .param p1, "parent"    # Landroid/view/ViewParent;
+
+    .prologue
+    const/4 v1, 0x0
+
+    .line 933
+    if-nez p1, :cond_1
+
+    move v0, v1
+
+    .line 950
+    :goto_0
+    return v0
+
+    .line 952
+    :cond_0
+    invoke-interface {p1}, Landroid/view/ViewParent;->getParent()Landroid/view/ViewParent;
+
+    move-result-object p1
+
+    .line 938
+    :cond_1
+    if-nez p1, :cond_2
+
+    .line 943
+    const/4 v0, 0x1
+
+    goto :goto_0
+
+    .line 944
+    :cond_2
+    iget-object v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mWindowDecor:Landroid/view/ViewGroup;
+
+    if-eq p1, v0, :cond_3
+
+    instance-of v0, p1, Landroid/view/View;
+
+    if-eqz v0, :cond_3
+
+    move-object v0, p1
+
+    check-cast v0, Landroid/view/View;
+
+    invoke-static {v0}, Landroid/support/v4/view/ViewCompat;->isAttachedToWindow(Landroid/view/View;)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_0
+
+    :cond_3
+    move v0, v1
+
+    .line 950
+    goto :goto_0
+.end method
+
 .method private throwFeatureRequestIfSubDecorInstalled()V
     .locals 2
 
     .prologue
-    .line 1478
+    .line 1623
     iget-boolean v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mSubDecorInstalled:Z
 
     if-eqz v0, :cond_0
 
-    .line 1479
+    .line 1624
     new-instance v0, Landroid/util/AndroidRuntimeException;
 
     const-string v1, "Window feature must be requested before adding content"
@@ -2838,7 +3278,7 @@
 
     throw v0
 
-    .line 1482
+    .line 1627
     :cond_0
     return-void
 .end method
@@ -2852,16 +3292,16 @@
 
     const/4 v7, 0x0
 
-    .line 1408
+    .line 1553
     const/4 v6, 0x0
 
-    .line 1410
+    .line 1555
     .local v6, "showStatusGuard":Z
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionModeView:Landroid/support/v7/internal/widget/ActionBarContextView;
 
     if-eqz v8, :cond_3
 
-    .line 1411
+    .line 1556
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionModeView:Landroid/support/v7/internal/widget/ActionBarContextView;
 
     invoke-virtual {v8}, Landroid/support/v7/internal/widget/ActionBarContextView;->getLayoutParams()Landroid/view/ViewGroup$LayoutParams;
@@ -2872,7 +3312,7 @@
 
     if-eqz v8, :cond_3
 
-    .line 1412
+    .line 1557
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionModeView:Landroid/support/v7/internal/widget/ActionBarContextView;
 
     invoke-virtual {v8}, Landroid/support/v7/internal/widget/ActionBarContextView;->getLayoutParams()Landroid/view/ViewGroup$LayoutParams;
@@ -2881,11 +3321,11 @@
 
     check-cast v3, Landroid/view/ViewGroup$MarginLayoutParams;
 
-    .line 1414
+    .line 1559
     .local v3, "mlp":Landroid/view/ViewGroup$MarginLayoutParams;
     const/4 v4, 0x0
 
-    .line 1416
+    .line 1561
     .local v4, "mlpChanged":Z
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionModeView:Landroid/support/v7/internal/widget/ActionBarContextView;
 
@@ -2895,68 +3335,68 @@
 
     if-eqz v8, :cond_8
 
-    .line 1417
+    .line 1562
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mTempRect1:Landroid/graphics/Rect;
 
     if-nez v8, :cond_0
 
-    .line 1418
+    .line 1563
     new-instance v8, Landroid/graphics/Rect;
 
     invoke-direct {v8}, Landroid/graphics/Rect;-><init>()V
 
     iput-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mTempRect1:Landroid/graphics/Rect;
 
-    .line 1419
+    .line 1564
     new-instance v8, Landroid/graphics/Rect;
 
     invoke-direct {v8}, Landroid/graphics/Rect;-><init>()V
 
     iput-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mTempRect2:Landroid/graphics/Rect;
 
-    .line 1421
+    .line 1566
     :cond_0
     iget-object v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mTempRect1:Landroid/graphics/Rect;
 
-    .line 1422
+    .line 1567
     .local v0, "insets":Landroid/graphics/Rect;
     iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mTempRect2:Landroid/graphics/Rect;
 
-    .line 1423
+    .line 1568
     .local v1, "localInsets":Landroid/graphics/Rect;
     invoke-virtual {v0, v7, p1, v7, v7}, Landroid/graphics/Rect;->set(IIII)V
 
-    .line 1425
+    .line 1570
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mSubDecor:Landroid/view/ViewGroup;
 
     invoke-static {v8, v0, v1}, Landroid/support/v7/internal/widget/ViewUtils;->computeFitSystemWindows(Landroid/view/View;Landroid/graphics/Rect;Landroid/graphics/Rect;)V
 
-    .line 1426
+    .line 1571
     iget v8, v1, Landroid/graphics/Rect;->top:I
 
     if-nez v8, :cond_5
 
     move v5, p1
 
-    .line 1427
+    .line 1572
     .local v5, "newMargin":I
     :goto_0
     iget v8, v3, Landroid/view/ViewGroup$MarginLayoutParams;->topMargin:I
 
     if-eq v8, v5, :cond_1
 
-    .line 1428
+    .line 1573
     const/4 v4, 0x1
 
-    .line 1429
+    .line 1574
     iput p1, v3, Landroid/view/ViewGroup$MarginLayoutParams;->topMargin:I
 
-    .line 1431
+    .line 1576
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mStatusGuard:Landroid/view/View;
 
     if-nez v8, :cond_6
 
-    .line 1432
+    .line 1577
     new-instance v8, Landroid/view/View;
 
     iget-object v9, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mContext:Landroid/content/Context;
@@ -2965,7 +3405,7 @@
 
     iput-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mStatusGuard:Landroid/view/View;
 
-    .line 1433
+    .line 1578
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mStatusGuard:Landroid/view/View;
 
     iget-object v9, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mContext:Landroid/content/Context;
@@ -2982,7 +3422,7 @@
 
     invoke-virtual {v8, v9}, Landroid/view/View;->setBackgroundColor(I)V
 
-    .line 1435
+    .line 1580
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mSubDecor:Landroid/view/ViewGroup;
 
     iget-object v9, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mStatusGuard:Landroid/view/View;
@@ -2993,7 +3433,7 @@
 
     invoke-virtual {v8, v9, v11, v10}, Landroid/view/ViewGroup;->addView(Landroid/view/View;ILandroid/view/ViewGroup$LayoutParams;)V
 
-    .line 1449
+    .line 1594
     :cond_1
     :goto_1
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mStatusGuard:Landroid/view/View;
@@ -3002,7 +3442,7 @@
 
     const/4 v6, 0x1
 
-    .line 1455
+    .line 1600
     :goto_2
     iget-boolean v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOverlayActionMode:Z
 
@@ -3010,10 +3450,10 @@
 
     if-eqz v6, :cond_2
 
-    .line 1456
+    .line 1601
     const/4 p1, 0x0
 
-    .line 1465
+    .line 1610
     .end local v0    # "insets":Landroid/graphics/Rect;
     .end local v1    # "localInsets":Landroid/graphics/Rect;
     .end local v5    # "newMargin":I
@@ -3021,12 +3461,12 @@
     :goto_3
     if-eqz v4, :cond_3
 
-    .line 1466
+    .line 1611
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionModeView:Landroid/support/v7/internal/widget/ActionBarContextView;
 
     invoke-virtual {v8, v3}, Landroid/support/v7/internal/widget/ActionBarContextView;->setLayoutParams(Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 1470
+    .line 1615
     .end local v3    # "mlp":Landroid/view/ViewGroup$MarginLayoutParams;
     .end local v4    # "mlpChanged":Z
     :cond_3
@@ -3034,7 +3474,7 @@
 
     if-eqz v8, :cond_4
 
-    .line 1471
+    .line 1616
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mStatusGuard:Landroid/view/View;
 
     if-eqz v6, :cond_9
@@ -3042,7 +3482,7 @@
     :goto_4
     invoke-virtual {v8, v7}, Landroid/view/View;->setVisibility(I)V
 
-    .line 1474
+    .line 1619
     :cond_4
     return p1
 
@@ -3053,10 +3493,10 @@
     :cond_5
     move v5, v7
 
-    .line 1426
+    .line 1571
     goto :goto_0
 
-    .line 1439
+    .line 1584
     .restart local v5    # "newMargin":I
     :cond_6
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mStatusGuard:Landroid/view/View;
@@ -3065,16 +3505,16 @@
 
     move-result-object v2
 
-    .line 1440
+    .line 1585
     .local v2, "lp":Landroid/view/ViewGroup$LayoutParams;
     iget v8, v2, Landroid/view/ViewGroup$LayoutParams;->height:I
 
     if-eq v8, p1, :cond_1
 
-    .line 1441
+    .line 1586
     iput p1, v2, Landroid/view/ViewGroup$LayoutParams;->height:I
 
-    .line 1442
+    .line 1587
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mStatusGuard:Landroid/view/View;
 
     invoke-virtual {v8, v2}, Landroid/view/View;->setLayoutParams(Landroid/view/ViewGroup$LayoutParams;)V
@@ -3085,10 +3525,10 @@
     :cond_7
     move v6, v7
 
-    .line 1449
+    .line 1594
     goto :goto_2
 
-    .line 1460
+    .line 1605
     .end local v0    # "insets":Landroid/graphics/Rect;
     .end local v1    # "localInsets":Landroid/graphics/Rect;
     .end local v5    # "newMargin":I
@@ -3097,15 +3537,15 @@
 
     if-eqz v8, :cond_2
 
-    .line 1461
+    .line 1606
     const/4 v4, 0x1
 
-    .line 1462
+    .line 1607
     iput v7, v3, Landroid/view/ViewGroup$MarginLayoutParams;->topMargin:I
 
     goto :goto_3
 
-    .line 1471
+    .line 1616
     .end local v3    # "mlp":Landroid/view/ViewGroup$MarginLayoutParams;
     .end local v4    # "mlpChanged":Z
     :cond_9
@@ -3122,10 +3562,10 @@
     .param p2, "lp"    # Landroid/view/ViewGroup$LayoutParams;
 
     .prologue
-    .line 264
+    .line 272
     invoke-direct {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->ensureSubDecor()V
 
-    .line 265
+    .line 273
     iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mSubDecor:Landroid/view/ViewGroup;
 
     const v2, 0x1020002
@@ -3136,16 +3576,16 @@
 
     check-cast v0, Landroid/view/ViewGroup;
 
-    .line 266
+    .line 274
     .local v0, "contentParent":Landroid/view/ViewGroup;
     invoke-virtual {v0, p1, p2}, Landroid/view/ViewGroup;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 267
+    .line 275
     iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOriginalWindowCallback:Landroid/view/Window$Callback;
 
     invoke-interface {v1}, Landroid/view/Window$Callback;->onContentChanged()V
 
-    .line 268
+    .line 276
     return-void
 .end method
 
@@ -3157,14 +3597,14 @@
     .param p4, "attrs"    # Landroid/util/AttributeSet;
 
     .prologue
-    .line 837
+    .line 985
     iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOriginalWindowCallback:Landroid/view/Window$Callback;
 
     instance-of v1, v1, Landroid/view/LayoutInflater$Factory;
 
     if-eqz v1, :cond_0
 
-    .line 838
+    .line 986
     iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOriginalWindowCallback:Landroid/view/Window$Callback;
 
     check-cast v1, Landroid/view/LayoutInflater$Factory;
@@ -3173,11 +3613,11 @@
 
     move-result-object v0
 
-    .line 840
+    .line 988
     .local v0, "result":Landroid/view/View;
     if-eqz v0, :cond_0
 
-    .line 844
+    .line 992
     .end local v0    # "result":Landroid/view/View;
     :goto_0
     return-object v0
@@ -3185,73 +3625,6 @@
     :cond_0
     const/4 v0, 0x0
 
-    goto :goto_0
-.end method
-
-.method public createSupportActionBar()Landroid/support/v7/app/ActionBar;
-    .locals 3
-
-    .prologue
-    .line 171
-    invoke-direct {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->ensureSubDecor()V
-
-    .line 172
-    const/4 v0, 0x0
-
-    .line 173
-    .local v0, "ab":Landroid/support/v7/app/ActionBar;
-    iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOriginalWindowCallback:Landroid/view/Window$Callback;
-
-    instance-of v1, v1, Landroid/app/Activity;
-
-    if-eqz v1, :cond_2
-
-    .line 174
-    new-instance v0, Landroid/support/v7/internal/app/WindowDecorActionBar;
-
-    .end local v0    # "ab":Landroid/support/v7/app/ActionBar;
-    iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOriginalWindowCallback:Landroid/view/Window$Callback;
-
-    check-cast v1, Landroid/app/Activity;
-
-    iget-boolean v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOverlayActionBar:Z
-
-    invoke-direct {v0, v1, v2}, Landroid/support/v7/internal/app/WindowDecorActionBar;-><init>(Landroid/app/Activity;Z)V
-
-    .line 178
-    .restart local v0    # "ab":Landroid/support/v7/app/ActionBar;
-    :cond_0
-    :goto_0
-    if-eqz v0, :cond_1
-
-    .line 179
-    iget-boolean v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mEnableDefaultActionBarUp:Z
-
-    invoke-virtual {v0, v1}, Landroid/support/v7/app/ActionBar;->setDefaultDisplayHomeAsUpEnabled(Z)V
-
-    .line 181
-    :cond_1
-    return-object v0
-
-    .line 175
-    :cond_2
-    iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOriginalWindowCallback:Landroid/view/Window$Callback;
-
-    instance-of v1, v1, Landroid/app/Dialog;
-
-    if-eqz v1, :cond_0
-
-    .line 176
-    new-instance v0, Landroid/support/v7/internal/app/WindowDecorActionBar;
-
-    .end local v0    # "ab":Landroid/support/v7/app/ActionBar;
-    iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOriginalWindowCallback:Landroid/view/Window$Callback;
-
-    check-cast v1, Landroid/app/Dialog;
-
-    invoke-direct {v0, v1}, Landroid/support/v7/internal/app/WindowDecorActionBar;-><init>(Landroid/app/Dialog;)V
-
-    .restart local v0    # "ab":Landroid/support/v7/app/ActionBar;
     goto :goto_0
 .end method
 
@@ -3269,60 +3642,54 @@
     .end param
 
     .prologue
-    const/4 v0, 0x0
+    const/4 v1, 0x0
 
     const/4 v7, 0x1
 
-    .line 785
-    sget v1, Landroid/os/Build$VERSION;->SDK_INT:I
+    .line 916
+    sget v0, Landroid/os/Build$VERSION;->SDK_INT:I
 
     const/16 v2, 0x15
 
-    if-ge v1, v2, :cond_1
+    if-ge v0, v2, :cond_1
 
     move v6, v7
 
-    .line 787
+    .line 918
     .local v6, "isPre21":Z
     :goto_0
-    iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mAppCompatViewInflater:Landroid/support/v7/internal/app/AppCompatViewInflater;
+    iget-object v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mAppCompatViewInflater:Landroid/support/v7/internal/app/AppCompatViewInflater;
 
-    if-nez v1, :cond_0
+    if-nez v0, :cond_0
 
-    .line 788
-    new-instance v1, Landroid/support/v7/internal/app/AppCompatViewInflater;
+    .line 919
+    new-instance v0, Landroid/support/v7/internal/app/AppCompatViewInflater;
 
-    invoke-direct {v1}, Landroid/support/v7/internal/app/AppCompatViewInflater;-><init>()V
+    invoke-direct {v0}, Landroid/support/v7/internal/app/AppCompatViewInflater;-><init>()V
 
-    iput-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mAppCompatViewInflater:Landroid/support/v7/internal/app/AppCompatViewInflater;
+    iput-object v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mAppCompatViewInflater:Landroid/support/v7/internal/app/AppCompatViewInflater;
 
-    .line 792
+    .line 923
     :cond_0
     if-eqz v6, :cond_2
 
-    iget-boolean v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mSubDecorInstalled:Z
+    iget-boolean v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mSubDecorInstalled:Z
 
-    if-eqz v1, :cond_2
+    if-eqz v0, :cond_2
 
-    if-eqz p1, :cond_2
+    move-object v0, p1
 
-    invoke-virtual {p1}, Landroid/view/View;->getId()I
+    check-cast v0, Landroid/view/ViewParent;
 
-    move-result v1
+    invoke-direct {p0, v0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->shouldInheritContext(Landroid/view/ViewParent;)Z
 
-    const v2, 0x1020002
+    move-result v0
 
-    if-eq v1, v2, :cond_2
-
-    invoke-static {p1}, Landroid/support/v4/view/ViewCompat;->isAttachedToWindow(Landroid/view/View;)Z
-
-    move-result v1
-
-    if-nez v1, :cond_2
+    if-eqz v0, :cond_2
 
     move v5, v7
 
-    .line 802
+    .line 926
     .local v5, "inheritContext":Z
     :goto_1
     iget-object v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mAppCompatViewInflater:Landroid/support/v7/internal/app/AppCompatViewInflater;
@@ -3344,92 +3711,267 @@
     .end local v5    # "inheritContext":Z
     .end local v6    # "isPre21":Z
     :cond_1
-    move v6, v0
+    move v6, v1
 
-    .line 785
+    .line 916
     goto :goto_0
 
     .restart local v6    # "isPre21":Z
     :cond_2
-    move v5, v0
+    move v5, v1
 
-    .line 792
+    .line 923
     goto :goto_1
 .end method
 
 .method dispatchKeyEvent(Landroid/view/KeyEvent;)Z
-    .locals 4
+    .locals 6
     .param p1, "event"    # Landroid/view/KeyEvent;
 
     .prologue
-    .line 741
+    const/4 v3, 0x1
+
+    .line 860
+    invoke-virtual {p1}, Landroid/view/KeyEvent;->getKeyCode()I
+
+    move-result v4
+
+    const/16 v5, 0x52
+
+    if-ne v4, v5, :cond_0
+
+    .line 862
+    iget-object v4, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOriginalWindowCallback:Landroid/view/Window$Callback;
+
+    invoke-interface {v4, p1}, Landroid/view/Window$Callback;->dispatchKeyEvent(Landroid/view/KeyEvent;)Z
+
+    move-result v4
+
+    if-eqz v4, :cond_0
+
+    .line 871
+    :goto_0
+    return v3
+
+    .line 867
+    :cond_0
     invoke-virtual {p1}, Landroid/view/KeyEvent;->getKeyCode()I
 
     move-result v2
 
-    .line 742
+    .line 868
     .local v2, "keyCode":I
     invoke-virtual {p1}, Landroid/view/KeyEvent;->getAction()I
 
     move-result v0
 
-    .line 743
+    .line 869
     .local v0, "action":I
-    if-nez v0, :cond_0
+    if-nez v0, :cond_1
 
-    const/4 v1, 0x1
+    move v1, v3
 
-    .line 745
+    .line 871
     .local v1, "isDown":Z
-    :goto_0
-    if-eqz v1, :cond_1
+    :goto_1
+    if-eqz v1, :cond_2
 
     invoke-virtual {p0, v2, p1}, Landroid/support/v7/app/AppCompatDelegateImplV7;->onKeyDown(ILandroid/view/KeyEvent;)Z
 
     move-result v3
 
-    :goto_1
-    return v3
-
-    .line 743
-    .end local v1    # "isDown":Z
-    :cond_0
-    const/4 v1, 0x0
-
     goto :goto_0
 
-    .line 745
-    .restart local v1    # "isDown":Z
+    .line 869
+    .end local v1    # "isDown":Z
     :cond_1
+    const/4 v1, 0x0
+
+    goto :goto_1
+
+    .line 871
+    .restart local v1    # "isDown":Z
+    :cond_2
     invoke-virtual {p0, v2, p1}, Landroid/support/v7/app/AppCompatDelegateImplV7;->onKeyUp(ILandroid/view/KeyEvent;)Z
 
     move-result v3
 
-    goto :goto_1
+    goto :goto_0
 .end method
 
 .method getSubDecor()Landroid/view/ViewGroup;
     .locals 1
 
     .prologue
-    .line 1485
+    .line 1644
     iget-object v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mSubDecor:Landroid/view/ViewGroup;
 
     return-object v0
+.end method
+
+.method public hasWindowFeature(I)Z
+    .locals 1
+    .param p1, "featureId"    # I
+
+    .prologue
+    .line 557
+    invoke-direct {p0, p1}, Landroid/support/v7/app/AppCompatDelegateImplV7;->sanitizeWindowFeatureId(I)I
+
+    move-result p1
+
+    .line 558
+    sparse-switch p1, :sswitch_data_0
+
+    .line 572
+    iget-object v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mWindow:Landroid/view/Window;
+
+    invoke-virtual {v0, p1}, Landroid/view/Window;->hasFeature(I)Z
+
+    move-result v0
+
+    :goto_0
+    return v0
+
+    .line 560
+    :sswitch_0
+    iget-boolean v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mHasActionBar:Z
+
+    goto :goto_0
+
+    .line 562
+    :sswitch_1
+    iget-boolean v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOverlayActionBar:Z
+
+    goto :goto_0
+
+    .line 564
+    :sswitch_2
+    iget-boolean v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOverlayActionMode:Z
+
+    goto :goto_0
+
+    .line 566
+    :sswitch_3
+    iget-boolean v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mFeatureProgress:Z
+
+    goto :goto_0
+
+    .line 568
+    :sswitch_4
+    iget-boolean v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mFeatureIndeterminateProgress:Z
+
+    goto :goto_0
+
+    .line 570
+    :sswitch_5
+    iget-boolean v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mWindowNoTitle:Z
+
+    goto :goto_0
+
+    .line 558
+    :sswitch_data_0
+    .sparse-switch
+        0x1 -> :sswitch_5
+        0x2 -> :sswitch_3
+        0x5 -> :sswitch_4
+        0xa -> :sswitch_2
+        0x6c -> :sswitch_0
+        0x6d -> :sswitch_1
+    .end sparse-switch
+.end method
+
+.method public initWindowDecorActionBar()V
+    .locals 3
+
+    .prologue
+    .line 173
+    invoke-direct {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->ensureSubDecor()V
+
+    .line 175
+    iget-boolean v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mHasActionBar:Z
+
+    if-eqz v0, :cond_0
+
+    iget-object v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionBar:Landroid/support/v7/app/ActionBar;
+
+    if-eqz v0, :cond_1
+
+    .line 188
+    :cond_0
+    :goto_0
+    return-void
+
+    .line 179
+    :cond_1
+    iget-object v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOriginalWindowCallback:Landroid/view/Window$Callback;
+
+    instance-of v0, v0, Landroid/app/Activity;
+
+    if-eqz v0, :cond_3
+
+    .line 180
+    new-instance v1, Landroid/support/v7/internal/app/WindowDecorActionBar;
+
+    iget-object v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOriginalWindowCallback:Landroid/view/Window$Callback;
+
+    check-cast v0, Landroid/app/Activity;
+
+    iget-boolean v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOverlayActionBar:Z
+
+    invoke-direct {v1, v0, v2}, Landroid/support/v7/internal/app/WindowDecorActionBar;-><init>(Landroid/app/Activity;Z)V
+
+    iput-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionBar:Landroid/support/v7/app/ActionBar;
+
+    .line 185
+    :cond_2
+    :goto_1
+    iget-object v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionBar:Landroid/support/v7/app/ActionBar;
+
+    if-eqz v0, :cond_0
+
+    .line 186
+    iget-object v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionBar:Landroid/support/v7/app/ActionBar;
+
+    iget-boolean v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mEnableDefaultActionBarUp:Z
+
+    invoke-virtual {v0, v1}, Landroid/support/v7/app/ActionBar;->setDefaultDisplayHomeAsUpEnabled(Z)V
+
+    goto :goto_0
+
+    .line 182
+    :cond_3
+    iget-object v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOriginalWindowCallback:Landroid/view/Window$Callback;
+
+    instance-of v0, v0, Landroid/app/Dialog;
+
+    if-eqz v0, :cond_2
+
+    .line 183
+    new-instance v1, Landroid/support/v7/internal/app/WindowDecorActionBar;
+
+    iget-object v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOriginalWindowCallback:Landroid/view/Window$Callback;
+
+    check-cast v0, Landroid/app/Dialog;
+
+    invoke-direct {v1, v0}, Landroid/support/v7/internal/app/WindowDecorActionBar;-><init>(Landroid/app/Dialog;)V
+
+    iput-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionBar:Landroid/support/v7/app/ActionBar;
+
+    goto :goto_1
 .end method
 
 .method public installViewFactory()V
     .locals 3
 
     .prologue
-    .line 810
+    .line 958
     iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mContext:Landroid/content/Context;
 
     invoke-static {v1}, Landroid/view/LayoutInflater;->from(Landroid/content/Context;)Landroid/view/LayoutInflater;
 
     move-result-object v0
 
-    .line 811
+    .line 959
     .local v0, "layoutInflater":Landroid/view/LayoutInflater;
     invoke-virtual {v0}, Landroid/view/LayoutInflater;->getFactory()Landroid/view/LayoutInflater$Factory;
 
@@ -3437,14 +3979,14 @@
 
     if-nez v1, :cond_0
 
-    .line 812
+    .line 960
     invoke-static {v0, p0}, Landroid/support/v4/view/LayoutInflaterCompat;->setFactory(Landroid/view/LayoutInflater;Landroid/support/v4/view/LayoutInflaterFactory;)V
 
-    .line 817
+    .line 965
     :goto_0
     return-void
 
-    .line 814
+    .line 962
     :cond_0
     const-string v1, "AppCompatDelegate"
 
@@ -3459,12 +4001,12 @@
     .locals 2
 
     .prologue
-    .line 582
+    .line 662
     invoke-virtual {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getSupportActionBar()Landroid/support/v7/app/ActionBar;
 
     move-result-object v0
 
-    .line 583
+    .line 663
     .local v0, "ab":Landroid/support/v7/app/ActionBar;
     if-eqz v0, :cond_0
 
@@ -3474,11 +4016,11 @@
 
     if-eqz v1, :cond_0
 
-    .line 586
+    .line 666
     :goto_0
     return-void
 
-    .line 585
+    .line 665
     :cond_0
     const/4 v1, 0x0
 
@@ -3493,28 +4035,28 @@
     .prologue
     const/4 v1, 0x1
 
-    .line 687
+    .line 806
     iget-object v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionMode:Landroid/support/v7/view/ActionMode;
 
     if-eqz v2, :cond_1
 
-    .line 688
+    .line 807
     iget-object v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionMode:Landroid/support/v7/view/ActionMode;
 
     invoke-virtual {v2}, Landroid/support/v7/view/ActionMode;->finish()V
 
-    .line 699
+    .line 818
     :cond_0
     :goto_0
     return v1
 
-    .line 693
+    .line 812
     :cond_1
     invoke-virtual {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getSupportActionBar()Landroid/support/v7/app/ActionBar;
 
     move-result-object v0
 
-    .line 694
+    .line 813
     .local v0, "ab":Landroid/support/v7/app/ActionBar;
     if-eqz v0, :cond_2
 
@@ -3524,7 +4066,7 @@
 
     if-nez v2, :cond_0
 
-    .line 699
+    .line 818
     :cond_2
     const/4 v1, 0x0
 
@@ -3536,7 +4078,7 @@
     .param p1, "newConfig"    # Landroid/content/res/Configuration;
 
     .prologue
-    .line 209
+    .line 217
     iget-boolean v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mHasActionBar:Z
 
     if-eqz v1, :cond_0
@@ -3545,19 +4087,19 @@
 
     if-eqz v1, :cond_0
 
-    .line 212
+    .line 220
     invoke-virtual {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getSupportActionBar()Landroid/support/v7/app/ActionBar;
 
     move-result-object v0
 
-    .line 213
+    .line 221
     .local v0, "ab":Landroid/support/v7/app/ActionBar;
     if-eqz v0, :cond_0
 
-    .line 214
+    .line 222
     invoke-virtual {v0, p1}, Landroid/support/v7/app/ActionBar;->onConfigurationChanged(Landroid/content/res/Configuration;)V
 
-    .line 217
+    .line 225
     .end local v0    # "ab":Landroid/support/v7/app/ActionBar;
     :cond_0
     return-void
@@ -3570,10 +4112,7 @@
     .prologue
     const/4 v2, 0x1
 
-    .line 146
-    invoke-super {p0, p1}, Landroid/support/v7/app/AppCompatDelegateImplBase;->onCreate(Landroid/os/Bundle;)V
-
-    .line 148
+    .line 150
     iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mWindow:Landroid/view/Window;
 
     invoke-virtual {v1}, Landroid/view/Window;->getDecorView()Landroid/view/View;
@@ -3584,14 +4123,14 @@
 
     iput-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mWindowDecor:Landroid/view/ViewGroup;
 
-    .line 150
+    .line 152
     iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOriginalWindowCallback:Landroid/view/Window$Callback;
 
     instance-of v1, v1, Landroid/app/Activity;
 
     if-eqz v1, :cond_0
 
-    .line 151
+    .line 153
     iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOriginalWindowCallback:Landroid/view/Window$Callback;
 
     check-cast v1, Landroid/app/Activity;
@@ -3602,25 +4141,25 @@
 
     if-eqz v1, :cond_0
 
-    .line 153
+    .line 155
     invoke-virtual {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->peekSupportActionBar()Landroid/support/v7/app/ActionBar;
 
     move-result-object v0
 
-    .line 154
+    .line 156
     .local v0, "ab":Landroid/support/v7/app/ActionBar;
     if-nez v0, :cond_1
 
-    .line 155
+    .line 157
     iput-boolean v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mEnableDefaultActionBarUp:Z
 
-    .line 161
+    .line 163
     .end local v0    # "ab":Landroid/support/v7/app/ActionBar;
     :cond_0
     :goto_0
     return-void
 
-    .line 157
+    .line 159
     .restart local v0    # "ab":Landroid/support/v7/app/ActionBar;
     :cond_1
     invoke-virtual {v0, v2}, Landroid/support/v7/app/ActionBar;->setDefaultDisplayHomeAsUpEnabled(Z)V
@@ -3636,16 +4175,16 @@
     .param p4, "attrs"    # Landroid/util/AttributeSet;
 
     .prologue
-    .line 826
+    .line 974
     invoke-virtual {p0, p1, p2, p3, p4}, Landroid/support/v7/app/AppCompatDelegateImplV7;->callActivityOnCreateView(Landroid/view/View;Ljava/lang/String;Landroid/content/Context;Landroid/util/AttributeSet;)Landroid/view/View;
 
     move-result-object v0
 
-    .line 827
+    .line 975
     .local v0, "view":Landroid/view/View;
     if-eqz v0, :cond_0
 
-    .line 832
+    .line 980
     .end local v0    # "view":Landroid/view/View;
     :goto_0
     return-object v0
@@ -3667,36 +4206,36 @@
     .prologue
     const/4 v0, 0x0
 
-    .line 768
+    .line 894
     packed-switch p1, :pswitch_data_0
 
-    .line 776
+    .line 905
     sget v1, Landroid/os/Build$VERSION;->SDK_INT:I
 
     const/16 v2, 0xb
 
     if-ge v1, v2, :cond_0
 
-    .line 777
+    .line 908
     invoke-virtual {p0, p1, p2}, Landroid/support/v7/app/AppCompatDelegateImplV7;->onKeyShortcut(ILandroid/view/KeyEvent;)Z
 
-    move-result v0
-
-    .line 779
+    .line 910
     :cond_0
     :goto_0
     return v0
 
-    .line 770
+    .line 896
     :pswitch_0
     invoke-direct {p0, v0, p2}, Landroid/support/v7/app/AppCompatDelegateImplV7;->onKeyDownPanel(ILandroid/view/KeyEvent;)Z
 
-    .line 771
+    .line 900
     const/4 v0, 0x1
 
     goto :goto_0
 
-    .line 768
+    .line 894
+    nop
+
     :pswitch_data_0
     .packed-switch 0x52
         :pswitch_0
@@ -3713,12 +4252,12 @@
 
     const/4 v3, 0x1
 
-    .line 705
+    .line 824
     invoke-virtual {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getSupportActionBar()Landroid/support/v7/app/ActionBar;
 
     move-result-object v0
 
-    .line 706
+    .line 825
     .local v0, "ab":Landroid/support/v7/app/ActionBar;
     if-eqz v0, :cond_1
 
@@ -3728,18 +4267,18 @@
 
     if-eqz v5, :cond_1
 
-    .line 736
+    .line 855
     :cond_0
     :goto_0
     return v3
 
-    .line 712
+    .line 831
     :cond_1
     iget-object v5, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mPreparedPanel:Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
 
     if-eqz v5, :cond_2
 
-    .line 713
+    .line 832
     iget-object v5, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mPreparedPanel:Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
 
     invoke-virtual {p2}, Landroid/view/KeyEvent;->getKeyCode()I
@@ -3750,39 +4289,39 @@
 
     move-result v1
 
-    .line 715
+    .line 834
     .local v1, "handled":Z
     if-eqz v1, :cond_2
 
-    .line 716
+    .line 835
     iget-object v4, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mPreparedPanel:Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
 
     if-eqz v4, :cond_0
 
-    .line 717
+    .line 836
     iget-object v4, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mPreparedPanel:Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
 
     iput-boolean v3, v4, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->isHandled:Z
 
     goto :goto_0
 
-    .line 727
+    .line 846
     .end local v1    # "handled":Z
     :cond_2
     iget-object v5, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mPreparedPanel:Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
 
     if-nez v5, :cond_3
 
-    .line 728
+    .line 847
     invoke-direct {p0, v4, v3}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getPanelState(IZ)Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
 
     move-result-object v2
 
-    .line 729
+    .line 848
     .local v2, "st":Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
     invoke-direct {p0, v2, p2}, Landroid/support/v7/app/AppCompatDelegateImplV7;->preparePanel(Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;Landroid/view/KeyEvent;)Z
 
-    .line 730
+    .line 849
     invoke-virtual {p2}, Landroid/view/KeyEvent;->getKeyCode()I
 
     move-result v5
@@ -3791,11 +4330,11 @@
 
     move-result v1
 
-    .line 731
+    .line 850
     .restart local v1    # "handled":Z
     iput-boolean v4, v2, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->isPrepared:Z
 
-    .line 732
+    .line 851
     if-nez v1, :cond_0
 
     .end local v1    # "handled":Z
@@ -3803,7 +4342,7 @@
     :cond_3
     move v3, v4
 
-    .line 736
+    .line 855
     goto :goto_0
 .end method
 
@@ -3817,29 +4356,29 @@
 
     const/4 v2, 0x0
 
-    .line 749
+    .line 875
     sparse-switch p1, :sswitch_data_0
 
     :cond_0
     move v1, v2
 
-    .line 764
+    .line 890
     :goto_0
     return v1
 
-    .line 751
+    .line 877
     :sswitch_0
-    invoke-direct {p0, v2, p2}, Landroid/support/v7/app/AppCompatDelegateImplV7;->onKeyUpPanel(ILandroid/view/KeyEvent;)V
+    invoke-direct {p0, v2, p2}, Landroid/support/v7/app/AppCompatDelegateImplV7;->onKeyUpPanel(ILandroid/view/KeyEvent;)Z
 
     goto :goto_0
 
-    .line 754
+    .line 880
     :sswitch_1
     invoke-direct {p0, v2, v2}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getPanelState(IZ)Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
 
     move-result-object v0
 
-    .line 755
+    .line 881
     .local v0, "st":Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
     if-eqz v0, :cond_1
 
@@ -3847,12 +4386,12 @@
 
     if-eqz v3, :cond_1
 
-    .line 756
+    .line 882
     invoke-direct {p0, v0, v1}, Landroid/support/v7/app/AppCompatDelegateImplV7;->closePanel(Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;Z)V
 
     goto :goto_0
 
-    .line 759
+    .line 885
     :cond_1
     invoke-virtual {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->onBackPressed()Z
 
@@ -3862,7 +4401,7 @@
 
     goto :goto_0
 
-    .line 749
+    .line 875
     :sswitch_data_0
     .sparse-switch
         0x4 -> :sswitch_1
@@ -3876,12 +4415,12 @@
     .param p2, "item"    # Landroid/view/MenuItem;
 
     .prologue
-    .line 537
+    .line 617
     invoke-virtual {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getWindowCallback()Landroid/view/Window$Callback;
 
     move-result-object v0
 
-    .line 538
+    .line 618
     .local v0, "cb":Landroid/view/Window$Callback;
     if-eqz v0, :cond_0
 
@@ -3891,7 +4430,7 @@
 
     if-nez v2, :cond_0
 
-    .line 539
+    .line 619
     invoke-virtual {p1}, Landroid/support/v7/internal/view/menu/MenuBuilder;->getRootMenu()Landroid/support/v7/internal/view/menu/MenuBuilder;
 
     move-result-object v2
@@ -3900,18 +4439,18 @@
 
     move-result-object v1
 
-    .line 540
+    .line 620
     .local v1, "panel":Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
     if-eqz v1, :cond_0
 
-    .line 541
+    .line 621
     iget v2, v1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->featureId:I
 
     invoke-interface {v0, v2, p2}, Landroid/view/Window$Callback;->onMenuItemSelected(ILandroid/view/MenuItem;)Z
 
     move-result v2
 
-    .line 544
+    .line 624
     .end local v1    # "panel":Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
     :goto_0
     return v2
@@ -3927,12 +4466,12 @@
     .param p1, "menu"    # Landroid/support/v7/internal/view/menu/MenuBuilder;
 
     .prologue
-    .line 549
+    .line 629
     const/4 v0, 0x1
 
     invoke-direct {p0, p1, v0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->reopenMenu(Landroid/support/v7/internal/view/menu/MenuBuilder;Z)V
 
-    .line 550
+    .line 630
     return-void
 .end method
 
@@ -3944,24 +4483,24 @@
     .prologue
     const/4 v1, 0x1
 
-    .line 525
-    const/16 v2, 0x8
+    .line 605
+    const/16 v2, 0x6c
 
     if-ne p1, v2, :cond_1
 
-    .line 526
+    .line 606
     invoke-virtual {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getSupportActionBar()Landroid/support/v7/app/ActionBar;
 
     move-result-object v0
 
-    .line 527
+    .line 607
     .local v0, "ab":Landroid/support/v7/app/ActionBar;
     if-eqz v0, :cond_0
 
-    .line 528
+    .line 608
     invoke-virtual {v0, v1}, Landroid/support/v7/app/ActionBar;->dispatchMenuVisibilityChanged(Z)V
 
-    .line 532
+    .line 612
     .end local v0    # "ab":Landroid/support/v7/app/ActionBar;
     :cond_0
     :goto_0
@@ -3973,62 +4512,57 @@
     goto :goto_0
 .end method
 
-.method onPanelClosed(ILandroid/view/Menu;)Z
-    .locals 5
+.method onPanelClosed(ILandroid/view/Menu;)V
+    .locals 4
     .param p1, "featureId"    # I
     .param p2, "menu"    # Landroid/view/Menu;
 
     .prologue
-    const/4 v2, 0x1
-
     const/4 v3, 0x0
 
-    .line 506
-    const/16 v4, 0x8
+    .line 588
+    const/16 v2, 0x6c
 
-    if-ne p1, v4, :cond_1
+    if-ne p1, v2, :cond_1
 
-    .line 507
+    .line 589
     invoke-virtual {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getSupportActionBar()Landroid/support/v7/app/ActionBar;
 
     move-result-object v0
 
-    .line 508
+    .line 590
     .local v0, "ab":Landroid/support/v7/app/ActionBar;
     if-eqz v0, :cond_0
 
-    .line 509
+    .line 591
     invoke-virtual {v0, v3}, Landroid/support/v7/app/ActionBar;->dispatchMenuVisibilityChanged(Z)V
 
-    .line 520
+    .line 601
     .end local v0    # "ab":Landroid/support/v7/app/ActionBar;
     :cond_0
     :goto_0
-    return v2
+    return-void
 
-    .line 512
+    .line 593
     :cond_1
-    if-nez p1, :cond_2
+    if-nez p1, :cond_0
 
-    .line 515
+    .line 596
+    const/4 v2, 0x1
+
     invoke-direct {p0, p1, v2}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getPanelState(IZ)Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
 
     move-result-object v1
 
-    .line 516
+    .line 597
     .local v1, "st":Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
     iget-boolean v2, v1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->isOpen:Z
 
-    if-eqz v2, :cond_2
+    if-eqz v2, :cond_0
 
-    .line 517
+    .line 598
     invoke-direct {p0, v1, v3}, Landroid/support/v7/app/AppCompatDelegateImplV7;->closePanel(Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;Z)V
 
-    .end local v1    # "st":Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
-    :cond_2
-    move v2, v3
-
-    .line 520
     goto :goto_0
 .end method
 
@@ -4037,14 +4571,37 @@
     .param p1, "savedInstanceState"    # Landroid/os/Bundle;
 
     .prologue
-    .line 166
+    .line 168
     invoke-direct {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->ensureSubDecor()V
 
-    .line 167
+    .line 169
     return-void
 .end method
 
 .method public onPostResume()V
+    .locals 2
+
+    .prologue
+    .line 237
+    invoke-virtual {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getSupportActionBar()Landroid/support/v7/app/ActionBar;
+
+    move-result-object v0
+
+    .line 238
+    .local v0, "ab":Landroid/support/v7/app/ActionBar;
+    if-eqz v0, :cond_0
+
+    .line 239
+    const/4 v1, 0x1
+
+    invoke-virtual {v0, v1}, Landroid/support/v7/app/ActionBar;->setShowHideAnimationEnabled(Z)V
+
+    .line 241
+    :cond_0
+    return-void
+.end method
+
+.method public onStop()V
     .locals 2
 
     .prologue
@@ -4058,34 +4615,11 @@
     if-eqz v0, :cond_0
 
     .line 231
-    const/4 v1, 0x1
-
-    invoke-virtual {v0, v1}, Landroid/support/v7/app/ActionBar;->setShowHideAnimationEnabled(Z)V
-
-    .line 233
-    :cond_0
-    return-void
-.end method
-
-.method public onStop()V
-    .locals 2
-
-    .prologue
-    .line 221
-    invoke-virtual {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getSupportActionBar()Landroid/support/v7/app/ActionBar;
-
-    move-result-object v0
-
-    .line 222
-    .local v0, "ab":Landroid/support/v7/app/ActionBar;
-    if-eqz v0, :cond_0
-
-    .line 223
     const/4 v1, 0x0
 
     invoke-virtual {v0, v1}, Landroid/support/v7/app/ActionBar;->setShowHideAnimationEnabled(Z)V
 
-    .line 225
+    .line 233
     :cond_0
     return-void
 .end method
@@ -4095,7 +4629,7 @@
     .param p1, "subDecor"    # Landroid/view/ViewGroup;
 
     .prologue
-    .line 424
+    .line 479
     return-void
 .end method
 
@@ -4104,22 +4638,22 @@
     .param p1, "title"    # Ljava/lang/CharSequence;
 
     .prologue
-    .line 495
+    .line 577
     iget-object v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
 
     if-eqz v0, :cond_1
 
-    .line 496
+    .line 578
     iget-object v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mDecorContentParent:Landroid/support/v7/internal/widget/DecorContentParent;
 
     invoke-interface {v0, p1}, Landroid/support/v7/internal/widget/DecorContentParent;->setWindowTitle(Ljava/lang/CharSequence;)V
 
-    .line 502
+    .line 584
     :cond_0
     :goto_0
     return-void
 
-    .line 497
+    .line 579
     :cond_1
     invoke-virtual {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->peekSupportActionBar()Landroid/support/v7/app/ActionBar;
 
@@ -4127,7 +4661,7 @@
 
     if-eqz v0, :cond_2
 
-    .line 498
+    .line 580
     invoke-virtual {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->peekSupportActionBar()Landroid/support/v7/app/ActionBar;
 
     move-result-object v0
@@ -4136,13 +4670,13 @@
 
     goto :goto_0
 
-    .line 499
+    .line 581
     :cond_2
     iget-object v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mTitleView:Landroid/widget/TextView;
 
     if-eqz v0, :cond_0
 
-    .line 500
+    .line 582
     iget-object v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mTitleView:Landroid/widget/TextView;
 
     invoke-virtual {v0, p1}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
@@ -4151,96 +4685,140 @@
 .end method
 
 .method public requestWindowFeature(I)Z
-    .locals 1
+    .locals 3
     .param p1, "featureId"    # I
 
     .prologue
-    const/4 v0, 0x1
+    const/4 v0, 0x0
 
-    .line 463
-    packed-switch p1, :pswitch_data_0
+    const/4 v1, 0x1
 
-    .line 490
-    :pswitch_0
+    .line 515
+    invoke-direct {p0, p1}, Landroid/support/v7/app/AppCompatDelegateImplV7;->sanitizeWindowFeatureId(I)I
+
+    move-result p1
+
+    .line 517
+    iget-boolean v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mWindowNoTitle:Z
+
+    if-eqz v2, :cond_0
+
+    const/16 v2, 0x6c
+
+    if-ne p1, v2, :cond_0
+
+    .line 552
+    :goto_0
+    return v0
+
+    .line 520
+    :cond_0
+    iget-boolean v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mHasActionBar:Z
+
+    if-eqz v2, :cond_1
+
+    if-ne p1, v1, :cond_1
+
+    .line 522
+    iput-boolean v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mHasActionBar:Z
+
+    .line 525
+    :cond_1
+    sparse-switch p1, :sswitch_data_0
+
+    .line 552
     iget-object v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mWindow:Landroid/view/Window;
 
     invoke-virtual {v0, p1}, Landroid/view/Window;->requestFeature(I)Z
 
     move-result v0
 
-    :goto_0
-    return v0
-
-    .line 465
-    :pswitch_1
-    invoke-direct {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->throwFeatureRequestIfSubDecorInstalled()V
-
-    .line 466
-    iput-boolean v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mHasActionBar:Z
-
     goto :goto_0
 
-    .line 469
-    :pswitch_2
+    .line 527
+    :sswitch_0
     invoke-direct {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->throwFeatureRequestIfSubDecorInstalled()V
 
-    .line 470
-    iput-boolean v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOverlayActionBar:Z
+    .line 528
+    iput-boolean v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mHasActionBar:Z
 
+    move v0, v1
+
+    .line 529
     goto :goto_0
 
-    .line 473
-    :pswitch_3
+    .line 531
+    :sswitch_1
     invoke-direct {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->throwFeatureRequestIfSubDecorInstalled()V
 
-    .line 474
-    iput-boolean v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOverlayActionMode:Z
+    .line 532
+    iput-boolean v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOverlayActionBar:Z
 
+    move v0, v1
+
+    .line 533
     goto :goto_0
 
-    .line 477
-    :pswitch_4
+    .line 535
+    :sswitch_2
     invoke-direct {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->throwFeatureRequestIfSubDecorInstalled()V
 
-    .line 478
-    iput-boolean v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mFeatureProgress:Z
+    .line 536
+    iput-boolean v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOverlayActionMode:Z
 
+    move v0, v1
+
+    .line 537
     goto :goto_0
 
-    .line 481
-    :pswitch_5
+    .line 539
+    :sswitch_3
     invoke-direct {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->throwFeatureRequestIfSubDecorInstalled()V
 
-    .line 482
-    iput-boolean v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mFeatureIndeterminateProgress:Z
+    .line 540
+    iput-boolean v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mFeatureProgress:Z
 
+    move v0, v1
+
+    .line 541
     goto :goto_0
 
-    .line 485
-    :pswitch_6
+    .line 543
+    :sswitch_4
     invoke-direct {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->throwFeatureRequestIfSubDecorInstalled()V
 
-    .line 486
-    iput-boolean v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mWindowNoTitle:Z
+    .line 544
+    iput-boolean v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mFeatureIndeterminateProgress:Z
 
+    move v0, v1
+
+    .line 545
     goto :goto_0
 
-    .line 463
+    .line 547
+    :sswitch_5
+    invoke-direct {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->throwFeatureRequestIfSubDecorInstalled()V
+
+    .line 548
+    iput-boolean v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mWindowNoTitle:Z
+
+    move v0, v1
+
+    .line 549
+    goto :goto_0
+
+    .line 525
     nop
 
-    :pswitch_data_0
-    .packed-switch 0x1
-        :pswitch_6
-        :pswitch_4
-        :pswitch_0
-        :pswitch_0
-        :pswitch_5
-        :pswitch_0
-        :pswitch_0
-        :pswitch_1
-        :pswitch_2
-        :pswitch_3
-    .end packed-switch
+    :sswitch_data_0
+    .sparse-switch
+        0x1 -> :sswitch_5
+        0x2 -> :sswitch_3
+        0x5 -> :sswitch_4
+        0xa -> :sswitch_2
+        0x6c -> :sswitch_0
+        0x6d -> :sswitch_1
+    .end sparse-switch
 .end method
 
 .method public setContentView(I)V
@@ -4248,10 +4826,10 @@
     .param p1, "resId"    # I
 
     .prologue
-    .line 246
+    .line 254
     invoke-direct {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->ensureSubDecor()V
 
-    .line 247
+    .line 255
     iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mSubDecor:Landroid/view/ViewGroup;
 
     const v2, 0x1020002
@@ -4262,11 +4840,11 @@
 
     check-cast v0, Landroid/view/ViewGroup;
 
-    .line 248
+    .line 256
     .local v0, "contentParent":Landroid/view/ViewGroup;
     invoke-virtual {v0}, Landroid/view/ViewGroup;->removeAllViews()V
 
-    .line 249
+    .line 257
     iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mContext:Landroid/content/Context;
 
     invoke-static {v1}, Landroid/view/LayoutInflater;->from(Landroid/content/Context;)Landroid/view/LayoutInflater;
@@ -4275,12 +4853,12 @@
 
     invoke-virtual {v1, p1, v0}, Landroid/view/LayoutInflater;->inflate(ILandroid/view/ViewGroup;)Landroid/view/View;
 
-    .line 250
+    .line 258
     iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOriginalWindowCallback:Landroid/view/Window$Callback;
 
     invoke-interface {v1}, Landroid/view/Window$Callback;->onContentChanged()V
 
-    .line 251
+    .line 259
     return-void
 .end method
 
@@ -4289,10 +4867,10 @@
     .param p1, "v"    # Landroid/view/View;
 
     .prologue
-    .line 237
+    .line 245
     invoke-direct {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->ensureSubDecor()V
 
-    .line 238
+    .line 246
     iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mSubDecor:Landroid/view/ViewGroup;
 
     const v2, 0x1020002
@@ -4303,19 +4881,19 @@
 
     check-cast v0, Landroid/view/ViewGroup;
 
-    .line 239
+    .line 247
     .local v0, "contentParent":Landroid/view/ViewGroup;
     invoke-virtual {v0}, Landroid/view/ViewGroup;->removeAllViews()V
 
-    .line 240
+    .line 248
     invoke-virtual {v0, p1}, Landroid/view/ViewGroup;->addView(Landroid/view/View;)V
 
-    .line 241
+    .line 249
     iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOriginalWindowCallback:Landroid/view/Window$Callback;
 
     invoke-interface {v1}, Landroid/view/Window$Callback;->onContentChanged()V
 
-    .line 242
+    .line 250
     return-void
 .end method
 
@@ -4325,10 +4903,10 @@
     .param p2, "lp"    # Landroid/view/ViewGroup$LayoutParams;
 
     .prologue
-    .line 255
+    .line 263
     invoke-direct {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->ensureSubDecor()V
 
-    .line 256
+    .line 264
     iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mSubDecor:Landroid/view/ViewGroup;
 
     const v2, 0x1020002
@@ -4339,19 +4917,19 @@
 
     check-cast v0, Landroid/view/ViewGroup;
 
-    .line 257
+    .line 265
     .local v0, "contentParent":Landroid/view/ViewGroup;
     invoke-virtual {v0}, Landroid/view/ViewGroup;->removeAllViews()V
 
-    .line 258
+    .line 266
     invoke-virtual {v0, p1, p2}, Landroid/view/ViewGroup;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 259
+    .line 267
     iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOriginalWindowCallback:Landroid/view/Window$Callback;
 
     invoke-interface {v1}, Landroid/view/Window$Callback;->onContentChanged()V
 
-    .line 260
+    .line 268
     return-void
 .end method
 
@@ -4360,40 +4938,45 @@
     .param p1, "toolbar"    # Landroid/support/v7/widget/Toolbar;
 
     .prologue
-    .line 186
+    .line 192
     iget-object v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mOriginalWindowCallback:Landroid/view/Window$Callback;
 
     instance-of v2, v2, Landroid/app/Activity;
 
     if-nez v2, :cond_0
 
-    .line 203
+    .line 211
     :goto_0
     return-void
 
-    .line 191
+    .line 197
     :cond_0
     invoke-virtual {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getSupportActionBar()Landroid/support/v7/app/ActionBar;
 
     move-result-object v0
 
-    .line 192
+    .line 198
     .local v0, "ab":Landroid/support/v7/app/ActionBar;
     instance-of v2, v0, Landroid/support/v7/internal/app/WindowDecorActionBar;
 
     if-eqz v2, :cond_1
 
-    .line 193
+    .line 199
     new-instance v2, Ljava/lang/IllegalStateException;
 
-    const-string v3, "This Activity already has an action bar supplied by the window decor. Do not request Window.FEATURE_ACTION_BAR and set windowActionBar to false in your theme to use a Toolbar instead."
+    const-string v3, "This Activity already has an action bar supplied by the window decor. Do not request Window.FEATURE_SUPPORT_ACTION_BAR and set windowActionBar to false in your theme to use a Toolbar instead."
 
     invoke-direct {v2, v3}, Ljava/lang/IllegalStateException;-><init>(Ljava/lang/String;)V
 
     throw v2
 
-    .line 198
+    .line 204
     :cond_1
+    const/4 v2, 0x0
+
+    iput-object v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mMenuInflater:Landroid/view/MenuInflater;
+
+    .line 206
     new-instance v1, Landroid/support/v7/internal/app/ToolbarActionBar;
 
     iget-object v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mContext:Landroid/content/Context;
@@ -4404,15 +4987,15 @@
 
     move-result-object v2
 
-    iget-object v3, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mWindow:Landroid/view/Window;
+    iget-object v3, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mAppCompatWindowCallback:Landroid/view/Window$Callback;
 
-    invoke-direct {v1, p1, v2, v3}, Landroid/support/v7/internal/app/ToolbarActionBar;-><init>(Landroid/support/v7/widget/Toolbar;Ljava/lang/CharSequence;Landroid/view/Window;)V
+    invoke-direct {v1, p1, v2, v3}, Landroid/support/v7/internal/app/ToolbarActionBar;-><init>(Landroid/support/v7/widget/Toolbar;Ljava/lang/CharSequence;Landroid/view/Window$Callback;)V
 
-    .line 200
+    .line 208
     .local v1, "tbab":Landroid/support/v7/internal/app/ToolbarActionBar;
-    invoke-virtual {p0, v1}, Landroid/support/v7/app/AppCompatDelegateImplV7;->setSupportActionBar(Landroid/support/v7/app/ActionBar;)V
+    iput-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionBar:Landroid/support/v7/app/ActionBar;
 
-    .line 201
+    .line 209
     iget-object v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mWindow:Landroid/view/Window;
 
     invoke-virtual {v1}, Landroid/support/v7/internal/app/ToolbarActionBar;->getWrappedWindowCallback()Landroid/view/Window$Callback;
@@ -4421,7 +5004,7 @@
 
     invoke-virtual {v2, v3}, Landroid/view/Window;->setCallback(Landroid/view/Window$Callback;)V
 
-    .line 202
+    .line 210
     invoke-virtual {v1}, Landroid/support/v7/internal/app/ToolbarActionBar;->invalidateOptionsMenu()Z
 
     goto :goto_0
@@ -4432,10 +5015,10 @@
     .param p1, "callback"    # Landroid/support/v7/view/ActionMode$Callback;
 
     .prologue
-    .line 554
+    .line 634
     if-nez p1, :cond_0
 
-    .line 555
+    .line 635
     new-instance v2, Ljava/lang/IllegalArgumentException;
 
     const-string v3, "ActionMode callback can not be null."
@@ -4444,41 +5027,41 @@
 
     throw v2
 
-    .line 558
+    .line 638
     :cond_0
     iget-object v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionMode:Landroid/support/v7/view/ActionMode;
 
     if-eqz v2, :cond_1
 
-    .line 559
+    .line 639
     iget-object v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionMode:Landroid/support/v7/view/ActionMode;
 
     invoke-virtual {v2}, Landroid/support/v7/view/ActionMode;->finish()V
 
-    .line 562
+    .line 642
     :cond_1
     new-instance v1, Landroid/support/v7/app/AppCompatDelegateImplV7$ActionModeCallbackWrapperV7;
 
     invoke-direct {v1, p0, p1}, Landroid/support/v7/app/AppCompatDelegateImplV7$ActionModeCallbackWrapperV7;-><init>(Landroid/support/v7/app/AppCompatDelegateImplV7;Landroid/support/v7/view/ActionMode$Callback;)V
 
-    .line 564
+    .line 644
     .local v1, "wrappedCallback":Landroid/support/v7/view/ActionMode$Callback;
     invoke-virtual {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getSupportActionBar()Landroid/support/v7/app/ActionBar;
 
     move-result-object v0
 
-    .line 565
+    .line 645
     .local v0, "ab":Landroid/support/v7/app/ActionBar;
     if-eqz v0, :cond_2
 
-    .line 566
+    .line 646
     invoke-virtual {v0, v1}, Landroid/support/v7/app/ActionBar;->startActionMode(Landroid/support/v7/view/ActionMode$Callback;)Landroid/support/v7/view/ActionMode;
 
     move-result-object v2
 
     iput-object v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionMode:Landroid/support/v7/view/ActionMode;
 
-    .line 567
+    .line 647
     iget-object v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionMode:Landroid/support/v7/view/ActionMode;
 
     if-eqz v2, :cond_2
@@ -4487,27 +5070,27 @@
 
     if-eqz v2, :cond_2
 
-    .line 568
+    .line 648
     iget-object v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mAppCompatCallback:Landroid/support/v7/app/AppCompatCallback;
 
     iget-object v3, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionMode:Landroid/support/v7/view/ActionMode;
 
     invoke-interface {v2, v3}, Landroid/support/v7/app/AppCompatCallback;->onSupportActionModeStarted(Landroid/support/v7/view/ActionMode;)V
 
-    .line 572
+    .line 652
     :cond_2
     iget-object v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionMode:Landroid/support/v7/view/ActionMode;
 
     if-nez v2, :cond_3
 
-    .line 574
+    .line 654
     invoke-virtual {p0, v1}, Landroid/support/v7/app/AppCompatDelegateImplV7;->startSupportActionModeFromWindow(Landroid/support/v7/view/ActionMode$Callback;)Landroid/support/v7/view/ActionMode;
 
     move-result-object v2
 
     iput-object v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionMode:Landroid/support/v7/view/ActionMode;
 
-    .line 577
+    .line 657
     :cond_3
     iget-object v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionMode:Landroid/support/v7/view/ActionMode;
 
@@ -4525,27 +5108,30 @@
 
     const/4 v9, 0x1
 
-    .line 590
+    .line 670
+    invoke-direct {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->endOnGoingFadeAnimation()V
+
+    .line 671
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionMode:Landroid/support/v7/view/ActionMode;
 
     if-eqz v8, :cond_0
 
-    .line 591
+    .line 672
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionMode:Landroid/support/v7/view/ActionMode;
 
     invoke-virtual {v8}, Landroid/support/v7/view/ActionMode;->finish()V
 
-    .line 594
+    .line 675
     :cond_0
     new-instance v7, Landroid/support/v7/app/AppCompatDelegateImplV7$ActionModeCallbackWrapperV7;
 
     invoke-direct {v7, p0, p1}, Landroid/support/v7/app/AppCompatDelegateImplV7$ActionModeCallbackWrapperV7;-><init>(Landroid/support/v7/app/AppCompatDelegateImplV7;Landroid/support/v7/view/ActionMode$Callback;)V
 
-    .line 595
+    .line 676
     .local v7, "wrappedCallback":Landroid/support/v7/view/ActionMode$Callback;
     const/4 v4, 0x0
 
-    .line 596
+    .line 677
     .local v4, "mode":Landroid/support/v7/view/ActionMode;
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mAppCompatCallback:Landroid/support/v7/app/AppCompatCallback;
 
@@ -4557,7 +5143,7 @@
 
     if-nez v8, :cond_1
 
-    .line 598
+    .line 679
     :try_start_0
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mAppCompatCallback:Landroid/support/v7/app/AppCompatCallback;
 
@@ -4567,15 +5153,15 @@
 
     move-result-object v4
 
-    .line 604
+    .line 685
     :cond_1
     :goto_0
     if-eqz v4, :cond_4
 
-    .line 605
+    .line 686
     iput-object v4, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionMode:Landroid/support/v7/view/ActionMode;
 
-    .line 679
+    .line 792
     :cond_2
     :goto_1
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionMode:Landroid/support/v7/view/ActionMode;
@@ -4586,36 +5172,36 @@
 
     if-eqz v8, :cond_3
 
-    .line 680
+    .line 793
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mAppCompatCallback:Landroid/support/v7/app/AppCompatCallback;
 
     iget-object v9, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionMode:Landroid/support/v7/view/ActionMode;
 
     invoke-interface {v8, v9}, Landroid/support/v7/app/AppCompatCallback;->onSupportActionModeStarted(Landroid/support/v7/view/ActionMode;)V
 
-    .line 682
+    .line 795
     :cond_3
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionMode:Landroid/support/v7/view/ActionMode;
 
     return-object v8
 
-    .line 607
+    .line 688
     :cond_4
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionModeView:Landroid/support/v7/internal/widget/ActionBarContextView;
 
     if-nez v8, :cond_5
 
-    .line 608
+    .line 689
     iget-boolean v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mIsFloating:Z
 
-    if-eqz v8, :cond_8
+    if-eqz v8, :cond_7
 
-    .line 610
+    .line 691
     new-instance v5, Landroid/util/TypedValue;
 
     invoke-direct {v5}, Landroid/util/TypedValue;-><init>()V
 
-    .line 611
+    .line 692
     .local v5, "outValue":Landroid/util/TypedValue;
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mContext:Landroid/content/Context;
 
@@ -4623,18 +5209,18 @@
 
     move-result-object v2
 
-    .line 612
+    .line 693
     .local v2, "baseTheme":Landroid/content/res/Resources$Theme;
     sget v8, Landroid/support/v7/appcompat/R$attr;->actionBarTheme:I
 
     invoke-virtual {v2, v8, v5, v9}, Landroid/content/res/Resources$Theme;->resolveAttribute(ILandroid/util/TypedValue;Z)Z
 
-    .line 615
+    .line 696
     iget v8, v5, Landroid/util/TypedValue;->resourceId:I
 
-    if-eqz v8, :cond_7
+    if-eqz v8, :cond_6
 
-    .line 616
+    .line 697
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mContext:Landroid/content/Context;
 
     invoke-virtual {v8}, Landroid/content/Context;->getResources()Landroid/content/res/Resources;
@@ -4645,23 +5231,23 @@
 
     move-result-object v1
 
-    .line 617
+    .line 698
     .local v1, "actionBarTheme":Landroid/content/res/Resources$Theme;
     invoke-virtual {v1, v2}, Landroid/content/res/Resources$Theme;->setTo(Landroid/content/res/Resources$Theme;)V
 
-    .line 618
+    .line 699
     iget v8, v5, Landroid/util/TypedValue;->resourceId:I
 
     invoke-virtual {v1, v8, v9}, Landroid/content/res/Resources$Theme;->applyStyle(IZ)V
 
-    .line 620
+    .line 701
     new-instance v0, Landroid/support/v7/internal/view/ContextThemeWrapper;
 
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mContext:Landroid/content/Context;
 
     invoke-direct {v0, v8, v10}, Landroid/support/v7/internal/view/ContextThemeWrapper;-><init>(Landroid/content/Context;I)V
 
-    .line 621
+    .line 702
     .local v0, "actionBarContext":Landroid/content/Context;
     invoke-virtual {v0}, Landroid/content/Context;->getTheme()Landroid/content/res/Resources$Theme;
 
@@ -4669,7 +5255,7 @@
 
     invoke-virtual {v8, v1}, Landroid/content/res/Resources$Theme;->setTo(Landroid/content/res/Resources$Theme;)V
 
-    .line 626
+    .line 707
     .end local v1    # "actionBarTheme":Landroid/content/res/Resources$Theme;
     :goto_2
     new-instance v8, Landroid/support/v7/internal/widget/ActionBarContextView;
@@ -4678,7 +5264,7 @@
 
     iput-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionModeView:Landroid/support/v7/internal/widget/ActionBarContextView;
 
-    .line 627
+    .line 708
     new-instance v8, Landroid/widget/PopupWindow;
 
     sget v11, Landroid/support/v7/appcompat/R$attr;->actionModePopupWindowStyle:I
@@ -4687,21 +5273,28 @@
 
     iput-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionModePopup:Landroid/widget/PopupWindow;
 
-    .line 629
+    .line 710
+    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionModePopup:Landroid/widget/PopupWindow;
+
+    const/4 v11, 0x2
+
+    invoke-static {v8, v11}, Landroid/support/v4/widget/PopupWindowCompat;->setWindowLayoutType(Landroid/widget/PopupWindow;I)V
+
+    .line 712
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionModePopup:Landroid/widget/PopupWindow;
 
     iget-object v11, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionModeView:Landroid/support/v7/internal/widget/ActionBarContextView;
 
     invoke-virtual {v8, v11}, Landroid/widget/PopupWindow;->setContentView(Landroid/view/View;)V
 
-    .line 630
+    .line 713
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionModePopup:Landroid/widget/PopupWindow;
 
     const/4 v11, -0x1
 
     invoke-virtual {v8, v11}, Landroid/widget/PopupWindow;->setWidth(I)V
 
-    .line 632
+    .line 715
     invoke-virtual {v0}, Landroid/content/Context;->getTheme()Landroid/content/res/Resources$Theme;
 
     move-result-object v8
@@ -4710,7 +5303,7 @@
 
     invoke-virtual {v8, v11, v5, v9}, Landroid/content/res/Resources$Theme;->resolveAttribute(ILandroid/util/TypedValue;Z)Z
 
-    .line 634
+    .line 717
     iget v8, v5, Landroid/util/TypedValue;->data:I
 
     invoke-virtual {v0}, Landroid/content/Context;->getResources()Landroid/content/res/Resources;
@@ -4725,27 +5318,27 @@
 
     move-result v3
 
-    .line 636
+    .line 719
     .local v3, "height":I
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionModeView:Landroid/support/v7/internal/widget/ActionBarContextView;
 
     invoke-virtual {v8, v3}, Landroid/support/v7/internal/widget/ActionBarContextView;->setContentHeight(I)V
 
-    .line 637
+    .line 720
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionModePopup:Landroid/widget/PopupWindow;
 
     const/4 v11, -0x2
 
     invoke-virtual {v8, v11}, Landroid/widget/PopupWindow;->setHeight(I)V
 
-    .line 638
-    new-instance v8, Landroid/support/v7/app/AppCompatDelegateImplV7$4;
+    .line 721
+    new-instance v8, Landroid/support/v7/app/AppCompatDelegateImplV7$5;
 
-    invoke-direct {v8, p0}, Landroid/support/v7/app/AppCompatDelegateImplV7$4;-><init>(Landroid/support/v7/app/AppCompatDelegateImplV7;)V
+    invoke-direct {v8, p0}, Landroid/support/v7/app/AppCompatDelegateImplV7$5;-><init>(Landroid/support/v7/app/AppCompatDelegateImplV7;)V
 
     iput-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mShowActionModePopup:Ljava/lang/Runnable;
 
-    .line 656
+    .line 755
     .end local v0    # "actionBarContext":Landroid/content/Context;
     .end local v2    # "baseTheme":Landroid/content/res/Resources$Theme;
     .end local v3    # "height":I
@@ -4756,12 +5349,15 @@
 
     if-eqz v8, :cond_2
 
-    .line 657
+    .line 756
+    invoke-direct {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->endOnGoingFadeAnimation()V
+
+    .line 757
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionModeView:Landroid/support/v7/internal/widget/ActionBarContextView;
 
     invoke-virtual {v8}, Landroid/support/v7/internal/widget/ActionBarContextView;->killMode()V
 
-    .line 658
+    .line 758
     new-instance v4, Landroid/support/v7/internal/view/StandaloneActionMode;
 
     .end local v4    # "mode":Landroid/support/v7/view/ActionMode;
@@ -4775,14 +5371,14 @@
 
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionModePopup:Landroid/widget/PopupWindow;
 
-    if-nez v8, :cond_9
+    if-nez v8, :cond_8
 
     move v8, v9
 
     :goto_4
     invoke-direct {v4, v11, v12, v7, v8}, Landroid/support/v7/internal/view/StandaloneActionMode;-><init>(Landroid/content/Context;Landroid/support/v7/internal/widget/ActionBarContextView;Landroid/support/v7/view/ActionMode$Callback;Z)V
 
-    .line 660
+    .line 760
     .restart local v4    # "mode":Landroid/support/v7/view/ActionMode;
     invoke-virtual {v4}, Landroid/support/v7/view/ActionMode;->getMenu()Landroid/view/Menu;
 
@@ -4792,30 +5388,56 @@
 
     move-result v8
 
-    if-eqz v8, :cond_a
+    if-eqz v8, :cond_9
 
-    .line 661
+    .line 761
     invoke-virtual {v4}, Landroid/support/v7/view/ActionMode;->invalidate()V
 
-    .line 662
+    .line 762
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionModeView:Landroid/support/v7/internal/widget/ActionBarContextView;
 
     invoke-virtual {v8, v4}, Landroid/support/v7/internal/widget/ActionBarContextView;->initForMode(Landroid/support/v7/view/ActionMode;)V
 
-    .line 663
-    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionModeView:Landroid/support/v7/internal/widget/ActionBarContextView;
-
-    invoke-virtual {v8, v10}, Landroid/support/v7/internal/widget/ActionBarContextView;->setVisibility(I)V
-
-    .line 664
+    .line 763
     iput-object v4, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionMode:Landroid/support/v7/view/ActionMode;
 
-    .line 665
+    .line 764
+    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionModeView:Landroid/support/v7/internal/widget/ActionBarContextView;
+
+    const/4 v9, 0x0
+
+    invoke-static {v8, v9}, Landroid/support/v4/view/ViewCompat;->setAlpha(Landroid/view/View;F)V
+
+    .line 765
+    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionModeView:Landroid/support/v7/internal/widget/ActionBarContextView;
+
+    invoke-static {v8}, Landroid/support/v4/view/ViewCompat;->animate(Landroid/view/View;)Landroid/support/v4/view/ViewPropertyAnimatorCompat;
+
+    move-result-object v8
+
+    const/high16 v9, 0x3f800000    # 1.0f
+
+    invoke-virtual {v8, v9}, Landroid/support/v4/view/ViewPropertyAnimatorCompat;->alpha(F)Landroid/support/v4/view/ViewPropertyAnimatorCompat;
+
+    move-result-object v8
+
+    iput-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mFadeAnim:Landroid/support/v4/view/ViewPropertyAnimatorCompat;
+
+    .line 766
+    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mFadeAnim:Landroid/support/v4/view/ViewPropertyAnimatorCompat;
+
+    new-instance v9, Landroid/support/v7/app/AppCompatDelegateImplV7$6;
+
+    invoke-direct {v9, p0}, Landroid/support/v7/app/AppCompatDelegateImplV7$6;-><init>(Landroid/support/v7/app/AppCompatDelegateImplV7;)V
+
+    invoke-virtual {v8, v9}, Landroid/support/v4/view/ViewPropertyAnimatorCompat;->setListener(Landroid/support/v4/view/ViewPropertyAnimatorListener;)Landroid/support/v4/view/ViewPropertyAnimatorCompat;
+
+    .line 784
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionModePopup:Landroid/widget/PopupWindow;
 
-    if-eqz v8, :cond_6
+    if-eqz v8, :cond_2
 
-    .line 666
+    .line 785
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mWindow:Landroid/view/Window;
 
     invoke-virtual {v8}, Landroid/view/Window;->getDecorView()Landroid/view/View;
@@ -4826,50 +5448,22 @@
 
     invoke-virtual {v8, v9}, Landroid/view/View;->post(Ljava/lang/Runnable;)Z
 
-    .line 668
-    :cond_6
-    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionModeView:Landroid/support/v7/internal/widget/ActionBarContextView;
-
-    const/16 v9, 0x20
-
-    invoke-virtual {v8, v9}, Landroid/support/v7/internal/widget/ActionBarContextView;->sendAccessibilityEvent(I)V
-
-    .line 671
-    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionModeView:Landroid/support/v7/internal/widget/ActionBarContextView;
-
-    invoke-virtual {v8}, Landroid/support/v7/internal/widget/ActionBarContextView;->getParent()Landroid/view/ViewParent;
-
-    move-result-object v8
-
-    if-eqz v8, :cond_2
-
-    .line 672
-    iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionModeView:Landroid/support/v7/internal/widget/ActionBarContextView;
-
-    invoke-virtual {v8}, Landroid/support/v7/internal/widget/ActionBarContextView;->getParent()Landroid/view/ViewParent;
-
-    move-result-object v8
-
-    check-cast v8, Landroid/view/View;
-
-    invoke-static {v8}, Landroid/support/v4/view/ViewCompat;->requestApplyInsets(Landroid/view/View;)V
-
     goto/16 :goto_1
 
-    .line 623
+    .line 704
     .restart local v2    # "baseTheme":Landroid/content/res/Resources$Theme;
     .restart local v5    # "outValue":Landroid/util/TypedValue;
-    :cond_7
+    :cond_6
     iget-object v0, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mContext:Landroid/content/Context;
 
     .restart local v0    # "actionBarContext":Landroid/content/Context;
     goto/16 :goto_2
 
-    .line 646
+    .line 745
     .end local v0    # "actionBarContext":Landroid/content/Context;
     .end local v2    # "baseTheme":Landroid/content/res/Resources$Theme;
     .end local v5    # "outValue":Landroid/util/TypedValue;
-    :cond_8
+    :cond_7
     iget-object v8, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mSubDecor:Landroid/view/ViewGroup;
 
     sget v11, Landroid/support/v7/appcompat/R$id;->action_mode_bar_stub:I
@@ -4880,11 +5474,11 @@
 
     check-cast v6, Landroid/support/v7/internal/widget/ViewStubCompat;
 
-    .line 648
+    .line 747
     .local v6, "stub":Landroid/support/v7/internal/widget/ViewStubCompat;
     if-eqz v6, :cond_5
 
-    .line 650
+    .line 749
     invoke-virtual {p0}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getActionBarThemedContext()Landroid/content/Context;
 
     move-result-object v8
@@ -4895,7 +5489,7 @@
 
     invoke-virtual {v6, v8}, Landroid/support/v7/internal/widget/ViewStubCompat;->setLayoutInflater(Landroid/view/LayoutInflater;)V
 
-    .line 651
+    .line 750
     invoke-virtual {v6}, Landroid/support/v7/internal/widget/ViewStubCompat;->inflate()Landroid/view/View;
 
     move-result-object v8
@@ -4908,20 +5502,20 @@
 
     .end local v4    # "mode":Landroid/support/v7/view/ActionMode;
     .end local v6    # "stub":Landroid/support/v7/internal/widget/ViewStubCompat;
-    :cond_9
+    :cond_8
     move v8, v10
 
-    .line 658
+    .line 758
     goto :goto_4
 
-    .line 675
+    .line 788
     .restart local v4    # "mode":Landroid/support/v7/view/ActionMode;
-    :cond_a
+    :cond_9
     iput-object v13, p0, Landroid/support/v7/app/AppCompatDelegateImplV7;->mActionMode:Landroid/support/v7/view/ActionMode;
 
     goto/16 :goto_1
 
-    .line 599
+    .line 680
     :catch_0
     move-exception v8
 

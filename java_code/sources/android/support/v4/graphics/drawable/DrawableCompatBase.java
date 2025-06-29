@@ -3,8 +3,9 @@ package android.support.v4.graphics.drawable;
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-class DrawableCompatBase {
+public class DrawableCompatBase {
     DrawableCompatBase() {
     }
 

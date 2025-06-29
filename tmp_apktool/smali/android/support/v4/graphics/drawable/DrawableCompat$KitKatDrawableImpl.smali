@@ -1,5 +1,5 @@
 .class Landroid/support/v4/graphics/drawable/DrawableCompat$KitKatDrawableImpl;
-.super Landroid/support/v4/graphics/drawable/DrawableCompat$HoneycombDrawableImpl;
+.super Landroid/support/v4/graphics/drawable/DrawableCompat$JellybeanMr1DrawableImpl;
 .source "DrawableCompat.java"
 
 
@@ -19,8 +19,8 @@
     .locals 0
 
     .prologue
-    .line 107
-    invoke-direct {p0}, Landroid/support/v4/graphics/drawable/DrawableCompat$HoneycombDrawableImpl;-><init>()V
+    .line 133
+    invoke-direct {p0}, Landroid/support/v4/graphics/drawable/DrawableCompat$JellybeanMr1DrawableImpl;-><init>()V
 
     return-void
 .end method
@@ -32,7 +32,7 @@
     .param p1, "drawable"    # Landroid/graphics/drawable/Drawable;
 
     .prologue
-    .line 115
+    .line 141
     invoke-static {p1}, Landroid/support/v4/graphics/drawable/DrawableCompatKitKat;->isAutoMirrored(Landroid/graphics/drawable/Drawable;)Z
 
     move-result v0
@@ -46,10 +46,10 @@
     .param p2, "mirrored"    # Z
 
     .prologue
-    .line 110
+    .line 136
     invoke-static {p1, p2}, Landroid/support/v4/graphics/drawable/DrawableCompatKitKat;->setAutoMirrored(Landroid/graphics/drawable/Drawable;Z)V
 
-    .line 111
+    .line 137
     return-void
 .end method
 
@@ -58,7 +58,7 @@
     .param p1, "drawable"    # Landroid/graphics/drawable/Drawable;
 
     .prologue
-    .line 120
+    .line 146
     invoke-static {p1}, Landroid/support/v4/graphics/drawable/DrawableCompatKitKat;->wrapForTinting(Landroid/graphics/drawable/Drawable;)Landroid/graphics/drawable/Drawable;
 
     move-result-object v0

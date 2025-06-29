@@ -247,7 +247,8 @@ public class MenuBuilder implements SupportMenu {
         this.mCallback = cb;
     }
 
-    private MenuItem addInternal(int group, int id, int categoryOrder, CharSequence title) {
+    /* JADX INFO: Access modifiers changed from: protected */
+    public MenuItem addInternal(int group, int id, int categoryOrder, CharSequence title) {
         int ordering = getOrdering(categoryOrder);
         MenuItemImpl item = createNewMenuItem(group, id, categoryOrder, ordering, title, this.mDefaultShowAsAction);
         if (this.mCurrentMenuInfo != null) {

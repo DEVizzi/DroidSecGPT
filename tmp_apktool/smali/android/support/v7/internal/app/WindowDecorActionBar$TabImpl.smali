@@ -37,12 +37,12 @@
     .locals 1
 
     .prologue
-    .line 1125
+    .line 1107
     iput-object p1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->this$0:Landroid/support/v7/internal/app/WindowDecorActionBar;
 
     invoke-direct {p0}, Landroid/support/v7/app/ActionBar$Tab;-><init>()V
 
-    .line 1131
+    .line 1113
     const/4 v0, -0x1
 
     iput v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->mPosition:I
@@ -56,7 +56,7 @@
     .locals 1
 
     .prologue
-    .line 1146
+    .line 1128
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->mCallback:Landroid/support/v7/app/ActionBar$TabListener;
 
     return-object v0
@@ -66,7 +66,7 @@
     .locals 1
 
     .prologue
-    .line 1243
+    .line 1225
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->mContentDesc:Ljava/lang/CharSequence;
 
     return-object v0
@@ -76,7 +76,7 @@
     .locals 1
 
     .prologue
-    .line 1157
+    .line 1139
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->mCustomView:Landroid/view/View;
 
     return-object v0
@@ -86,7 +86,7 @@
     .locals 1
 
     .prologue
-    .line 1177
+    .line 1159
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->mIcon:Landroid/graphics/drawable/Drawable;
 
     return-object v0
@@ -96,7 +96,7 @@
     .locals 1
 
     .prologue
-    .line 1182
+    .line 1164
     iget v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->mPosition:I
 
     return v0
@@ -106,7 +106,7 @@
     .locals 1
 
     .prologue
-    .line 1136
+    .line 1118
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->mTag:Ljava/lang/Object;
 
     return-object v0
@@ -116,7 +116,7 @@
     .locals 1
 
     .prologue
-    .line 1191
+    .line 1173
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->mText:Ljava/lang/CharSequence;
 
     return-object v0
@@ -126,12 +126,12 @@
     .locals 1
 
     .prologue
-    .line 1224
+    .line 1206
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->this$0:Landroid/support/v7/internal/app/WindowDecorActionBar;
 
     invoke-virtual {v0, p0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->selectTab(Landroid/support/v7/app/ActionBar$Tab;)V
 
-    .line 1225
+    .line 1207
     return-void
 .end method
 
@@ -140,10 +140,10 @@
     .param p1, "resId"    # I
 
     .prologue
-    .line 1229
+    .line 1211
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->this$0:Landroid/support/v7/internal/app/WindowDecorActionBar;
 
-    invoke-static {v0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->access$1200(Landroid/support/v7/internal/app/WindowDecorActionBar;)Landroid/content/Context;
+    invoke-static {v0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->access$1000(Landroid/support/v7/internal/app/WindowDecorActionBar;)Landroid/content/Context;
 
     move-result-object v0
 
@@ -167,18 +167,18 @@
     .param p1, "contentDesc"    # Ljava/lang/CharSequence;
 
     .prologue
-    .line 1234
+    .line 1216
     iput-object p1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->mContentDesc:Ljava/lang/CharSequence;
 
-    .line 1235
+    .line 1217
     iget v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->mPosition:I
 
     if-ltz v0, :cond_0
 
-    .line 1236
+    .line 1218
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->this$0:Landroid/support/v7/internal/app/WindowDecorActionBar;
 
-    invoke-static {v0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->access$1300(Landroid/support/v7/internal/app/WindowDecorActionBar;)Landroid/support/v7/internal/widget/ScrollingTabContainerView;
+    invoke-static {v0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->access$1100(Landroid/support/v7/internal/app/WindowDecorActionBar;)Landroid/support/v7/internal/widget/ScrollingTabContainerView;
 
     move-result-object v0
 
@@ -186,7 +186,7 @@
 
     invoke-virtual {v0, v1}, Landroid/support/v7/internal/widget/ScrollingTabContainerView;->updateTab(I)V
 
-    .line 1238
+    .line 1220
     :cond_0
     return-object p0
 .end method
@@ -196,7 +196,7 @@
     .param p1, "layoutResId"    # I
 
     .prologue
-    .line 1171
+    .line 1153
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->this$0:Landroid/support/v7/internal/app/WindowDecorActionBar;
 
     invoke-virtual {v0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->getThemedContext()Landroid/content/Context;
@@ -225,18 +225,18 @@
     .param p1, "view"    # Landroid/view/View;
 
     .prologue
-    .line 1162
+    .line 1144
     iput-object p1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->mCustomView:Landroid/view/View;
 
-    .line 1163
+    .line 1145
     iget v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->mPosition:I
 
     if-ltz v0, :cond_0
 
-    .line 1164
+    .line 1146
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->this$0:Landroid/support/v7/internal/app/WindowDecorActionBar;
 
-    invoke-static {v0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->access$1300(Landroid/support/v7/internal/app/WindowDecorActionBar;)Landroid/support/v7/internal/widget/ScrollingTabContainerView;
+    invoke-static {v0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->access$1100(Landroid/support/v7/internal/app/WindowDecorActionBar;)Landroid/support/v7/internal/widget/ScrollingTabContainerView;
 
     move-result-object v0
 
@@ -244,7 +244,7 @@
 
     invoke-virtual {v0, v1}, Landroid/support/v7/internal/widget/ScrollingTabContainerView;->updateTab(I)V
 
-    .line 1166
+    .line 1148
     :cond_0
     return-object p0
 .end method
@@ -254,7 +254,7 @@
     .param p1, "resId"    # I
 
     .prologue
-    .line 1205
+    .line 1187
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->this$0:Landroid/support/v7/internal/app/WindowDecorActionBar;
 
     invoke-virtual {v0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->getTintManager()Landroid/support/v7/internal/widget/TintManager;
@@ -277,18 +277,18 @@
     .param p1, "icon"    # Landroid/graphics/drawable/Drawable;
 
     .prologue
-    .line 1196
+    .line 1178
     iput-object p1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->mIcon:Landroid/graphics/drawable/Drawable;
 
-    .line 1197
+    .line 1179
     iget v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->mPosition:I
 
     if-ltz v0, :cond_0
 
-    .line 1198
+    .line 1180
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->this$0:Landroid/support/v7/internal/app/WindowDecorActionBar;
 
-    invoke-static {v0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->access$1300(Landroid/support/v7/internal/app/WindowDecorActionBar;)Landroid/support/v7/internal/widget/ScrollingTabContainerView;
+    invoke-static {v0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->access$1100(Landroid/support/v7/internal/app/WindowDecorActionBar;)Landroid/support/v7/internal/widget/ScrollingTabContainerView;
 
     move-result-object v0
 
@@ -296,7 +296,7 @@
 
     invoke-virtual {v0, v1}, Landroid/support/v7/internal/widget/ScrollingTabContainerView;->updateTab(I)V
 
-    .line 1200
+    .line 1182
     :cond_0
     return-object p0
 .end method
@@ -306,10 +306,10 @@
     .param p1, "position"    # I
 
     .prologue
-    .line 1186
+    .line 1168
     iput p1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->mPosition:I
 
-    .line 1187
+    .line 1169
     return-void
 .end method
 
@@ -318,10 +318,10 @@
     .param p1, "callback"    # Landroid/support/v7/app/ActionBar$TabListener;
 
     .prologue
-    .line 1151
+    .line 1133
     iput-object p1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->mCallback:Landroid/support/v7/app/ActionBar$TabListener;
 
-    .line 1152
+    .line 1134
     return-object p0
 .end method
 
@@ -330,10 +330,10 @@
     .param p1, "tag"    # Ljava/lang/Object;
 
     .prologue
-    .line 1141
+    .line 1123
     iput-object p1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->mTag:Ljava/lang/Object;
 
-    .line 1142
+    .line 1124
     return-object p0
 .end method
 
@@ -342,10 +342,10 @@
     .param p1, "resId"    # I
 
     .prologue
-    .line 1219
+    .line 1201
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->this$0:Landroid/support/v7/internal/app/WindowDecorActionBar;
 
-    invoke-static {v0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->access$1200(Landroid/support/v7/internal/app/WindowDecorActionBar;)Landroid/content/Context;
+    invoke-static {v0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->access$1000(Landroid/support/v7/internal/app/WindowDecorActionBar;)Landroid/content/Context;
 
     move-result-object v0
 
@@ -369,18 +369,18 @@
     .param p1, "text"    # Ljava/lang/CharSequence;
 
     .prologue
-    .line 1210
+    .line 1192
     iput-object p1, p0, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->mText:Ljava/lang/CharSequence;
 
-    .line 1211
+    .line 1193
     iget v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->mPosition:I
 
     if-ltz v0, :cond_0
 
-    .line 1212
+    .line 1194
     iget-object v0, p0, Landroid/support/v7/internal/app/WindowDecorActionBar$TabImpl;->this$0:Landroid/support/v7/internal/app/WindowDecorActionBar;
 
-    invoke-static {v0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->access$1300(Landroid/support/v7/internal/app/WindowDecorActionBar;)Landroid/support/v7/internal/widget/ScrollingTabContainerView;
+    invoke-static {v0}, Landroid/support/v7/internal/app/WindowDecorActionBar;->access$1100(Landroid/support/v7/internal/app/WindowDecorActionBar;)Landroid/support/v7/internal/widget/ScrollingTabContainerView;
 
     move-result-object v0
 
@@ -388,7 +388,7 @@
 
     invoke-virtual {v0, v1}, Landroid/support/v7/internal/widget/ScrollingTabContainerView;->updateTab(I)V
 
-    .line 1214
+    .line 1196
     :cond_0
     return-object p0
 .end method

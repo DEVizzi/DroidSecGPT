@@ -505,7 +505,7 @@
 
     if-eqz v11, :cond_0
 
-    .line 259
+    .line 260
     :goto_0
     return v9
 
@@ -608,18 +608,26 @@
     .line 253
     const v9, 0x800035
 
-    invoke-virtual {v0, v9, v5, v3}, Landroid/widget/Toast;->setGravity(III)V
+    aget v11, v6, v10
 
-    .line 258
+    add-int/2addr v11, v3
+
+    iget v12, v2, Landroid/graphics/Rect;->top:I
+
+    sub-int/2addr v11, v12
+
+    invoke-virtual {v0, v9, v5, v11}, Landroid/widget/Toast;->setGravity(III)V
+
+    .line 259
     :goto_1
     invoke-virtual {v0}, Landroid/widget/Toast;->show()V
 
     move v9, v10
 
-    .line 259
+    .line 260
     goto :goto_0
 
-    .line 256
+    .line 257
     :cond_2
     const/16 v11, 0x51
 
@@ -636,12 +644,12 @@
     .prologue
     const/high16 v11, 0x40000000    # 2.0f
 
-    .line 264
+    .line 265
     invoke-virtual {p0}, Landroid/support/v7/internal/view/menu/ActionMenuItemView;->hasText()Z
 
     move-result v3
 
-    .line 265
+    .line 266
     .local v3, "textVisible":Z
     if-eqz v3, :cond_0
 
@@ -649,7 +657,7 @@
 
     if-ltz v7, :cond_0
 
-    .line 266
+    .line 267
     iget v7, p0, Landroid/support/v7/internal/view/menu/ActionMenuItemView;->mSavedPaddingLeft:I
 
     invoke-virtual {p0}, Landroid/support/v7/internal/view/menu/ActionMenuItemView;->getPaddingTop()I
@@ -666,28 +674,28 @@
 
     invoke-super {p0, v7, v8, v9, v10}, Landroid/support/v7/widget/AppCompatTextView;->setPadding(IIII)V
 
-    .line 270
+    .line 271
     :cond_0
     invoke-super {p0, p1, p2}, Landroid/support/v7/widget/AppCompatTextView;->onMeasure(II)V
 
-    .line 272
+    .line 273
     invoke-static {p1}, Landroid/view/View$MeasureSpec;->getMode(I)I
 
     move-result v5
 
-    .line 273
+    .line 274
     .local v5, "widthMode":I
     invoke-static {p1}, Landroid/view/View$MeasureSpec;->getSize(I)I
 
     move-result v6
 
-    .line 274
+    .line 275
     .local v6, "widthSize":I
     invoke-virtual {p0}, Landroid/support/v7/internal/view/menu/ActionMenuItemView;->getMeasuredWidth()I
 
     move-result v1
 
-    .line 275
+    .line 276
     .local v1, "oldMeasuredWidth":I
     const/high16 v7, -0x80000000
 
@@ -699,7 +707,7 @@
 
     move-result v2
 
-    .line 278
+    .line 279
     .local v2, "targetWidth":I
     :goto_0
     if-eq v5, v11, :cond_1
@@ -710,14 +718,14 @@
 
     if-ge v1, v2, :cond_1
 
-    .line 280
+    .line 281
     invoke-static {v2, v11}, Landroid/view/View$MeasureSpec;->makeMeasureSpec(II)I
 
     move-result v7
 
     invoke-super {p0, v7, p2}, Landroid/support/v7/widget/AppCompatTextView;->onMeasure(II)V
 
-    .line 284
+    .line 285
     :cond_1
     if-nez v3, :cond_2
 
@@ -725,12 +733,12 @@
 
     if-eqz v7, :cond_2
 
-    .line 287
+    .line 288
     invoke-virtual {p0}, Landroid/support/v7/internal/view/menu/ActionMenuItemView;->getMeasuredWidth()I
 
     move-result v4
 
-    .line 288
+    .line 289
     .local v4, "w":I
     iget-object v7, p0, Landroid/support/v7/internal/view/menu/ActionMenuItemView;->mIcon:Landroid/graphics/drawable/Drawable;
 
@@ -742,7 +750,7 @@
 
     move-result v0
 
-    .line 289
+    .line 290
     .local v0, "dw":I
     sub-int v7, v4, v0
 
@@ -762,13 +770,13 @@
 
     invoke-super {p0, v7, v8, v9, v10}, Landroid/support/v7/widget/AppCompatTextView;->setPadding(IIII)V
 
-    .line 291
+    .line 292
     .end local v0    # "dw":I
     .end local v4    # "w":I
     :cond_2
     return-void
 
-    .line 275
+    .line 276
     .end local v2    # "targetWidth":I
     :cond_3
     iget v2, p0, Landroid/support/v7/internal/view/menu/ActionMenuItemView;->mMinWidth:I

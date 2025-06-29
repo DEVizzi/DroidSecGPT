@@ -8,9 +8,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggleHoneycomb;
+import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -234,17 +234,12 @@ public class ActionBarDrawerToggle implements DrawerLayout.DrawerListener {
             } else if (position == 0.0f) {
                 setVerticalMirror(false);
             }
-            super.setProgress(position);
-        }
-
-        @Override // android.support.v7.app.DrawerArrowDrawable
-        boolean isLayoutRtl() {
-            return ViewCompat.getLayoutDirection(this.mActivity.getWindow().getDecorView()) == 1;
+            setProgress(position);
         }
 
         @Override // android.support.v7.app.ActionBarDrawerToggle.DrawerToggle
         public float getPosition() {
-            return super.getProgress();
+            return getProgress();
         }
     }
 

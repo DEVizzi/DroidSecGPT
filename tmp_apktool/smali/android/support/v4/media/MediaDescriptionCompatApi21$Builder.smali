@@ -1,4 +1,4 @@
-.class public Landroid/support/v4/media/MediaDescriptionCompatApi21$Builder;
+.class Landroid/support/v4/media/MediaDescriptionCompatApi21$Builder;
 .super Ljava/lang/Object;
 .source "MediaDescriptionCompatApi21.java"
 
@@ -9,13 +9,13 @@
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
-    accessFlags = 0x9
+    accessFlags = 0x8
     name = "Builder"
 .end annotation
 
 
 # direct methods
-.method public constructor <init>()V
+.method constructor <init>()V
     .locals 0
 
     .prologue

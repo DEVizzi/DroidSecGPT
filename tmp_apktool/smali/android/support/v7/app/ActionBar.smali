@@ -40,10 +40,10 @@
     .locals 0
 
     .prologue
-    .line 97
+    .line 90
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 1318
+    .line 1311
     return-void
 .end method
 
@@ -68,7 +68,7 @@
     .locals 1
 
     .prologue
-    .line 1069
+    .line 1062
     const/4 v0, 0x0
 
     return v0
@@ -79,7 +79,7 @@
     .param p1, "visible"    # Z
 
     .prologue
-    .line 1040
+    .line 1033
     return-void
 .end method
 
@@ -93,7 +93,7 @@
     .locals 1
 
     .prologue
-    .line 1023
+    .line 1016
     const/4 v0, 0x0
 
     return v0
@@ -106,7 +106,7 @@
     .locals 1
 
     .prologue
-    .line 980
+    .line 973
     const/4 v0, 0x0
 
     return v0
@@ -141,7 +141,7 @@
     .locals 1
 
     .prologue
-    .line 847
+    .line 840
     const/4 v0, 0x0
 
     return-object v0
@@ -159,7 +159,7 @@
     .locals 1
 
     .prologue
-    .line 1054
+    .line 1047
     const/4 v0, 0x0
 
     return v0
@@ -169,7 +169,7 @@
     .locals 1
 
     .prologue
-    .line 967
+    .line 960
     const/4 v0, 0x0
 
     return v0
@@ -182,7 +182,7 @@
     .locals 1
 
     .prologue
-    .line 857
+    .line 850
     const/4 v0, 0x0
 
     return v0
@@ -196,7 +196,7 @@
     .param p1, "config"    # Landroid/content/res/Configuration;
 
     .prologue
-    .line 1036
+    .line 1029
     return-void
 .end method
 
@@ -206,7 +206,7 @@
     .param p2, "ev"    # Landroid/view/KeyEvent;
 
     .prologue
-    .line 1064
+    .line 1057
     const/4 v0, 0x0
 
     return v0
@@ -217,7 +217,7 @@
     .param p1, "event"    # Landroid/view/KeyEvent;
 
     .prologue
-    .line 1059
+    .line 1052
     const/4 v0, 0x0
 
     return v0
@@ -227,7 +227,7 @@
     .locals 1
 
     .prologue
-    .line 1049
+    .line 1042
     const/4 v0, 0x0
 
     return v0
@@ -269,7 +269,7 @@
     .param p1, "enabled"    # Z
 
     .prologue
-    .line 1028
+    .line 1021
     return-void
 .end method
 
@@ -299,14 +299,14 @@
     .param p1, "elevation"    # F
 
     .prologue
-    .line 1008
+    .line 1001
     const/4 v0, 0x0
 
     cmpl-float v0, p1, v0
 
     if-eqz v0, :cond_0
 
-    .line 1009
+    .line 1002
     new-instance v0, Ljava/lang/UnsupportedOperationException;
 
     const-string v1, "Setting a non-zero elevation is not supported in this action bar configuration."
@@ -315,7 +315,7 @@
 
     throw v0
 
-    .line 1012
+    .line 1005
     :cond_0
     return-void
 .end method
@@ -325,10 +325,10 @@
     .param p1, "offset"    # I
 
     .prologue
-    .line 993
+    .line 986
     if-eqz p1, :cond_0
 
-    .line 994
+    .line 987
     new-instance v0, Ljava/lang/UnsupportedOperationException;
 
     const-string v1, "Setting an explicit action bar hide offset is not supported in this action bar configuration."
@@ -337,7 +337,7 @@
 
     throw v0
 
-    .line 997
+    .line 990
     :cond_0
     return-void
 .end method
@@ -347,10 +347,10 @@
     .param p1, "hideOnContentScroll"    # Z
 
     .prologue
-    .line 953
+    .line 946
     if-eqz p1, :cond_0
 
-    .line 954
+    .line 947
     new-instance v0, Ljava/lang/UnsupportedOperationException;
 
     const-string v1, "Hide on content scroll is not supported in this action bar configuration."
@@ -359,7 +359,7 @@
 
     throw v0
 
-    .line 957
+    .line 950
     :cond_0
     return-void
 .end method
@@ -372,7 +372,7 @@
     .end param
 
     .prologue
-    .line 937
+    .line 930
     return-void
 .end method
 
@@ -384,7 +384,7 @@
     .end param
 
     .prologue
-    .line 917
+    .line 910
     return-void
 .end method
 
@@ -396,7 +396,7 @@
     .end param
 
     .prologue
-    .line 898
+    .line 891
     return-void
 .end method
 
@@ -408,7 +408,7 @@
     .end param
 
     .prologue
-    .line 877
+    .line 870
     return-void
 .end method
 
@@ -417,7 +417,7 @@
     .param p1, "enabled"    # Z
 
     .prologue
-    .line 835
+    .line 828
     return-void
 .end method
 
@@ -455,7 +455,7 @@
     .param p1, "enabled"    # Z
 
     .prologue
-    .line 1032
+    .line 1025
     return-void
 .end method
 
@@ -464,7 +464,7 @@
     .param p1, "d"    # Landroid/graphics/drawable/Drawable;
 
     .prologue
-    .line 536
+    .line 529
     return-void
 .end method
 
@@ -473,7 +473,7 @@
     .param p1, "d"    # Landroid/graphics/drawable/Drawable;
 
     .prologue
-    .line 526
+    .line 519
     return-void
 .end method
 
@@ -498,7 +498,7 @@
     .param p1, "title"    # Ljava/lang/CharSequence;
 
     .prologue
-    .line 1074
+    .line 1067
     return-void
 .end method
 
@@ -510,7 +510,7 @@
     .param p1, "callback"    # Landroid/support/v7/view/ActionMode$Callback;
 
     .prologue
-    .line 1044
+    .line 1037
     const/4 v0, 0x0
 
     return-object v0

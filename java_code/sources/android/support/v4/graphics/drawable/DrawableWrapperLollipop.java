@@ -4,8 +4,9 @@ import android.content.res.Resources;
 import android.graphics.Outline;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+/* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
-class DrawableWrapperLollipop extends DrawableWrapperKitKat {
+public class DrawableWrapperLollipop extends DrawableWrapperKitKat {
     /* JADX INFO: Access modifiers changed from: package-private */
     public DrawableWrapperLollipop(Drawable drawable) {
         super(drawable);

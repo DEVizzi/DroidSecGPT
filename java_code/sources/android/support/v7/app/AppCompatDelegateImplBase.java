@@ -2,12 +2,9 @@ package android.support.v7.app;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.appcompat.R;
-import android.support.v7.internal.app.WindowDecorActionBar;
 import android.support.v7.internal.view.SupportMenuInflater;
 import android.support.v7.internal.view.WindowCallbackWrapper;
 import android.support.v7.internal.view.menu.MenuBuilder;
@@ -21,29 +18,31 @@ import android.view.Window;
 /* JADX INFO: Access modifiers changed from: package-private */
 /* loaded from: classes.dex */
 public abstract class AppCompatDelegateImplBase extends AppCompatDelegate {
-    private ActionBar mActionBar;
+    ActionBar mActionBar;
     final AppCompatCallback mAppCompatCallback;
+    final Window.Callback mAppCompatWindowCallback;
     final Context mContext;
     boolean mHasActionBar;
     private boolean mIsDestroyed;
     boolean mIsFloating;
-    private MenuInflater mMenuInflater;
+    MenuInflater mMenuInflater;
     final Window.Callback mOriginalWindowCallback;
     boolean mOverlayActionBar;
     boolean mOverlayActionMode;
+    boolean mThemeRead;
     private CharSequence mTitle;
     final Window mWindow;
     boolean mWindowNoTitle;
 
-    abstract ActionBar createSupportActionBar();
-
     abstract boolean dispatchKeyEvent(KeyEvent keyEvent);
+
+    abstract void initWindowDecorActionBar();
 
     abstract boolean onKeyShortcut(int i, KeyEvent keyEvent);
 
     abstract boolean onMenuOpened(int i, Menu menu);
 
-    abstract boolean onPanelClosed(int i, Menu menu);
+    abstract void onPanelClosed(int i, Menu menu);
 
     abstract void onTitleChanged(CharSequence charSequence);
 
@@ -58,7 +57,8 @@ public abstract class AppCompatDelegateImplBase extends AppCompatDelegate {
         if (this.mOriginalWindowCallback instanceof AppCompatWindowCallbackBase) {
             throw new IllegalStateException("AppCompat has already installed itself into the Window");
         }
-        this.mWindow.setCallback(wrapWindowCallback(this.mOriginalWindowCallback));
+        this.mAppCompatWindowCallback = wrapWindowCallback(this.mOriginalWindowCallback);
+        this.mWindow.setCallback(this.mAppCompatWindowCallback);
     }
 
     Window.Callback wrapWindowCallback(Window.Callback callback) {
@@ -67,13 +67,7 @@ public abstract class AppCompatDelegateImplBase extends AppCompatDelegate {
 
     @Override // android.support.v7.app.AppCompatDelegate
     public ActionBar getSupportActionBar() {
-        if (this.mHasActionBar) {
-            if (this.mActionBar == null) {
-                this.mActionBar = createSupportActionBar();
-            }
-        } else if (this.mActionBar instanceof WindowDecorActionBar) {
-            this.mActionBar = null;
-        }
+        initWindowDecorActionBar();
         return this.mActionBar;
     }
 
@@ -82,38 +76,13 @@ public abstract class AppCompatDelegateImplBase extends AppCompatDelegate {
         return this.mActionBar;
     }
 
-    /* JADX INFO: Access modifiers changed from: package-private */
-    public final void setSupportActionBar(ActionBar actionBar) {
-        this.mActionBar = actionBar;
-    }
-
     @Override // android.support.v7.app.AppCompatDelegate
     public MenuInflater getMenuInflater() {
         if (this.mMenuInflater == null) {
-            this.mMenuInflater = new SupportMenuInflater(getActionBarThemedContext());
+            initWindowDecorActionBar();
+            this.mMenuInflater = new SupportMenuInflater(this.mActionBar != null ? this.mActionBar.getThemedContext() : this.mContext);
         }
         return this.mMenuInflater;
-    }
-
-    @Override // android.support.v7.app.AppCompatDelegate
-    public void onCreate(Bundle savedInstanceState) {
-        TypedArray a = this.mContext.obtainStyledAttributes(R.styleable.Theme);
-        if (!a.hasValue(R.styleable.Theme_windowActionBar)) {
-            a.recycle();
-            throw new IllegalStateException("You need to use a Theme.AppCompat theme (or descendant) with this activity.");
-        }
-        if (a.getBoolean(R.styleable.Theme_windowActionBar, false)) {
-            this.mHasActionBar = true;
-        }
-        if (a.getBoolean(R.styleable.Theme_windowActionBarOverlay, false)) {
-            this.mOverlayActionBar = true;
-        }
-        if (a.getBoolean(R.styleable.Theme_windowActionModeOverlay, false)) {
-            this.mOverlayActionMode = true;
-        }
-        this.mIsFloating = a.getBoolean(R.styleable.Theme_android_windowIsFloating, false);
-        this.mWindowNoTitle = a.getBoolean(R.styleable.Theme_windowNoTitle, false);
-        a.recycle();
     }
 
     @Override // android.support.v7.app.AppCompatDelegate
@@ -222,10 +191,12 @@ public abstract class AppCompatDelegateImplBase extends AppCompatDelegate {
 
         @Override // android.support.v7.internal.view.WindowCallbackWrapper, android.view.Window.Callback
         public boolean dispatchKeyEvent(KeyEvent event) {
-            if (super.dispatchKeyEvent(event)) {
-                return true;
-            }
-            return AppCompatDelegateImplBase.this.dispatchKeyEvent(event);
+            return AppCompatDelegateImplBase.this.dispatchKeyEvent(event) || super.dispatchKeyEvent(event);
+        }
+
+        @Override // android.support.v7.internal.view.WindowCallbackWrapper, android.view.Window.Callback
+        public boolean dispatchKeyShortcutEvent(KeyEvent event) {
+            return super.dispatchKeyShortcutEvent(event) || AppCompatDelegateImplBase.this.onKeyShortcut(event.getKeyCode(), event);
         }
 
         @Override // android.support.v7.internal.view.WindowCallbackWrapper, android.view.Window.Callback
@@ -234,6 +205,10 @@ public abstract class AppCompatDelegateImplBase extends AppCompatDelegate {
                 return super.onCreatePanelMenu(featureId, menu);
             }
             return false;
+        }
+
+        @Override // android.support.v7.internal.view.WindowCallbackWrapper, android.view.Window.Callback
+        public void onContentChanged() {
         }
 
         @Override // android.support.v7.internal.view.WindowCallbackWrapper, android.view.Window.Callback
@@ -255,29 +230,15 @@ public abstract class AppCompatDelegateImplBase extends AppCompatDelegate {
 
         @Override // android.support.v7.internal.view.WindowCallbackWrapper, android.view.Window.Callback
         public boolean onMenuOpened(int featureId, Menu menu) {
-            if (AppCompatDelegateImplBase.this.onMenuOpened(featureId, menu)) {
-                return true;
-            }
-            return super.onMenuOpened(featureId, menu);
-        }
-
-        @Override // android.support.v7.internal.view.WindowCallbackWrapper, android.view.Window.Callback
-        public boolean dispatchKeyShortcutEvent(KeyEvent event) {
-            if (AppCompatDelegateImplBase.this.onKeyShortcut(event.getKeyCode(), event)) {
-                return true;
-            }
-            return super.dispatchKeyShortcutEvent(event);
-        }
-
-        @Override // android.support.v7.internal.view.WindowCallbackWrapper, android.view.Window.Callback
-        public void onContentChanged() {
+            super.onMenuOpened(featureId, menu);
+            AppCompatDelegateImplBase.this.onMenuOpened(featureId, menu);
+            return true;
         }
 
         @Override // android.support.v7.internal.view.WindowCallbackWrapper, android.view.Window.Callback
         public void onPanelClosed(int featureId, Menu menu) {
-            if (!AppCompatDelegateImplBase.this.onPanelClosed(featureId, menu)) {
-                super.onPanelClosed(featureId, menu);
-            }
+            super.onPanelClosed(featureId, menu);
+            AppCompatDelegateImplBase.this.onPanelClosed(featureId, menu);
         }
     }
 }

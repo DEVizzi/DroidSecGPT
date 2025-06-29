@@ -9,6 +9,7 @@ import android.widget.CheckedTextView;
 /* loaded from: classes.dex */
 public class AppCompatCheckedTextView extends CheckedTextView {
     private static final int[] TINT_ATTRS = {16843016};
+    private AppCompatTextHelper mTextHelper;
     private TintManager mTintManager;
 
     public AppCompatCheckedTextView(Context context) {
@@ -21,6 +22,9 @@ public class AppCompatCheckedTextView extends CheckedTextView {
 
     public AppCompatCheckedTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        this.mTextHelper = AppCompatTextHelper.create(this);
+        this.mTextHelper.loadFromAttributes(attrs, defStyleAttr);
+        this.mTextHelper.applyCompoundDrawablesTints();
         if (TintManager.SHOULD_BE_USED) {
             TintTypedArray a = TintTypedArray.obtainStyledAttributes(getContext(), attrs, TINT_ATTRS, defStyleAttr, 0);
             setCheckMarkDrawable(a.getDrawable(0));
@@ -35,6 +39,22 @@ public class AppCompatCheckedTextView extends CheckedTextView {
             setCheckMarkDrawable(this.mTintManager.getDrawable(resId));
         } else {
             super.setCheckMarkDrawable(resId);
+        }
+    }
+
+    @Override // android.widget.TextView
+    public void setTextAppearance(Context context, int resId) {
+        super.setTextAppearance(context, resId);
+        if (this.mTextHelper != null) {
+            this.mTextHelper.onSetTextAppearance(context, resId);
+        }
+    }
+
+    @Override // android.widget.CheckedTextView, android.widget.TextView, android.view.View
+    protected void drawableStateChanged() {
+        super.drawableStateChanged();
+        if (this.mTextHelper != null) {
+            this.mTextHelper.applyCompoundDrawablesTints();
         }
     }
 }

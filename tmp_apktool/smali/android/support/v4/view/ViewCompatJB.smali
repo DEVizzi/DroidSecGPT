@@ -92,6 +92,19 @@
     return-object v0
 .end method
 
+.method public static hasOverlappingRendering(Landroid/view/View;)Z
+    .locals 1
+    .param p0, "view"    # Landroid/view/View;
+
+    .prologue
+    .line 90
+    invoke-virtual {p0}, Landroid/view/View;->hasOverlappingRendering()Z
+
+    move-result v0
+
+    return v0
+.end method
+
 .method public static hasTransientState(Landroid/view/View;)Z
     .locals 1
     .param p0, "view"    # Landroid/view/View;

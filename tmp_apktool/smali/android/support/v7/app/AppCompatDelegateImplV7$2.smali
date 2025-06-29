@@ -8,7 +8,7 @@
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Landroid/support/v7/app/AppCompatDelegateImplV7;->ensureSubDecor()V
+    value = Landroid/support/v7/app/AppCompatDelegateImplV7;->createSubDecor()Landroid/view/ViewGroup;
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -26,7 +26,7 @@
     .locals 0
 
     .prologue
-    .line 331
+    .line 391
     iput-object p1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7$2;->this$0:Landroid/support/v7/app/AppCompatDelegateImplV7;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -42,12 +42,12 @@
     .param p2, "insets"    # Landroid/support/v4/view/WindowInsetsCompat;
 
     .prologue
-    .line 335
+    .line 395
     invoke-virtual {p2}, Landroid/support/v4/view/WindowInsetsCompat;->getSystemWindowInsetTop()I
 
     move-result v1
 
-    .line 336
+    .line 396
     .local v1, "top":I
     iget-object v2, p0, Landroid/support/v7/app/AppCompatDelegateImplV7$2;->this$0:Landroid/support/v7/app/AppCompatDelegateImplV7;
 
@@ -55,11 +55,11 @@
 
     move-result v0
 
-    .line 338
+    .line 398
     .local v0, "newTop":I
     if-eq v1, v0, :cond_0
 
-    .line 339
+    .line 399
     invoke-virtual {p2}, Landroid/support/v4/view/WindowInsetsCompat;->getSystemWindowInsetLeft()I
 
     move-result v2
@@ -76,7 +76,7 @@
 
     move-result-object p2
 
-    .line 347
+    .line 407
     :cond_0
     invoke-static {p1, p2}, Landroid/support/v4/view/ViewCompat;->onApplyWindowInsets(Landroid/view/View;Landroid/support/v4/view/WindowInsetsCompat;)Landroid/support/v4/view/WindowInsetsCompat;
 

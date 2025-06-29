@@ -15,26 +15,12 @@
 
 
 # instance fields
-.field activity:Ljava/lang/Object;
-
-.field children:Landroid/support/v4/util/SimpleArrayMap;
-    .annotation system Ldalvik/annotation/Signature;
-        value = {
-            "Landroid/support/v4/util/SimpleArrayMap",
-            "<",
-            "Ljava/lang/String;",
-            "Ljava/lang/Object;",
-            ">;"
-        }
-    .end annotation
-.end field
-
 .field custom:Ljava/lang/Object;
 
-.field fragments:Ljava/util/ArrayList;
+.field fragments:Ljava/util/List;
     .annotation system Ldalvik/annotation/Signature;
         value = {
-            "Ljava/util/ArrayList",
+            "Ljava/util/List",
             "<",
             "Landroid/support/v4/app/Fragment;",
             ">;"
@@ -48,7 +34,7 @@
             "Landroid/support/v4/util/SimpleArrayMap",
             "<",
             "Ljava/lang/String;",
-            "Landroid/support/v4/app/LoaderManagerImpl;",
+            "Landroid/support/v4/app/LoaderManager;",
             ">;"
         }
     .end annotation
@@ -60,7 +46,7 @@
     .locals 0
 
     .prologue
-    .line 134
+    .line 122
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void

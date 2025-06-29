@@ -10,7 +10,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import com.google.android.gms.drive.DriveFile;
 import java.util.ArrayList;
 import java.util.Iterator;
 /* loaded from: classes.dex */
@@ -39,7 +38,7 @@ public class TaskStackBuilder implements Iterable<Intent> {
         @Override // android.support.v4.app.TaskStackBuilder.TaskStackBuilderImpl
         public PendingIntent getPendingIntent(Context context, Intent[] intents, int requestCode, int flags, Bundle options) {
             Intent topIntent = new Intent(intents[intents.length - 1]);
-            topIntent.addFlags(DriveFile.MODE_READ_ONLY);
+            topIntent.addFlags(268435456);
             return PendingIntent.getActivity(context, requestCode, topIntent, flags);
         }
     }
@@ -172,7 +171,7 @@ public class TaskStackBuilder implements Iterable<Intent> {
         intents[0] = new Intent(intents[0]).addFlags(268484608);
         if (!ContextCompat.startActivities(this.mSourceContext, intents, options)) {
             Intent topIntent = new Intent(intents[intents.length - 1]);
-            topIntent.addFlags(DriveFile.MODE_READ_ONLY);
+            topIntent.addFlags(268435456);
             this.mSourceContext.startActivity(topIntent);
         }
     }

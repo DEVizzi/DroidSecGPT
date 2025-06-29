@@ -17,7 +17,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.support.v4.view.KeyEventCompat;
-import android.support.v4.view.accessibility.AccessibilityEventCompat;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v7.appcompat.R;
 import android.support.v7.internal.widget.TintManager;
@@ -41,8 +40,6 @@ import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.google.android.gms.actions.SearchIntents;
-import com.google.android.gms.drive.DriveFile;
 import java.lang.reflect.Method;
 import java.util.WeakHashMap;
 /* loaded from: classes.dex */
@@ -290,10 +287,10 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
         setFocusable(focusable);
         a.recycle();
         this.mVoiceWebSearchIntent = new Intent("android.speech.action.WEB_SEARCH");
-        this.mVoiceWebSearchIntent.addFlags(DriveFile.MODE_READ_ONLY);
+        this.mVoiceWebSearchIntent.addFlags(268435456);
         this.mVoiceWebSearchIntent.putExtra("android.speech.extra.LANGUAGE_MODEL", "web_search");
         this.mVoiceAppSearchIntent = new Intent("android.speech.action.RECOGNIZE_SPEECH");
-        this.mVoiceAppSearchIntent.addFlags(DriveFile.MODE_READ_ONLY);
+        this.mVoiceAppSearchIntent.addFlags(268435456);
         this.mDropDownAnchor = findViewById(this.mSearchSrcTextView.getDropDownAnchor());
         if (this.mDropDownAnchor != null) {
             if (Build.VERSION.SDK_INT >= 11) {
@@ -551,13 +548,19 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
     }
 
     private void updateViewsVisibility(boolean collapsed) {
+        int iconVisibility;
         this.mIconified = collapsed;
         int visCollapsed = collapsed ? 0 : 8;
         boolean hasText = !TextUtils.isEmpty(this.mSearchSrcTextView.getText());
         this.mSearchButton.setVisibility(visCollapsed);
         updateSubmitButton(hasText);
         this.mSearchEditFrame.setVisibility(collapsed ? 8 : 0);
-        this.mCollapsedIcon.setVisibility(this.mIconifiedByDefault ? 8 : 0);
+        if (this.mCollapsedIcon.getDrawable() == null || this.mIconifiedByDefault) {
+            iconVisibility = 8;
+        } else {
+            iconVisibility = 0;
+        }
+        this.mCollapsedIcon.setVisibility(iconVisibility);
         updateCloseButton();
         updateVoiceButton(hasText ? false : true);
         updateSubmitArea();
@@ -709,7 +712,7 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
         if ((inputType & 15) == 1) {
             inputType &= -65537;
             if (this.mSearchable.getSuggestAuthority() != null) {
-                inputType = inputType | 65536 | AccessibilityEventCompat.TYPE_GESTURE_DETECTION_END;
+                inputType = inputType | 65536 | 524288;
             }
         }
         this.mSearchSrcTextView.setInputType(inputType);
@@ -939,13 +942,13 @@ public class SearchView extends LinearLayoutCompat implements CollapsibleActionV
 
     private Intent createIntent(String action, Uri data, String extraData, String query, int actionKey, String actionMsg) {
         Intent intent = new Intent(action);
-        intent.addFlags(DriveFile.MODE_READ_ONLY);
+        intent.addFlags(268435456);
         if (data != null) {
             intent.setData(data);
         }
         intent.putExtra("user_query", this.mUserQuery);
         if (query != null) {
-            intent.putExtra(SearchIntents.EXTRA_QUERY, query);
+            intent.putExtra("query", query);
         }
         if (extraData != null) {
             intent.putExtra("intent_extra_data_key", extraData);

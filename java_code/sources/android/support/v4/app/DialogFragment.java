@@ -153,18 +153,25 @@ public class DialogFragment extends Fragment implements DialogInterface.OnCancel
             return super.getLayoutInflater(savedInstanceState);
         }
         this.mDialog = onCreateDialog(savedInstanceState);
-        switch (this.mStyle) {
-            case 3:
-                this.mDialog.getWindow().addFlags(24);
-            case 1:
-            case 2:
-                this.mDialog.requestWindowFeature(1);
-                break;
-        }
         if (this.mDialog != null) {
+            setupDialog(this.mDialog, this.mStyle);
             return (LayoutInflater) this.mDialog.getContext().getSystemService("layout_inflater");
         }
-        return (LayoutInflater) this.mActivity.getSystemService("layout_inflater");
+        return (LayoutInflater) this.mHost.getContext().getSystemService("layout_inflater");
+    }
+
+    public void setupDialog(Dialog dialog, int style) {
+        switch (style) {
+            case 1:
+            case 2:
+                break;
+            default:
+                return;
+            case 3:
+                dialog.getWindow().addFlags(24);
+                break;
+        }
+        dialog.requestWindowFeature(1);
     }
 
     @NonNull

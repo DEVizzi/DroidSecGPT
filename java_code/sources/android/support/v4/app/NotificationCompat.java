@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.ColorInt;
 import android.support.v4.app.NotificationCompatApi20;
 import android.support.v4.app.NotificationCompatApi21;
 import android.support.v4.app.NotificationCompatBase;
@@ -36,6 +37,7 @@ public class NotificationCompat {
     public static final String CATEGORY_STATUS = "status";
     public static final String CATEGORY_SYSTEM = "sys";
     public static final String CATEGORY_TRANSPORT = "transport";
+    @ColorInt
     public static final int COLOR_DEFAULT = 0;
     public static final int DEFAULT_ALL = -1;
     public static final int DEFAULT_LIGHTS = 4;
@@ -627,7 +629,7 @@ public class NotificationCompat {
             return this;
         }
 
-        public Builder setLights(int argb, int onMs, int offMs) {
+        public Builder setLights(@ColorInt int argb, int onMs, int offMs) {
             this.mNotification.ledARGB = argb;
             this.mNotification.ledOnMS = onMs;
             this.mNotification.ledOffMS = offMs;
@@ -745,7 +747,7 @@ public class NotificationCompat {
             return this;
         }
 
-        public Builder setColor(int argb) {
+        public Builder setColor(@ColorInt int argb) {
             this.mColor = argb;
             return this;
         }
@@ -1490,11 +1492,12 @@ public class NotificationCompat {
             return builder;
         }
 
-        public CarExtender setColor(int color) {
+        public CarExtender setColor(@ColorInt int color) {
             this.mColor = color;
             return this;
         }
 
+        @ColorInt
         public int getColor() {
             return this.mColor;
         }

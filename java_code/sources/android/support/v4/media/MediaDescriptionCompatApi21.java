@@ -6,7 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcel;
 /* loaded from: classes.dex */
-public class MediaDescriptionCompatApi21 {
+class MediaDescriptionCompatApi21 {
     public static String getMediaId(Object descriptionObj) {
         return ((MediaDescription) descriptionObj).getMediaId();
     }
@@ -44,7 +44,7 @@ public class MediaDescriptionCompatApi21 {
     }
 
     /* loaded from: classes.dex */
-    public static class Builder {
+    static class Builder {
         public static Object newInstance() {
             return new MediaDescription.Builder();
         }

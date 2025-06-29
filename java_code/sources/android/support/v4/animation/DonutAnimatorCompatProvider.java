@@ -116,4 +116,8 @@ class DonutAnimatorCompatProvider implements AnimatorProvider {
             return this.mFraction;
         }
     }
+
+    @Override // android.support.v4.animation.AnimatorProvider
+    public void clearInterpolator(View view) {
+    }
 }

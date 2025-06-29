@@ -2,6 +2,7 @@ package android.support.v4.media.session;
 
 import android.app.PendingIntent;
 import android.content.Context;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +16,7 @@ import android.support.v4.media.RatingCompat;
 import android.support.v4.media.session.IMediaControllerCallback;
 import android.support.v4.media.session.IMediaSession;
 import android.support.v4.media.session.MediaControllerCompatApi21;
+import android.support.v4.media.session.MediaControllerCompatApi23;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.text.TextUtils;
@@ -73,7 +75,9 @@ public final class MediaControllerCompat {
             throw new IllegalArgumentException("session must not be null");
         }
         this.mToken = session.getSessionToken();
-        if (Build.VERSION.SDK_INT >= 21) {
+        if (Build.VERSION.SDK_INT >= 23) {
+            this.mImpl = new MediaControllerImplApi23(context, session);
+        } else if (Build.VERSION.SDK_INT >= 21) {
             this.mImpl = new MediaControllerImplApi21(context, session);
         } else {
             this.mImpl = new MediaControllerImplBase(this.mToken);
@@ -379,6 +383,8 @@ public final class MediaControllerCompat {
 
         public abstract void playFromSearch(String str, Bundle bundle);
 
+        public abstract void playFromUri(Uri uri, Bundle bundle);
+
         public abstract void rewind();
 
         public abstract void seekTo(long j);
@@ -675,6 +681,15 @@ public final class MediaControllerCompat {
         }
 
         @Override // android.support.v4.media.session.MediaControllerCompat.TransportControls
+        public void playFromUri(Uri uri, Bundle extras) {
+            try {
+                this.mBinder.playFromUri(uri, extras);
+            } catch (RemoteException e) {
+                Log.e(MediaControllerCompat.TAG, "Dead object in playFromUri. " + e);
+            }
+        }
+
+        @Override // android.support.v4.media.session.MediaControllerCompat.TransportControls
         public void skipToQueueItem(long id) {
             try {
                 this.mBinder.skipToQueueItem(id);
@@ -772,7 +787,7 @@ public final class MediaControllerCompat {
 
     /* loaded from: classes.dex */
     static class MediaControllerImplApi21 implements MediaControllerImpl {
-        private final Object mControllerObj;
+        protected final Object mControllerObj;
 
         public MediaControllerImplApi21(Context context, MediaSessionCompat session) {
             this.mControllerObj = MediaControllerCompatApi21.fromToken(context, session.getSessionToken().getToken());
@@ -902,7 +917,7 @@ public final class MediaControllerCompat {
 
     /* loaded from: classes.dex */
     static class TransportControlsApi21 extends TransportControls {
-        private final Object mControlsObj;
+        protected final Object mControlsObj;
 
         public TransportControlsApi21(Object controlsObj) {
             this.mControlsObj = controlsObj;
@@ -964,6 +979,10 @@ public final class MediaControllerCompat {
         }
 
         @Override // android.support.v4.media.session.MediaControllerCompat.TransportControls
+        public void playFromUri(Uri uri, Bundle extras) {
+        }
+
+        @Override // android.support.v4.media.session.MediaControllerCompat.TransportControls
         public void skipToQueueItem(long id) {
             MediaControllerCompatApi21.TransportControls.skipToQueueItem(this.mControlsObj, id);
         }
@@ -976,6 +995,38 @@ public final class MediaControllerCompat {
         @Override // android.support.v4.media.session.MediaControllerCompat.TransportControls
         public void sendCustomAction(String action, Bundle args) {
             MediaControllerCompatApi21.TransportControls.sendCustomAction(this.mControlsObj, action, args);
+        }
+    }
+
+    /* loaded from: classes.dex */
+    static class MediaControllerImplApi23 extends MediaControllerImplApi21 {
+        public MediaControllerImplApi23(Context context, MediaSessionCompat session) {
+            super(context, session);
+        }
+
+        public MediaControllerImplApi23(Context context, MediaSessionCompat.Token sessionToken) throws RemoteException {
+            super(context, sessionToken);
+        }
+
+        @Override // android.support.v4.media.session.MediaControllerCompat.MediaControllerImplApi21, android.support.v4.media.session.MediaControllerCompat.MediaControllerImpl
+        public TransportControls getTransportControls() {
+            Object controlsObj = MediaControllerCompatApi21.getTransportControls(this.mControllerObj);
+            if (controlsObj != null) {
+                return new TransportControlsApi23(controlsObj);
+            }
+            return null;
+        }
+    }
+
+    /* loaded from: classes.dex */
+    static class TransportControlsApi23 extends TransportControlsApi21 {
+        public TransportControlsApi23(Object controlsObj) {
+            super(controlsObj);
+        }
+
+        @Override // android.support.v4.media.session.MediaControllerCompat.TransportControlsApi21, android.support.v4.media.session.MediaControllerCompat.TransportControls
+        public void playFromUri(Uri uri, Bundle extras) {
+            MediaControllerCompatApi23.TransportControls.playFromUri(this.mControlsObj, uri, extras);
         }
     }
 }

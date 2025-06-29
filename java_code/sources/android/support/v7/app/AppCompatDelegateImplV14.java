@@ -33,22 +33,22 @@ public class AppCompatDelegateImplV14 extends AppCompatDelegateImplV11 {
 
     /* loaded from: classes.dex */
     class AppCompatWindowCallbackV14 extends AppCompatDelegateImplBase.AppCompatWindowCallbackBase {
-        AppCompatWindowCallbackV14(Window.Callback callback) {
+        /* JADX INFO: Access modifiers changed from: package-private */
+        public AppCompatWindowCallbackV14(Window.Callback callback) {
             super(callback);
         }
 
         @Override // android.support.v7.internal.view.WindowCallbackWrapper, android.view.Window.Callback
         public ActionMode onWindowStartingActionMode(ActionMode.Callback callback) {
-            return AppCompatDelegateImplV14.this.mHandleNativeActionModes ? startAsSupportActionMode(callback) : super.onWindowStartingActionMode(callback);
+            return AppCompatDelegateImplV14.this.isHandleNativeActionModesEnabled() ? startAsSupportActionMode(callback) : super.onWindowStartingActionMode(callback);
         }
 
-        final ActionMode startAsSupportActionMode(ActionMode.Callback callback) {
+        /* JADX INFO: Access modifiers changed from: package-private */
+        public final ActionMode startAsSupportActionMode(ActionMode.Callback callback) {
             SupportActionModeWrapper.CallbackWrapper callbackWrapper = new SupportActionModeWrapper.CallbackWrapper(AppCompatDelegateImplV14.this.mContext, callback);
             android.support.v7.view.ActionMode supportActionMode = AppCompatDelegateImplV14.this.startSupportActionMode(callbackWrapper);
             if (supportActionMode != null) {
-                SupportActionModeWrapper newActionMode = new SupportActionModeWrapper(AppCompatDelegateImplV14.this.mContext, supportActionMode);
-                callbackWrapper.addActionModeWrapper(newActionMode);
-                return newActionMode;
+                return callbackWrapper.getActionModeWrapper(supportActionMode);
             }
             return null;
         }

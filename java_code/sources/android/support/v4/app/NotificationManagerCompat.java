@@ -353,7 +353,7 @@ public class NotificationManagerCompat {
                     record.taskQueue.clear();
                     return;
                 }
-                int delayMs = (1 << (record.retryCount - 1)) * 1000;
+                int delayMs = (1 << (record.retryCount - 1)) * NotificationManagerCompat.SIDE_CHANNEL_RETRY_BASE_INTERVAL_MS;
                 if (Log.isLoggable(NotificationManagerCompat.TAG, 3)) {
                     Log.d(NotificationManagerCompat.TAG, "Scheduling retry for " + delayMs + " ms");
                 }

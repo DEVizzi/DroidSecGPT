@@ -4,12 +4,13 @@
     <item type="id" name="action_bar_spinner" />
     <item type="id" name="action_menu_divider" />
     <item type="id" name="action_menu_presenter" />
-    <item type="id" name="cast_notification_id" />
     <item type="id" name="home" />
+    <item type="id" name="item_touch_helper_previous_elevation" />
     <item type="id" name="progress_circular" />
     <item type="id" name="progress_horizontal" />
     <item type="id" name="split_action_bar" />
     <item type="id" name="up" />
+    <item type="id" name="view_offset_helper" />
     <item type="id" name="action_bar_title" />
     <item type="id" name="action_bar_subtitle" />
     <item type="id" name="action_mode_close_button" />
@@ -20,16 +21,19 @@
     <item type="id" name="list_item" />
     <item type="id" name="icon" />
     <item type="id" name="title" />
+    <item type="id" name="buttonPanel" />
+    <item type="id" name="spacer" />
     <item type="id" name="parentPanel" />
     <item type="id" name="topPanel" />
     <item type="id" name="title_template" />
     <item type="id" name="alertTitle" />
     <item type="id" name="contentPanel" />
+    <item type="id" name="scrollIndicatorUp" />
     <item type="id" name="scrollView" />
     <item type="id" name="textSpacerNoButtons" />
+    <item type="id" name="scrollIndicatorDown" />
     <item type="id" name="customPanel" />
     <item type="id" name="custom" />
-    <item type="id" name="buttonPanel" />
     <item type="id" name="expanded_menu" />
     <item type="id" name="checkbox" />
     <item type="id" name="shortcut" />
@@ -54,48 +58,82 @@
     <item type="id" name="search_go_btn" />
     <item type="id" name="search_voice_btn" />
     <item type="id" name="select_dialog_listview" />
-    <item type="id" name="textView_Username" />
-    <item type="id" name="editText_newPassword" />
-    <item type="id" name="button_newPasswordSubmit" />
-    <item type="id" name="progressBar1" />
-    <item type="id" name="textView_FromAccount" />
-    <item type="id" name="editText_from" />
-    <item type="id" name="textView_ToAccount" />
-    <item type="id" name="editText_to" />
-    <item type="id" name="button_CreateUser" />
-    <item type="id" name="textView_Amount" />
-    <item type="id" name="editText_amount" />
-    <item type="id" name="button_Transfer" />
-    <item type="id" name="editText_Phone" />
-    <item type="id" name="textview_serverip" />
-    <item type="id" name="edittext_serverip" />
-    <item type="id" name="textview_serverport" />
-    <item type="id" name="edittext_serverport" />
-    <item type="id" name="submitPref_button" />
-    <item type="id" name="loginscreen_username" />
-    <item type="id" name="loginscreen_password" />
-    <item type="id" name="login_button" />
-    <item type="id" name="fill_data" />
-    <item type="id" name="imageView1" />
-    <item type="id" name="trf_button" />
-    <item type="id" name="viewStatement_button" />
-    <item type="id" name="button_ChangePasswd" />
-    <item type="id" name="rootStatus" />
-    <item type="id" name="textView1" />
-    <item type="id" name="webView1" />
-    <item type="id" name="media_route_list" />
-    <item type="id" name="title_bar" />
-    <item type="id" name="route_name" />
-    <item type="id" name="settings" />
-    <item type="id" name="media_route_control_frame" />
-    <item type="id" name="default_control_frame" />
-    <item type="id" name="art" />
-    <item type="id" name="play_pause" />
-    <item type="id" name="text_wrapper" />
-    <item type="id" name="subtitle" />
-    <item type="id" name="buttons" />
-    <item type="id" name="disconnect" />
-    <item type="id" name="stop" />
+    <item type="id" name="aci1textView" />
+    <item type="id" name="aci1button" />
+    <item type="id" name="aci2textView" />
+    <item type="id" name="aci2rgroup" />
+    <item type="id" name="aci2rbregnow" />
+    <item type="id" name="aci2rbalreadyreg" />
+    <item type="id" name="aci31textView" />
+    <item type="id" name="aci3Pin" />
+    <item type="id" name="aci3createpinbutton" />
+    <item type="id" name="aci3viewbutton" />
+    <item type="id" name="aci3notesPinText" />
+    <item type="id" name="aci3naccessbutton" />
+    <item type="id" name="aci3nlistView" />
+    <item type="id" name="apicTextView" />
+    <item type="id" name="apic2TextView" />
+    <item type="id" name="aci2pinText" />
+    <item type="id" name="aci2button" />
+    <item type="id" name="textView2" />
+    <item type="id" name="hcKey" />
+    <item type="id" name="button" />
+    <item type="id" name="hc2textView" />
+    <item type="id" name="hc2Key" />
+    <item type="id" name="hc2button" />
+    <item type="id" name="ivi2textView" />
+    <item type="id" name="ivi2uri" />
+    <item type="id" name="ivi2button" />
+    <item type="id" name="ivi2wview" />
+    <item type="id" name="ivi3textView" />
+    <item type="id" name="ivi3CodeText" />
+    <item type="id" name="ivi3button" />
+    <item type="id" name="ids1textView" />
+    <item type="id" name="ids1Usr" />
+    <item type="id" name="ids1Pwd" />
+    <item type="id" name="ids3textView" />
+    <item type="id" name="ids2Usr" />
+    <item type="id" name="ids2Pwd" />
+    <item type="id" name="ids2button" />
+    <item type="id" name="ids3Usr" />
+    <item type="id" name="ids3Pwd" />
+    <item type="id" name="ids3button" />
+    <item type="id" name="ids4textView" />
+    <item type="id" name="ids4Usr" />
+    <item type="id" name="ids4Pwd" />
+    <item type="id" name="ids4button" />
+    <item type="id" name="textView" />
+    <item type="id" name="ccText" />
+    <item type="id" name="toolbar" />
+    <item type="id" name="ivi1textView" />
+    <item type="id" name="ivi1search" />
+    <item type="id" name="ivi1button" />
+    <item type="id" name="sc1" />
+    <item type="id" name="rl1" />
+    <item type="id" name="textWelcome" />
+    <item type="id" name="textIntro" />
+    <item type="id" name="d1button" />
+    <item type="id" name="d2button" />
+    <item type="id" name="d3button" />
+    <item type="id" name="d4button" />
+    <item type="id" name="d5button" />
+    <item type="id" name="d6button" />
+    <item type="id" name="d7button" />
+    <item type="id" name="d8button" />
+    <item type="id" name="d9button" />
+    <item type="id" name="d10button" />
+    <item type="id" name="d11button" />
+    <item type="id" name="d12button" />
+    <item type="id" name="d13button" />
+    <item type="id" name="snackbar_text" />
+    <item type="id" name="snackbar_action" />
+    <item type="id" name="navigation_header_container" />
+    <item type="id" name="design_navigation_view" />
+    <item type="id" name="design_menu_item_text" />
+    <item type="id" name="design_menu_item_action_area_stub" />
+    <item type="id" name="design_menu_item_action_area" />
+    <item type="id" name="title_entry" />
+    <item type="id" name="note_entry" />
     <item type="id" name="action0" />
     <item type="id" name="cancel_action" />
     <item type="id" name="status_bar_latest_event_content" />
@@ -110,5 +148,4 @@
     <item type="id" name="info" />
     <item type="id" name="end_padder" />
     <item type="id" name="action_settings" />
-    <item type="id" name="action_exit" />
 </resources>

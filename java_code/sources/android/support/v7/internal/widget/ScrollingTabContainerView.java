@@ -10,7 +10,7 @@ import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.support.v7.app.ActionBar;
 import android.support.v7.appcompat.R;
 import android.support.v7.internal.view.ActionBarPolicy;
-import android.support.v7.internal.widget.AdapterViewCompat;
+import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.text.TextUtils;
@@ -22,14 +22,16 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 /* loaded from: classes.dex */
-public class ScrollingTabContainerView extends HorizontalScrollView implements AdapterViewCompat.OnItemClickListener {
+public class ScrollingTabContainerView extends HorizontalScrollView implements AdapterView.OnItemSelectedListener {
     private static final int FADE_DURATION = 200;
     private static final String TAG = "ScrollingTabContainerView";
     private static final Interpolator sAlphaInterpolator = new DecelerateInterpolator();
@@ -41,7 +43,7 @@ public class ScrollingTabContainerView extends HorizontalScrollView implements A
     private TabClickListener mTabClickListener;
     private LinearLayoutCompat mTabLayout;
     Runnable mTabSelector;
-    private SpinnerCompat mTabSpinner;
+    private Spinner mTabSpinner;
     protected final VisibilityAnimListener mVisAnimListener;
     protected ViewPropertyAnimatorCompat mVisibilityAnim;
 
@@ -158,10 +160,10 @@ public class ScrollingTabContainerView extends HorizontalScrollView implements A
         return tabLayout;
     }
 
-    private SpinnerCompat createSpinner() {
-        SpinnerCompat spinner = new SpinnerCompat(getContext(), null, R.attr.actionDropDownStyle);
+    private Spinner createSpinner() {
+        Spinner spinner = new AppCompatSpinner(getContext(), null, R.attr.actionDropDownStyle);
         spinner.setLayoutParams(new LinearLayoutCompat.LayoutParams(-2, -1));
-        spinner.setOnItemClickListenerInt(this);
+        spinner.setOnItemSelectedListener(this);
         return spinner;
     }
 
@@ -303,10 +305,14 @@ public class ScrollingTabContainerView extends HorizontalScrollView implements A
         }
     }
 
-    @Override // android.support.v7.internal.widget.AdapterViewCompat.OnItemClickListener
-    public void onItemClick(AdapterViewCompat<?> parent, View view, int position, long id) {
+    @Override // android.widget.AdapterView.OnItemSelectedListener
+    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
         TabView tabView = (TabView) view;
         tabView.getTab().select();
+    }
+
+    @Override // android.widget.AdapterView.OnItemSelectedListener
+    public void onNothingSelected(AdapterView<?> adapterView) {
     }
 
     /* JADX INFO: Access modifiers changed from: private */

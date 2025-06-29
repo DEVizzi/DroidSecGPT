@@ -48,17 +48,17 @@
     .end annotation
 
     .prologue
-    .line 492
+    .line 501
     .local p0, "this":Landroid/support/v4/content/ModernAsyncTask$AsyncTaskResult;, "Landroid/support/v4/content/ModernAsyncTask$AsyncTaskResult<TData;>;"
     .local p2, "data":[Ljava/lang/Object;, "[TData;"
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
-    .line 493
+    .line 502
     iput-object p1, p0, Landroid/support/v4/content/ModernAsyncTask$AsyncTaskResult;->mTask:Landroid/support/v4/content/ModernAsyncTask;
 
-    .line 494
+    .line 503
     iput-object p2, p0, Landroid/support/v4/content/ModernAsyncTask$AsyncTaskResult;->mData:[Ljava/lang/Object;
 
-    .line 495
+    .line 504
     return-void
 .end method

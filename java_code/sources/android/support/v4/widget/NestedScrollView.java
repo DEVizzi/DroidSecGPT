@@ -14,6 +14,7 @@ import android.support.v4.view.NestedScrollingChild;
 import android.support.v4.view.NestedScrollingChildHelper;
 import android.support.v4.view.NestedScrollingParent;
 import android.support.v4.view.NestedScrollingParentHelper;
+import android.support.v4.view.ScrollingView;
 import android.support.v4.view.VelocityTrackerCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.accessibility.AccessibilityEventCompat;
@@ -36,7 +37,7 @@ import android.widget.FrameLayout;
 import android.widget.ScrollView;
 import java.util.List;
 /* loaded from: classes.dex */
-public class NestedScrollView extends FrameLayout implements NestedScrollingParent, NestedScrollingChild {
+public class NestedScrollView extends FrameLayout implements NestedScrollingParent, NestedScrollingChild, ScrollingView {
     static final int ANIMATED_SCROLL_GAP = 250;
     private static final int INVALID_POINTER = -1;
     static final float MAX_SCROLL_FACTOR = 0.5f;
@@ -55,6 +56,7 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
     private int mMaximumVelocity;
     private int mMinimumVelocity;
     private int mNestedYOffset;
+    private OnScrollChangeListener mOnScrollChangeListener;
     private final NestedScrollingParentHelper mParentHelper;
     private SavedState mSavedState;
     private final int[] mScrollConsumed;
@@ -67,6 +69,11 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
     private float mVerticalScrollFactor;
     private static final AccessibilityDelegate ACCESSIBILITY_DELEGATE = new AccessibilityDelegate();
     private static final int[] SCROLLVIEW_STYLEABLE = {16843130};
+
+    /* loaded from: classes.dex */
+    public interface OnScrollChangeListener {
+        void onScrollChange(NestedScrollView nestedScrollView, int i, int i2, int i3, int i4);
+    }
 
     public NestedScrollView(Context context) {
         this(context, null);
@@ -229,7 +236,7 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
     private void initScrollView() {
         this.mScroller = new ScrollerCompat(getContext(), null);
         setFocusable(true);
-        setDescendantFocusability(AccessibilityEventCompat.TYPE_GESTURE_DETECTION_START);
+        setDescendantFocusability(262144);
         setWillNotDraw(false);
         ViewConfiguration configuration = ViewConfiguration.get(getContext());
         this.mTouchSlop = configuration.getScaledTouchSlop();
@@ -269,6 +276,10 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
         super.addView(child, index, params);
     }
 
+    public void setOnScrollChangeListener(OnScrollChangeListener l) {
+        this.mOnScrollChangeListener = l;
+    }
+
     private boolean canScroll() {
         View child = getChildAt(0);
         if (child != null) {
@@ -295,6 +306,14 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
 
     public void setSmoothScrollingEnabled(boolean smoothScrollingEnabled) {
         this.mSmoothScrollingEnabled = smoothScrollingEnabled;
+    }
+
+    @Override // android.view.View
+    protected void onScrollChanged(int l, int t, int oldl, int oldt) {
+        super.onScrollChanged(l, t, oldl, oldt);
+        if (this.mOnScrollChangeListener != null) {
+            this.mOnScrollChangeListener.onScrollChange(this, l, t, oldl, oldt);
+        }
     }
 
     @Override // android.widget.FrameLayout, android.view.View
@@ -404,62 +423,62 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
         if (action == 2 && this.mIsBeingDragged) {
             return true;
         }
-        if (getScrollY() != 0 || ViewCompat.canScrollVertically(this, 1)) {
-            switch (action & 255) {
-                case 0:
-                    int y = (int) ev.getY();
-                    if (!inChild((int) ev.getX(), y)) {
-                        this.mIsBeingDragged = false;
-                        recycleVelocityTracker();
+        switch (action & 255) {
+            case 0:
+                int y = (int) ev.getY();
+                if (!inChild((int) ev.getX(), y)) {
+                    this.mIsBeingDragged = false;
+                    recycleVelocityTracker();
+                    break;
+                } else {
+                    this.mLastMotionY = y;
+                    this.mActivePointerId = MotionEventCompat.getPointerId(ev, 0);
+                    initOrResetVelocityTracker();
+                    this.mVelocityTracker.addMovement(ev);
+                    this.mIsBeingDragged = this.mScroller.isFinished() ? false : true;
+                    startNestedScroll(2);
+                    break;
+                }
+            case 1:
+            case 3:
+                this.mIsBeingDragged = false;
+                this.mActivePointerId = -1;
+                recycleVelocityTracker();
+                if (this.mScroller.springBack(getScrollX(), getScrollY(), 0, 0, 0, getScrollRange())) {
+                    ViewCompat.postInvalidateOnAnimation(this);
+                }
+                stopNestedScroll();
+                break;
+            case 2:
+                int activePointerId = this.mActivePointerId;
+                if (activePointerId != -1) {
+                    int pointerIndex = MotionEventCompat.findPointerIndex(ev, activePointerId);
+                    if (pointerIndex == -1) {
+                        Log.e(TAG, "Invalid pointerId=" + activePointerId + " in onInterceptTouchEvent");
                         break;
                     } else {
-                        this.mLastMotionY = y;
-                        this.mActivePointerId = MotionEventCompat.getPointerId(ev, 0);
-                        initOrResetVelocityTracker();
-                        this.mVelocityTracker.addMovement(ev);
-                        this.mIsBeingDragged = this.mScroller.isFinished() ? false : true;
-                        startNestedScroll(2);
-                        break;
-                    }
-                case 1:
-                case 3:
-                    this.mIsBeingDragged = false;
-                    this.mActivePointerId = -1;
-                    recycleVelocityTracker();
-                    stopNestedScroll();
-                    break;
-                case 2:
-                    int activePointerId = this.mActivePointerId;
-                    if (activePointerId != -1) {
-                        int pointerIndex = MotionEventCompat.findPointerIndex(ev, activePointerId);
-                        if (pointerIndex == -1) {
-                            Log.e(TAG, "Invalid pointerId=" + activePointerId + " in onInterceptTouchEvent");
-                            break;
-                        } else {
-                            int y2 = (int) MotionEventCompat.getY(ev, pointerIndex);
-                            int yDiff = Math.abs(y2 - this.mLastMotionY);
-                            if (yDiff > this.mTouchSlop && (getNestedScrollAxes() & 2) == 0) {
-                                this.mIsBeingDragged = true;
-                                this.mLastMotionY = y2;
-                                initVelocityTrackerIfNotExists();
-                                this.mVelocityTracker.addMovement(ev);
-                                this.mNestedYOffset = 0;
-                                ViewParent parent = getParent();
-                                if (parent != null) {
-                                    parent.requestDisallowInterceptTouchEvent(true);
-                                    break;
-                                }
+                        int y2 = (int) MotionEventCompat.getY(ev, pointerIndex);
+                        int yDiff = Math.abs(y2 - this.mLastMotionY);
+                        if (yDiff > this.mTouchSlop && (getNestedScrollAxes() & 2) == 0) {
+                            this.mIsBeingDragged = true;
+                            this.mLastMotionY = y2;
+                            initVelocityTrackerIfNotExists();
+                            this.mVelocityTracker.addMovement(ev);
+                            this.mNestedYOffset = 0;
+                            ViewParent parent = getParent();
+                            if (parent != null) {
+                                parent.requestDisallowInterceptTouchEvent(true);
+                                break;
                             }
                         }
                     }
-                    break;
-                case 6:
-                    onSecondaryPointerUp(ev);
-                    break;
-            }
-            return this.mIsBeingDragged;
+                }
+                break;
+            case 6:
+                onSecondaryPointerUp(ev);
+                break;
         }
-        return false;
+        return this.mIsBeingDragged;
     }
 
     @Override // android.view.View
@@ -496,11 +515,12 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
                     int initialVelocity = (int) VelocityTrackerCompat.getYVelocity(velocityTracker, this.mActivePointerId);
                     if (Math.abs(initialVelocity) > this.mMinimumVelocity) {
                         flingWithNestedDispatch(-initialVelocity);
+                    } else if (this.mScroller.springBack(getScrollX(), getScrollY(), 0, 0, 0, getScrollRange())) {
+                        ViewCompat.postInvalidateOnAnimation(this);
                     }
-                    this.mActivePointerId = -1;
-                    endDrag();
-                    break;
                 }
+                this.mActivePointerId = -1;
+                endDrag();
                 break;
             case 2:
                 int activePointerIndex = MotionEventCompat.findPointerIndex(ev, this.mActivePointerId);
@@ -566,11 +586,11 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
                 }
                 break;
             case 3:
-                if (this.mIsBeingDragged && getChildCount() > 0) {
-                    this.mActivePointerId = -1;
-                    endDrag();
-                    break;
+                if (this.mIsBeingDragged && getChildCount() > 0 && this.mScroller.springBack(getScrollX(), getScrollY(), 0, 0, 0, getScrollRange())) {
+                    ViewCompat.postInvalidateOnAnimation(this);
                 }
+                this.mActivePointerId = -1;
+                endDrag();
                 break;
             case 5:
                 int index = MotionEventCompat.getActionIndex(ev);
@@ -681,6 +701,9 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
         } else if (newScrollY < top) {
             newScrollY = top;
             clampedY = true;
+        }
+        if (clampedY) {
+            this.mScroller.springBack(newScrollX, newScrollY, 0, 0, 0, getScrollRange());
         }
         onOverScrolled(newScrollX, newScrollY, clampedX, clampedY);
         return clampedX || clampedY;
@@ -867,8 +890,8 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
         smoothScrollBy(x - getScrollX(), y - getScrollY());
     }
 
-    @Override // android.view.View
-    protected int computeVerticalScrollRange() {
+    @Override // android.view.View, android.support.v4.view.ScrollingView
+    public int computeVerticalScrollRange() {
         int count = getChildCount();
         int contentHeight = (getHeight() - getPaddingBottom()) - getPaddingTop();
         if (count != 0) {
@@ -885,9 +908,29 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
         return contentHeight;
     }
 
-    @Override // android.view.View
-    protected int computeVerticalScrollOffset() {
+    @Override // android.view.View, android.support.v4.view.ScrollingView
+    public int computeVerticalScrollOffset() {
         return Math.max(0, super.computeVerticalScrollOffset());
+    }
+
+    @Override // android.view.View, android.support.v4.view.ScrollingView
+    public int computeVerticalScrollExtent() {
+        return super.computeVerticalScrollExtent();
+    }
+
+    @Override // android.view.View, android.support.v4.view.ScrollingView
+    public int computeHorizontalScrollRange() {
+        return super.computeHorizontalScrollRange();
+    }
+
+    @Override // android.view.View, android.support.v4.view.ScrollingView
+    public int computeHorizontalScrollOffset() {
+        return super.computeHorizontalScrollOffset();
+    }
+
+    @Override // android.view.View, android.support.v4.view.ScrollingView
+    public int computeHorizontalScrollExtent() {
+        return super.computeHorizontalScrollExtent();
     }
 
     @Override // android.view.ViewGroup
@@ -1091,6 +1134,7 @@ public class NestedScrollView extends FrameLayout implements NestedScrollingPare
     private void endDrag() {
         this.mIsBeingDragged = false;
         recycleVelocityTracker();
+        stopNestedScroll();
         if (this.mEdgeGlowTop != null) {
             this.mEdgeGlowTop.onRelease();
             this.mEdgeGlowBottom.onRelease();

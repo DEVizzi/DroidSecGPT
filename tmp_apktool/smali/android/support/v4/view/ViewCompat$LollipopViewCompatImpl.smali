@@ -19,7 +19,7 @@
     .locals 0
 
     .prologue
-    .line 1365
+    .line 1499
     invoke-direct {p0}, Landroid/support/v4/view/ViewCompat$KitKatViewCompatImpl;-><init>()V
 
     return-void
@@ -33,7 +33,7 @@
     .param p2, "insets"    # Landroid/support/v4/view/WindowInsetsCompat;
 
     .prologue
-    .line 1488
+    .line 1622
     invoke-static {p1, p2}, Landroid/support/v4/view/ViewCompatLollipop;->dispatchApplyWindowInsets(Landroid/view/View;Landroid/support/v4/view/WindowInsetsCompat;)Landroid/support/v4/view/WindowInsetsCompat;
 
     move-result-object v0
@@ -49,7 +49,7 @@
     .param p4, "consumed"    # Z
 
     .prologue
-    .line 1448
+    .line 1582
     invoke-static {p1, p2, p3, p4}, Landroid/support/v4/view/ViewCompatLollipop;->dispatchNestedFling(Landroid/view/View;FFZ)Z
 
     move-result v0
@@ -64,7 +64,7 @@
     .param p3, "velocityY"    # F
 
     .prologue
-    .line 1453
+    .line 1587
     invoke-static {p1, p2, p3}, Landroid/support/v4/view/ViewCompatLollipop;->dispatchNestedPreFling(Landroid/view/View;FF)Z
 
     move-result v0
@@ -81,7 +81,7 @@
     .param p5, "offsetInWindow"    # [I
 
     .prologue
-    .line 1441
+    .line 1575
     invoke-static {p1, p2, p3, p4, p5}, Landroid/support/v4/view/ViewCompatLollipop;->dispatchNestedPreScroll(Landroid/view/View;II[I[I)Z
 
     move-result v0
@@ -99,7 +99,7 @@
     .param p6, "offsetInWindow"    # [I
 
     .prologue
-    .line 1434
+    .line 1568
     invoke-static/range {p1 .. p6}, Landroid/support/v4/view/ViewCompatLollipop;->dispatchNestedScroll(Landroid/view/View;IIII[I)Z
 
     move-result v0
@@ -112,7 +112,7 @@
     .param p1, "view"    # Landroid/view/View;
 
     .prologue
-    .line 1463
+    .line 1597
     invoke-static {p1}, Landroid/support/v4/view/ViewCompatLollipop;->getBackgroundTintList(Landroid/view/View;)Landroid/content/res/ColorStateList;
 
     move-result-object v0
@@ -125,7 +125,7 @@
     .param p1, "view"    # Landroid/view/View;
 
     .prologue
-    .line 1478
+    .line 1612
     invoke-static {p1}, Landroid/support/v4/view/ViewCompatLollipop;->getBackgroundTintMode(Landroid/view/View;)Landroid/graphics/PorterDuff$Mode;
 
     move-result-object v0
@@ -138,7 +138,7 @@
     .param p1, "view"    # Landroid/view/View;
 
     .prologue
-    .line 1388
+    .line 1522
     invoke-static {p1}, Landroid/support/v4/view/ViewCompatLollipop;->getElevation(Landroid/view/View;)F
 
     move-result v0
@@ -151,7 +151,7 @@
     .param p1, "view"    # Landroid/view/View;
 
     .prologue
-    .line 1373
+    .line 1507
     invoke-static {p1}, Landroid/support/v4/view/ViewCompatLollipop;->getTransitionName(Landroid/view/View;)Ljava/lang/String;
 
     move-result-object v0
@@ -164,7 +164,7 @@
     .param p1, "view"    # Landroid/view/View;
 
     .prologue
-    .line 1398
+    .line 1532
     invoke-static {p1}, Landroid/support/v4/view/ViewCompatLollipop;->getTranslationZ(Landroid/view/View;)F
 
     move-result v0
@@ -177,7 +177,7 @@
     .param p1, "view"    # Landroid/view/View;
 
     .prologue
-    .line 1493
+    .line 1627
     invoke-static {p1}, Landroid/support/v4/view/ViewCompatLollipop;->getZ(Landroid/view/View;)F
 
     move-result v0
@@ -190,7 +190,7 @@
     .param p1, "view"    # Landroid/view/View;
 
     .prologue
-    .line 1428
+    .line 1562
     invoke-static {p1}, Landroid/support/v4/view/ViewCompatLollipop;->hasNestedScrollingParent(Landroid/view/View;)Z
 
     move-result v0
@@ -203,7 +203,7 @@
     .param p1, "view"    # Landroid/view/View;
 
     .prologue
-    .line 1458
+    .line 1592
     invoke-static {p1}, Landroid/support/v4/view/ViewCompatLollipop;->isImportantForAccessibility(Landroid/view/View;)Z
 
     move-result v0
@@ -216,7 +216,7 @@
     .param p1, "view"    # Landroid/view/View;
 
     .prologue
-    .line 1413
+    .line 1547
     invoke-static {p1}, Landroid/support/v4/view/ViewCompatLollipop;->isNestedScrollingEnabled(Landroid/view/View;)Z
 
     move-result v0
@@ -230,7 +230,7 @@
     .param p2, "insets"    # Landroid/support/v4/view/WindowInsetsCompat;
 
     .prologue
-    .line 1483
+    .line 1617
     invoke-static {p1, p2}, Landroid/support/v4/view/ViewCompatLollipop;->onApplyWindowInsets(Landroid/view/View;Landroid/support/v4/view/WindowInsetsCompat;)Landroid/support/v4/view/WindowInsetsCompat;
 
     move-result-object v0
@@ -243,10 +243,10 @@
     .param p1, "view"    # Landroid/view/View;
 
     .prologue
-    .line 1378
+    .line 1512
     invoke-static {p1}, Landroid/support/v4/view/ViewCompatLollipop;->requestApplyInsets(Landroid/view/View;)V
 
-    .line 1379
+    .line 1513
     return-void
 .end method
 
@@ -256,10 +256,10 @@
     .param p2, "tintList"    # Landroid/content/res/ColorStateList;
 
     .prologue
-    .line 1468
+    .line 1602
     invoke-static {p1, p2}, Landroid/support/v4/view/ViewCompatLollipop;->setBackgroundTintList(Landroid/view/View;Landroid/content/res/ColorStateList;)V
 
-    .line 1469
+    .line 1603
     return-void
 .end method
 
@@ -269,10 +269,10 @@
     .param p2, "mode"    # Landroid/graphics/PorterDuff$Mode;
 
     .prologue
-    .line 1473
+    .line 1607
     invoke-static {p1, p2}, Landroid/support/v4/view/ViewCompatLollipop;->setBackgroundTintMode(Landroid/view/View;Landroid/graphics/PorterDuff$Mode;)V
 
-    .line 1474
+    .line 1608
     return-void
 .end method
 
@@ -282,10 +282,10 @@
     .param p2, "elevation"    # F
 
     .prologue
-    .line 1383
+    .line 1517
     invoke-static {p1, p2}, Landroid/support/v4/view/ViewCompatLollipop;->setElevation(Landroid/view/View;F)V
 
-    .line 1384
+    .line 1518
     return-void
 .end method
 
@@ -295,10 +295,10 @@
     .param p2, "enabled"    # Z
 
     .prologue
-    .line 1408
+    .line 1542
     invoke-static {p1, p2}, Landroid/support/v4/view/ViewCompatLollipop;->setNestedScrollingEnabled(Landroid/view/View;Z)V
 
-    .line 1409
+    .line 1543
     return-void
 .end method
 
@@ -308,10 +308,10 @@
     .param p2, "listener"    # Landroid/support/v4/view/OnApplyWindowInsetsListener;
 
     .prologue
-    .line 1403
+    .line 1537
     invoke-static {p1, p2}, Landroid/support/v4/view/ViewCompatLollipop;->setOnApplyWindowInsetsListener(Landroid/view/View;Landroid/support/v4/view/OnApplyWindowInsetsListener;)V
 
-    .line 1404
+    .line 1538
     return-void
 .end method
 
@@ -321,10 +321,10 @@
     .param p2, "transitionName"    # Ljava/lang/String;
 
     .prologue
-    .line 1368
+    .line 1502
     invoke-static {p1, p2}, Landroid/support/v4/view/ViewCompatLollipop;->setTransitionName(Landroid/view/View;Ljava/lang/String;)V
 
-    .line 1369
+    .line 1503
     return-void
 .end method
 
@@ -334,10 +334,10 @@
     .param p2, "translationZ"    # F
 
     .prologue
-    .line 1393
+    .line 1527
     invoke-static {p1, p2}, Landroid/support/v4/view/ViewCompatLollipop;->setTranslationZ(Landroid/view/View;F)V
 
-    .line 1394
+    .line 1528
     return-void
 .end method
 
@@ -347,7 +347,7 @@
     .param p2, "axes"    # I
 
     .prologue
-    .line 1418
+    .line 1552
     invoke-static {p1, p2}, Landroid/support/v4/view/ViewCompatLollipop;->startNestedScroll(Landroid/view/View;I)Z
 
     move-result v0
@@ -360,9 +360,9 @@
     .param p1, "view"    # Landroid/view/View;
 
     .prologue
-    .line 1423
+    .line 1557
     invoke-static {p1}, Landroid/support/v4/view/ViewCompatLollipop;->stopNestedScroll(Landroid/view/View;)V
 
-    .line 1424
+    .line 1558
     return-void
 .end method

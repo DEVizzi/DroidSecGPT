@@ -10,7 +10,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v4.view.accessibility.AccessibilityEventCompat;
 import android.view.View;
 import android.widget.ImageView;
 import java.util.List;
@@ -20,7 +19,7 @@ public abstract class SharedElementCallback {
     private static final String BUNDLE_SNAPSHOT_BITMAP = "sharedElement:snapshot:bitmap";
     private static final String BUNDLE_SNAPSHOT_IMAGE_MATRIX = "sharedElement:snapshot:imageMatrix";
     private static final String BUNDLE_SNAPSHOT_IMAGE_SCALETYPE = "sharedElement:snapshot:imageScaleType";
-    private static int MAX_IMAGE_SIZE = AccessibilityEventCompat.TYPE_TOUCH_INTERACTION_START;
+    private static int MAX_IMAGE_SIZE = 1048576;
     private Matrix mTempMatrix;
 
     public void onSharedElementStart(List<String> sharedElementNames, List<View> sharedElements, List<View> sharedElementSnapshots) {

@@ -22,7 +22,7 @@
     .locals 0
 
     .prologue
-    .line 50
+    .line 47
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
 
     return-void
@@ -30,6 +30,32 @@
 
 
 # virtual methods
+.method public getMaxLines(Landroid/widget/TextView;)I
+    .locals 1
+    .param p1, "textView"    # Landroid/widget/TextView;
+
+    .prologue
+    .line 70
+    invoke-static {p1}, Landroid/support/v4/widget/TextViewCompatDonut;->getMaxLines(Landroid/widget/TextView;)I
+
+    move-result v0
+
+    return v0
+.end method
+
+.method public getMinLines(Landroid/widget/TextView;)I
+    .locals 1
+    .param p1, "textView"    # Landroid/widget/TextView;
+
+    .prologue
+    .line 75
+    invoke-static {p1}, Landroid/support/v4/widget/TextViewCompatDonut;->getMinLines(Landroid/widget/TextView;)I
+
+    move-result v0
+
+    return v0
+.end method
+
 .method public setCompoundDrawablesRelative(Landroid/widget/TextView;Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;)V
     .locals 0
     .param p1, "textView"    # Landroid/widget/TextView;
@@ -54,10 +80,10 @@
     .end param
 
     .prologue
-    .line 56
+    .line 52
     invoke-virtual {p1, p2, p3, p4, p5}, Landroid/widget/TextView;->setCompoundDrawables(Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;)V
 
-    .line 57
+    .line 53
     return-void
 .end method
 
@@ -73,10 +99,10 @@
     .param p5, "bottom"    # I
 
     .prologue
-    .line 69
+    .line 65
     invoke-virtual {p1, p2, p3, p4, p5}, Landroid/widget/TextView;->setCompoundDrawablesWithIntrinsicBounds(IIII)V
 
-    .line 70
+    .line 66
     return-void
 .end method
 
@@ -104,9 +130,9 @@
     .end param
 
     .prologue
-    .line 63
+    .line 59
     invoke-virtual {p1, p2, p3, p4, p5}, Landroid/widget/TextView;->setCompoundDrawablesWithIntrinsicBounds(Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;Landroid/graphics/drawable/Drawable;)V
 
-    .line 64
+    .line 60
     return-void
 .end method

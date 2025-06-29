@@ -26,7 +26,7 @@
     .locals 0
 
     .prologue
-    .line 1531
+    .line 1720
     iput-object p1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelMenuPresenterCallback;->this$0:Landroid/support/v7/app/AppCompatDelegateImplV7;
 
     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
@@ -40,7 +40,7 @@
     .param p2, "x1"    # Landroid/support/v7/app/AppCompatDelegateImplV7$1;
 
     .prologue
-    .line 1531
+    .line 1720
     invoke-direct {p0, p1}, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelMenuPresenterCallback;-><init>(Landroid/support/v7/app/AppCompatDelegateImplV7;)V
 
     return-void
@@ -56,18 +56,18 @@
     .prologue
     const/4 v3, 0x1
 
-    .line 1534
+    .line 1723
     invoke-virtual {p1}, Landroid/support/v7/internal/view/menu/MenuBuilder;->getRootMenu()Landroid/support/v7/internal/view/menu/MenuBuilder;
 
     move-result-object v2
 
-    .line 1535
+    .line 1724
     .local v2, "parentMenu":Landroid/view/Menu;
     if-eq v2, p1, :cond_2
 
     move v0, v3
 
-    .line 1536
+    .line 1725
     .local v0, "isSubMenu":Z
     :goto_0
     iget-object v4, p0, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelMenuPresenterCallback;->this$0:Landroid/support/v7/app/AppCompatDelegateImplV7;
@@ -78,35 +78,35 @@
 
     .end local p1    # "menu":Landroid/support/v7/internal/view/menu/MenuBuilder;
     :cond_0
-    invoke-static {v4, p1}, Landroid/support/v7/app/AppCompatDelegateImplV7;->access$600(Landroid/support/v7/app/AppCompatDelegateImplV7;Landroid/view/Menu;)Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
+    invoke-static {v4, p1}, Landroid/support/v7/app/AppCompatDelegateImplV7;->access$800(Landroid/support/v7/app/AppCompatDelegateImplV7;Landroid/view/Menu;)Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
 
     move-result-object v1
 
-    .line 1537
+    .line 1726
     .local v1, "panel":Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
     if-eqz v1, :cond_1
 
-    .line 1538
+    .line 1727
     if-eqz v0, :cond_3
 
-    .line 1539
+    .line 1728
     iget-object v4, p0, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelMenuPresenterCallback;->this$0:Landroid/support/v7/app/AppCompatDelegateImplV7;
 
     iget v5, v1, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;->featureId:I
 
-    invoke-static {v4, v5, v1, v2}, Landroid/support/v7/app/AppCompatDelegateImplV7;->access$700(Landroid/support/v7/app/AppCompatDelegateImplV7;ILandroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;Landroid/view/Menu;)V
+    invoke-static {v4, v5, v1, v2}, Landroid/support/v7/app/AppCompatDelegateImplV7;->access$900(Landroid/support/v7/app/AppCompatDelegateImplV7;ILandroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;Landroid/view/Menu;)V
 
-    .line 1540
+    .line 1729
     iget-object v4, p0, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelMenuPresenterCallback;->this$0:Landroid/support/v7/app/AppCompatDelegateImplV7;
 
-    invoke-static {v4, v1, v3}, Landroid/support/v7/app/AppCompatDelegateImplV7;->access$800(Landroid/support/v7/app/AppCompatDelegateImplV7;Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;Z)V
+    invoke-static {v4, v1, v3}, Landroid/support/v7/app/AppCompatDelegateImplV7;->access$1000(Landroid/support/v7/app/AppCompatDelegateImplV7;Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;Z)V
 
-    .line 1547
+    .line 1736
     :cond_1
     :goto_1
     return-void
 
-    .line 1535
+    .line 1724
     .end local v0    # "isSubMenu":Z
     .end local v1    # "panel":Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
     .restart local p1    # "menu":Landroid/support/v7/internal/view/menu/MenuBuilder;
@@ -115,14 +115,14 @@
 
     goto :goto_0
 
-    .line 1544
+    .line 1733
     .end local p1    # "menu":Landroid/support/v7/internal/view/menu/MenuBuilder;
     .restart local v0    # "isSubMenu":Z
     .restart local v1    # "panel":Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;
     :cond_3
     iget-object v3, p0, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelMenuPresenterCallback;->this$0:Landroid/support/v7/app/AppCompatDelegateImplV7;
 
-    invoke-static {v3, v1, p2}, Landroid/support/v7/app/AppCompatDelegateImplV7;->access$800(Landroid/support/v7/app/AppCompatDelegateImplV7;Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;Z)V
+    invoke-static {v3, v1, p2}, Landroid/support/v7/app/AppCompatDelegateImplV7;->access$1000(Landroid/support/v7/app/AppCompatDelegateImplV7;Landroid/support/v7/app/AppCompatDelegateImplV7$PanelFeatureState;Z)V
 
     goto :goto_1
 .end method
@@ -132,7 +132,7 @@
     .param p1, "subMenu"    # Landroid/support/v7/internal/view/menu/MenuBuilder;
 
     .prologue
-    .line 1551
+    .line 1740
     if-nez p1, :cond_0
 
     iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelMenuPresenterCallback;->this$0:Landroid/support/v7/app/AppCompatDelegateImplV7;
@@ -141,14 +141,14 @@
 
     if-eqz v1, :cond_0
 
-    .line 1552
+    .line 1741
     iget-object v1, p0, Landroid/support/v7/app/AppCompatDelegateImplV7$PanelMenuPresenterCallback;->this$0:Landroid/support/v7/app/AppCompatDelegateImplV7;
 
     invoke-virtual {v1}, Landroid/support/v7/app/AppCompatDelegateImplV7;->getWindowCallback()Landroid/view/Window$Callback;
 
     move-result-object v0
 
-    .line 1553
+    .line 1742
     .local v0, "cb":Landroid/view/Window$Callback;
     if-eqz v0, :cond_0
 
@@ -160,12 +160,12 @@
 
     if-nez v1, :cond_0
 
-    .line 1554
-    const/16 v1, 0x8
+    .line 1743
+    const/16 v1, 0x6c
 
     invoke-interface {v0, v1, p1}, Landroid/view/Window$Callback;->onMenuOpened(ILandroid/view/Menu;)Z
 
-    .line 1557
+    .line 1746
     .end local v0    # "cb":Landroid/view/Window$Callback;
     :cond_0
     const/4 v1, 0x1

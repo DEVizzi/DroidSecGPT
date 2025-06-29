@@ -30,7 +30,7 @@
     .locals 0
 
     .prologue
-    .line 100
+    .line 104
     iput-object p1, p0, Landroid/support/v7/internal/widget/AppCompatPopupWindow$1;->val$fieldAnchor:Ljava/lang/reflect/Field;
 
     iput-object p2, p0, Landroid/support/v7/internal/widget/AppCompatPopupWindow$1;->val$popup:Landroid/widget/PopupWindow;
@@ -48,7 +48,7 @@
     .locals 3
 
     .prologue
-    .line 104
+    .line 108
     :try_start_0
     iget-object v1, p0, Landroid/support/v7/internal/widget/AppCompatPopupWindow$1;->val$fieldAnchor:Ljava/lang/reflect/Field;
 
@@ -60,7 +60,7 @@
 
     check-cast v0, Ljava/lang/ref/WeakReference;
 
-    .line 105
+    .line 109
     .local v0, "mAnchor":Ljava/lang/ref/WeakReference;, "Ljava/lang/ref/WeakReference<Landroid/view/View;>;"
     if-eqz v0, :cond_0
 
@@ -70,13 +70,13 @@
 
     if-nez v1, :cond_1
 
-    .line 113
+    .line 117
     .end local v0    # "mAnchor":Ljava/lang/ref/WeakReference;, "Ljava/lang/ref/WeakReference<Landroid/view/View;>;"
     :cond_0
     :goto_0
     return-void
 
-    .line 108
+    .line 112
     .restart local v0    # "mAnchor":Ljava/lang/ref/WeakReference;, "Ljava/lang/ref/WeakReference<Landroid/view/View;>;"
     :cond_1
     iget-object v1, p0, Landroid/support/v7/internal/widget/AppCompatPopupWindow$1;->val$originalListener:Landroid/view/ViewTreeObserver$OnScrollChangedListener;
@@ -87,7 +87,7 @@
 
     goto :goto_0
 
-    .line 110
+    .line 114
     .end local v0    # "mAnchor":Ljava/lang/ref/WeakReference;, "Ljava/lang/ref/WeakReference<Landroid/view/View;>;"
     :catch_0
     move-exception v1

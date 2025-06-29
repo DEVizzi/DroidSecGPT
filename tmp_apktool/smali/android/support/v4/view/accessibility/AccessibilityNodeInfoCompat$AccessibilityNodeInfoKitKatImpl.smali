@@ -19,7 +19,7 @@
     .locals 0
 
     .prologue
-    .line 1086
+    .line 1607
     invoke-direct {p0}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompat$AccessibilityNodeInfoJellybeanMr2Impl;-><init>()V
 
     return-void
@@ -27,12 +27,25 @@
 
 
 # virtual methods
+.method public canOpenPopup(Ljava/lang/Object;)Z
+    .locals 1
+    .param p1, "info"    # Ljava/lang/Object;
+
+    .prologue
+    .line 1714
+    invoke-static {p1}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatKitKat;->canOpenPopup(Ljava/lang/Object;)Z
+
+    move-result v0
+
+    return v0
+.end method
+
 .method public getCollectionInfo(Ljava/lang/Object;)Ljava/lang/Object;
     .locals 1
     .param p1, "info"    # Ljava/lang/Object;
 
     .prologue
-    .line 1099
+    .line 1620
     invoke-static {p1}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatKitKat;->getCollectionInfo(Ljava/lang/Object;)Ljava/lang/Object;
 
     move-result-object v0
@@ -45,7 +58,7 @@
     .param p1, "info"    # Ljava/lang/Object;
 
     .prologue
-    .line 1123
+    .line 1644
     invoke-static {p1}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatKitKat$CollectionInfo;->getColumnCount(Ljava/lang/Object;)I
 
     move-result v0
@@ -58,7 +71,7 @@
     .param p1, "info"    # Ljava/lang/Object;
 
     .prologue
-    .line 1128
+    .line 1649
     invoke-static {p1}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatKitKat$CollectionInfo;->getRowCount(Ljava/lang/Object;)I
 
     move-result v0
@@ -71,7 +84,7 @@
     .param p1, "info"    # Ljava/lang/Object;
 
     .prologue
-    .line 1148
+    .line 1674
     invoke-static {p1}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatKitKat$CollectionItemInfo;->getColumnIndex(Ljava/lang/Object;)I
 
     move-result v0
@@ -84,7 +97,7 @@
     .param p1, "info"    # Ljava/lang/Object;
 
     .prologue
-    .line 1153
+    .line 1679
     invoke-static {p1}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatKitKat$CollectionItemInfo;->getColumnSpan(Ljava/lang/Object;)I
 
     move-result v0
@@ -97,7 +110,7 @@
     .param p1, "info"    # Ljava/lang/Object;
 
     .prologue
-    .line 1138
+    .line 1659
     invoke-static {p1}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatKitKat;->getCollectionItemInfo(Ljava/lang/Object;)Ljava/lang/Object;
 
     move-result-object v0
@@ -110,7 +123,7 @@
     .param p1, "info"    # Ljava/lang/Object;
 
     .prologue
-    .line 1158
+    .line 1684
     invoke-static {p1}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatKitKat$CollectionItemInfo;->getRowIndex(Ljava/lang/Object;)I
 
     move-result v0
@@ -123,8 +136,34 @@
     .param p1, "info"    # Ljava/lang/Object;
 
     .prologue
-    .line 1163
+    .line 1689
     invoke-static {p1}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatKitKat$CollectionItemInfo;->getRowSpan(Ljava/lang/Object;)I
+
+    move-result v0
+
+    return v0
+.end method
+
+.method public getExtras(Ljava/lang/Object;)Landroid/os/Bundle;
+    .locals 1
+    .param p1, "info"    # Ljava/lang/Object;
+
+    .prologue
+    .line 1724
+    invoke-static {p1}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatKitKat;->getExtras(Ljava/lang/Object;)Landroid/os/Bundle;
+
+    move-result-object v0
+
+    return-object v0
+.end method
+
+.method public getInputType(Ljava/lang/Object;)I
+    .locals 1
+    .param p1, "info"    # Ljava/lang/Object;
+
+    .prologue
+    .line 1729
+    invoke-static {p1}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatKitKat;->getInputType(Ljava/lang/Object;)I
 
     move-result v0
 
@@ -136,7 +175,7 @@
     .param p1, "info"    # Ljava/lang/Object;
 
     .prologue
-    .line 1089
+    .line 1610
     invoke-static {p1}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatKitKat;->getLiveRegion(Ljava/lang/Object;)I
 
     move-result v0
@@ -149,7 +188,7 @@
     .param p1, "info"    # Ljava/lang/Object;
 
     .prologue
-    .line 1143
+    .line 1664
     invoke-static {p1}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatKitKat;->getRangeInfo(Ljava/lang/Object;)Ljava/lang/Object;
 
     move-result-object v0
@@ -162,7 +201,7 @@
     .param p1, "info"    # Ljava/lang/Object;
 
     .prologue
-    .line 1133
+    .line 1654
     invoke-static {p1}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatKitKat$CollectionInfo;->isHierarchical(Ljava/lang/Object;)Z
 
     move-result v0
@@ -175,7 +214,7 @@
     .param p1, "info"    # Ljava/lang/Object;
 
     .prologue
-    .line 1168
+    .line 1694
     invoke-static {p1}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatKitKat$CollectionItemInfo;->isHeading(Ljava/lang/Object;)Z
 
     move-result v0
@@ -188,8 +227,34 @@
     .param p1, "info"    # Ljava/lang/Object;
 
     .prologue
-    .line 1183
+    .line 1709
     invoke-static {p1}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatKitKat;->isContentInvalid(Ljava/lang/Object;)Z
+
+    move-result v0
+
+    return v0
+.end method
+
+.method public isDismissable(Ljava/lang/Object;)Z
+    .locals 1
+    .param p1, "info"    # Ljava/lang/Object;
+
+    .prologue
+    .line 1739
+    invoke-static {p1}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatKitKat;->isDismissable(Ljava/lang/Object;)Z
+
+    move-result v0
+
+    return v0
+.end method
+
+.method public isMultiLine(Ljava/lang/Object;)Z
+    .locals 1
+    .param p1, "info"    # Ljava/lang/Object;
+
+    .prologue
+    .line 1749
+    invoke-static {p1}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatKitKat;->isMultiLine(Ljava/lang/Object;)Z
 
     move-result v0
 
@@ -204,7 +269,7 @@
     .param p4, "selectionMode"    # I
 
     .prologue
-    .line 1110
+    .line 1631
     invoke-static {p1, p2, p3, p4}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatKitKat;->obtainCollectionInfo(IIZI)Ljava/lang/Object;
 
     move-result-object v0
@@ -222,12 +287,25 @@
     .param p6, "selected"    # Z
 
     .prologue
-    .line 1117
+    .line 1638
     invoke-static {p1, p2, p3, p4, p5}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatKitKat;->obtainCollectionItemInfo(IIIIZ)Ljava/lang/Object;
 
     move-result-object v0
 
     return-object v0
+.end method
+
+.method public setCanOpenPopup(Ljava/lang/Object;Z)V
+    .locals 0
+    .param p1, "info"    # Ljava/lang/Object;
+    .param p2, "opensPopup"    # Z
+
+    .prologue
+    .line 1719
+    invoke-static {p1, p2}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatKitKat;->setCanOpenPopup(Ljava/lang/Object;Z)V
+
+    .line 1720
+    return-void
 .end method
 
 .method public setCollectionInfo(Ljava/lang/Object;Ljava/lang/Object;)V
@@ -236,10 +314,10 @@
     .param p2, "collectionInfo"    # Ljava/lang/Object;
 
     .prologue
-    .line 1104
+    .line 1625
     invoke-static {p1, p2}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatKitKat;->setCollectionInfo(Ljava/lang/Object;Ljava/lang/Object;)V
 
-    .line 1105
+    .line 1626
     return-void
 .end method
 
@@ -249,10 +327,10 @@
     .param p2, "collectionItemInfo"    # Ljava/lang/Object;
 
     .prologue
-    .line 1173
+    .line 1699
     invoke-static {p1, p2}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatKitKat;->setCollectionItemInfo(Ljava/lang/Object;Ljava/lang/Object;)V
 
-    .line 1174
+    .line 1700
     return-void
 .end method
 
@@ -262,10 +340,36 @@
     .param p2, "contentInvalid"    # Z
 
     .prologue
-    .line 1178
+    .line 1704
     invoke-static {p1, p2}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatKitKat;->setContentInvalid(Ljava/lang/Object;Z)V
 
-    .line 1179
+    .line 1705
+    return-void
+.end method
+
+.method public setDismissable(Ljava/lang/Object;Z)V
+    .locals 0
+    .param p1, "info"    # Ljava/lang/Object;
+    .param p2, "dismissable"    # Z
+
+    .prologue
+    .line 1744
+    invoke-static {p1, p2}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatKitKat;->setDismissable(Ljava/lang/Object;Z)V
+
+    .line 1745
+    return-void
+.end method
+
+.method public setInputType(Ljava/lang/Object;I)V
+    .locals 0
+    .param p1, "info"    # Ljava/lang/Object;
+    .param p2, "inputType"    # I
+
+    .prologue
+    .line 1734
+    invoke-static {p1, p2}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatKitKat;->setInputType(Ljava/lang/Object;I)V
+
+    .line 1735
     return-void
 .end method
 
@@ -275,9 +379,35 @@
     .param p2, "mode"    # I
 
     .prologue
-    .line 1094
+    .line 1615
     invoke-static {p1, p2}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatKitKat;->setLiveRegion(Ljava/lang/Object;I)V
 
-    .line 1095
+    .line 1616
+    return-void
+.end method
+
+.method public setMultiLine(Ljava/lang/Object;Z)V
+    .locals 0
+    .param p1, "info"    # Ljava/lang/Object;
+    .param p2, "multiLine"    # Z
+
+    .prologue
+    .line 1754
+    invoke-static {p1, p2}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatKitKat;->setMultiLine(Ljava/lang/Object;Z)V
+
+    .line 1755
+    return-void
+.end method
+
+.method public setRangeInfo(Ljava/lang/Object;Ljava/lang/Object;)V
+    .locals 0
+    .param p1, "info"    # Ljava/lang/Object;
+    .param p2, "rangeInfo"    # Ljava/lang/Object;
+
+    .prologue
+    .line 1669
+    invoke-static {p1, p2}, Landroid/support/v4/view/accessibility/AccessibilityNodeInfoCompatKitKat;->setRangeInfo(Ljava/lang/Object;Ljava/lang/Object;)V
+
+    .line 1670
     return-void
 .end method

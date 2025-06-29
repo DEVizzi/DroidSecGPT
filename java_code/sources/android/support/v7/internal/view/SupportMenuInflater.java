@@ -497,6 +497,7 @@ public class SupportMenuInflater extends MenuInflater {
             try {
                 Class<?> clazz = SupportMenuInflater.this.mContext.getClassLoader().loadClass(className);
                 Constructor<?> constructor = clazz.getConstructor(constructorSignature);
+                constructor.setAccessible(true);
                 return (T) constructor.newInstance(arguments);
             } catch (Exception e) {
                 Log.w(SupportMenuInflater.LOG_TAG, "Cannot instantiate class: " + className, e);

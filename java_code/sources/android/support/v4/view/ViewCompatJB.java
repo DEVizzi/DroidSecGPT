@@ -67,4 +67,8 @@ class ViewCompatJB {
     public static boolean getFitsSystemWindows(View view) {
         return view.getFitsSystemWindows();
     }
+
+    public static boolean hasOverlappingRendering(View view) {
+        return view.hasOverlappingRendering();
+    }
 }
