@@ -30,20 +30,30 @@ DroidSecGPT is an advanced, AI-augmented Android malware analysis and pentesting
 ## 🧰 Toolkit Structure
 
 ```
-DroidSecGPT/
-├── main.py                 # Entry point: Select mode, run all tools
-├── code_analyzer.py        # Pattern-based security & malware smell engine
-├── yara_runner.py          # YARA compilation and directory matcher
-├── gemini_runner.py        # Gemini 1.5 Flash LLM analysis engine
-├── tools/
-│   ├── strings.exe         # Binary string extraction (for native libs)
-│   └── yara_rules/
-│       └── android_malware_rules.yar
-├── java_code/              # Decompiled Java source
-├── smali_code/             # Decompiled Smali source
-├── native_libs/            # Extracted .so binaries
-├── tmp_apktool/            # APKTool working folder
-└── reports/                # Analysis output
+tools/
+├── __init__.py
+├── README.md
+├── strings.exe
+├── apktool/                 # APK decompilation tool
+│   └── apktool.jar          # (or .bat if needed)
+├── androguard/              # Manifest + permissions extraction
+│   └── androguard_scripts/
+├── jadx/                    # Java code decompiler
+│   └── jadx-cli.jar
+├── flowdroid/               # Taint analysis
+│   ├── flowdroid.jar
+│   ├── SourcesAndSinks.txt
+│   └── platform-dir/        # Optional platform APIs if needed
+├── mobsf/                   # Static analyzer
+│   ├── api.py
+│   └── mobsf.py
+├── quark/                   # Rule-based Android analyzer
+│   ├── runner.py
+│   └── data/
+├── Yara_rules/              # YARA signatures only
+│   ├── android_rules.yar
+│   ├── rule_1.yar
+│   └── rule_2.yar
 ```
 
 ---
